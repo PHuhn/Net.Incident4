@@ -1,0 +1,7 @@
+﻿NSG.NetIncident4.Core_Tests
+
+Install-Package Microsoft.EntityFrameworkCore.InMemory -Version 5.0.12
+Install-Package Moq
+Install-Package Microsoft.EntityFrameworkCore.Sqlite -Version 5.0.12
+Install-Package Microsoft.AspNetCore.TestHost -Version 5.0.12
+

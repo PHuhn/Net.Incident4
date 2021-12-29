@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSG.NetIncident4.Core", "NSG.NetIncident4.Core\NSG.NetIncident4.Core.csproj", "{30F33E09-6186-43AC-B810-2133CEB90877}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSG.MimeKit.Extensions", "..\..\Ng\NSG.MimeKit\NSG.MimeKit.Extensions\NSG.MimeKit.Extensions.csproj", "{7EB5E1B5-152A-4819-848D-ED3494E291EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSG.MimeKit.SendGrid.Extensions", "..\..\Ng\NSG.MimeKit\NSG.MimeKit.SendGrid.Extensions\NSG.MimeKit.SendGrid.Extensions.csproj", "{1B62AC93-1BDF-48AF-9BC6-4443451BFD2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSG.Library.Helpers", "..\..\Ng\NSG.Library\NSG.Library.Helpers\NSG.Library.Helpers.csproj", "{824450DC-66C8-474A-AFF7-FD7ADC1D684C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSG.PrimeNG.LazyLoading", "..\..\Ng\NSG.PrimeNG\NSG.PrimeNG.LazyLoading\NSG.PrimeNG.LazyLoading.csproj", "{24EEF39F-8AA2-4716-A151-E5F7B579A0ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSG.NetIncident4.Core_Tests", "NSG.NetIncident4.Core_Tests\NSG.NetIncident4.Core_Tests.csproj", "{BCA802D1-9B1A-430C-98D6-9C2E2800B006}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30F33E09-6186-43AC-B810-2133CEB90877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30F33E09-6186-43AC-B810-2133CEB90877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30F33E09-6186-43AC-B810-2133CEB90877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30F33E09-6186-43AC-B810-2133CEB90877}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EB5E1B5-152A-4819-848D-ED3494E291EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EB5E1B5-152A-4819-848D-ED3494E291EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EB5E1B5-152A-4819-848D-ED3494E291EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EB5E1B5-152A-4819-848D-ED3494E291EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B62AC93-1BDF-48AF-9BC6-4443451BFD2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B62AC93-1BDF-48AF-9BC6-4443451BFD2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B62AC93-1BDF-48AF-9BC6-4443451BFD2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B62AC93-1BDF-48AF-9BC6-4443451BFD2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824450DC-66C8-474A-AFF7-FD7ADC1D684C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824450DC-66C8-474A-AFF7-FD7ADC1D684C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824450DC-66C8-474A-AFF7-FD7ADC1D684C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824450DC-66C8-474A-AFF7-FD7ADC1D684C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24EEF39F-8AA2-4716-A151-E5F7B579A0ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24EEF39F-8AA2-4716-A151-E5F7B579A0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24EEF39F-8AA2-4716-A151-E5F7B579A0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24EEF39F-8AA2-4716-A151-E5F7B579A0ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA802D1-9B1A-430C-98D6-9C2E2800B006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA802D1-9B1A-430C-98D6-9C2E2800B006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA802D1-9B1A-430C-98D6-9C2E2800B006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA802D1-9B1A-430C-98D6-9C2E2800B006}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C066D059-7299-443A-8ED7-BD0FD7AC895A}
+	EndGlobalSection
+EndGlobal

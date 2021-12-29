@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/UI/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12 offset-sm">
+        <div class="card login-logout-tab">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" href='/Account/Login'>Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href='/Account/Register'>Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Account/ForgotPassword">Forgot password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Account/ResendEmailConfirmation">Email confirmation</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-content">
+                <div class="col-md-12">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            var current = location.pathname;
+            $('.nav-tabs li a').each(function () {
+                var $this = $(this);
+                if (current.indexOf($this.attr('href')) !== -1) {
+                    $this.addClass('active');
+                }
+            })
+        })
+  </script>
+}

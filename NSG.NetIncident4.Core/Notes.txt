@@ -1,0 +1,94 @@
+﻿https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-5-with-jwt-and-swagger/
+ASP.NET Core Web API (project template)
+Clean Architecture:
+	https://github.com/jasontaylordev/NorthwindTraders
+CQRS stands for command query responsibility segregation
+
+Packages:
+	Install-Package Microsoft.EntityFrameworkCore.SqlServer -version 5.0.12
+	Install-Package Microsoft.EntityFrameworkCore.Tools -version 5.0.12
+	Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -version 5.0.12
+	Install-Package Microsoft.AspNetCore.Identity -version 2.2.0
+	Install-Package Microsoft.AspNetCore.Authentication.JwtBearer -version 5.0.12
+	- Swashbuckle.AspNetCore (5.6.3) came with the project -
+	Install-Package MediatR
+	Install-Package MediatR.Extensions.Microsoft.DependencyInjection -Version 9.0.0
+	9.0.0
+	Install-Package FluentValidation.AspNetCore
+	10.3.4
+	Install-Package OdeToCode.AddFeatureFolders
+	Install-Package MimeKit
+	2.15.1
+	Install-Package Microsoft.AspNetCore.Identity.UI -version 5.0.12
+	Install-Package bootstrap
+	Install-Package Microsoft.Identity.Web.UI
+	(1.21.0)
+	Install-Package Microsoft.EntityFrameworkCore.Relational -version 5.0.12
+
+	Click on the project and select add, then add a scaffolding item and select Identity
+		Override all, select DB Context.
+
+Create db:
+	add-migration Initial
+	update-database
+	Add-Migration "Update-2021-11-27-11-30"
+	Update-Database
+
+
+
+==============================================================================
+==============================================================================
+PROBLEM:
+	Unable to resolve service for type 'Microsoft.AspNetCore.Session.ISessionStore' while attempting to activate 'Microsoft.AspNetCore.Session.SessionMiddleware'.
+SOLUTION:
+    services.AddSession(options => {
+        options.Cookie.IsEssential = true;
+    });
+
+PROBLEM:
+	InvalidOperationException: Unable to resolve service for type 'NSG.NetIncident4.Core.Infrastructure.Notification.INotificationService' while attempting to activate 'NSG.NetIncident4.Core.UI.Controllers.HomeController'.
+	Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, bool isDefaultParameterRequired)
+SOLUTION:
+    services.AddSingleton<INotificationService, NotificationService>();
+    services.AddSingleton<IEmailSender, NotificationService>();
+
+PROBLEM:
+	Access to XMLHttpRequest at 'https://localhost:44362/api/Authenticate/Login' from
+	origin 'http://localhost:4200' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+SOLUTION:
+		services.AddCors(options => {
+			options.AddPolicy("CorsAnyOrigin", builder => {
+				builder
+					.WithOrigins("http://localhost:4200,http://localhost:10111")
+					.AllowAnyOrigin()
+					.AllowAnyHeader()
+					.AllowAnyMethod();
+			});
+		});
+
+		app.UseCors("CorsAnyOrigin");
+
+PROBLEM:
+	In Angular:
+	HttpErrorResponse {headers: HttpHeaders, status: 415, statusText: 'OK', url: 'https://localhost:44362/api/Authenticate/Login', ok: false, …}
+		error: status: 415, title: "Unsupported Media Type"
+SOLUTION:
+	Changed from:
+	const options = { headers: new HttpHeaders().set( 'Content-Type', 'application/x-www-form-urlencoded' ) };
+	to:
+	const options = { headers: new HttpHeaders().set( 'Content-Type', 'application/json' ) };
+ 
+PROBLEM:
+	Tryig to display signon form:
+	No webpage was found for the web address: Account/SignIn?area= "MicrosoftIdentity"
+SOLUTION:
+    services.AddControllersWithViews(options =>
+    {
+        var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+    }).AddMicrosoftIdentityUI();
+
+PROBLEM:
+
+SOLUTION:
