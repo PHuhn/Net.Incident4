@@ -14,21 +14,22 @@ using Microsoft.IdentityModel.Tokens;
 using NSG.NetIncident4.Core.UI.ApiModels;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 //
-namespace NSG.NetIncident4.Core.Controllers
+namespace NSG.NetIncident4.Core.UI.Api
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
+        //
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration _configuration;
-
+        //
         public AuthenticateController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             _configuration = configuration;
         }
-
+        //
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -37,7 +38,7 @@ namespace NSG.NetIncident4.Core.Controllers
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await userManager.GetRolesAsync(user);
-
+                //
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
@@ -67,7 +68,7 @@ namespace NSG.NetIncident4.Core.Controllers
             }
             return Unauthorized();
         }
-
+        //
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)

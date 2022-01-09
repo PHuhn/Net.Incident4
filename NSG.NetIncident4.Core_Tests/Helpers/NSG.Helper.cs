@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Reflection;
 //
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MediatR;
 using Moq;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 
@@ -16,6 +19,16 @@ namespace NSG.Integration.Helpers
 {
     public static class NSG_Helpers
     {
+        //
+        // Testing constants
+        //
+        public static string User_Name = "Phil";
+        public static string User_Email = @"Phil@any.net";
+        public static string Password = @"P@ssword0";
+        public static string User_Name2 = "author";
+        public static string User_Email2 = @"author@any.net";
+        public static string Password2 = @"P@ssword0";
+        //
         public static ApplicationDbContext GetMemoryDbContext(ServiceCollection services)
         {
             if (services == null)
@@ -31,14 +44,22 @@ namespace NSG.Integration.Helpers
             // db_context.Database.OpenConnection();
             return db_context;
         }
-        /*
-        ** Sqlite in-memory application db context.
-        */
+        //
+        /// <summary>
+        /// Sqlite in-memory application db context.
+        /// </summary>
+        /// <returns>SqliteConnection</returns>
         public static SqliteConnection GetSqliteMemoryConnection( )
         {
             return new SqliteConnection("DataSource=:memory:");
         }
         //
+        /// <summary>
+        /// Get a relational Sqlite in-memory db instance
+        /// </summary>
+        /// <param name="sqliteConnection"></param>
+        /// <param name="services"></param>
+        /// <returns>ApplicationDbContext</returns>
         public static ApplicationDbContext GetSqliteMemoryDbContext(SqliteConnection sqliteConnection, IServiceCollection services)
         {
             // Add ASP.NET Core Identity database in memory.
@@ -46,30 +67,37 @@ namespace NSG.Integration.Helpers
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlite(sqliteConnection)
             );
-            //services.AddDefaultIdentity<ApplicationUser>(options =>
-            //{
-            //    options.SignIn.RequireConfirmedAccount = true;
-            //    options.Password.RequireDigit = true;
-            //    options.Password.RequiredLength = 8;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireUppercase = true;
-            //    options.Password.RequireNonAlphanumeric = true;
-            //})
-            //    .AddRoles<ApplicationRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            // Add Identity using in memory database to create UserManager and RoleManager.
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+            })
+                // Object reference not set to an instance of an object. IdentityBuilderUIExtensions.GetApplicationAssembly(IdentityBuilder builder)
+                //.AddDefaultUI()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddRoleManager<RoleManager<ApplicationRole>>()
+                .AddDefaultTokenProviders();
             //
             ApplicationDbContext db_context = services.BuildServiceProvider()
                 .GetService<ApplicationDbContext>();
             db_context.Database.OpenConnection();
             db_context.Database.EnsureCreated();
-            // Add Identity using in memory database to create UserManager and RoleManager.
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddUserManager<UserManager<ApplicationUser>>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //
             return db_context;
         }
         //
+        /// <summary>
+        /// Get UserManager from the ServiceCollection
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static UserManager<ApplicationUser> GetUserManager(ServiceCollection services)
         {
             if( services == null )
@@ -79,6 +107,12 @@ namespace NSG.Integration.Helpers
             return services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
         }
         //
+        /// <summary>
+        /// Get RoleManager from the ServiceCollection
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static RoleManager<ApplicationRole> GetRoleManager(ServiceCollection services)
         {
             if (services == null)
@@ -109,13 +143,19 @@ namespace NSG.Integration.Helpers
                 .AddDebug()
             );
         }
-        static public void AddLoggingMoq( IServiceCollection services)
+        //
+        public static ClaimsPrincipal TestPrincipal(string userName, string role)
         {
-            //ILoggerFactory
-            //// var mockLog = new Mock<ILog<MyClass>>();
-            //var mockLogFactory = new Mock<ILogFactory>();
-            //mockLogFactory.Setup(f => f.CreateLog<MyClass>()).Returns(mockLog.Object);
-            //services.AddSingleton<ILogFactory>(mockLogFactory.Object);
+            ClaimsPrincipal _user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, userName),
+                new Claim(ClaimTypes.NameIdentifier, "1"),
+                new Claim(ClaimTypes.Email, $"{userName}@any.net"),
+                new Claim(ClaimTypes.Role, role)
+            }, "basic"));
+
+            //
+            return _user;
         }
         //
     }

@@ -8,11 +8,12 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using NSG.NetIncident4.Core.UI.Api;
 using NSG.NetIncident4.Core.Infrastructure.Services;
+using NSG.Integration.Helpers;
 //
-namespace NSG.NetIncident4.Core_Tests.Api
+namespace NSG.NetIncident4.Core_Tests.UI.Api
 {
     [TestFixture]
-    public class ApiServices_UnitTests
+    public class ApiServices_UnitTests: UnitTestFixture
     {
         //
         public IConfiguration Configuration { get; set; }
@@ -27,18 +28,13 @@ namespace NSG.NetIncident4.Core_Tests.Api
         [SetUp]
         public void MySetup()
         {
-            string _appSettings = "appsettings.json";
             Mock<ILogger<ServicesController>> _mockLogger =
                 new Mock<ILogger<ServicesController>>();
-            Configuration = new ConfigurationBuilder()
-                .AddJsonFile(_appSettings, optional: true, reloadOnChange: false)
-                .Build();
-            _servicesSettings =
-                Options.Create<ServicesSettings>(
-                    Configuration.GetSection("ServicesSettings").Get<ServicesSettings>());
-            _servicesController = new ServicesController(_mockLogger.Object, _servicesSettings);
+            SetupConfiguration("appsettings.json");
+            _servicesSettings = GetTestConfiguration<ServicesSettings>("ServicesSettings");
             if (_servicesSettings == null)
                 throw new Exception("Null services settings");
+            _servicesController = new ServicesController(_mockLogger.Object, _servicesSettings);
         }
         //
         [Test]

@@ -25,7 +25,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
     public class CompanyEmailTemplatesController : BaseController
     {
         //
-        public CompanyEmailTemplatesController()
+        public CompanyEmailTemplatesController(IMediator mediator) : base(mediator)
         {
             //
         }

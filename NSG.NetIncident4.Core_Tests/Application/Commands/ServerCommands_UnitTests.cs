@@ -14,7 +14,7 @@ using Moq;
 using MediatR;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core_Tests.Helpers;
+using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.Servers;
 using NSG.Integration.Helpers;
@@ -31,7 +31,6 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         //
         static Mock<IMediator> _mockGetCompaniesMediator = null;
         static CancellationToken _cancelToken = CancellationToken.None;
-        string _testName;
         //
         public ServerCommands_UnitTests()
         {
@@ -82,11 +81,6 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Server _entity = _createResults.Result;
             Assert.AreNotEqual(0, _entity.ServerId);
             Assert.AreEqual(_create.ServerShortName, _entity.ServerShortName);
-        }
-        [TearDown]
-        public void ServerUpdateCommand_TearDown()
-        {
-            Dispose();
         }
         //
         [Test]

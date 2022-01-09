@@ -18,7 +18,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
     [Authorize(Policy = "CompanyAdminRole")]
     public class UsersAdminController : BaseController
     {
-        public UsersAdminController() : base()
+        public UsersAdminController(IMediator mediator) : base(mediator)
         {
         }
         //

@@ -201,9 +201,6 @@ namespace NSG.NetIncident4.Core
         /// </param>
         public virtual void ConfigureAuthorizationPolicyServices(IServiceCollection services)
         {
-            /*
-            ** Add authorization services
-            */
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminRole", policy => policy.RequireRole("Admin"));

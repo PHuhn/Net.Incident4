@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Application.Commands.NICs;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
@@ -24,7 +25,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
     {
         private readonly ApplicationDbContext _context;
 
-        public NicsController(ApplicationDbContext context)
+        public NicsController(ApplicationDbContext context, IMediator mediator) : base(mediator)
         {
             _context = context;
         }

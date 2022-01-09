@@ -5,10 +5,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
-// using NSG.NetIncident4.Core.Models;
 using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
@@ -26,7 +26,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         /// <param name="application"></param>
         /// <param name="logger"></param>
         public HomeController(INotificationService notificationService, 
-            IApplication application, ILogger<HomeController> logger)
+            IApplication application, ILogger<HomeController> logger, IMediator mediator) : base(mediator)
         {
             _notificationService = notificationService;
             _application = application;

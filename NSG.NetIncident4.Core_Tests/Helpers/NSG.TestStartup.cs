@@ -17,9 +17,24 @@ namespace NSG.Integration.Helpers
         public TestStartup(IConfiguration configuration) : base(configuration)
         {
         }
-
+        //
         public void ErrorHandler(object sender, EventArgs e)
         {
+        }
+        //
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            base.ConfigureServices(services);
+            services.AddRazorPages();
+            ApplicationDbContext db_context =
+                NSG_Helpers.GetSqliteMemoryDbContext(NSG_Helpers.GetSqliteMemoryConnection(), services);
+            UserManager<ApplicationUser> userManager =
+                services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
+            RoleManager<ApplicationRole> roleManager =
+                services.BuildServiceProvider().GetService<RoleManager<ApplicationRole>>();
+            DatabaseSeeder _seeder =
+                new DatabaseSeeder(db_context, userManager, roleManager);
+            _seeder.Seed().Wait();
         }
         //
         public override void Configure(
@@ -31,17 +46,31 @@ namespace NSG.Integration.Helpers
         {
             app.UseExceptionHandler(errorApp =>
             {
+
                 System.Diagnostics.Debug.Write(errorApp.ToString());
             });
-            // Perform all the configuration in the base class
-            base.Configure(app, env, context, userManager, roleManager);
-            // Now seed the database
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
+            // routing/CORS/endpoint
+            app.UseCors("CorsAnyOrigin");
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseCookiePolicy();
+            app.UseSession();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSG Net-Incident4.Core v1"));
+            app.UseEndpoints(endpoints =>
             {
-                var _seeder = serviceScope.ServiceProvider.GetService<DatabaseSeeder>();
-                _seeder.Seed().Wait();
-            }
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
+            //
         }
         //
     }
 }
+// ===========================================================================

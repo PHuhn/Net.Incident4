@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Application.Commands.IncidentTypes;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
@@ -20,7 +21,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
     {
         private readonly ApplicationDbContext _context;
         //
-        public IncidentTypesEmailTemplateController(ApplicationDbContext context)
+        public IncidentTypesEmailTemplateController(
+            ApplicationDbContext context, IMediator mediator) : base(mediator)
         {
             _context = context;
         }

@@ -99,7 +99,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning($"User {Input.UserName} account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else

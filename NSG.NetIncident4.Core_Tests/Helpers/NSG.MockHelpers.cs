@@ -9,6 +9,7 @@ using NUnit.Framework;
 using Moq;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 //
@@ -17,10 +18,23 @@ using MimeKit.NSG;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Domain.Entities;
 //
-namespace NSG.NetIncident4.Core_Tests.Helpers
+namespace NSG.Integration.Helpers
 {
     public static class MockHelpers
     {
+        //
+        /// <summary>
+        /// 
+        /// <example>
+        /// Mock<ILogger<ServicesController>> _mockLogger = LoggerMoq<ServicesController>();
+        /// </example>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        static public Mock<ILogger<T>> LoggerMoq<T>()
+        {
+            return new Mock<ILogger<T>>();
+        }
         //
         public static Mock<ILogger<T>> VerifyLogLevel<T>(this Mock<ILogger<T>> logger, LogLevel expectedLogLevel)
         {
@@ -50,6 +64,36 @@ namespace NSG.NetIncident4.Core_Tests.Helpers
                     It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)), (Times)times);
             //
             return logger;
+        }
+        //
+        // https://stackoverflow.com/questions/44336489/moq-iserviceprovider-iservicescope
+        static public Mock<IServiceProvider> CreateScopedServicesProvider(params (Type @interface, Object service)[] services)
+        {
+            var scopedServiceProvider = new Mock<IServiceProvider>();
+
+            foreach (var (@interfcae, service) in services)
+            {
+                scopedServiceProvider
+                    .Setup(s => s.GetService(@interfcae))
+                    .Returns(service);
+            }
+
+            var scope = new Mock<IServiceScope>();
+            scope
+                .SetupGet(s => s.ServiceProvider)
+                .Returns(scopedServiceProvider.Object);
+
+            var serviceScopeFactory = new Mock<IServiceScopeFactory>();
+            serviceScopeFactory
+                .Setup(x => x.CreateScope())
+                .Returns(scope.Object);
+
+            var serviceProvider = new Mock<IServiceProvider>();
+            serviceProvider
+                .Setup(s => s.GetService(typeof(IServiceScopeFactory)))
+                .Returns(serviceScopeFactory.Object);
+
+            return serviceProvider;
         }
         //
         public static ClaimsPrincipal TestPrincipal(string userName, string role)

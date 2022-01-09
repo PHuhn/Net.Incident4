@@ -1,5 +1,6 @@
 ﻿//
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -56,37 +57,41 @@ namespace NSG.Integration.Helpers
         private async Task Seed_Users()
         {
             //
-            try
+            if (_userManager.Users.Count() == 0)
             {
-                // Add all the predefined profiles using the predefined password
-                ApplicationUser _user1 = new ApplicationUser { Email = TestData.User_Email, UserName = TestData.User_Name, PasswordHash = "AQAAAAEAACcQAAAAEB4oAR8WhJGi5QVXpuONJ4z69YqF/69GlCz4TtjbQVLA4ef69x0iDq5GLTzvqM2vwQ==", SecurityStamp = "VFV7PXFFMU4VZF57I3T7A6TXVF4VAY2M", ConcurrencyStamp = "24240e95-400c-434e-b498-16542c90de13", CompanyId = 1, FirstName = "Phillip", LastName = "Huhn", FullName = "Phillip Huhn", UserNicName = TestData.User_Name };
-                IdentityResult _identityResults1 = await _userManager.CreateAsync(_user1, TestData.Password);
-                if (_identityResults1.Succeeded)
+                try
                 {
-                    await _userManager.AddToRoleAsync(_user1, "admin");
-                    // _context.UserRoles.Add(new ApplicationUserRole() { UserId = _user1.Id, RoleId = "adm" });
-                    _context.UserServers.Add(new ApplicationUserServer() { Id = _user1.Id, ServerId = 1 });
-                    _context.SaveChanges();
+                    ApplicationUser _user1 =
+                        new ApplicationUser { Email = NSG_Helpers.User_Email, UserName = NSG_Helpers.User_Name, PasswordHash = "AQAAAAEAACcQAAAAEB4oAR8WhJGi5QVXpuONJ4z69YqF/69GlCz4TtjbQVLA4ef69x0iDq5GLTzvqM2vwQ==", SecurityStamp = "VFV7PXFFMU4VZF57I3T7A6TXVF4VAY2M", ConcurrencyStamp = "24240e95-400c-434e-b498-16542c90de13", CompanyId = 1, FirstName = "Phillip", LastName = "Huhn", FullName = "Phillip Huhn", UserNicName = NSG_Helpers.User_Name, EmailConfirmed = true };
+                    ApplicationUser _user2 =
+                        new ApplicationUser { Email = NSG_Helpers.User_Email2, UserName = NSG_Helpers.User_Name2, PasswordHash = "AQAAAAEAACcQAAAAEGG4L+8q4FXRLAhrLWuALpnyStwzaYOaVA6LjBUrHHqs3AreDKMm9DnRa3B4PM1DYg==", SecurityStamp = "LTCQ4W2NCVQRESG6ZWMC7IBMWDZNICK7", ConcurrencyStamp = "2dab2144-81e5-4b76-a09c-c3b6c37f0f3b", CompanyId = 1, FirstName = "Author", LastName = "Huhn", FullName = "Author Huhn", UserNicName = "Art" };
+                    // Add all the predefined profiles using the predefined password
+                    Console.WriteLine($"User1: {NSG_Helpers.User_Name}, User2: {NSG_Helpers.User_Name2}");
+                    IdentityResult _identityResults1 = await _userManager.CreateAsync(_user1, NSG_Helpers.Password);
+                    if (_identityResults1.Succeeded)
+                    {
+                        await _userManager.AddToRolesAsync(_user1, new string[]{ "Admin" } );
+                        _context.UserServers.Add(new ApplicationUserServer() { Id = _user1.Id, ServerId = 1 });
+                        _context.SaveChanges();
+                    }
+                    IdentityResult _identityResults2 = await _userManager.CreateAsync(_user2, NSG_Helpers.Password2);
+                    if (_identityResults2.Succeeded)
+                    {
+                        await _userManager.AddToRolesAsync(_user2, new string[] { "User" });
+                        _context.UserServers.Add(new ApplicationUserServer() { Id = _user2.Id, ServerId = 1 });
+                        _context.SaveChanges();
+                    }
                 }
-                ApplicationUser _user2 = new ApplicationUser { Email = "author@any.net", UserName = "author", PasswordHash = "AQAAAAEAACcQAAAAEGG4L+8q4FXRLAhrLWuALpnyStwzaYOaVA6LjBUrHHqs3AreDKMm9DnRa3B4PM1DYg==", SecurityStamp = "LTCQ4W2NCVQRESG6ZWMC7IBMWDZNICK7", ConcurrencyStamp = "2dab2144-81e5-4b76-a09c-c3b6c37f0f3b", CompanyId = 1, FirstName = "Author", LastName = "Huhn", FullName = "Author Huhn", UserNicName = "Art" };
-                IdentityResult _identityResults2 = await _userManager.CreateAsync(_user2, "ABCdefghijk@1234567890");
-                if (_identityResults2.Succeeded)
+                catch (Exception _ex)
                 {
-                    await _userManager.AddToRoleAsync(_user2, "user");
-                    // _context.UserRoles.Add(new ApplicationUserRole() { UserId = _user2.Id, RoleId = "usr" });
-                    _context.UserServers.Add(new ApplicationUserServer() { Id = _user2.Id, ServerId = 1 });
-                    _context.SaveChanges();
+                    foreach (ApplicationUser _u in _context.Users)
+                    {
+                        Console.WriteLine(_u.Id + " " + _u.UserName);
+                    }
+                    Console.WriteLine(_ex.Message);
+                    Console.WriteLine(_ex.ToString());
+                    throw new Exception($"Seed_Users: {_ex.Message}", _ex);
                 }
-            }
-            catch (Exception _ex)
-            {
-                foreach (ApplicationUser _u in _context.Users)
-                {
-                    Console.WriteLine(_u.Id + " " + _u.UserName);
-                }
-                Console.WriteLine(_ex.Message);
-                Console.WriteLine(_ex.ToString());
-                throw new Exception($"Seed_Users: {_ex.Message}", _ex);
             }
             //
         }

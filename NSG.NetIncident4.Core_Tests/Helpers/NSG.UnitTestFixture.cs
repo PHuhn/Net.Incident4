@@ -3,12 +3,20 @@ using NUnit.Framework;
 using System;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Net.Http;
+//
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using MediatR;
 //
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core;
@@ -16,7 +24,7 @@ using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 //
 namespace NSG.Integration.Helpers
 {
-    public class UnitTestFixture : IDisposable
+    public class UnitTestFixture
     {
         //
         static public SqliteConnection sqliteConnection;
@@ -25,12 +33,27 @@ namespace NSG.Integration.Helpers
         static public RoleManager<ApplicationRole> roleManager;
         static public IConfiguration configuration = null;
         //
+        private IWebHostBuilder _builder;
+        private TestServer _server;
+        private HttpClient _client;
+        //
+        public IWebHostBuilder builder { get { return _builder; } }
+        public TestServer server { get { return _server; } }
+        public HttpClient client { get { return _client; } }
+        //
         public UnitTestFixture()
         {
         }
         //
+        /// <summary>
+        /// Setup for testing CQRS commands
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void Fixture_UnitTestSetup()
         {
+            db_context = null;
+            userManager = null;
+            roleManager = null;
             // Build service colection to create identity UserManager and RoleManager. 
             ServiceCollection services = new ServiceCollection();
             NSG_Helpers.AddLoggingService(services);
@@ -53,6 +76,40 @@ namespace NSG.Integration.Helpers
                     Console.WriteLine("roleManager is null");
                 }
                 throw new Exception("UnitTestFixture.Fixture_UnitTestSetup: failed to create managers.");
+            }
+        }
+        //
+        /// <summary>
+        /// Setup for testing controllers
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void Fixture_ControllerTestSetup()
+        {
+            _builder = null;
+            _server = null;
+            _client = null;
+            _builder = new WebHostBuilder()
+                .UseContentRoot(@"C:\Dat\Nsg\L\Web\22\Net.Incident4\NSG.NetIncident4.Core")
+                .UseEnvironment("Development")
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    // config.SetBasePath(Directory.GetCurrentDirectory());
+                    config.AddJsonFile("appsettings.json");
+                }).UseStartup<TestStartup>();
+            _server = new TestServer(_builder);
+            _client = _server.CreateClient();
+            Console.WriteLine("Fixture_ControllerTestSetup: created server & client ...");
+            if (_server == null || _client == null)
+            {
+                if (_server == null)
+                {
+                    Console.WriteLine("server is null");
+                }
+                if (_client == null)
+                {
+                    Console.WriteLine("client is null");
+                }
+                throw new Exception("UnitTestFixture.Fixture_ControllerTestSetup: failed to create server & client.");
             }
         }
         //
@@ -80,7 +137,7 @@ namespace NSG.Integration.Helpers
         /// <param name="userName"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public static ClaimsPrincipal CreateTestPrincipal(string userName, string role)
+        public ClaimsPrincipal Fixture_TestPrincipal(string userName, string role)
         {
             ClaimsPrincipal _user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
@@ -94,11 +151,38 @@ namespace NSG.Integration.Helpers
         }
         //
         /// <summary>
+        /// Create a fake controller context
+        /// <example>
+        ///  sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", mockMediator.Object);
+        /// </example>
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="role"></param>
+        /// <param name="mediator"></param>
+        /// <returns>
+        /// ControllerContext with a mock HttpContext and an assigned IPrincipal User
+        /// </returns>
+        public ControllerContext Fixture_ControllerContext(string userName, string role)
+        {
+            // https://stackoverflow.com/questions/38557942/mocking-iprincipal-in-asp-net-core
+            IPrincipal currentUser = Fixture_TestPrincipal(userName, role);
+            //
+            Mock<HttpContext> httpContext = new Mock<HttpContext>();
+            httpContext.SetupGet(m => m.User).Returns((ClaimsPrincipal)currentUser);
+            //
+            ControllerContext controllerContext = new ControllerContext();
+            controllerContext.HttpContext = httpContext.Object;
+            return controllerContext;
+        }
+        //
+        /// <summary>
         /// Cleanup resources
         /// </summary>
-        public void Dispose()
+        [TearDown]
+        public void Fixture_TearDown()
         {
-            if( sqliteConnection != null )
+            Console.WriteLine("Fixture_UnitTestSetup: Dispose ...");
+            if ( sqliteConnection != null )
             {
                 sqliteConnection.Close();
                 sqliteConnection.Dispose();
@@ -119,6 +203,16 @@ namespace NSG.Integration.Helpers
             {
                 roleManager.Dispose();
                 roleManager = null;
+            }
+            if (_client != null)
+            {
+                _client.Dispose();
+                _client = null;
+            }
+            if (_server != null)
+            {
+                _server.Dispose();
+                _server = null;
             }
         }
     }

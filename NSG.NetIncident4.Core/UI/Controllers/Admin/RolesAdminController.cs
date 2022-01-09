@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿// ===========================================================================
+using System.Globalization;
 using System;
 using System.Reflection;
 using System.Linq;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationRoles;
@@ -17,42 +19,18 @@ using NSG.NetIncident4.Core.Application.Commands.Logs;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.Admin
 {
-    [Authorize]
     [Authorize(Policy = "AdminRole")]
     public class RolesAdminController : BaseController
     {
         //
         public RolesAdminController(
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager,
-            //ApplicationDbContext context,
-            ILogger<RolesAdminController> logger) : base()
+            ILogger<RolesAdminController> logger,
+            IMediator mediator) : base(mediator)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            //_context = context;
             _logger = logger;
         }
         //
-        private UserManager<ApplicationUser> _userManager;
-        private RoleManager<ApplicationRole> _roleManager;
         private ILogger<RolesAdminController> _logger;
-        //
-        public UserManager<ApplicationUser> UserManager
-        {
-            get
-            {
-                return _userManager;
-            }
-        }
-        //
-        public RoleManager<ApplicationRole> RoleManager
-        {
-            get
-            {
-                return _roleManager;
-            }
-        }
         //
         // -------------------------------------------------------------------
         // Index()
@@ -157,8 +135,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
             }
             try
             {
-                ApplicationRoleUserDetailQuery _results =
-                    await Mediator.Send(new ApplicationRoleUserDetailQueryHandler.DetailQuery() { Id = id });
+                ApplicationRoleDetailQuery _results =
+                    await Mediator.Send(new ApplicationRoleDetailQueryHandler.DetailQuery() { Id = id });
                 ApplicationRoleUpdateCommand _model = new ApplicationRoleUpdateCommand() { Id = _results.Id, Name = _results.Name };
                 return View(_model);
             }
@@ -203,7 +181,6 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
         }
         //
         #endregion // Edit section
-        //
         //
         // GET: /Roles/Delete/5
         public async Task<ActionResult> Delete(string id)
@@ -251,3 +228,4 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
         }
     }
 }
+// ===========================================================================

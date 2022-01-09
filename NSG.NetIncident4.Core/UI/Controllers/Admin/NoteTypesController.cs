@@ -23,7 +23,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
     {
         private readonly ApplicationDbContext _context;
 
-        public NoteTypesController(ApplicationDbContext context)
+        public NoteTypesController(ApplicationDbContext context, IMediator mediator) : base(mediator)
         {
             _context = context;
         }

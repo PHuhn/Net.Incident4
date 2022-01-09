@@ -3,14 +3,15 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Claims;
+//
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
-//
-using MediatR;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using MediatR;
+using FluentValidation.Results;
+//
 using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
@@ -24,7 +25,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers
     public class BaseController : Controller
     {
         private IMediator _mediator;
-        protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
+        // protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
         //
         /// <summary>
         /// Collection of messages with level.  This is displayed with _Alerts.chtml
@@ -35,9 +37,9 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         /// <summary>
         /// Base constructors, so initialize Alerts list of alert-messages.
         /// </summary>
-        public BaseController()
+        public BaseController(IMediator mediator)
         {
-            //
+            _mediator = mediator;
         }
         //
         //  Error
@@ -161,9 +163,9 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         /// <returns>String of the current user.</returns>
         public string Base_GetUserAccount()
         {
-            var currentUserName = "- Not Authenticated -";
+            var currentUserName = "";
             ClaimsPrincipal currentUser = this.User;
-            if (currentUser.Identity.IsAuthenticated)
+            if (currentUser != null && currentUser.Identity.IsAuthenticated)
                 currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
             if (string.IsNullOrEmpty(currentUserName))
                 currentUserName = "- Not Authenticated -";

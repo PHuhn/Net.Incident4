@@ -11,7 +11,7 @@ using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Application.Commands.Companies;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Application.Infrastructure;
-using NSG.NetIncident4.Core_Tests.Helpers;
+using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {

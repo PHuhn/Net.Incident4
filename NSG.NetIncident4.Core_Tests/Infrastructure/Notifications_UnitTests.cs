@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using MimeKit;
-using NSG.NetIncident4.Core_Tests.Helpers;
+using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests.Infrastructure
 {

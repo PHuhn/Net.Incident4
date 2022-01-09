@@ -22,6 +22,10 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
     public class CompanyServerController : BaseController
     {
         //
+        public CompanyServerController(IMediator mediator) : base(mediator)
+        {
+        }
+        //
         // GET: CompanyServer
         public async Task<ActionResult> Index()
         {

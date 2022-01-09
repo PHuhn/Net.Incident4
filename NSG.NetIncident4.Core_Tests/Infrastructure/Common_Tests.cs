@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using NSG.NetIncident4.Core.Infrastructure.Common;
-using NSG.NetIncident4.Core_Tests.Helpers;
+using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests.Infrastructure
 {
