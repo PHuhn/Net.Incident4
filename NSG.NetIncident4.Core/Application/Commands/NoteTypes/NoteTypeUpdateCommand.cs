@@ -53,6 +53,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 		/// <returns>Returns the row count.</returns>
 		public async Task<int> Handle(NoteTypeUpdateCommand request, CancellationToken cancellationToken)
 		{
+			if (request.NoteTypeClientScript == null) request.NoteTypeClientScript = "";
 			Validator _validator = new Validator();
 			ValidationResult _results = _validator.Validate(request);
 			if (!_results.IsValid)

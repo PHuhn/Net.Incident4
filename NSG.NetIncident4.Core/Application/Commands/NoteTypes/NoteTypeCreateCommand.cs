@@ -53,6 +53,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 		public async Task<NoteType> Handle(NoteTypeCreateCommand request, CancellationToken cancellationToken)
 		{
 			Validator _validator = new Validator();
+			if (request.NoteTypeClientScript == null) request.NoteTypeClientScript = "";
 			ValidationResult _results = _validator.Validate(request);
 			if (!_results.IsValid)
 			{

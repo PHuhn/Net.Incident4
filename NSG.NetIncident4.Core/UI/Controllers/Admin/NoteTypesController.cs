@@ -17,15 +17,12 @@ using NSG.NetIncident4.Core.UI.Controllers;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.Admin
 {
-    [Authorize]
     [Authorize(Policy = "AdminRole")]
     public class NoteTypesController : BaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public NoteTypesController(ApplicationDbContext context, IMediator mediator) : base(mediator)
+        //
+        public NoteTypesController(IMediator mediator) : base(mediator)
         {
-            _context = context;
         }
         //
         // -------------------------------------------------------------------
@@ -136,7 +133,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 }
                 else
                     Base_AddErrors(ModelState);
-                return RedirectToAction("Edit", new { id = model.NoteTypeId });
+                return RedirectToAction("Index");
             }
             catch (Exception _ex)
             {
