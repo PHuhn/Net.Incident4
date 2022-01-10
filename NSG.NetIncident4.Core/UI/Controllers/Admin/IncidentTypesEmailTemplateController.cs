@@ -15,16 +15,12 @@ using NSG.NetIncident4.Core.UI.Controllers;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.Admin
 {
-    [Authorize]
     [Authorize(Policy = "AdminRole")]
     public class IncidentTypesEmailTemplateController : BaseController
     {
-        private readonly ApplicationDbContext _context;
         //
-        public IncidentTypesEmailTemplateController(
-            ApplicationDbContext context, IMediator mediator) : base(mediator)
+        public IncidentTypesEmailTemplateController(IMediator mediator) : base(mediator)
         {
-            _context = context;
         }
         //
         // -------------------------------------------------------------------
@@ -139,7 +135,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 }
                 else
                     Base_AddErrors(ModelState);
-                return RedirectToAction("Edit", new { id = model.IncidentTypeId });
+                return RedirectToAction("Index");
             }
             catch (Exception _ex)
             {
