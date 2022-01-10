@@ -19,24 +19,21 @@ using NSG.NetIncident4.Core.UI.Controllers;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.Admin
 {
-    [Authorize]
     [Authorize(Policy = "AdminRole")]
     public class NicsController : BaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public NicsController(ApplicationDbContext context, IMediator mediator) : base(mediator)
+        //
+        public NicsController(IMediator mediator) : base(mediator)
         {
-            _context = context;
         }
-
+        //
         // GET: Nics
         public async Task<IActionResult> Index()
         {
             NICListQueryHandler.ViewModel _results = await Mediator.Send(new NICListQueryHandler.ListQuery());
             return View(_results.NICsList);
         }
-
+        //
         // GET: Nics/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -122,7 +119,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 }
                 else
                     Base_AddErrors(ModelState);
-                return RedirectToAction("Edit", new { id = model.NIC_Id });
+                return RedirectToAction("Index");
             }
             catch (Exception _ex)
             {
@@ -168,9 +165,5 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
             return RedirectToAction("Delete", new { id = id });
         }
         //
-        private bool NICExists(string id)
-        {
-            return _context.NICs.Any(e => e.NIC_Id == id);
-        }
     }
 }
