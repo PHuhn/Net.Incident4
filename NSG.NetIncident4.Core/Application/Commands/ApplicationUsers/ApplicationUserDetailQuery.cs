@@ -41,10 +41,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public string UserNicName { get; set; }
         //
         public List<string> RoleList { get; set; }
-        public List<ServerListQuery> ServerList { get; set; }
+        public List<ApplicationUserServerListQuery> ServerList { get; set; }
         //
     }
-    public class ServerListQuery
+    public class ApplicationUserServerListQuery
     {
         public string CompanyShortName { get; set; }
         public string ServerShortName { get; set; }
@@ -104,14 +104,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
             //
             ApplicationUserDetailQuery _detail = _entity.ToApplicationUserDetailQuery();
             _detail.RoleList = new List<string>();
-            _detail.ServerList = new List<ServerListQuery>();
+            _detail.ServerList = new List<ApplicationUserServerListQuery>();
             foreach (ApplicationUserRole _userRole in _entity.UserRoles)
             {
                 _detail.RoleList.Add( _userRole.Role.Name );
             }
             foreach (ApplicationUserServer _userSrv in _entity.UserServers)
             {
-                _detail.ServerList.Add(new ServerListQuery()
+                _detail.ServerList.Add(new ApplicationUserServerListQuery()
                     {
                         CompanyShortName = _userSrv.Server.Company.CompanyShortName,
                         ServerShortName = _userSrv.Server.ServerShortName

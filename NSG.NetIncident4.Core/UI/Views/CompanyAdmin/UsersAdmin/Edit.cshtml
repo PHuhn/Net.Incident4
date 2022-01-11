@@ -109,7 +109,7 @@
                         {
                             <div style="padding:0 15px 0 0; float: left;">
                                 @Html.HiddenFor(m => item.Value)
-                                <input type="checkbox" name="SelectedRoles" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                                <input type="radio" name="SelectedRoles" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
                                 <label class="nsg-label" for="@item.Value">@(item.Text)</label>
                             </div>
                         }

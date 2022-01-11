@@ -9,14 +9,14 @@ using System.Threading;
 using System.Threading.Tasks;
 //
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MediatR;
 using FluentValidation;
 using FluentValidation.Results;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
-using Microsoft.AspNetCore.Identity;
 using NSG.NetIncident4.Core.Application.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Rendering;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 {

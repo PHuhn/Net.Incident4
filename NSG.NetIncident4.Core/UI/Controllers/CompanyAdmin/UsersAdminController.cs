@@ -14,7 +14,6 @@ using NSG.NetIncident4.Core.UI.Controllers;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
-    [Authorize]
     [Authorize(Policy = "CompanyAdminRole")]
     public class UsersAdminController : BaseController
     {
