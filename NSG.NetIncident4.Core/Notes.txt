@@ -25,6 +25,9 @@ Packages:
 	(1.21.0)
 	Install-Package Microsoft.EntityFrameworkCore.Relational -version 5.0.12
 
+	install-package jquery
+	bootstrap
+
 	Click on the project and select add, then add a scaffolding item and select Identity
 		Override all, select DB Context.
 

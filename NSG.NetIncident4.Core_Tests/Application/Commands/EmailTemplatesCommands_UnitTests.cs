@@ -58,7 +58,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         [Test]
         public void EmailTemplateCreateCommand_Test()
         {
-            CompanyEmailTemplateCreateCommandHandler _handler = new CompanyEmailTemplateCreateCommandHandler(db_context);
+            var _logger = new Mock<ILogger<CompanyEmailTemplateCreateCommandHandler>>();
+            CompanyEmailTemplateCreateCommandHandler _handler = new CompanyEmailTemplateCreateCommandHandler(db_context, _logger.Object);
             CompanyEmailTemplateCreateCommand _create = new CompanyEmailTemplateCreateCommand()
             {
                 CompanyId = 1,

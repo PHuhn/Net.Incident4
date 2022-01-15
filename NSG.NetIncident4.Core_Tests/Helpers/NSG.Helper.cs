@@ -76,6 +76,8 @@ namespace NSG.Integration.Helpers
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = true;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
             })
                 // Object reference not set to an instance of an object. IdentityBuilderUIExtensions.GetApplicationAssembly(IdentityBuilder builder)
                 //.AddDefaultUI()

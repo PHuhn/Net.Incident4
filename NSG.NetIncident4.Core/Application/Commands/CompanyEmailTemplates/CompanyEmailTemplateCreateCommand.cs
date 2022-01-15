@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 //
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MediatR;
 using FluentValidation;
 using FluentValidation.Results;
@@ -38,15 +39,17 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 	public class CompanyEmailTemplateCreateCommandHandler : IRequestHandler<CompanyEmailTemplateCreateCommand, EmailTemplate>
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly ILogger<CompanyEmailTemplateCreateCommandHandler> _logger;
 		//
 		//
 		/// <summary>
 		///  The constructor for the inner handler class, to create the EmailTemplate entity.
 		/// </summary>
 		/// <param name="context">The database interface context.</param>
-		public CompanyEmailTemplateCreateCommandHandler(ApplicationDbContext context)
+		public CompanyEmailTemplateCreateCommandHandler(ApplicationDbContext context, ILogger<CompanyEmailTemplateCreateCommandHandler> logger)
 		{
 			_context = context;
+			_logger = logger;
 		}
 		//
 		/// <summary>
@@ -70,13 +73,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 			{
 				throw new CreateCommandDuplicateException(request.IncidentTypeId);
 			}
+			_logger.Log(LogLevel.Information, request.EmailBody);
 			// Move from create command class to entity class.
 			var _entity = new EmailTemplate
 			{
 				CompanyId = request.CompanyId,
 				IncidentTypeId = request.IncidentTypeId,
 				SubjectLine = request.SubjectLine,
-				EmailBody = request.EmailBody,
+				EmailBody = request.EmailBody.ReplaceCR(),
 				TimeTemplate = request.TimeTemplate,
 				ThanksTemplate = request.ThanksTemplate,
 				LogTemplate = request.LogTemplate,

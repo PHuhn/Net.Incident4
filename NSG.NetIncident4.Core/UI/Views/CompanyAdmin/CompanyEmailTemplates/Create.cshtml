@@ -12,7 +12,7 @@
         <div class="form-actions no-color">
             <div class="nsg-float-left text-left">
                 <span>
-                    <a asp-action="Index" asp-route-companyId="@Model.CompanyId">Back to List</a>
+                    <a id="backLink" onclick="backLinkClick()" asp-action="Index" asp-route-companyId="@Model.CompanyId">Back to List</a>
                 </span>
             </div>
             <div class="nsg-float-right text-right">
@@ -51,7 +51,7 @@
             <div class="row">
                 <label for='IncidentTypeId' class='nsg-label col-md-2'>Incident Type:</label>
                 <div class="col-md-10">
-                    <select asp-for="IncidentTypeId" class="form-control" asp-items="@incidentTypeSelectionList" style="max-width: 300px;">
+                    <select id="incidentTypeId" onchange="incidentTypeIdChange()" asp-for="IncidentTypeId" class="form-control" asp-items="@incidentTypeSelectionList" style="max-width: 300px;">
                         <option value="">- select a value -</option>
                     </select>
                 </div>
@@ -78,7 +78,7 @@
             <div class="row">
                 <label for='EmailBody' class='nsg-label col-md-2'>Email Template:</label>
                 <div class="col-md-10">
-                    <textarea asp-for="EmailBody" class="form-control; text-wrap:normal" type="text" rows="3" style="width: 100%"></textarea>
+                    <input asp-for="EmailBody" class="form-control" />
                     <span asp-validation-for="EmailBody" class="text-danger"></span>
                 </div>
             </div>
@@ -121,41 +121,40 @@
     //
     var codeName = 'CompanyEmailTemplate.Create';
     //
-    $(document).ready(function () {
-        $("#IncidentTypeId").change(function () {
-            console.log(codeName + ': in IncidentTypeId change.');
-            console.log(@Model.CompanyId);
-            console.log(@Model.IncidentTypeId);
-            var this_ = $(this);
-            var id = parseInt( this_.val( ) );
-            console.log(id);
-            var json = @Html.Raw(Json.Serialize(incidentTypes));
-            console.log(json);
-            var it = json.find(function (el) { return el.incidentTypeId === id; });
-            if (it !== null && it !== undefined) {
-                console.log(it);
-                console.log($('#SubjectLine').val());
-                console.log(it.incidentTypeSubjectLine);
-                console.log("found it");
-                // assign the values from the default to the company specific e-mail template
-                $('#FromServer').attr('checked', it.incidentTypeFromServer);
-                $('#SubjectLine').val(it.incidentTypeSubjectLine);
-                $('#EmailBody').val(it.incidentTypeEmailTemplate);
-                $('#TimeTemplate').val(it.incidentTypeTimeTemplate);
-                $('#ThanksTemplate').val(it.incidentTypeThanksTemplate);
-                $('#LogTemplate').val(it.incidentTypeLogTemplate);
-                $('#Template').val(it.incidentTypeTemplate);
-            } else {
-                console.error(codeName + ': ERROR, IncidentType not found.');
-            }
-        });
-        //
-        $('#backLink').click(function () {
-            var this_ = $(this);
-            var id = $('#CompanyId').val();
-            this_[0].search = `?companyId=${id}`;
-            console.log(codeName + ' backLink clicked, ' + this_[0].search);
-        });
-    });
+    function incidentTypeIdChange() {
+        console.log(codeName + ': in IncidentTypeId change.');
+        console.log(@Model.CompanyId);
+        console.log(@Model.IncidentTypeId);
+        var sel = document.getElementById("incidentTypeId");
+        var id = parseInt( sel.value );
+        console.log(id);
+        var json = @Html.Raw(Json.Serialize(incidentTypes));
+        console.log(json);
+        var it = json.find(function (el) { return el.incidentTypeId === id; });
+        if (it !== null && it !== undefined) {
+            console.log(it);
+            console.log($('#SubjectLine').val());
+            console.log(it.incidentTypeSubjectLine);
+            console.log("found it");
+            // assign the values from the default to the company specific e-mail template
+            $('#FromServer').attr('checked', it.incidentTypeFromServer);
+            $('#SubjectLine').val(it.incidentTypeSubjectLine);
+            $('#EmailBody').val(it.incidentTypeEmailTemplate);
+            $('#TimeTemplate').val(it.incidentTypeTimeTemplate);
+            $('#ThanksTemplate').val(it.incidentTypeThanksTemplate);
+            $('#LogTemplate').val(it.incidentTypeLogTemplate);
+            $('#Template').val(it.incidentTypeTemplate);
+        } else {
+            console.error(codeName + ': ERROR, IncidentType not found.');
+        }
+    }
+    //
+    function backLinkClick() {
+        var lnk = document.getElementById("backLink");
+        var sel = document.getElementById("CompanyId");
+        var id = parseInt( sel.value );
+        lnk[0].search = `?companyId=${id}`;
+        console.log(codeName + ' backLink clicked, ' + lnk[0].search);
+    };
     //
 </script>

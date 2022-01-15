@@ -30,6 +30,8 @@ namespace NSG.NetIncident4.Core.UI.Identity
                         options.Password.RequireLowercase = true;
                         options.Password.RequireUppercase = true;
                         options.Password.RequireNonAlphanumeric = true;
+                        options.User.RequireUniqueEmail = true;
+                        options.SignIn.RequireConfirmedEmail = true;
                     })
                     .AddRoles<ApplicationRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
