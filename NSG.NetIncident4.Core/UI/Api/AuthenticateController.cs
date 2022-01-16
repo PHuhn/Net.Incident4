@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity.UI.Services;
 //
 using NSG.NetIncident4.Core.UI.ApiModels;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.UI.ViewHelpers;
 //
 namespace NSG.NetIncident4.Core.UI.Api
 {
@@ -23,16 +25,18 @@ namespace NSG.NetIncident4.Core.UI.Api
         //
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration _configuration;
+        private readonly IEmailSender _emailSender;
         //
-        public AuthenticateController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public AuthenticateController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IEmailSender emailSender)
         {
             this.userManager = userManager;
             _configuration = configuration;
+            _emailSender = emailSender;
         }
         //
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] ApiModels.LoginModel model)
         {
             var user = await userManager.FindByNameAsync(model.Username);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
@@ -78,7 +82,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         //
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] ApiModels.RegisterModel model)
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
             if (userExists != null)
@@ -100,8 +104,9 @@ namespace NSG.NetIncident4.Core.UI.Api
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            await Helpers.EmailConfirmationAsync(this, userManager, _emailSender, user);
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(new Response { Status = "Success", Message = "Account created, must confirm your email!" });
         }
 
     }

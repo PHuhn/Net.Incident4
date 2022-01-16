@@ -80,7 +80,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 				CompanyId = request.CompanyId,
 				IncidentTypeId = request.IncidentTypeId,
 				SubjectLine = request.SubjectLine,
-				EmailBody = request.EmailBody.ReplaceCR(),
+				EmailBody = request.EmailBody,
 				TimeTemplate = request.TimeTemplate,
 				ThanksTemplate = request.ThanksTemplate,
 				LogTemplate = request.LogTemplate,

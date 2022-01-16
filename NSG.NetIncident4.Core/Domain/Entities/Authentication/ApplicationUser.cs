@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 //
 using Microsoft.AspNetCore.Identity;
 //
@@ -47,7 +48,42 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
         /// </summary>
         public ApplicationUser() : base() { }
         //
-
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public override string ToString()
+        {
+            //
+            StringBuilder _return = new StringBuilder("record:[");
+            _return.AppendFormat("Id: {0}, ", Id);
+            _return.AppendFormat("FirstName: {0}, ", FirstName);
+            _return.AppendFormat("LastName: {0}, ", LastName);
+            _return.AppendFormat("FullName: {0}, ", FullName);
+            _return.AppendFormat("UserNicName: {0}, ", UserNicName);
+            _return.AppendFormat("CompanyId: {0}, ", CompanyId.ToString());
+            _return.AppendFormat("CreateDate: {0}, ", CreateDate.ToString());
+            _return.AppendFormat("UserName: {0}, ", UserName);
+            _return.AppendFormat("NormalizedUserName: {0}, ", NormalizedUserName);
+            _return.AppendFormat("Email: {0}, ", Email);
+            _return.AppendFormat("NormalizedEmail: {0}, ", NormalizedEmail);
+            _return.AppendFormat("EmailConfirmed: {0}, ", EmailConfirmed.ToString());
+            _return.AppendFormat("PasswordHash: {0}, ", PasswordHash);
+            _return.AppendFormat("SecurityStamp: {0}, ", SecurityStamp);
+            _return.AppendFormat("ConcurrencyStamp: {0}, ", ConcurrencyStamp);
+            _return.AppendFormat("PhoneNumber: {0}, ", PhoneNumber);
+            _return.AppendFormat("PhoneNumberConfirmed: {0}, ", PhoneNumberConfirmed.ToString());
+            _return.AppendFormat("TwoFactorEnabled: {0}, ", TwoFactorEnabled.ToString());
+            if (LockoutEnd.HasValue)
+                _return.AppendFormat("LockoutEnd: {0}, ", LockoutEnd.ToString());
+            else
+                _return.AppendFormat("/LockoutEnd/, ");
+            _return.AppendFormat("LockoutEnabled: {0}, ", LockoutEnabled.ToString());
+            _return.AppendFormat("AccessFailedCount: {0}, ", AccessFailedCount.ToString());
+            _return.AppendFormat("]");
+            return _return.ToString();
+        }
+        //
     }
 }
 // ===========================================================================

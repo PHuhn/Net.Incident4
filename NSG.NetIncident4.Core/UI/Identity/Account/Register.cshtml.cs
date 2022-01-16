@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+//
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+//
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +15,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+//
+using NSG.NetIncident4.Core.UI.ViewHelpers;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NSG.NetIncident4.Core.UI.Identity.Account
 {
@@ -24,25 +29,30 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
-
+        //
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public List<SelectListItem> CompanySelectList { get; set; }
+        //
         public class InputModel
         {
             [Required(ErrorMessage = "'User Name' is required")]
@@ -56,10 +66,6 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             [Required(ErrorMessage = "'Last Name' is required")]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
-
-            [Required(ErrorMessage = "'Full Name' is required")]
-            [Display(Name = "Full Name")]
-            public string FullName { get; set; }
 
             [Required(ErrorMessage = "'Nic Name' is required")]
             [Display(Name = "Nic Name")]
@@ -94,6 +100,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             }
             //
             ReturnUrl = returnUrl;
+            CompanySelectList = _context.Servers.Select(s => new SelectListItem(s.ServerShortName, s.CompanyId.ToString())).ToList();
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -108,21 +115,12 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                     LastName = Input.LastName, FullName = $"{Input.FirstName} {Input.LastName}",
                     UserNicName = Input.UserNicName, CompanyId = Input.CompanyId,
                     CreateDate = DateTime.Now, Email = Input.Email };
+                _logger.LogInformation(user.ToString());
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    _logger.LogInformation($"{Input.UserName} account created with a password.");
+                    await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

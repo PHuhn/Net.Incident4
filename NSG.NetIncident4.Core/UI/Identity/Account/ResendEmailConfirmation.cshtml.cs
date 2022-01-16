@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
-
+using NSG.NetIncident4.Core.UI.ViewHelpers;
+//
 namespace NSG.NetIncident4.Core.UI.Identity.Account
 {
     [AllowAnonymous]
@@ -53,19 +54,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
                 return Page();
             }
-
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = userId, code = code },
-                protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
 
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();

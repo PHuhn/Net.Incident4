@@ -25,7 +25,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 	/// <summary>
 	/// 'ApplicationUser' update command, handler and handle.
 	/// </summary>
-	public class ApplicationUserUpdateCommand : IRequest<int>
+	public class ApplicationUserUpdateCommand : IRequest<ApplicationUser>
 	{
         public string Id { get; set; }
         public string UserName { get; set; }
@@ -45,8 +45,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
     /// <summary>
     /// 'ApplicationUser' update command handler.
     /// </summary>
-    public class ApplicationUserUpdateCommandHandler : IRequestHandler<ApplicationUserUpdateCommand, int>
-	{
+    public class ApplicationUserUpdateCommandHandler : IRequest<ApplicationUser>
+    {
         private readonly ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userManager;
         private IMediator Mediator;
@@ -69,8 +69,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         /// </summary>
         /// <param name="request">This update command request.</param>
         /// <param name="cancellationToken">Cancel token.</param>
-        /// <returns>Returns the row count.</returns>
-        public async Task<int> Handle(ApplicationUserUpdateCommand request, CancellationToken cancellationToken)
+        /// <returns>Changed ApplicationUser</returns>
+        public async Task<ApplicationUser> Handle(ApplicationUserUpdateCommand request, CancellationToken cancellationToken)
 		{
 			Validator _validator = new Validator();
 			ValidationResult _results = _validator.Validate(request);
@@ -99,8 +99,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
             // Save the complete changes
             // var _updateResults = await _userManager.UpdateAsync(_entity);
             await _context.SaveChangesAsync(cancellationToken);
-            // Return the row count.
-            return 1;
+            // Return changed ApplicationUser (check for EmailConfirmed = false).
+            return _entity;
 		}
         //
         private async Task MoveRequestToEntity(ApplicationDbContext context, 

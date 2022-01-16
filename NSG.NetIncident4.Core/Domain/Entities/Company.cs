@@ -3,6 +3,7 @@
 // Companies.
 //
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
@@ -40,6 +41,27 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual ICollection<Server> Servers { get; } = new List<Server>();
         public virtual ICollection<ApplicationUser> Users { get; } = new List<ApplicationUser>();
         public virtual ICollection<EmailTemplate> EmailTemplates { get; } = new List<EmailTemplate>();
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public override string ToString()
+        {
+            //
+            StringBuilder _return = new StringBuilder("record:[");
+            _return.AppendFormat("CompanyId: {0}, ", CompanyId.ToString());
+            _return.AppendFormat("CompanyShortName: {0}, ", CompanyShortName);
+            _return.AppendFormat("CompanyName: {0}, ", CompanyName);
+            _return.AppendFormat("Address: {0}, ", Address);
+            _return.AppendFormat("City: {0}, ", City);
+            _return.AppendFormat("State: {0}, ", State);
+            _return.AppendFormat("PostalCode: {0}, ", PostalCode);
+            _return.AppendFormat("Country: {0}, ", Country);
+            _return.AppendFormat("PhoneNumber: {0}, ", PhoneNumber);
+            _return.AppendFormat("Notes: {0}, ", Notes);
+            _return.AppendFormat("]");
+            return _return.ToString();
+        }
         //
     }
 }

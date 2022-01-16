@@ -13,11 +13,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using MediatR;
 using Moq;
 //
 using NSG.Integration.Helpers;
-using NSG.NetIncident4.Core.Domain.Entities;
+using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 //
@@ -27,13 +29,30 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
     public class UsersAdminController_UnitTests : UnitTestFixture
     {
         //
+        private readonly IEmailSender emailSender = null;
         public string userName = "AdminUser";
+        private ApplicationUser adminUser = null;
         private ApplicationUserDetailQuery applicationUser1 = null;
         private ApplicationUserDetailQuery applicationUser2 = null;
         private ApplicationUserListQuery applicationListUser1 = null;
         //
         public UsersAdminController_UnitTests()
         {
+            adminUser = new ApplicationUser()
+            {
+                Id = "111-1111-111111-11",
+                UserName = "AdminUser",
+                Email = "AdminUser@nsg.com",
+                EmailConfirmed = true,
+                PhoneNumber = "734-662-1688",
+                PhoneNumberConfirmed = true,
+                CompanyId = 1,
+                FirstName = "Test",
+                FullName = "Test User",
+                LastName = "User",
+                UserNicName = "Test",
+                CreateDate = new DateTime(2020, 1, 2, 12, 0, 0),
+            };
             applicationUser1 = new ApplicationUserDetailQuery()
             {
                 Id = "111-1111-111111-11", UserName = "AdminUser", Email = "AdminUser@nsg.com",
@@ -70,6 +89,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 CompanyName = "Northern Software Group"
             };
             //
+            var _userManager = MockHelpers.MockUserManager<ApplicationUser>();
+            userManager = _userManager.Object;
+            var _emailSender = new Mock<IEmailSender>();
+            emailSender = _emailSender.Object;
         }
         //
         [SetUp]
@@ -83,7 +106,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             // given
             Mock<IMediator> mockMediator = new Mock<IMediator>();
             // when
-            UsersAdminController sut = new UsersAdminController(mockMediator.Object);
+            UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             // then
             Type type = sut.GetType();
             var attribute = type.CustomAttributes.Where(a => a.AttributeType.Name == "AuthorizeAttribute").FirstOrDefault();
@@ -108,7 +131,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .Setup(m => m.Send(It.IsAny<ApplicationUserListQueryHandler.ListQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(results)
                 .Verifiable("ApplicationUser list was not sent.");
-            UsersAdminController sut = new UsersAdminController(mockMediator.Object);
+            UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
             // when
             var actual = await sut.Index();
@@ -132,7 +155,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .Setup(m => m.Send(It.IsAny<ApplicationUserDetailQueryHandler.DetailQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser details was not sent.");
-            UsersAdminController sut = new UsersAdminController(mockMediator.Object);
+            UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
             // when
             var actual = await sut.Details(mediatorReturn.UserName);
@@ -165,7 +188,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .Setup(m => m.Send(It.IsAny<ApplicationUserUpdateQueryHandler.EditQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser edit was not sent.");
-            UsersAdminController sut = new UsersAdminController(mockMediator.Object);
+            UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
             // when
             var actual = await sut.Edit(mediatorReturn.UserName);
@@ -185,14 +208,14 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             {
             };
             // return values
-            int mediatorReturn = 1;
+            ApplicationUser mediatorReturn = adminUser;
             // setup IMediator to return the value
             Mock<IMediator> mockMediator = new Mock<IMediator>();
             mockMediator
                 .Setup(m => m.Send(It.IsAny<ApplicationUserUpdateCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser edit was not sent.");
-            UsersAdminController sut = new UsersAdminController(mockMediator.Object);
+            UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
             // when
             var actual = await sut.Edit(mediatorParam);
@@ -215,7 +238,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .Setup(m => m.Send(It.IsAny<ApplicationUserDetailQueryHandler.DetailQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser delete was not sent.");
-            UsersAdminController sut = new UsersAdminController(mockMediator.Object);
+            UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
             // when
             var actual = await sut.Delete(mediatorReturn.UserName);
@@ -240,7 +263,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .Setup(m => m.Send(It.IsAny<ApplicationUserDeleteCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser edit was not sent.");
-            UsersAdminController sut = new UsersAdminController(mockMediator.Object);
+            UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
             // when
             var actual = await sut.DeleteConfirmed(mediatorParam.UserName);

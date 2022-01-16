@@ -109,6 +109,15 @@ namespace NSG.Integration.Helpers
             //
             return _user;
         }
+        // https://github.com/dotnet/aspnetcore/blob/main/src/Identity/test/Shared/MockHelpers.cs
+        public static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
+        {
+            var store = new Mock<IUserStore<TUser>>();
+            var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
+            mgr.Object.UserValidators.Add(new UserValidator<TUser>());
+            mgr.Object.PasswordValidators.Add(new PasswordValidator<TUser>());
+            return mgr;
+        }
         //
         // https://stackoverflow.com/questions/49165810/how-to-mock-usermanager-in-net-core-testing
         //

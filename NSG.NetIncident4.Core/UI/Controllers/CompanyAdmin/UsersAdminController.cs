@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 //
 using MediatR;
 //
@@ -11,14 +13,24 @@ using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.Controllers;
+using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.UI.ViewHelpers;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
     [Authorize(Policy = "CompanyAdminRole")]
     public class UsersAdminController : BaseController
     {
-        public UsersAdminController(IMediator mediator) : base(mediator)
+        //
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
+        //
+        public UsersAdminController(UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender,
+            IMediator mediator) : base(mediator)
         {
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
         //
         // -------------------------------------------------------------------
@@ -87,7 +99,15 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
             {
                 if (ModelState.IsValid)
                 {
-                    int ret = await Mediator.Send(model);
+                    ApplicationUser user = await Mediator.Send(model);
+                    if(user != null)
+                    {
+                        if(user.EmailConfirmed == false)
+                        {
+
+                            await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                        }
+                    }
                 }
                 else
                     Base_AddErrors(ModelState);

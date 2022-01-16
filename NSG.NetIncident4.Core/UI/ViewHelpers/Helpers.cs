@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 //
 namespace NSG.NetIncident4.Core.UI.ViewHelpers
 {
-    public static class Helpers
+    public static partial class Helpers
     {
         //
         /// <summary>

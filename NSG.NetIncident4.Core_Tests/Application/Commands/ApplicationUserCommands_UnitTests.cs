@@ -10,7 +10,6 @@ using Moq;
 using MediatR;
 //
 using NSG.Integration.Helpers;
-using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
@@ -127,9 +126,9 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 SelectedServers = new int[] { 1 },
                 //
             };
-            Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
-            int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+            Task<ApplicationUser> _updateResults = _handler.Handle(_update, CancellationToken.None);
+            ApplicationUser user = _updateResults.Result;
+            Assert.AreEqual(_author.UserName, user.UserName);
         }
         //
         [Test]

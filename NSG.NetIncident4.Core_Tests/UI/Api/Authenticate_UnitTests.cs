@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity.UI.Services;
 //
 using Moq;
 using NSG.NetIncident4.Core.UI.Api;
@@ -22,6 +23,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
     {
         //
         AuthenticateController _authenticateController = null;
+        IEmailSender emailSender = null;
         //
         [SetUp]
         public void MySetup()
@@ -32,7 +34,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
             _seeder.Seed().Wait();
             SetupConfiguration();
-            _authenticateController = new AuthenticateController(userManager, configuration);
+            var _emailSender = new Mock<IEmailSender>();
+            emailSender = _emailSender.Object;
+            _authenticateController = new AuthenticateController(userManager, configuration, emailSender);
         }
         //
         [Test]

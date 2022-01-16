@@ -3,6 +3,7 @@
 // Servers.
 //
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -58,6 +59,38 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             = new List<NetworkLog>();
         public virtual ICollection<Incident> Incidents { get; }
             = new List<Incident>();
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public override string ToString()
+        {
+            //
+            StringBuilder _return = new StringBuilder("record:[");
+            _return.AppendFormat("ServerId: {0}, ", ServerId.ToString());
+            _return.AppendFormat("CompanyId: {0}, ", CompanyId.ToString());
+            _return.AppendFormat("ServerShortName: {0}, ", ServerShortName);
+            _return.AppendFormat("ServerName: {0}, ", ServerName);
+            _return.AppendFormat("ServerDescription: {0}, ", ServerDescription);
+            _return.AppendFormat("WebSite: {0}, ", WebSite);
+            _return.AppendFormat("ServerLocation: {0}, ", ServerLocation);
+            _return.AppendFormat("FromName: {0}, ", FromName);
+            _return.AppendFormat("FromNicName: {0}, ", FromNicName);
+            _return.AppendFormat("FromEmailAddress: {0}, ", FromEmailAddress);
+            _return.AppendFormat("TimeZone: {0}, ", TimeZone);
+            _return.AppendFormat("DST: {0}, ", DST.ToString());
+            _return.AppendFormat("TimeZone_DST: {0}, ", TimeZone_DST);
+            if (DST_Start.HasValue)
+                _return.AppendFormat("DST_Start: {0}, ", DST_Start.ToString());
+            else
+                _return.AppendFormat("/DST_Start/, ");
+            if (DST_End.HasValue)
+                _return.AppendFormat("DST_End: {0}, ", DST_End.ToString());
+            else
+                _return.AppendFormat("/DST_End/, ");
+            _return.AppendFormat("]");
+            return _return.ToString();
+        }
         //
     }
 }
