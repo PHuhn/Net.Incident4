@@ -2,17 +2,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using MediatR;
 //
 using NSG.NetIncident4.Core.UI.Api;
-using NSG.NetIncident4.Core.Infrastructure.Services;
 using NSG.NetIncident4.Core.Application.Commands.Incidents;
-using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Api

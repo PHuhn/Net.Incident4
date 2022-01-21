@@ -2,13 +2,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using MediatR;
 //
 using NSG.NetIncident4.Core.UI.Api;
-using NSG.NetIncident4.Core.Infrastructure.Services;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.Integration.Helpers;
