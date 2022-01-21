@@ -17,6 +17,10 @@ using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 
 namespace NSG.Integration.Helpers
 {
+    //
+    /// <summary>
+    /// Static helper methods
+    /// </summary>
     public static class NSG_Helpers
     {
         //
@@ -137,7 +141,11 @@ namespace NSG.Integration.Helpers
             return ret;
         }
         //
-        static public void AddLoggingService(IServiceCollection services)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        static public void AddLoggingService(this IServiceCollection services)
         {
             services.AddLogging(builder => builder
                 //.AddConfiguration(Configuration.GetSection("Logging"))
@@ -155,7 +163,6 @@ namespace NSG.Integration.Helpers
                 new Claim(ClaimTypes.Email, $"{userName}@any.net"),
                 new Claim(ClaimTypes.Role, role)
             }, "basic"));
-
             //
             return _user;
         }

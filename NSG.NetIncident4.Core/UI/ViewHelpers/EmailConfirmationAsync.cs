@@ -39,6 +39,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
                 if (api != null)
                 {
                     // api
+                    // public static string Action(this IUrlHelper helper, string action, string controller, object values, string protocol)
                     callbackUrl = api.Url.Action("ConfirmEmail", "Account",
                         new { userId = userId, code = code }, api.Request.Scheme);
                 }

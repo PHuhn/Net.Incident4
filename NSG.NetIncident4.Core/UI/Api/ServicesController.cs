@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Infrastructure.Services;
 //
@@ -34,7 +35,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// <param name="servicesSettings">
         /// Class that maps to the appsettings.json, the values needed for the services.
         /// </param>
-        public ServicesController(ILogger<ServicesController> logger, IOptions<ServicesSettings> servicesSettings)
+        public ServicesController(IMediator mediator, ILogger<ServicesController> logger, IOptions<ServicesSettings> servicesSettings): base(mediator)
         {
             _logger = logger;
             _servicesSettings = servicesSettings.Value;

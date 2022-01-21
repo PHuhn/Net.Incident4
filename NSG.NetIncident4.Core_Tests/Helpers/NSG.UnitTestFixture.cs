@@ -164,11 +164,15 @@ namespace NSG.Integration.Helpers
         /// </returns>
         public ControllerContext Fixture_ControllerContext(string userName, string role)
         {
-            // https://stackoverflow.com/questions/38557942/mocking-iprincipal-in-asp-net-core
-            IPrincipal currentUser = Fixture_TestPrincipal(userName, role);
             //
             Mock<HttpContext> httpContext = new Mock<HttpContext>();
-            httpContext.SetupGet(m => m.User).Returns((ClaimsPrincipal)currentUser);
+            //
+            // https://stackoverflow.com/questions/38557942/mocking-iprincipal-in-asp-net-core
+            if( userName != "" )
+            {
+                IPrincipal currentUser = Fixture_TestPrincipal(userName, role);
+                httpContext.SetupGet(m => m.User).Returns((ClaimsPrincipal)currentUser);
+            }
             //
             ControllerContext controllerContext = new ControllerContext();
             controllerContext.HttpContext = httpContext.Object;
@@ -203,6 +207,10 @@ namespace NSG.Integration.Helpers
             {
                 roleManager.Dispose();
                 roleManager = null;
+            }
+            if (_builder != null)
+            {
+                _builder = null;
             }
             if (_client != null)
             {

@@ -4,8 +4,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-//
 using Moq;
+using MediatR;
+//
 using NSG.NetIncident4.Core.UI.Api;
 using NSG.NetIncident4.Core.Infrastructure.Services;
 using NSG.Integration.Helpers;
@@ -17,7 +18,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
     {
         //
         public IConfiguration Configuration { get; set; }
-        ServicesController _servicesController;
+        ServicesController sut;
         IOptions<ServicesSettings> _servicesSettings = null;
         //
         public ApiServices_UnitTests()
@@ -28,13 +29,15 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
         [SetUp]
         public void MySetup()
         {
+            Mock<IMediator> _mediator =
+                new Mock<IMediator>();
             Mock<ILogger<ServicesController>> _mockLogger =
                 new Mock<ILogger<ServicesController>>();
             SetupConfiguration("appsettings.json");
             _servicesSettings = GetTestConfiguration<ServicesSettings>("ServicesSettings");
             if (_servicesSettings == null)
                 throw new Exception("Null services settings");
-            _servicesController = new ServicesController(_mockLogger.Object, _servicesSettings);
+            sut = new ServicesController(_mediator.Object ,_mockLogger.Object, _servicesSettings);
         }
         //
         [Test]
@@ -69,7 +72,7 @@ Pinging 1.9.149.170 with 32 bytes of data:";
         //
         private string ApiServicesController_PingCommand(string ip)
         {
-            ActionResult<string> _ping = _servicesController.Ping(ip);
+            ActionResult<string> _ping = sut.Ping(ip);
             Console.WriteLine(_ping.Result);
             Console.WriteLine(_ping.Value);
             return _ping.Value;
@@ -80,7 +83,7 @@ Pinging 1.9.149.170 with 32 bytes of data:";
         {
             // RIPE: Pinging pinspb.ru [46.161.62.245] with 32 bytes of data:
             string ip = "46.161.62.245";
-            ActionResult<string> _whois = _servicesController.WhoIs(ip);
+            ActionResult<string> _whois = sut.WhoIs(ip);
             string _actual = _whois.Value;
             Console.WriteLine(ip);
             Console.WriteLine(_actual);
@@ -93,7 +96,7 @@ Pinging 1.9.149.170 with 32 bytes of data:";
         {
             // RIPE: Pinging pinspb.ru [46.161.62.245] with 32 bytes of data:
             string ip = "174.79.60.55";
-            ActionResult<string> _whois = _servicesController.WhoIs(ip);
+            ActionResult<string> _whois = sut.WhoIs(ip);
             Console.WriteLine(_whois.Result);
             string _actual = _whois.Value;
             Console.WriteLine(ip);
@@ -134,7 +137,7 @@ Cox Communications Inc. CXA (NET-174-64-0-0-1) 174.64.0.0 - 174.79.255.255
 # https://www.arin.net/public/whoisinaccuracy/index.xhtml
 #
 ";
-            string _link = _servicesController.WhoIsLink(_data);
+            string _link = sut.WhoIsLink(_data);
             System.Diagnostics.Debug.WriteLine(_link);
             Assert.IsTrue(_link != "");
         }
@@ -227,7 +230,7 @@ OrgTechRef:    https://whois.arin.net/rest/poc/MEROL3-ARIN
 # https://www.arin.net/public/whoisinaccuracy/index.xhtml
 #
 ";
-            string _link = _servicesController.WhoIsLink(_data);
+            string _link = sut.WhoIsLink(_data);
             System.Diagnostics.Debug.WriteLine(_link);
             Assert.AreEqual("", _link);
         }
@@ -260,7 +263,7 @@ network:Updated:20150331
 %ok
 
 ";
-            string _link = _servicesController.WhoIsLink(_data);
+            string _link = sut.WhoIsLink(_data);
             System.Diagnostics.Debug.WriteLine(_link);
             Assert.AreEqual("", _link);
         }

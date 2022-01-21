@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -103,7 +104,10 @@ namespace NSG.NetIncident4.Core.UI.Api
             //
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            {
+                string error = (result.Errors.FirstOrDefault()).Description;
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = $"User creation failed! {error}" });
+            }
             await Helpers.EmailConfirmationAsync(this, userManager, _emailSender, user);
 
             return Ok(new Response { Status = "Success", Message = "Account created, must confirm your email!" });

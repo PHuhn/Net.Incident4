@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
@@ -13,6 +14,15 @@ namespace NSG.NetIncident4.Core.UI.Api
     [ApiController]
     public class LogController : BaseApiController
     {
+        string codeName = "LogController";
+        //
+        /// <summary>
+        /// Explicitly pass mediator
+        /// </summary>
+        /// <param name="mediator"></param>
+        public LogController(IMediator mediator) : base(mediator)
+        {
+        }
         //
         // POST api/<controller>
         /// <summary>
@@ -22,12 +32,14 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// <param name="method"></param>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public async void PostAsync(byte severity, string method, string message, string exception = "")
+        public async Task<LogData> PostAsync(byte severity, string method, string message, string exception = "")
         {
             //
             LogData _entity = await Mediator.Send(
                 new LogCreateCommand(severity, method, message, exception));
+            return _entity;
             //
         }
+        //
     }
 }

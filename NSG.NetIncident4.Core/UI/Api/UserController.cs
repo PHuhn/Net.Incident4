@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 //
@@ -13,7 +14,7 @@ namespace NSG.NetIncident4.Core.UI.Api
     public class UserController : BaseApiController
     {
         //
-        public UserController()
+        public UserController(IMediator mediator) : base(mediator)
         {
         }
         //

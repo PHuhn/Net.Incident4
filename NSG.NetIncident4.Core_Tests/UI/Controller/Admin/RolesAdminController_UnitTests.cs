@@ -27,9 +27,6 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
     public class RolesAdminController_UnitTests : UnitTestFixture
     {
         //
-        //public IHttpContextAccessor httpContextAccesor = null;
-        //public Mock<HttpContext> httpContext = null;
-        //public IOptions<ApplicationSettings> applicationSettings = null;
         public string userName = "TestUser";
         //
         public RolesAdminController_UnitTests()

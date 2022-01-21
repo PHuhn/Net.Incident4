@@ -13,15 +13,15 @@ namespace NSG.NetIncident4.Core.UI.Api
     [ApiController]
     public class BaseApiController : ControllerBase
     {
-        private IMediator _mediator;
-        protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
+        // private IMediator _mediator;
+        protected IMediator Mediator; // => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
         //
         /// <summary>
         /// Base constructors, so initialize Alerts list of alert-messages.
         /// </summary>
-        public BaseApiController()
+        public BaseApiController(IMediator mediator)
         {
-            //
+            Mediator = mediator;
         }
     }
 }

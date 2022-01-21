@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 //
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
 //
 using NSG.NetIncident4.Core.Application.Commands.Incidents;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
-//
 using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core.UI.Api
@@ -26,7 +26,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// NetworkIncidents controller parameterless constructor
         /// All parameters are handled by IMediator from the base BaseApiController;
         /// </summary>
-        public NetworkIncidentsController( )
+        public NetworkIncidentsController(IMediator mediator) : base(mediator)
         {
         }
         //
@@ -115,9 +115,14 @@ namespace NSG.NetIncident4.Core.UI.Api
                 await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = id.Value });
             return _results;
         }
-        // POST: api/Incidents
+        //
+        /// <summary>
+        /// POST: api/Incidents
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<NetworkIncidentDetailQuery>> PostIncident(NetworkIncidentCreateCommand model)
+        public async Task<NetworkIncidentDetailQuery> PostIncident(NetworkIncidentCreateCommand model)
         {
             try
             {
