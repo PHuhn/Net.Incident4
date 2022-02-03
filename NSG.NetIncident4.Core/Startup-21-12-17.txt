@@ -278,7 +278,7 @@ namespace NSG.NetIncident4.Core
         /// </param>
         public virtual void ConfigureDatabase(IServiceCollection services)
         {
-            string _connetionString = Configuration.GetConnectionString("DefaultConnection");
+            string _connetionString = Configuration.GetConnectionString("NetIncident4");
             if (string.IsNullOrEmpty(_connetionString))
             {
                 throw (new ApplicationException("No connection string found"));
@@ -296,8 +296,8 @@ namespace NSG.NetIncident4.Core
         {
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = "BearerOrCookie";
+                options.DefaultChallengeScheme = "BearerOrCookie";
                 options.DefaultScheme = "BearerOrCookie";
             })
                 /*

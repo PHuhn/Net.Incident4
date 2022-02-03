@@ -203,7 +203,6 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         {
             detail.ServerShortName = "";
             var _serverShortNames = new List<SelectItem>();
-            serverShortName = serverShortName.ToLower();
             foreach (var _usrSrv in entity.UserServers)
             {
                 string _shortName = _usrSrv.Server.ServerShortName.ToLower();
@@ -212,13 +211,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
                     label = _shortName,
                     value = _usrSrv.Server.ServerId
                 };
-                if (_shortName == serverShortName)
+                if (_shortName == serverShortName || String.IsNullOrEmpty(serverShortName))
                 {
+                    serverShortName = _usrSrv.Server.ServerShortName.ToLower();
                     detail.ServerShortName = _usrSrv.Server.ServerShortName;
                     detail.Server = _usrSrv.Server.ToServerData();
                 }
                 _serverShortNames.Add(_serverItem);
             }
+            detail.ServerShortName = serverShortName.ToLower();
             detail.ServerShortNames = _serverShortNames.ToArray();
         }
         //

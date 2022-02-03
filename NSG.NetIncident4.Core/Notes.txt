@@ -93,5 +93,60 @@ SOLUTION:
     }).AddMicrosoftIdentityUI();
 
 PROBLEM:
+	Connection failed in IIS
+SOLUTION:
+	In IIS Management console: click on Authentication icon,
+	then disable all except Anonymous Authentication,
+	then r-click Anonymous Authentication and select Edit,
+	in Edit form select radio button of 'Application pool identity'.
+	Set the the permissions in the Application pool on the 'Advanced Settings',
+	set the Identity options to LocalSystem or your preference.
+
+	In Sql Server SSMS: in query window select the DB and execute the following,
+	USE [master]
+	GO
+	IF NOT EXISTS(SELECT name FROM [master].[sys].[syslogins] WHERE NAME = 'NT AUTHORITY\SYSTEM')
+	BEGIN 
+		PRINT 'Create'
+		CREATE LOGIN [NT AUTHORITY\SYSTEM] FROM WINDOWS WITH DEFAULT_DATABASE=[master], DEFAULT_LANGUAGE=[us_english]
+	END
+	GO
+	IF NOT EXISTS(SELECT name FROM [master].[sys].[syslogins] WHERE NAME = 'NT AUTHORITY\LOCAL SERVICE')
+	BEGIN 
+		PRINT 'Create NT AUTHORITY\LOCAL SERVICE'
+		CREATE LOGIN [NT AUTHORITY\LOCAL SERVICE] FROM WINDOWS WITH DEFAULT_DATABASE=[master], DEFAULT_LANGUAGE=[us_english]
+	END
+	GO
+	IF NOT EXISTS(SELECT name FROM [master].[sys].[syslogins] WHERE NAME = 'NT AUTHORITY\NETWORK SERVICE')
+	BEGIN 
+		PRINT 'Create NT AUTHORITY\NETWORK SERVICE'
+		CREATE LOGIN [NT AUTHORITY\NETWORK SERVICE] FROM WINDOWS WITH DEFAULT_DATABASE=[master], DEFAULT_LANGUAGE=[us_english]
+	END
+	GO
+
+	USE [NetIncidentIdentity04]
+	GO
+	CREATE USER [NT AUTHORITY\SYSTEM] FOR LOGIN [NT AUTHORITY\SYSTEM] WITH DEFAULT_SCHEMA=[dbo]
+	GO
+	CREATE USER [NT AUTHORITY\NETWORK SERVICE] FOR LOGIN [NT AUTHORITY\NETWORK SERVICE] WITH DEFAULT_SCHEMA=[dbo]
+	GO
+	CREATE USER [NT AUTHORITY\LOCAL SERVICE] FOR LOGIN [NT AUTHORITY\LOCAL SERVICE] WITH DEFAULT_SCHEMA=[dbo]
+	GO
+	ALTER ROLE [db_datareader] ADD MEMBER [NT AUTHORITY\SYSTEM]
+	GO
+	ALTER ROLE [db_datawriter] ADD MEMBER [NT AUTHORITY\SYSTEM]
+	GO
+	ALTER ROLE [db_datareader] ADD MEMBER [NT AUTHORITY\NETWORK SERVICE]
+	GO
+	ALTER ROLE [db_datawriter] ADD MEMBER [NT AUTHORITY\NETWORK SERVICE]
+	GO
+	ALTER ROLE [db_datareader] ADD MEMBER [NT AUTHORITY\LOCAL SERVICE]
+	GO
+	ALTER ROLE [db_datawriter] ADD MEMBER [NT AUTHORITY\LOCAL SERVICE]
+	GO
+
+PROBLEM:
+
 
 SOLUTION:
+

@@ -32,6 +32,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// <param name="method"></param>
         /// <param name="message"></param>
         /// <param name="exception"></param>
+        [HttpGet]
         public async Task<LogData> PostAsync(byte severity, string method, string message, string exception = "")
         {
             //

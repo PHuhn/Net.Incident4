@@ -100,8 +100,25 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             }
             //
             ReturnUrl = returnUrl;
-            CompanySelectList = _context.Servers.Select(s => new SelectListItem(s.ServerShortName, s.CompanyId.ToString())).ToList();
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            try
+            {
+                CompanySelectList = _context.Servers.Select(s => new SelectListItem(s.ServerShortName, s.CompanyId.ToString())).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Register: Servers.Select failed with message: {ex.Message}");
+                _logger.LogError(ex.ToString());
+                return;
+            }
+            try
+            {
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Register: SignInManager.GetExternalAuthenticationSchemesAsync failed with message: {ex.Message}");
+                _logger.LogError(ex.ToString());
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

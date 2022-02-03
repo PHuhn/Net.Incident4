@@ -14,11 +14,12 @@ using NSG.Integration.Helpers;
 namespace NSG.NetIncident4.Core_Tests.UI.Api
 {
     [TestFixture]
-    public class ApiServices_UnitTests: UnitTestFixture
+    public class ApiServices_UnitTests : UnitTestFixture
     {
         //
         public IConfiguration Configuration { get; set; }
         ServicesController sut;
+        ServicesControllerProtected sutProtected;
         IOptions<ServicesSettings> _servicesSettings = null;
         //
         public ApiServices_UnitTests()
@@ -37,7 +38,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             _servicesSettings = GetTestConfiguration<ServicesSettings>("ServicesSettings");
             if (_servicesSettings == null)
                 throw new Exception("Null services settings");
-            sut = new ServicesController(_mediator.Object ,_mockLogger.Object, _servicesSettings);
+            sut = new ServicesController(_mediator.Object, _mockLogger.Object, _servicesSettings);
+            sutProtected = new ServicesControllerProtected(_mediator.Object, _mockLogger.Object, _servicesSettings);
         }
         //
         [Test]
@@ -137,7 +139,7 @@ Cox Communications Inc. CXA (NET-174-64-0-0-1) 174.64.0.0 - 174.79.255.255
 # https://www.arin.net/public/whoisinaccuracy/index.xhtml
 #
 ";
-            string _link = sut.WhoIsLink(_data);
+            string _link = sutProtected.WhoIsLinkProtected(_data);
             System.Diagnostics.Debug.WriteLine(_link);
             Assert.IsTrue(_link != "");
         }
@@ -230,7 +232,7 @@ OrgTechRef:    https://whois.arin.net/rest/poc/MEROL3-ARIN
 # https://www.arin.net/public/whoisinaccuracy/index.xhtml
 #
 ";
-            string _link = sut.WhoIsLink(_data);
+            string _link = sutProtected.WhoIsLinkProtected(_data);
             System.Diagnostics.Debug.WriteLine(_link);
             Assert.AreEqual("", _link);
         }
@@ -263,10 +265,20 @@ network:Updated:20150331
 %ok
 
 ";
-            string _link = sut.WhoIsLink(_data);
+            string _link = sutProtected.WhoIsLinkProtected(_data);
             System.Diagnostics.Debug.WriteLine(_link);
             Assert.AreEqual("", _link);
         }
         //
+    }
+    public class ServicesControllerProtected : ServicesController
+    {
+        public ServicesControllerProtected(IMediator mediator, ILogger<ServicesController> logger, IOptions<ServicesSettings> servicesSettings) : base(mediator, logger, servicesSettings)
+        {
+        }
+        public string WhoIsLinkProtected(string whoisData)
+        {
+            return base.WhoIsLink( whoisData );
+        }
     }
 }

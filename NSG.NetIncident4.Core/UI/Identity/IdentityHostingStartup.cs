@@ -16,7 +16,7 @@ namespace NSG.NetIncident4.Core.UI.Identity
         {
             builder.ConfigureServices((context, services) => {
                 //
-                string _connetionString = context.Configuration.GetConnectionString("DefaultConnection");
+                string _connetionString = context.Configuration.GetConnectionString("NetIncident4");
                 if (string.IsNullOrEmpty(_connetionString))
                 {
                     throw (new ApplicationException("No connection string found"));

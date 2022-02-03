@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using NSG.NetIncident4.Core.UI.ApiModels;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
+using Microsoft.Extensions.Logging;
 //
 namespace NSG.NetIncident4.Core.UI.Api
 {
@@ -24,6 +25,7 @@ namespace NSG.NetIncident4.Core.UI.Api
     public class AuthenticateController : ControllerBase
     {
         //
+        private readonly string codeName = "AuthenticateController";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
@@ -76,9 +78,10 @@ namespace NSG.NetIncident4.Core.UI.Api
                 else
                 {
                     ModelState.AddModelError("", "You need to confirm your email.");
+                    return Unauthorized();
                 }
             }
-            return Unauthorized();
+            return NotFound();
         }
         //
         [HttpPost]

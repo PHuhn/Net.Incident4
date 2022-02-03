@@ -1,25 +1,28 @@
 // ===========================================================================
+using System;
+using System.Text;
+using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Text;
-using System.Reflection;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.Cookies;
 //
 using FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 //
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
@@ -44,7 +47,7 @@ namespace NSG.NetIncident4.Core
             //
             ConfigureLoggingServices(services);
             //
-            services.AddControllersWithViews();
+            AddAndConfigureControllers(services);
             //
             ConfigureViewLocation(services);
             /*
@@ -55,12 +58,14 @@ namespace NSG.NetIncident4.Core
             ** * Various authorization information
             */
             ConfigureNotificationServices(services);
-            // AdminRole/CompanyAdminRole/AnyUserRole
-            ConfigureAuthorizationPolicyServices(services);
             // Add session for state and temp data provider
             ConfigureSessionServices(services);
             // CORS
             ConfigureCorsServices(services);
+            //
+            ConfigureAuthenticationServices(services);
+            // AdminRole/CompanyAdminRole/AnyUserRole
+            ConfigureAuthorizationPolicyServices(services);
             //
             ConfigureSwaggerServices(services);
             //
@@ -79,6 +84,20 @@ namespace NSG.NetIncident4.Core
                 .AddConsole()
                 .AddDebug()
             );
+        }
+        //
+        /// <summary>
+        /// Add and configure logging
+        /// </summary>
+        /// <param name="services">The current collection of services, 
+        /// add logging services.
+        /// </param>
+        public virtual void AddAndConfigureControllers(IServiceCollection services)
+        {
+            services.AddControllersWithViews();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null);
         }
         //
         /// <summary>
@@ -105,11 +124,92 @@ namespace NSG.NetIncident4.Core
             services.AddCors(options => {
                 options.AddPolicy("CorsAnyOrigin", builder => {
                     builder
-                        .WithOrigins("http://localhost:4200,http://localhost:10111")
+                        .WithOrigins("http://localhost:4200", "https://localhost:4200", "http://localhost:10111")
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
+            });
+        }
+        //
+        /// <summary>
+        /// add authentication schemes
+        /// </summary>
+        /// <param name="services">The current collection of services, 
+        /// add authentication schemes to the container.
+        public virtual void ConfigureAuthenticationServices(IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "BearerOrCookie";
+                options.DefaultChallengeScheme = "BearerOrCookie";
+                options.DefaultScheme = "BearerOrCookie";
+            })
+                /*
+                ** Add Jwt Bearer
+                */
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["JWT:ValidAudience"],
+                        ValidIssuer = Configuration["JWT:ValidIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                    };
+                })
+                /*
+                ** Add cookie authentication scheme
+                */
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                /*
+                ** Conditionally add either JWT bearer of cookie authentication scheme
+                */
+                .AddPolicyScheme("BearerOrCookie", "Custom JWT bearer or cookie", options =>
+                {
+                    options.ForwardDefaultSelector = context =>
+                    {
+                        // since all my api will be starting with /api, modify this condition as per your need.
+                        if (context.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
+                            return JwtBearerDefaults.AuthenticationScheme;
+                        else
+                            return CookieAuthenticationDefaults.AuthenticationScheme;
+                    };
+                });
+        }
+        //
+        /// <summary>
+        /// Configure cookie redirects or return status code
+        /// </summary>
+        /// <param name="services">The current collection of services, 
+        /// configure cookie options.
+        /// </param>
+        public virtual void ConfigureCookies(IServiceCollection services)
+        {
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = (context) =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
+                        {
+                            context.Response.StatusCode = 401;
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = (context) =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
+                        {
+                            context.Response.StatusCode = 403;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
         }
         //
@@ -133,12 +233,12 @@ namespace NSG.NetIncident4.Core
                 // To Enable authorization using Swagger (JWT)
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
+                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                    Type = SecuritySchemeType.ApiKey,
+                    //Scheme = "Bearer",
+                    //BearerFormat = "JWT",
                 });
                 swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -217,6 +317,10 @@ namespace NSG.NetIncident4.Core
         /// </param>
         public virtual void ConfigureViewLocation(IServiceCollection services)
         {
+            //
+            services.AddMvc()
+                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNameCaseInsensitive = false);
+            //
             services.Configure<RazorPagesOptions>(options =>
             {
                 options.RootDirectory = "/UI/Identity";

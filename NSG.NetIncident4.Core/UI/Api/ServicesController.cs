@@ -96,7 +96,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// </summary>
         /// <param name="whoisData"></param>
         /// <returns>string of ip address or empty</returns>
-        public string WhoIsLink(string whoisData)
+        protected string WhoIsLink(string whoisData)
         {
             string _link = "";
             bool _processFlag = true;

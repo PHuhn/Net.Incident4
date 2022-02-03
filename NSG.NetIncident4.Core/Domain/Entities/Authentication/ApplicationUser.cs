@@ -79,8 +79,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
             else
                 _return.AppendFormat("/LockoutEnd/, ");
             _return.AppendFormat("LockoutEnabled: {0}, ", LockoutEnabled.ToString());
-            _return.AppendFormat("AccessFailedCount: {0}, ", AccessFailedCount.ToString());
-            _return.AppendFormat("]");
+            _return.AppendFormat("AccessFailedCount: {0}]", AccessFailedCount.ToString());
             return _return.ToString();
         }
         //
