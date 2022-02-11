@@ -32,7 +32,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 		public long IncidentId { get; set; }
 		public int ServerId { get; set; }
 		public string IPAddress { get; set; }
-		public string NIC_Id { get; set; }
+		public string NIC { get; set; }
 		public string NetworkName { get; set; }
 		public string AbuseEmailAddress { get; set; }
 		public string ISPTicketNumber { get; set; }
@@ -166,9 +166,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             {
                 entity.IPAddress = request.IPAddress;
             }
-            if (entity.NIC_Id != request.NIC_Id)
+            if (entity.NIC_Id != request.NIC)
             {
-                entity.NIC_Id = request.NIC_Id;
+                entity.NIC_Id = request.NIC;
             }
             if (entity.NetworkName != request.NetworkName)
             {
@@ -378,7 +378,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 				RuleFor(x => x.ServerId).NotNull().GreaterThan(0);
                 RuleFor(x => x.IPAddress).NotEmpty().MinimumLength(7).MaximumLength(50)
                     .Must(Extensions.ValidateIPv4);
-                RuleFor(x => x.NIC_Id).NotEmpty().MaximumLength(16);
+                RuleFor(x => x.NIC).NotEmpty().MaximumLength(16);
 				RuleFor(x => x.NetworkName).MaximumLength(255);
 				RuleFor(x => x.AbuseEmailAddress).MaximumLength(255);
 				RuleFor(x => x.ISPTicketNumber).MaximumLength(50);

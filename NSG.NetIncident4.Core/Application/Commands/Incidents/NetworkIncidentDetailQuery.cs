@@ -15,7 +15,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         public long IncidentId { get; set; }
         public int ServerId { get; set; }
         public string IPAddress { get; set; }
-        public string NIC_Id { get; set; }
+        public string NIC { get; set; }
         public string NetworkName { get; set; }
         public string AbuseEmailAddress { get; set; }
         public string ISPTicketNumber { get; set; }

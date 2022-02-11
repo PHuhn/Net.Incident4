@@ -48,6 +48,12 @@ namespace NSG.NetIncident4.Core.UI.Api
                 {
                     var userRoles = await userManager.GetRolesAsync(user);
                     //
+                    if( userRoles != null && userRoles.Count == 0 )
+                    {
+                        ModelState.AddModelError("", $"{model.Username} requires a user role.");
+                        return Unauthorized();
+                    }
+                    //
                     var authClaims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, user.UserName),
@@ -78,12 +84,30 @@ namespace NSG.NetIncident4.Core.UI.Api
                 else
                 {
                     ModelState.AddModelError("", "You need to confirm your email.");
-                    return Unauthorized();
+                    return UnauthorizedNotConfirmed();
                 }
             }
             return NotFound();
         }
         //
+        /// <summary>
+        /// Creates an <see cref="UnauthorizedObjectResult"/> that produces a <see cref="StatusCodes.Status401Unauthorized"/> response
+        /// with a custom title and detail.
+        /// </summary>
+        /// <returns>The created <see cref="UnauthorizedObjectResult"/> for the response.</returns>
+        public UnauthorizedObjectResult UnauthorizedNotConfirmed()
+        {
+            Object _error = new { status = StatusCodes.Status401Unauthorized, title = "Unauthorized: email confirmation required", detail = "Unauthorized - user not confirmed", type = "https://tools.ietf.org/html/rfc7235#section-3.1" };
+            UnauthorizedObjectResult _objectResults = new UnauthorizedObjectResult(_error);
+            //
+            return _objectResults;
+        }
+        //
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] ApiModels.RegisterModel model)

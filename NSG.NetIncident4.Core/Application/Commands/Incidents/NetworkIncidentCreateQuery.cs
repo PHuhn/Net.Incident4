@@ -74,7 +74,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             _detail.IncidentId = 0;
             _detail.ServerId = server.ServerId;
             _detail.IPAddress = "";
-            _detail.NIC_Id = "";
+            _detail.NIC = "";
             _detail.NetworkName = "";
             _detail.AbuseEmailAddress = "";
             _detail.ISPTicketNumber = "";

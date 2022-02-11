@@ -31,7 +31,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 IncidentId = entity.IncidentId,
                 ServerId = entity.ServerId,
                 IPAddress = entity.IPAddress,
-                NIC_Id = entity.NIC_Id,
+                NIC = entity.NIC_Id,
                 NetworkName = entity.NetworkName,
                 AbuseEmailAddress = entity.AbuseEmailAddress,
                 ISPTicketNumber = entity.ISPTicketNumber,
@@ -55,7 +55,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 IncidentId = entity.IncidentId,
                 ServerId = entity.ServerId,
                 IPAddress = entity.IPAddress,
-                NIC_Id = entity.NIC_Id,
+                NIC = entity.NIC_Id,
                 NetworkName = entity.NetworkName,
                 AbuseEmailAddress = entity.AbuseEmailAddress,
                 ISPTicketNumber = entity.ISPTicketNumber,
@@ -64,6 +64,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 Special = entity.Special,
                 Notes = entity.Notes,
                 CreatedDate = entity.CreatedDate,
+                IsChanged = false
             };
         }
         //

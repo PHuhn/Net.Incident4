@@ -41,7 +41,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 		public long IncidentId { get; set; }
 		public int ServerId { get; set; }
 		public string IPAddress { get; set; }
-		public string NIC_Id { get; set; }
+		public string NIC { get; set; }
 		public string NetworkName { get; set; }
 		public string AbuseEmailAddress { get; set; }
 		public string ISPTicketNumber { get; set; }
@@ -50,7 +50,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 		public bool Special { get; set; }
 		public string Notes { get; set; }
 		public DateTime CreatedDate { get; set; }
-	}
+        public bool IsChanged { get; set; }
+    }
 	//
 	/// <summary>
 	/// 'Incident' list query handler.
@@ -91,20 +92,20 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 			}
             ViewModel _return = new ViewModel();
             _return.loadEvent = JsonConvert.DeserializeObject<LazyLoadEvent>(queryRequest.JsonString);
-            IQueryable<Incident> _incidentQuery = _context.Incidents;
-            _incidentQuery = _incidentQuery.LazyFilters(_return.loadEvent);
+            IQueryable<Incident> _incidentQuery = _context.Incidents
+                                    .LazyFilters<Incident>(_return.loadEvent);
             if (!string.IsNullOrEmpty(_return.loadEvent.sortField))
             {
-                _incidentQuery = _incidentQuery.LazyOrderBy(_return.loadEvent);
+                _incidentQuery = _incidentQuery.LazyOrderBy<Incident>(_return.loadEvent);
             }
             else // Default sort order
             {
                 _incidentQuery = _incidentQuery.OrderByDescending(_r => _r.IncidentId);
             }
             // 'OrderBy' must be called before the method 'Skip'.
-            _incidentQuery = _incidentQuery.LazySkipTake(_return.loadEvent);
+            _incidentQuery = _incidentQuery.LazySkipTake<Incident>(_return.loadEvent);
             // Execute query and convert from Incident to IncidentData (POCO) ...
-            _return.IncidentsList = await _incidentQuery
+            _return.incidentsList = await _incidentQuery
                 .Select(incid => incid.ToIncidentListQuery()).ToListAsync();
             _return.totalRecords = GetCountPagination(_return.loadEvent);
             //
@@ -124,7 +125,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         public class ViewModel
 		{
-            public IList<IncidentListQuery> IncidentsList { get; set; }
+            public IList<IncidentListQuery> incidentsList { get; set; }
             //
             public LazyLoadEvent loadEvent;
             //
@@ -134,7 +135,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             //
             public ViewModel()
             {
-                IncidentsList = new List<IncidentListQuery>();
+                incidentsList = new List<IncidentListQuery>();
                 loadEvent = null;
                 totalRecords = 0;
                 message = "";

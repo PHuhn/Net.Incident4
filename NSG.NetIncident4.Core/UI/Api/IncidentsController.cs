@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 //
+using NSG.PrimeNG.LazyLoading;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Application.Commands.Incidents;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
@@ -35,6 +37,8 @@ namespace NSG.NetIncident4.Core.UI.Api
         //
         #region"Incident list"
         //
+        // Route("api/Incidents/{data}") ]
+        // LazyLoadEvent data
         /// <summary>
         /// GET: api/Incidents
         /// Example:
@@ -42,11 +46,24 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// </summary>
         /// <param name="lazyLoadEvent"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<IncidentListQueryHandler.ViewModel> GetIncidents([FromQuery(Name = "lazyLoadEvent")]string lazyLoadEvent)
+        [HttpPost]
+        [Consumes("application/json")]
+        public async Task<IncidentListQueryHandler.ViewModel> GetIncidents(string lazyLoadEvent)
         {
+            // cheating hack
+            string _uri = System.Web.HttpUtility.UrlDecode(Request.QueryString.Value);
+            if (string.IsNullOrEmpty(_uri) || _uri.Length < 3)
+            {
+                IncidentListQueryHandler.ViewModel _return = new IncidentListQueryHandler.ViewModel();
+                _return.message = "Invalid pagination options.";
+                return _return;
+            }
+            if (_uri.Substring(0, 1) == "?")
+            {
+                _uri = _uri.Substring(1);
+            }
             IncidentListQueryHandler.ViewModel _incidentViewModel =
-                await Mediator.Send(new IncidentListQueryHandler.ListQuery() { JsonString = lazyLoadEvent });
+                await Mediator.Send(new IncidentListQueryHandler.ListQuery() { JsonString = _uri });
             return _incidentViewModel;
         }
         //
