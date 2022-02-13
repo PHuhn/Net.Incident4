@@ -95,6 +95,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// with a custom title and detail.
         /// </summary>
         /// <returns>The created <see cref="UnauthorizedObjectResult"/> for the response.</returns>
+        [NonAction]
         public UnauthorizedObjectResult UnauthorizedNotConfirmed()
         {
             Object _error = new { status = StatusCodes.Status401Unauthorized, title = "Unauthorized: email confirmation required", detail = "Unauthorized - user not confirmed", type = "https://tools.ietf.org/html/rfc7235#section-3.1" };

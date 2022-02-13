@@ -38,25 +38,77 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 	public class IncidentListQuery
     {
 		[System.ComponentModel.DataAnnotations.Key]
-		public long IncidentId { get; set; }
-		public int ServerId { get; set; }
-		public string IPAddress { get; set; }
-		public string NIC { get; set; }
-		public string NetworkName { get; set; }
-		public string AbuseEmailAddress { get; set; }
-		public string ISPTicketNumber { get; set; }
-		public bool Mailed { get; set; }
-		public bool Closed { get; set; }
-		public bool Special { get; set; }
-		public string Notes { get; set; }
-		public DateTime CreatedDate { get; set; }
+        //
+        /// <summary>
+        /// The incident id #.  Created by DB during the log load.
+        /// </summary>
+        public long IncidentId { get; set; }
+        //
+        /// <summary>
+        /// The server id # from the incident log load.
+        /// </summary>
+        public int ServerId { get; set; }
+        //
+        /// <summary>
+        /// The IP Address from the incident log.
+        /// </summary>
+        public string IPAddress { get; set; }
+        //
+        /// <summary>
+        /// The Network Information Center for IP Address.  Most likely from WHOIS
+        /// </summary>
+        public string NIC { get; set; }
+        //
+        /// <summary>
+        /// The network name for the ISP.  Most likely from WHOIS
+        /// </summary>
+        public string NetworkName { get; set; }
+        //
+        /// <summary>
+        /// The abuse email address for the ISP.  Most likely from WHOIS
+        /// </summary>
+        public string AbuseEmailAddress { get; set; }
+        //
+        /// <summary>
+        /// the ISP's incident #
+        /// </summary>
+        public string ISPTicketNumber { get; set; }
+        //
+        /// <summary>
+        /// the incident is mailed
+        /// </summary>
+        public bool Mailed { get; set; }
+        //
+        /// <summary>
+        /// the incident is closed
+        /// </summary>
+        public bool Closed { get; set; }
+        //
+        /// <summary>
+        /// If checked then special, i.e. get back to it
+        /// </summary>
+        public bool Special { get; set; }
+        //
+        /// <summary>
+        /// Random notes for this incident
+        /// </summary>
+        public string Notes { get; set; }
+        //
+        /// <summary>
+        /// For column CreatedDate
+        /// </summary>
+        public DateTime CreatedDate { get; set; }
+        //
+        /// <summary>
+        /// For pseudo column, for change tracking
+        /// </summary>
         public bool IsChanged { get; set; }
     }
-	//
-	/// <summary>
-	/// 'Incident' list query handler.
-	/// </summary>
-	public class IncidentListQueryHandler : IRequestHandler<IncidentListQueryHandler.ListQuery, IncidentListQueryHandler.ViewModel>
+    //
+    /// <summary>
+    /// 'Incident' list query handler.
+    /// </summary>
+    public class IncidentListQueryHandler : IRequestHandler<IncidentListQueryHandler.ListQuery, IncidentListQueryHandler.ViewModel>
 	{
 		private readonly ApplicationDbContext _context;
         private IApplication _application;

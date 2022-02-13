@@ -15,7 +15,6 @@ using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core.UI.Api
 {
-    [Authorize]
     [Authorize(Policy = "AnyUserRole")]
     [Route("api/[controller]")]
     [ApiController]
@@ -35,7 +34,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         #region "Network Incident get"
         //
         /// <summary>
-        /// GET: api/Incidents/5
+        /// GET: api/NetworkIncidents/5
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -58,7 +57,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         #region "Network Incident update"
         //
         /// <summary>
-        /// PUT: api/Incidents/
+        /// PUT: api/NetworkIncidents/
         /// </summary>
         /// <param name="model">update model</param>
         /// <returns>same incident</returns>
@@ -76,7 +75,7 @@ namespace NSG.NetIncident4.Core.UI.Api
                 {
                     NetworkIncidentDetailQuery _results =
                         await Mediator.Send(new NetworkIncidentDetailQueryHandler.DetailQuery() { IncidentId = model.IncidentId });
-                    _results.Message = string.Join(", ", ModelState.ToArray());
+                    _results.message = string.Join(", ", ModelState.ToArray());
                     return _results;
                 }
             }
@@ -87,7 +86,7 @@ namespace NSG.NetIncident4.Core.UI.Api
                     _ex.Message, _ex));
                 NetworkIncidentDetailQuery _results =
                     await Mediator.Send(new NetworkIncidentDetailQueryHandler.DetailQuery() { IncidentId = model.IncidentId });
-                _results.Message = _ex.GetBaseException().Message;
+                _results.message = _ex.GetBaseException().Message;
                 return _results;
             }
         }
@@ -100,7 +99,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         #region "Network Incident Create"
         //
         /// <summary>
-        /// GET: api/Incidents/GetEmpty/1
+        /// GET: api/NetworkIncidents/GetEmpty/1
         /// </summary>
         /// <param name="id">server id</param>
         /// <returns></returns>
@@ -112,7 +111,7 @@ namespace NSG.NetIncident4.Core.UI.Api
                 return NotFound();
             }
             NetworkIncidentDetailQuery _results =
-                await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = id.Value });
+                await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = id.Value, UserName = Base_GetUserAccount() });
             return _results;
         }
         //

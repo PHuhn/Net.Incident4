@@ -2,47 +2,171 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 {
     //
     /// <summary>
-    /// Network-Incident detail unit-of-work query
+    /// Network-Incident detail unit-of-work query.
+    /// Note: web api requires public setter/getters. As of 3.0
+    /// System.Text.Json.JsonSerializer does not serialize fields.
     /// </summary>
     public class NetworkIncidentDetailQuery
     {
-        [System.ComponentModel.DataAnnotations.Key]
-        public long IncidentId { get; set; }
-        public int ServerId { get; set; }
-        public string IPAddress { get; set; }
-        public string NIC { get; set; }
-        public string NetworkName { get; set; }
-        public string AbuseEmailAddress { get; set; }
-        public string ISPTicketNumber { get; set; }
-        public bool Mailed { get; set; }
-        public bool Closed { get; set; }
-        public bool Special { get; set; }
-        public string Notes { get; set; }
+        public NetworkIncidentData incident { get; set; }
         //
-        public List<NetworkLogData> NetworkLogs;
-        public List<NetworkLogData> DeletedLogs;
+        public List<IncidentNoteData> incidentNotes { get; set; }
+        public List<IncidentNoteData> deletedNotes { get; set; }
         //
-        public List<IncidentNoteData> IncidentNotes;
-        public List<IncidentNoteData> DeletedNotes;
+        public List<NetworkLogData> networkLogs { get; set; }
+        public List<NetworkLogData> deletedLogs { get; set; }
         //
-        public List<IncidentTypeData> TypeEmailTemplates;
+        public List<IncidentTypeData> typeEmailTemplates { get; set; }
         //
-        public List<SelectItem> NICs;
+        public List<SelectItem> NICs { get; set; }
         //
-        public List<SelectItem> IncidentTypes;
+        public List<SelectItem> incidentTypes { get; set; }
         //
-        public List<SelectItem> NoteTypes;
+        public List<SelectItem> noteTypes { get; set; }
         //
-        public string Message;
+        public string message { get; set; }
         //
+        public ApplicationUserServerDetailQuery user { get; set; }
+        //
+        public NetworkIncidentDetailQuery()
+        {
+            incident = new NetworkIncidentData ();
+            incidentNotes = new List<IncidentNoteData>();
+            deletedNotes = new List<IncidentNoteData>();
+            networkLogs = new List<NetworkLogData>();
+            deletedLogs = new List<NetworkLogData>();
+            typeEmailTemplates = new List<IncidentTypeData>();
+            NICs = new List<SelectItem>();
+            incidentTypes = new List<SelectItem>();
+            noteTypes = new List<SelectItem>();
+            message = "";
+            user = new ApplicationUserServerDetailQuery();
+        }
     }
     //
     // ---------------------------------------------------------------------------
+    /// <summary>
+    /// NetworkLog table from the database.
+    /// </summary>
+    public class NetworkIncidentData
+    {
+        #region "NetworkIncident Class Properties"
+        [System.ComponentModel.DataAnnotations.Key]
+        //
+        /// <summary>
+        /// The incident id #.  Created by DB during the log load.
+        /// </summary>
+        public long IncidentId { get; set; }
+        //
+        /// <summary>
+        /// The server id # from the incident log load.
+        /// </summary>
+        public int ServerId { get; set; }
+        //
+        /// <summary>
+        /// The IP Address from the incident log.
+        /// </summary>
+        public string IPAddress { get; set; }
+        //
+        /// <summary>
+        /// The Network Information Center for IP Address.  Most likely from WHOIS
+        /// </summary>
+        public string NIC { get; set; }
+        //
+        /// <summary>
+        /// The network name for the ISP.  Most likely from WHOIS
+        /// </summary>
+        public string NetworkName { get; set; }
+        //
+        /// <summary>
+        /// The abuse email address for the ISP.  Most likely from WHOIS
+        /// </summary>
+        public string AbuseEmailAddress { get; set; }
+        //
+        /// <summary>
+        /// the ISP's incident #
+        /// </summary>
+        public string ISPTicketNumber { get; set; }
+        //
+        /// <summary>
+        /// the incident is mailed
+        /// </summary>
+        public bool Mailed { get; set; }
+        //
+        /// <summary>
+        /// the incident is closed
+        /// </summary>
+        public bool Closed { get; set; }
+        //
+        /// <summary>
+        /// If checked then special, i.e. get back to it
+        /// </summary>
+        public bool Special { get; set; }
+        //
+        /// <summary>
+        /// Random notes for this incident
+        /// </summary>
+        public string Notes { get; set; }
+        //
+        /// <summary>
+        /// For column CreatedDate
+        /// </summary>
+        public DateTime CreatedDate { get; set; }
+        //
+        /// <summary>
+        /// For pseudo column, for change tracking
+        /// </summary>
+        public bool IsChanged { get; set; }
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public override string ToString()
+        {
+            //
+            StringBuilder _return = new StringBuilder("record:[");
+            _return.AppendFormat("IncidentId: {0}, ", IncidentId.ToString());
+            _return.AppendFormat("ServerId: {0}, ", ServerId.ToString());
+            _return.AppendFormat("IPAddress: {0}, ", IPAddress);
+            _return.AppendFormat("NIC: {0}, ", NIC);
+            _return.AppendFormat("NetworkName: {0}, ", NetworkName);
+            _return.AppendFormat("AbuseEmailAddress: {0}, ", AbuseEmailAddress);
+            _return.AppendFormat("ISPTicketNumber: {0}, ", ISPTicketNumber);
+            _return.AppendFormat("Mailed: {0}, ", Mailed.ToString());
+            _return.AppendFormat("Closed: {0}, ", Closed.ToString());
+            _return.AppendFormat("Special: {0}, ", Special.ToString());
+            _return.AppendFormat("Notes: {0}, ", Notes);
+            _return.AppendFormat("CreatedDate: {0}, ", CreatedDate.ToString());
+            _return.AppendFormat("]");
+            return _return.ToString();
+        }
+        public static NetworkIncidentData GetNetworkIncidentDataEmpry()
+        {
+            return new NetworkIncidentData()
+            {
+                IncidentId = 0,
+                ServerId = 0,
+                IPAddress = "",
+                NIC = "",
+                NetworkName = "",
+                AbuseEmailAddress = "",
+                ISPTicketNumber = "",
+                Mailed = false,
+                Closed = false,
+                Special = false,
+                Notes = "",
+                IsChanged = false,
+            };
+        }
+        //
+        #endregion
+    }
     //
     /// <summary>
     /// NetworkLog table from the database.

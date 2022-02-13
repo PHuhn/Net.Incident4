@@ -51,19 +51,22 @@ namespace NSG.NetIncident4.Core.UI.Api
         public async Task<IncidentListQueryHandler.ViewModel> GetIncidents(string lazyLoadEvent)
         {
             // cheating hack
-            string _uri = System.Web.HttpUtility.UrlDecode(Request.QueryString.Value);
-            if (string.IsNullOrEmpty(_uri) || _uri.Length < 3)
+            if( lazyLoadEvent == null)
             {
-                IncidentListQueryHandler.ViewModel _return = new IncidentListQueryHandler.ViewModel();
-                _return.message = "Invalid pagination options.";
-                return _return;
-            }
-            if (_uri.Substring(0, 1) == "?")
-            {
-                _uri = _uri.Substring(1);
+                string _uri = System.Web.HttpUtility.UrlDecode(Request.QueryString.Value);
+                if (string.IsNullOrEmpty(_uri) || _uri.Length < 3)
+                {
+                    IncidentListQueryHandler.ViewModel _return = new IncidentListQueryHandler.ViewModel();
+                    _return.message = "Invalid pagination options.";
+                    return _return;
+                }
+                if (_uri.Substring(0, 1) == "?")
+                {
+                    lazyLoadEvent = _uri.Substring(1);
+                }
             }
             IncidentListQueryHandler.ViewModel _incidentViewModel =
-                await Mediator.Send(new IncidentListQueryHandler.ListQuery() { JsonString = _uri });
+                await Mediator.Send(new IncidentListQueryHandler.ListQuery() { JsonString = lazyLoadEvent });
             return _incidentViewModel;
         }
         //

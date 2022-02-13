@@ -25,7 +25,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         //
         static Mock<IMediator> _mockGetCompaniesMediator = null;
         static List<int> _companyList = null;
-        static CancellationToken _cancelToken = CancellationToken.None; 
+        static CancellationToken _cancelToken = CancellationToken.None;
+        string _sutName = "ApplicationUserCommands";
         string _testName;
         //
         public ApplicationUserCommands_UnitTests()
@@ -36,15 +37,12 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         [SetUp]
         public void Setup()
         {
-            Console.WriteLine("Setup");
+            Console.WriteLine($"Setup for {_sutName}");
             //
             Fixture_UnitTestSetup();
             //
             _mockGetCompaniesMediator = new Mock<IMediator>();
-            // GetUserCompanyListQueryHandler.ViewModel _companiesViewModel =
-            //     await Mediator.Send(new GetUserCompanyListQueryHandler.ListQuery());
-            // set up mock to get list of permissible list of companies
-            //         mediator.Setup(m => m.Send(It.IsAny<TransferNotificationCommand>(), default(CancellationToken))).Verifiable("Notification was not sent.");
+            //
             _companyList = new List<int>() { 1 };
             GetUserCompanyListQueryHandler.ViewModel _retViewModel =
                 new GetUserCompanyListQueryHandler.ViewModel() { CompanyList = _companyList };
@@ -226,8 +224,10 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             ApplicationUserServerDetailQueryHandler.DetailQuery _detailQuery =
                 new ApplicationUserServerDetailQueryHandler.DetailQuery() { UserName = "Phil", ServerShortName = "xxx" };
             ApplicationUserServerDetailQueryHandler _handler = new ApplicationUserServerDetailQueryHandler(userManager, db_context);
+            // when
             ApplicationUserServerDetailQuery _detail =
                 await _handler.Handle(_detailQuery, _cancelToken);
+            // then
             Assert.AreEqual(_detailQuery.UserName, _detail.UserName);
             Assert.AreEqual("", _detail.ServerShortName);
             Assert.AreEqual(1, _detail.ServerShortNames.Length);

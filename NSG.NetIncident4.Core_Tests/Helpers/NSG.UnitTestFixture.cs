@@ -43,6 +43,7 @@ namespace NSG.Integration.Helpers
         //
         public UnitTestFixture()
         {
+            SetupConfiguration();
         }
         //
         /// <summary>

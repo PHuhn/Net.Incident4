@@ -14,6 +14,7 @@ using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
+using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
@@ -70,7 +71,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _testName = "NetworkIncidentCreateCommand_Test";
             Console.WriteLine($"{_testName} ...");
             NetworkIncidentDetailQuery _retModel =
-                new NetworkIncidentDetailQuery() { IncidentId = 2 };
+                new NetworkIncidentDetailQuery();
+            _retModel.incident = new NetworkIncidentData() { IncidentId = 2 };
             _mockApplication.Setup(x => x.IsEditableRole()).Returns(true);
             _mockMediator.Setup(x => x.Send(
                 It.IsAny< NetworkIncidentDetailQueryHandler.DetailQuery> (), _cancelToken))
@@ -81,7 +83,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             {
                 ServerId = 1,
                 IPAddress = "11.10.10.10",
-                NIC_Id = "ripe.net",
+                NIC = "ripe.net",
                 NetworkName = "NetworkName",
                 AbuseEmailAddress = "AbuseEmailAddress",
                 ISPTicketNumber = "ISPTicketNumber",
@@ -98,7 +100,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<NetworkIncidentDetailQuery> _createResults = _handler.Handle(_create, CancellationToken.None);
             Assert.IsNull(_createResults.Exception);
             NetworkIncidentDetailQuery _entity = _createResults.Result;
-            Assert.AreEqual(2, _entity.IncidentId);
+            Assert.AreEqual(2, _entity.incident.IncidentId);
         }
         //
         [Test]
@@ -135,8 +137,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _testName = "NetworkIncidentUpdateCommand_Test";
             Console.WriteLine($"{_testName} ...");
             long _incidentId = 1;
-            NetworkIncidentDetailQuery _retModel =
-                new NetworkIncidentDetailQuery() { IncidentId = _incidentId };
+            NetworkIncidentDetailQuery _retModel = new NetworkIncidentDetailQuery();
+            _retModel.incident = new NetworkIncidentData() { IncidentId = _incidentId };
             _mockMediator.Setup(x => x.Send(
                 It.IsAny<NetworkIncidentDetailQueryHandler.DetailQuery>(), _cancelToken))
                 .Returns(Task.FromResult(_retModel));
@@ -148,7 +150,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 IncidentId = _incidentId,
                 ServerId = 1,
                 IPAddress = "11.10.10.10",
-                NIC_Id = "ripe.net",
+                NIC = "ripe.net",
                 NetworkName = "NetworkName",
                 AbuseEmailAddress = "AbuseEmailAddress",
                 ISPTicketNumber = "ISPTicketNumber",
@@ -165,7 +167,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             Assert.IsNull(_updateResults.Exception);
             NetworkIncidentDetailQuery _entity = _updateResults.Result;
-            Assert.AreEqual(_incidentId, _entity.IncidentId);
+            Assert.AreEqual(_incidentId, _entity.incident.IncidentId);
         }
         //
         [Test]
@@ -190,8 +192,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _testName = "NetworkIncidentUpdateCommand_Test";
             Console.WriteLine($"{_testName} ...");
             long _incidentId = 1;
-            NetworkIncidentDetailQuery _retModel =
-                new NetworkIncidentDetailQuery() { IncidentId = _incidentId };
+            NetworkIncidentDetailQuery _retModel = new NetworkIncidentDetailQuery();
+            _retModel.incident = new NetworkIncidentData() { IncidentId = _incidentId };
             _mockMediator.Setup(x => x.Send(
                 It.IsAny<NetworkIncidentDetailQueryHandler.DetailQuery>(), _cancelToken))
                 .Returns(Task.FromResult(_retModel));
@@ -203,7 +205,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 IncidentId = _incidentId,
                 ServerId = 0,
                 IPAddress = "11.10",
-                NIC_Id = "",
+                NIC = "",
                 NetworkName = "",
                 AbuseEmailAddress = "",
                 ISPTicketNumber = "",
@@ -224,8 +226,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _testName = "NetworkIncidentUpdateCommand_Test";
             Console.WriteLine($"{_testName} ...");
             long _incidentId = 9;
-            NetworkIncidentDetailQuery _retModel =
-                new NetworkIncidentDetailQuery() { IncidentId = _incidentId };
+            NetworkIncidentDetailQuery _retModel = new NetworkIncidentDetailQuery();
+            _retModel.incident = new NetworkIncidentData() { IncidentId = _incidentId };
             _mockMediator.Setup(x => x.Send(
                 It.IsAny<NetworkIncidentDetailQueryHandler.DetailQuery>(), _cancelToken))
                 .Returns(Task.FromResult(_retModel));
@@ -237,7 +239,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 IncidentId = _incidentId,
                 ServerId = 1,
                 IPAddress = "11.10.10.10",
-                NIC_Id = "ripe.net",
+                NIC = "ripe.net",
                 NetworkName = "NetworkName",
                 AbuseEmailAddress = "AbuseEmailAddress",
                 ISPTicketNumber = "ISPTicketNumber",
@@ -324,7 +326,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 new NetworkIncidentDetailQueryHandler.DetailQuery() { IncidentId = 1 };
             NetworkIncidentDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
-            Assert.AreEqual(1, _detail.IncidentId);
+            Assert.AreEqual(1, _detail.incident.IncidentId);
         }
         //
         [Test]
@@ -332,15 +334,18 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             _testName = "NetworkIncidentCreateQuery_Test";
             Console.WriteLine($"{_testName} ...");
-            NetworkIncidentCreateQueryHandler _handler = new NetworkIncidentCreateQueryHandler(db_context);
+            _mockMediator.Setup(x => x.Send(
+                It.IsAny<ApplicationUserServerDetailQueryHandler.DetailQuery>(), _cancelToken))
+                .Returns(Task.FromResult(new ApplicationUserServerDetailQuery()));
+            NetworkIncidentCreateQueryHandler _handler = new NetworkIncidentCreateQueryHandler(db_context, _mockMediator.Object);
             NetworkIncidentCreateQueryHandler.DetailQuery _detailQuery =
-                new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = 1 };
+                new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = 1, UserName = "Fred" };
             NetworkIncidentDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
-            Assert.AreEqual(1, _detail.ServerId);
+            Assert.AreEqual(1, _detail.incident.ServerId);
             Assert.AreEqual(11, _detail.NICs.Count);
-            Assert.AreEqual(8, _detail.IncidentTypes.Count);
-            Assert.AreEqual(5, _detail.NoteTypes.Count);
+            Assert.AreEqual(8, _detail.incidentTypes.Count);
+            Assert.AreEqual(5, _detail.noteTypes.Count);
         }
         //
         [Test]
@@ -355,7 +360,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 new IncidentListQueryHandler.ListQuery() { JsonString = _jsonString };
             Task<IncidentListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
-            IList<IncidentListQuery> _list = _viewModelResults.Result.IncidentsList;
+            IList<IncidentListQuery> _list = _viewModelResults.Result.incidentsList;
             Assert.AreEqual(1, _list.Count);
         }
         //

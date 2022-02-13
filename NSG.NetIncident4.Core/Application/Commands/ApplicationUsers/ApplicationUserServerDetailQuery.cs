@@ -201,7 +201,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         /// <param name="serverShortName"></param>
         void AssignServer(ApplicationUserServerDetailQuery detail, ApplicationUser entity, string serverShortName)
         {
-            detail.ServerShortName = "";
+            string _foundShortName = "";
             var _serverShortNames = new List<SelectItem>();
             foreach (var _usrSrv in entity.UserServers)
             {
@@ -211,15 +211,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
                     label = _shortName,
                     value = _usrSrv.Server.ServerId
                 };
-                if (_shortName == serverShortName || String.IsNullOrEmpty(serverShortName))
+                if (_shortName == serverShortName.ToLower())
                 {
-                    serverShortName = _usrSrv.Server.ServerShortName.ToLower();
+                    _foundShortName = _usrSrv.Server.ServerShortName;
                     detail.ServerShortName = _usrSrv.Server.ServerShortName;
                     detail.Server = _usrSrv.Server.ToServerData();
                 }
                 _serverShortNames.Add(_serverItem);
             }
-            detail.ServerShortName = serverShortName.ToLower();
+            detail.ServerShortName = _foundShortName;
             detail.ServerShortNames = _serverShortNames.ToArray();
         }
         //

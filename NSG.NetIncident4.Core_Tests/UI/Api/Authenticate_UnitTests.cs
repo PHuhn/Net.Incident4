@@ -79,8 +79,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // given
             LoginModel _model = new LoginModel() { Username = NSG_Helpers.User_Name2, Password = NSG_Helpers.Password2 };
             IActionResult _results = await sut.Login(_model);
-            Assert.IsInstanceOf<UnauthorizedResult>(_results);
-            UnauthorizedResult _unResults = _results as UnauthorizedResult;
+            Assert.IsInstanceOf<UnauthorizedObjectResult>(_results);
+            UnauthorizedObjectResult _unResults = _results as UnauthorizedObjectResult;
             Assert.AreEqual(_unResults.StatusCode, 401);
         }
         //
@@ -90,7 +90,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // given
             LoginModel _model = new LoginModel() { Username = "NonUser", Password = "NonUserPassword" };
             IActionResult _results = await sut.Login(_model);
-            Assert.IsInstanceOf<UnauthorizedResult>(_results);
+            Assert.IsInstanceOf<NotFoundResult>(_results);
         }
         //
         [Test]

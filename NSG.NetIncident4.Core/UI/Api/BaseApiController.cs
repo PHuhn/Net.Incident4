@@ -2,6 +2,7 @@
 // ---------------------------------------------------------------------------
 //
 using System;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,5 +24,24 @@ namespace NSG.NetIncident4.Core.UI.Api
         {
             Mediator = mediator;
         }
+        //
+        // -------------------------------------------------------------------
+        //
+        /// <summary>
+        /// Get the current user's user name identity via controller's ClaimsPrincipal.
+        /// </summary>
+        /// <returns>String of the current user.</returns>
+        [NonAction]
+        public string Base_GetUserAccount()
+        {
+            var currentUserName = "";
+            ClaimsPrincipal currentUser = this.User;
+            if (currentUser != null && currentUser.Identity.IsAuthenticated)
+                currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
+            if (string.IsNullOrEmpty(currentUserName))
+                currentUserName = "- Not Authenticated -";
+            return currentUserName;
+        }
+        //
     }
 }

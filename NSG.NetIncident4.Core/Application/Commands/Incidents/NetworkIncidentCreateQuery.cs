@@ -14,7 +14,7 @@ using FluentValidation.Results;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
-using NSG.NetIncident4.Core.Infrastructure.Common;
+using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 {
@@ -25,14 +25,16 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 	public class NetworkIncidentCreateQueryHandler : IRequestHandler<NetworkIncidentCreateQueryHandler.DetailQuery, NetworkIncidentDetailQuery>
 	{
 		private readonly ApplicationDbContext _context;
-        //
-        /// <summary>
-        ///  The constructor for the inner handler class, to detail the Incident entity.
-        /// </summary>
-        /// <param name="context">The database interface context.</param>
-        public NetworkIncidentCreateQueryHandler(ApplicationDbContext context)
+		protected IMediator Mediator;
+		//
+		/// <summary>
+		///  The constructor for the inner handler class, to detail the Incident entity.
+		/// </summary>
+		/// <param name="context">The database interface context.</param>
+		public NetworkIncidentCreateQueryHandler(ApplicationDbContext context, IMediator mediator)
 		{
 			_context = context;
+			Mediator = mediator;
 		}
 		//
 		/// <summary>
@@ -55,10 +57,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 			{
 				throw new NetworkIncidentCreateQueryKeyNotFoundException(request.ServerId);
 			}
-            int _companyId = _server.CompanyId;
-            //
             // Return the detail query model.
-            return CreateEmpty(_server);
+            return await CreateEmpty(_server, request.UserName);
 		}
         //
         /// <summary>
@@ -68,39 +68,34 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <param name="companyId"></param>
         /// <param name="serverId"></param>
         /// <returns></returns>
-        NetworkIncidentDetailQuery CreateEmpty(Server server)
+        async Task<NetworkIncidentDetailQuery> CreateEmpty(Server server, string userName)
         {
             NetworkIncidentDetailQuery _detail = new NetworkIncidentDetailQuery();
-            _detail.IncidentId = 0;
-            _detail.ServerId = server.ServerId;
-            _detail.IPAddress = "";
-            _detail.NIC = "";
-            _detail.NetworkName = "";
-            _detail.AbuseEmailAddress = "";
-            _detail.ISPTicketNumber = "";
-            _detail.Mailed = false;
-            _detail.Closed = false;
-            _detail.Special = false;
-            _detail.Notes = "";
+			//
+			_detail.incident = NetworkIncidentData.GetNetworkIncidentDataEmpry();
+			_detail.incident.ServerId = server.ServerId;
             //
-            _detail.Message = "";
+            _detail.message = "";
             //
-            _detail.NetworkLogs = new List<NetworkLogData>();
-            _detail.DeletedLogs = new List<NetworkLogData>();
+            _detail.networkLogs = new List<NetworkLogData>();
+            _detail.deletedLogs = new List<NetworkLogData>();
             //
-            _detail.IncidentNotes = new List<IncidentNoteData>();
-            _detail.DeletedNotes = new List<IncidentNoteData>();
+            _detail.incidentNotes = new List<IncidentNoteData>();
+            _detail.deletedNotes = new List<IncidentNoteData>();
             //
-            _detail.TypeEmailTemplates = Extensions.GetCompanyIncidentType(_context, server.CompanyId);
+            _detail.typeEmailTemplates = Extensions.GetCompanyIncidentType(_context, server.CompanyId);
             //
             _detail.NICs = Extensions.GetNICs(_context);
             //
-            _detail.IncidentTypes = Extensions.GetIncidentTypes(_context);
+            _detail.incidentTypes = Extensions.GetIncidentTypes(_context);
             //
-            _detail.NoteTypes = Extensions.GetNoteTypes(_context);
-            //
-            // Return the detail query model.
-            return _detail;
+            _detail.noteTypes = Extensions.GetNoteTypes(_context);
+			//
+			_detail.user = await Mediator.Send(new ApplicationUserServerDetailQueryHandler.DetailQuery()
+				{ UserName = userName, ServerShortName = server.ServerShortName });
+			// _detail.user.Server = ;
+			// Return the detail query model.
+			return _detail;
         }
 		//
 		/// <summary>
@@ -109,6 +104,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 		public class DetailQuery : IRequest<NetworkIncidentDetailQuery>
 		{
 			public int ServerId { get; set; }
+			//
+			public string UserName { get; set; }
 		}
 		//
 		/// <summary>
@@ -124,6 +121,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 			{
 				//
 				RuleFor(x => x.ServerId).NotNull();
+				//
+				RuleFor(x => x.UserName).NotNull().NotEmpty();
 				//
 			}
 			//

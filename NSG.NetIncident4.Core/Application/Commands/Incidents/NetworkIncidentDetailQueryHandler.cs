@@ -77,27 +77,29 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         //
         NetworkIncidentDetailQuery CreateDetail(Incident incident)
         {
-            NetworkIncidentDetailQuery _detail = incident.ToNetworkIncidentDetailQuery();
+            NetworkIncidentDetailQuery _detail = new NetworkIncidentDetailQuery();
             //
-            _detail.Message = "";
+            _detail.incident = incident.ToNetworkIncidentData();
             //
-            _detail.NetworkLogs = NetworkLogDataList(incident.ServerId, incident.IncidentId, incident.Mailed);
-            _detail.DeletedLogs = new List<NetworkLogData>();
+            _detail.message = "";
             //
-            _detail.IncidentNotes = new List<IncidentNoteData>();
+            _detail.networkLogs = NetworkLogDataList(incident.ServerId, incident.IncidentId, incident.Mailed);
+            _detail.deletedLogs = new List<NetworkLogData>();
+            //
+            _detail.incidentNotes = new List<IncidentNoteData>();
             foreach (IncidentIncidentNote _iin in incident.IncidentIncidentNotes)
             {
-                _detail.IncidentNotes.Add( _iin.IncidentNote.ToIncidentNoteData() );
+                _detail.incidentNotes.Add( _iin.IncidentNote.ToIncidentNoteData() );
             }
-            _detail.DeletedNotes= new List<IncidentNoteData>();
+            _detail.deletedNotes= new List<IncidentNoteData>();
             //
-            _detail.TypeEmailTemplates = Extensions.GetCompanyIncidentType(_context, incident.Server.CompanyId);
+            _detail.typeEmailTemplates = Extensions.GetCompanyIncidentType(_context, incident.Server.CompanyId);
             //
             _detail.NICs = Extensions.GetNICs(_context);
             //
-            _detail.IncidentTypes = Extensions.GetIncidentTypes(_context);
+            _detail.incidentTypes = Extensions.GetIncidentTypes(_context);
             //
-            _detail.NoteTypes = Extensions.GetNoteTypes(_context);
+            _detail.noteTypes = Extensions.GetNoteTypes(_context);
             //
             // Return the detail query model.
             return _detail;

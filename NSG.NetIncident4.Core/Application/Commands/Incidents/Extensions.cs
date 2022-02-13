@@ -20,13 +20,13 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
     {
         //
         /// <summary>
-        /// Extension method that translates from Incident to IncidentDetailQuery.
+        /// Extension method that translates from Incident to etworkIncidentData.
         /// </summary>
         /// <param name="entity">The Incident entity class.</param>
-        /// <returns>'IncidentDetailQuery' or Incident detail query.</returns>
-        public static NetworkIncidentDetailQuery ToNetworkIncidentDetailQuery(this Incident entity)
+        /// <returns>'NetworkIncidentData' or Incident list query.</returns>
+        public static NetworkIncidentData ToNetworkIncidentData(this Incident entity)
         {
-            return new NetworkIncidentDetailQuery
+            return new NetworkIncidentData
             {
                 IncidentId = entity.IncidentId,
                 ServerId = entity.ServerId,
@@ -39,7 +39,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 Closed = entity.Closed,
                 Special = entity.Special,
                 Notes = entity.Notes,
-                // CreatedDate = entity.CreatedDate,
+                CreatedDate = entity.CreatedDate,
+                IsChanged = false
             };
         }
         //

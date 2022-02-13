@@ -48,14 +48,14 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             Mock<IMediator> _mediator = new Mock<IMediator>();
             _mediator
                 .Setup(m => m.Send(It.IsAny<NetworkIncidentUpdateCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new NetworkIncidentDetailQuery() { Message = "" })
+                .ReturnsAsync(new NetworkIncidentDetailQuery() { message = "" })
                 .Verifiable("Incident update was not sent.");
             sut = new NetworkIncidentsController(_mediator.Object);
             // when
             NetworkIncidentDetailQuery _results = await sut.PutIncident(new NetworkIncidentUpdateCommand());
             // then
             Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results);
-            Assert.AreEqual(_results.Message, "");
+            Assert.AreEqual(_results.message, "");
             //
         }
         //
@@ -86,14 +86,14 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             Mock<IMediator> _mediator = new Mock<IMediator>();
             _mediator
                 .Setup(m => m.Send(It.IsAny<NetworkIncidentCreateCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new NetworkIncidentDetailQuery() { Message = "" })
+                .ReturnsAsync(new NetworkIncidentDetailQuery() { message = "" })
                 .Verifiable("Incident empty was not sent.");
             sut = new NetworkIncidentsController(_mediator.Object);
             // when
             NetworkIncidentDetailQuery _results = await sut.PostIncident(new NetworkIncidentCreateCommand()); // Server id
             // then
             Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results);
-            Assert.AreEqual(_results.Message, "");
+            Assert.AreEqual(_results.message, "");
             //
         }
         //
