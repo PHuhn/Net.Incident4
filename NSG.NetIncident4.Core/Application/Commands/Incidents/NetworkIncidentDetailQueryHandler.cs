@@ -72,6 +72,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 .Include( _i => _i.Server )
                 .Include( _i => _i.IncidentIncidentNotes )
                 .ThenInclude(IncidentIncidentNotes => IncidentIncidentNotes.IncidentNote)
+                .ThenInclude(IncidentNotes => IncidentNotes.NoteType)
                 .SingleOrDefaultAsync(r => r.IncidentId == incidentId);
                 // .Include("Incidents.IncidentIncidentNotes.IncidentNotes")
         }
