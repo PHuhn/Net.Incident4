@@ -48,25 +48,10 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// <returns></returns>
         [HttpPost]
         [Consumes("application/json")]
-        public async Task<IncidentListQueryHandler.ViewModel> GetIncidents(string lazyLoadEvent)
+        public async Task<IncidentListQueryHandler.ViewModel> GetIncidents([FromBody] System.Text.Json.JsonElement lazyLoadEvent)
         {
-            // cheating hack
-            if( lazyLoadEvent == null)
-            {
-                string _uri = System.Web.HttpUtility.UrlDecode(Request.QueryString.Value);
-                if (string.IsNullOrEmpty(_uri) || _uri.Length < 3)
-                {
-                    IncidentListQueryHandler.ViewModel _return = new IncidentListQueryHandler.ViewModel();
-                    _return.message = "Invalid pagination options.";
-                    return _return;
-                }
-                if (_uri.Substring(0, 1) == "?")
-                {
-                    lazyLoadEvent = _uri.Substring(1);
-                }
-            }
             IncidentListQueryHandler.ViewModel _incidentViewModel =
-                await Mediator.Send(new IncidentListQueryHandler.ListQuery() { JsonString = lazyLoadEvent });
+                await Mediator.Send(new IncidentListQueryHandler.ListQuery() { JsonString = lazyLoadEvent.GetRawText() });
             return _incidentViewModel;
         }
         //

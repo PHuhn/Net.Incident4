@@ -1,4 +1,4 @@
-﻿//
+﻿// ===========================================================================
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 //
 namespace NSG.NetIncident4.Core.UI.ViewHelpers
 {
+    //
+    /// <summary>
+    /// static helper methods
+    /// </summary>
     public static partial class Helpers
     {
         //
@@ -80,4 +84,4 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         //
     }
 }
-//
+// ===========================================================================

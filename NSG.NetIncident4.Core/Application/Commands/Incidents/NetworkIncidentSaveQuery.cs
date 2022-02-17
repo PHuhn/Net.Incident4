@@ -3,34 +3,61 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using MediatR;
+using FluentValidation;
+using FluentValidation.Results;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 {
-    public class NetworkIncidentSaveCommand
+    public class NetworkIncidentSaveQuery : IRequest<NetworkIncidentDetailQuery>
     {
         //
-        public long IncidentId { get; set; }
-        public int ServerId { get; set; }
-        public string IPAddress { get; set; }
-        public string NIC { get; set; }
-        public string NetworkName { get; set; }
-        public string AbuseEmailAddress { get; set; }
-        public string ISPTicketNumber { get; set; }
-        public bool Mailed { get; set; }
-        public bool Closed { get; set; }
-        public bool Special { get; set; }
-        public string Notes { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public NetworkIncidentData incident { get; set; }
         //
-        public string message;
+        public List<IncidentNoteData> incidentNotes { get; set; }
+        public List<IncidentNoteData> deletedNotes { get; set; }
         //
-        public List<IncidentNoteData> incidentNotes;
-        public List<IncidentNoteData> deletedNotes;
+        public List<NetworkLogData> networkLogs { get; set; }
+        public List<NetworkLogData> deletedLogs { get; set; }
         //
-        public List<NetworkLogData> networkLogs;
-        public List<NetworkLogData> deletedLogs;
+        public UserServerData user { get; set; }
         //
-        public UserServerData user;
+        public string message { get; set; }
+        //
+    }
+    //
+    /// <summary>
+    /// FluentValidation of the 'NetworkIncidentSaveQuery' class.
+    /// </summary>
+    public class Validator : AbstractValidator<NetworkIncidentSaveQuery>
+    {
+        //
+        /// <summary>
+        /// Constructor that will invoke the 'NetworkIncidentSaveQuery' validator.
+        /// </summary>
+        public Validator()
+        {
+            //
+            RuleFor(x => x.incident.IncidentId).NotNull().GreaterThan(0);
+            RuleFor(x => x.incident.ServerId).NotNull().GreaterThan(0);
+            RuleFor(x => x.incident.IPAddress).NotEmpty().MinimumLength(7).MaximumLength(50)
+                .Must(Extensions.ValidateIPv4);
+            RuleFor(x => x.incident.NIC).NotEmpty().MaximumLength(16);
+            RuleFor(x => x.incident.NetworkName).MaximumLength(255);
+            RuleFor(x => x.incident.AbuseEmailAddress).MaximumLength(255);
+            RuleFor(x => x.incident.ISPTicketNumber).MaximumLength(50);
+            RuleFor(x => x.incident.Mailed).NotNull();
+            RuleFor(x => x.incident.Closed).NotNull();
+            RuleFor(x => x.incident.Special).NotNull();
+            RuleFor(x => x.incident.Notes).MaximumLength(1073741823);
+            //
+            RuleFor(n => n.incidentNotes).NotNull();
+            RuleFor(n => n.deletedNotes).NotNull();
+            RuleFor(n => n.networkLogs).NotNull();
+            RuleFor(n => n.deletedLogs).NotNull();
+            RuleFor(u => u.user).NotNull();
+            //
+        }
         //
     }
     //

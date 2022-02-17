@@ -14,9 +14,9 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         //  CompanyAdmin    has create, edit and delete of incidents for given company/server
         //  Admin           administrator
         public static readonly string NotAuthenticated = "- Not Authenticated -";
-        public static readonly string adminRole = "admin";
-        public static readonly string companyadminRole = "companyadmin";
-        public static readonly string userRole = "user";
+        public static readonly string adminRole = "Admin";
+        public static readonly string companyadminRole = "CompanyAdmin";
+        public static readonly string userRole = "User";
         //
     }
 }

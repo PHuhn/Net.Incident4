@@ -105,7 +105,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         }
         //
         /// <summary>
-        /// 
+        /// Register a new user
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

@@ -62,7 +62,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// <param name="model">update model</param>
         /// <returns>same incident</returns>
         [HttpPut("{id}")]
-        public async Task<NetworkIncidentDetailQuery> PutIncident(NetworkIncidentUpdateCommand model)
+        public async Task<NetworkIncidentDetailQuery> PutIncident(int id, [FromBody]NetworkIncidentSaveQuery model)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace NSG.NetIncident4.Core.UI.Api
                 else
                 {
                     NetworkIncidentDetailQuery _results =
-                        await Mediator.Send(new NetworkIncidentDetailQueryHandler.DetailQuery() { IncidentId = model.IncidentId });
+                        await Mediator.Send(new NetworkIncidentDetailQueryHandler.DetailQuery() { IncidentId = id });
                     _results.message = string.Join(", ", ModelState.ToArray());
                     return _results;
                 }
@@ -85,7 +85,7 @@ namespace NSG.NetIncident4.Core.UI.Api
                     LoggingLevel.Error, MethodBase.GetCurrentMethod(),
                     _ex.Message, _ex));
                 NetworkIncidentDetailQuery _results =
-                    await Mediator.Send(new NetworkIncidentDetailQueryHandler.DetailQuery() { IncidentId = model.IncidentId });
+                    await Mediator.Send(new NetworkIncidentDetailQueryHandler.DetailQuery() { IncidentId = id });
                 _results.message = _ex.GetBaseException().Message;
                 return _results;
             }

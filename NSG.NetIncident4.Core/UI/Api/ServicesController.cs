@@ -76,6 +76,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         //
         // -----------------------------------------------------------------------
         //
+        [NonAction]
         private string IpAddressCommand(string ip, string dir, string command)
         {
             string _return = "";
@@ -96,6 +97,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// </summary>
         /// <param name="whoisData"></param>
         /// <returns>string of ip address or empty</returns>
+        [NonAction]
         protected string WhoIsLink(string whoisData)
         {
             string _link = "";

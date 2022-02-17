@@ -47,12 +47,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // given
             Mock<IMediator> _mediator = new Mock<IMediator>();
             _mediator
-                .Setup(m => m.Send(It.IsAny<NetworkIncidentUpdateCommand>(), It.IsAny<CancellationToken>()))
+                .Setup(m => m.Send(It.IsAny<NetworkIncidentSaveQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new NetworkIncidentDetailQuery() { message = "" })
                 .Verifiable("Incident update was not sent.");
             sut = new NetworkIncidentsController(_mediator.Object);
             // when
-            NetworkIncidentDetailQuery _results = await sut.PutIncident(new NetworkIncidentUpdateCommand());
+            NetworkIncidentDetailQuery _results = await sut.PutIncident(4, new NetworkIncidentSaveQuery());
             // then
             Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results);
             Assert.AreEqual(_results.message, "");

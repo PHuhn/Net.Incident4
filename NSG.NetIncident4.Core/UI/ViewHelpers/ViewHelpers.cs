@@ -1,10 +1,10 @@
-﻿using System;
+﻿// ===========================================================================
+// File: ViewHelpers.cs
+using System;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-// using System.Security.Policy;
 //
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,17 @@ using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 //
 namespace NSG.NetIncident4.Core.UI.ViewHelpers
 {
-    public class ViewHelpers
+    public interface IViewHelpers
+    {
+        //
+        Task EmailConfirmationAsync(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ApplicationUser user);
+        //
+    }
+    //
+    /// <summary>
+    /// class of helpers for views
+    /// </summary>
+    public class ViewHelpers : IViewHelpers
     {
         //
         object _context;
@@ -50,32 +60,26 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             string callbackUrl = "";
-            var page = _context as PageModel;
-            if (page != null)
+            if (_page != null)
             {
                 // Identity page
-                callbackUrl = page.Url.Page("/Account/ConfirmEmail", pageHandler: null,
+                callbackUrl = _page.Url.Page("/Account/ConfirmEmail", pageHandler: null,
                     values: new { userId = userId, code = code },
-                    protocol: page.Request.Scheme);
+                    protocol: _page.Request.Scheme);
             }
             else
             {
-                var api = _context as ControllerBase;
-                if (api != null)
+                if (_api != null)
                 {
-                    // api
-                    // public static string Action(this IUrlHelper helper, string action, string controller, object values, string protocol)
-                    callbackUrl = api.Url.Action("ConfirmEmail", "Account",
-                        new { userId = userId, code = code }, api.Request.Scheme);
+                    callbackUrl = _api.Url.Action("ConfirmEmail", "Account",
+                        new { userId = userId, code = code }, _api.Request.Scheme);
                 }
                 else
                 {
-                    var controller = _context as Controller;
-                    if (controller != null)
+                    if (_controller != null)
                     {
-                        // Identity page
-                        callbackUrl = controller.Url.Action("ConfirmEmail", "Account",
-                            new { userId = userId, code = code }, controller.Request.Scheme);
+                        callbackUrl = _controller.Url.Action("ConfirmEmail", "Account",
+                            new { userId = userId, code = code }, _controller.Request.Scheme);
                     }
                 }
             }
@@ -85,4 +89,4 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         }
     }
 }
-//
+// ===========================================================================

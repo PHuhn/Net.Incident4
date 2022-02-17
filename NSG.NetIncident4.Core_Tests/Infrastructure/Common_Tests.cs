@@ -40,7 +40,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             applicationSettings =
                 Options.Create<ApplicationSettings>(Configuration.GetSection("ApplicationSettings").Get<ApplicationSettings>());
             // currentUser = new Mock<IHttpContextAccessor>().Object;
-            currentUser = MockHelpers.TestPrincipal(userName, "admin");
+            currentUser = MockHelpers.TestPrincipal(userName, Constants.adminRole);
             httpContext = new Mock<HttpContext>();
             httpContext.SetupGet(m => m.User).Returns((ClaimsPrincipal)currentUser);
             httpContextAccesor = new HttpContextAccessor();

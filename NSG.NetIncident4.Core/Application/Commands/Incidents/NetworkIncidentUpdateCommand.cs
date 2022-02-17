@@ -1,62 +1,33 @@
-//
-// ---------------------------------------------------------------------------
-// Incident update command.
+// ===========================================================================
+// Network Incident update command.
 //
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Linq;
 //
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using FluentValidation;
 using FluentValidation.Results;
+using SendGrid.Helpers.Mail;
+using Newtonsoft.Json;
+//
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Common;
-using NSG.NetIncident4.Core.Application.Commands.Logs;
-using System.Reflection;
-using System.Linq;
-using SendGrid.Helpers.Mail;
-using Newtonsoft.Json;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
+using NSG.NetIncident4.Core.Application.Commands.Logs;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 {
-	//
-	/// <summary>
-	/// 'Incident' update command, handler and handle.
-	/// </summary>
-	public class NetworkIncidentUpdateCommand : IRequest<NetworkIncidentDetailQuery>
-	{
-		public long IncidentId { get; set; }
-		public int ServerId { get; set; }
-		public string IPAddress { get; set; }
-		public string NIC { get; set; }
-		public string NetworkName { get; set; }
-		public string AbuseEmailAddress { get; set; }
-		public string ISPTicketNumber { get; set; }
-		public bool Mailed { get; set; }
-		public bool Closed { get; set; }
-		public bool Special { get; set; }
-		public string Notes { get; set; }
-        //
-        public string Message;
-        //
-        public List<IncidentNoteData> IncidentNotes;
-        public List<IncidentNoteData> DeletedNotes;
-        //
-        public List<NetworkLogData> NetworkLogs;
-        public List<NetworkLogData> DeletedLogs;
-        //
-        public UserServerData User;
-        //
-    }
     //
     /// <summary>
     /// 'Incident' update command handler.
     /// </summary>
-    public class NetworkIncidentUpdateCommandHandler : IRequestHandler<NetworkIncidentUpdateCommand, NetworkIncidentDetailQuery>
+    public class NetworkIncidentUpdateCommandHandler : IRequestHandler<NetworkIncidentSaveQuery, NetworkIncidentDetailQuery>
 	{
 		private readonly ApplicationDbContext _context;
         protected IMediator Mediator;
@@ -81,7 +52,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <param name="request">This update command request.</param>
         /// <param name="cancellationToken">Cancel token.</param>
         /// <returns>Returns the row count.</returns>
-        public async Task<NetworkIncidentDetailQuery> Handle(NetworkIncidentUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<NetworkIncidentDetailQuery> Handle(NetworkIncidentSaveQuery request, CancellationToken cancellationToken)
 		{
             string codeName = "NetworkIncidentUpdateCommandHandler";
             if (_application.IsEditableRole() == false)
@@ -95,15 +66,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 				// Call the FluentValidationErrors extension method.
 				throw new NetworkIncidentUpdateCommandValidationException(_results.FluentValidationErrors());
 			}
-            string _params = $"Entering with, incidentId: {request.IncidentId}, UserName: {request.User.UserName}";
+            string _params = $"Entering with, incidentId: {request.incident.IncidentId}, UserName: {request.user.UserName}";
             System.Diagnostics.Debug.WriteLine(_params);
             //
             var _entity = await _context.Incidents
                 .Include(_i => _i.IncidentIncidentNotes)
-				.SingleOrDefaultAsync(_r => _r.IncidentId == request.IncidentId, cancellationToken);
+				.SingleOrDefaultAsync(_r => _r.IncidentId == request.incident.IncidentId, cancellationToken);
 			if (_entity == null)
 			{
-				throw new NetworkIncidentUpdateCommandKeyNotFoundException(request.IncidentId);
+				throw new NetworkIncidentUpdateCommandKeyNotFoundException(request.incident.IncidentId);
 			}
             try
             {
@@ -126,7 +97,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 await _context.SaveChangesAsync(cancellationToken);
                 // "Inside, after save ... id: " + request.incident.IncidentId.ToString());
                 //
-                if (_mailedBefore == false && request.Mailed == true)
+                if (_mailedBefore == false && request.incident.Mailed == true)
                 {
                     await Task.Run(async () =>
                     {
@@ -135,7 +106,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 }
                 await Mediator.Send(new LogCreateCommand(
                     LoggingLevel.Info, MethodBase.GetCurrentMethod(),
-                    $"Inside, Saved id: {request.IncidentId}"));
+                    $"Inside, Saved id: {request.incident.IncidentId}"));
             }
             catch (Exception _ex)
             {
@@ -156,47 +127,47 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         /// <param name="request"></param>
         /// <param name="entity"></param>
-        void MoveRequestToEntity(NetworkIncidentUpdateCommand request, Incident entity)
+        void MoveRequestToEntity(NetworkIncidentSaveQuery request, Incident entity)
         {
-            if( entity.ServerId != request.ServerId)
+            if( entity.ServerId != request.incident.ServerId)
             {
-                entity.ServerId = request.ServerId;
+                entity.ServerId = request.incident.ServerId;
             }
-            if(entity.IPAddress != request.IPAddress)
+            if(entity.IPAddress != request.incident.IPAddress)
             {
-                entity.IPAddress = request.IPAddress;
+                entity.IPAddress = request.incident.IPAddress;
             }
-            if (entity.NIC_Id != request.NIC)
+            if (entity.NIC_Id != request.incident.NIC)
             {
-                entity.NIC_Id = request.NIC;
+                entity.NIC_Id = request.incident.NIC;
             }
-            if (entity.NetworkName != request.NetworkName)
+            if (entity.NetworkName != request.incident.NetworkName)
             {
-                entity.NetworkName = request.NetworkName;
+                entity.NetworkName = request.incident.NetworkName;
             }
-            if (entity.AbuseEmailAddress != request.AbuseEmailAddress)
+            if (entity.AbuseEmailAddress != request.incident.AbuseEmailAddress)
             {
-                entity.AbuseEmailAddress = request.AbuseEmailAddress;
+                entity.AbuseEmailAddress = request.incident.AbuseEmailAddress;
             }
-            if (entity.ISPTicketNumber != request.ISPTicketNumber)
+            if (entity.ISPTicketNumber != request.incident.ISPTicketNumber)
             {
-                entity.ISPTicketNumber = request.ISPTicketNumber;
+                entity.ISPTicketNumber = request.incident.ISPTicketNumber;
             }
-            if (entity.Mailed != request.Mailed)
+            if (entity.Mailed != request.incident.Mailed)
             {
-                entity.Mailed = request.Mailed;
+                entity.Mailed = request.incident.Mailed;
             }
-            if (entity.Closed != request.Closed)
+            if (entity.Closed != request.incident.Closed)
             {
-                entity.Closed = request.Closed;
+                entity.Closed = request.incident.Closed;
             }
-            if (entity.Special != request.Special)
+            if (entity.Special != request.incident.Special)
             {
-                entity.Special = request.Special;
+                entity.Special = request.incident.Special;
             }
-            if (entity.Notes != request.Notes)
+            if (entity.Notes != request.incident.Notes)
             {
-                entity.Notes = request.Notes;
+                entity.Notes = request.incident.Notes;
             }
         }
         //
@@ -208,16 +179,16 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         #region "IncidentNotes processing"
         //
         /// <summary>
-        /// 
+        /// Add or update incident notes
         /// </summary>
         /// <param name="request"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        async Task IncidentNotesAddUpdateAsync(NetworkIncidentUpdateCommand request, Incident entity)
+        async Task IncidentNotesAddUpdateAsync(NetworkIncidentSaveQuery request, Incident entity)
         {
             //var _incidentIncidentNotes = new List<IncidentIncidentNote>();
             //var _incidentNotes = new List<IncidentNote>();
-            foreach (IncidentNoteData _ind in request.IncidentNotes.Where(_r => _r.IsChanged == true))
+            foreach (IncidentNoteData _ind in request.incidentNotes.Where(_r => _r.IsChanged == true))
             {
                 if (_ind.IncidentNoteId > 0)
                 {
@@ -233,7 +204,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                         _incidentNote.Note = _ind.Note;
                     }
                 }
-                if (_ind.IncidentNoteId == 0)
+                if (_ind.IncidentNoteId < 0)
                 {
                     // Add notes and IncidentIncidentNotes
                     var _incidentNote = new IncidentNote()
@@ -259,9 +230,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         /// <param name="request"></param>
         /// <param name="entity"></param>
-        void IncidentNotesDelete(NetworkIncidentUpdateCommand request, Incident entity)
+        void IncidentNotesDelete(NetworkIncidentSaveQuery request, Incident entity)
         {
-            foreach (IncidentNoteData _ind in request.DeletedNotes)
+            foreach (IncidentNoteData _ind in request.deletedNotes)
             {
                 if (_ind.IncidentNoteId > 0)
                 {
@@ -284,13 +255,13 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         #region "NetworkLogs processing"
         //
         /// <summary>
-        /// 
+        /// Update network logs
         /// </summary>
         /// <param name="request"></param>
         /// <param name="entity"></param>
-        void NetworkLogsUpdate(NetworkIncidentUpdateCommand request, Incident entity)
+        void NetworkLogsUpdate(NetworkIncidentSaveQuery request, Incident entity)
         {
-            foreach (NetworkLogData _nld in request.NetworkLogs.Where(_l => _l.IsChanged == true))
+            foreach (NetworkLogData _nld in request.networkLogs.Where(_l => _l.IsChanged == true))
             {
                 NetworkLog _networkLog = entity.NetworkLogs.FirstOrDefault(_r => _r.NetworkLogId == _nld.NetworkLogId);
                 if (_networkLog != null)
@@ -304,15 +275,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         }
         //
         /// <summary>
-        /// 
+        /// Delete network log recoreds
         /// </summary>
         /// <param name="request"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        async Task NetworkLogsDeleteAsync(NetworkIncidentUpdateCommand request, Incident entity)
+        async Task NetworkLogsDeleteAsync(NetworkIncidentSaveQuery request, Incident entity)
         {
             // Delete Logs;
-            foreach (NetworkLogData _nld in request.DeletedLogs)
+            foreach (NetworkLogData _nld in request.deletedLogs)
             {
                 if (_nld.Selected == false)
                 {
@@ -334,12 +305,12 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// EMail the last ISP Report
         /// </summary>
         /// <param name="data"></param>
-        private async Task EMailIspReportAsync(NetworkIncidentUpdateCommand data)
+        private async Task EMailIspReportAsync(NetworkIncidentSaveQuery data)
         {
             string codeName = "EMailIspReportAsync";
             Incident _incident = await _context.Incidents
                 .Include(_i => _i.IncidentIncidentNotes)
-                .FirstOrDefaultAsync(i => i.IncidentId == data.IncidentId);
+                .FirstOrDefaultAsync(i => i.IncidentId == data.incident.IncidentId);
             var _note = _incident.IncidentIncidentNotes
                 .Where(_iin => _iin.IncidentNote.NoteType.NoteTypeClientScript == "email")
                 .Select(_iin => _iin.IncidentNote).FirstOrDefault();
@@ -361,91 +332,56 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 }
             }
         }
-        //
-        /// <summary>
-        /// FluentValidation of the 'NetworkIncidentUpdateCommand' class.
-        /// </summary>
-        public class Validator : AbstractValidator<NetworkIncidentUpdateCommand>
-		{
-			//
-			/// <summary>
-			/// Constructor that will invoke the 'NetworkIncidentUpdateCommand' validator.
-			/// </summary>
-			public Validator()
-			{
-				//
-				RuleFor(x => x.IncidentId).NotNull().GreaterThan(0);
-				RuleFor(x => x.ServerId).NotNull().GreaterThan(0);
-                RuleFor(x => x.IPAddress).NotEmpty().MinimumLength(7).MaximumLength(50)
-                    .Must(Extensions.ValidateIPv4);
-                RuleFor(x => x.NIC).NotEmpty().MaximumLength(16);
-				RuleFor(x => x.NetworkName).MaximumLength(255);
-				RuleFor(x => x.AbuseEmailAddress).MaximumLength(255);
-				RuleFor(x => x.ISPTicketNumber).MaximumLength(50);
-				RuleFor(x => x.Mailed).NotNull();
-				RuleFor(x => x.Closed).NotNull();
-				RuleFor(x => x.Special).NotNull();
-				RuleFor(x => x.Notes).MaximumLength(1073741823);
-                //
-                RuleFor(n => n.IncidentNotes).NotNull();
-                RuleFor(n => n.DeletedNotes).NotNull();
-                RuleFor(n => n.NetworkLogs).NotNull();
-                RuleFor(n => n.DeletedLogs).NotNull();
-                RuleFor(u => u.User).NotNull();
-                //
-            }
-            //
-        }
 		//
 	}
 	//
 	/// <summary>
-	/// Custom NetworkIncidentUpdateCommand record not found exception.
+	/// Custom NetworkIncidentSaveQuery record not found exception.
 	/// </summary>
 	public class NetworkIncidentUpdateCommandKeyNotFoundException : KeyNotFoundException
 	{
 		//
 		/// <summary>
-		/// Implementation of NetworkIncidentUpdateCommand record not found exception.
+		/// Implementation of NetworkIncidentSaveQuery record not found exception.
 		/// </summary>
 		/// <param name="id">The key for the record.</param>
 		public NetworkIncidentUpdateCommandKeyNotFoundException(long incidentId)
-			: base($"NetworkIncidentUpdateCommand key not found exception: id: {incidentId}")
+			: base($"NetworkIncidentSaveQuery key not found exception: id: {incidentId}")
 		{
 		}
 	}
 	//
 	/// <summary>
-	/// Custom NetworkIncidentUpdateCommand validation exception.
+	/// Custom NetworkIncidentSaveQuery validation exception.
 	/// </summary>
 	public class NetworkIncidentUpdateCommandValidationException : Exception
 	{
 		//
 		/// <summary>
-		/// Implementation of NetworkIncidentUpdateCommand validation exception.
+		/// Implementation of NetworkIncidentSaveQuery validation exception.
 		/// </summary>
 		/// <param name="errorMessage">The validation error messages.</param>
 		public NetworkIncidentUpdateCommandValidationException(string errorMessage)
-			: base($"NetworkIncidentUpdateCommand validation exception: errors: {errorMessage}")
+			: base($"NetworkIncidentSaveQuery validation exception: errors: {errorMessage}")
 		{
 		}
 	}
     //
     /// <summary>
-    /// Custom NetworkIncidentUpdateCommand permissions exception.
+    /// Custom NetworkIncidentSaveQuery permissions exception.
     /// </summary>
     public class NetworkIncidentUpdateCommandPermissionsException : Exception
     {
         //
         /// <summary>
-        /// Implementation of NetworkIncidentUpdateCommand permissions exception.
+        /// Implementation of NetworkIncidentSaveQuery permissions exception.
         /// </summary>
         /// <param name="errorMessage">The permissions error messages.</param>
         public NetworkIncidentUpdateCommandPermissionsException(string errorMessage)
-            : base($"NetworkIncidentUpdateCommand permissions exception: {errorMessage}")
+            : base($"NetworkIncidentSaveQuery permissions exception: {errorMessage}")
         {
         }
     }
     //
 }
-// ---------------------------------------------------------------------------
+// ===========================================================================

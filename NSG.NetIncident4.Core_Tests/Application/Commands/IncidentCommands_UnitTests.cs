@@ -145,24 +145,27 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _mockApplication.Setup(x => x.IsEditableRole()).Returns(true);
             NetworkIncidentUpdateCommandHandler _handler = new NetworkIncidentUpdateCommandHandler(
                 db_context, _mockMediator.Object, _mockApplication.Object, _mockNotification.Object);
-            NetworkIncidentUpdateCommand _update = new NetworkIncidentUpdateCommand()
+            NetworkIncidentSaveQuery _update = new NetworkIncidentSaveQuery()
             {
-                IncidentId = _incidentId,
-                ServerId = 1,
-                IPAddress = "11.10.10.10",
-                NIC = "ripe.net",
-                NetworkName = "NetworkName",
-                AbuseEmailAddress = "AbuseEmailAddress",
-                ISPTicketNumber = "ISPTicketNumber",
-                Mailed = false,
-                Closed = false,
-                Special = false,
-                Notes = "Notes",
-                User = _user,
-                IncidentNotes = new List<IncidentNoteData>(),
-                DeletedNotes = new List<IncidentNoteData>(),
-                NetworkLogs = new List<NetworkLogData>(),
-                DeletedLogs = new List<NetworkLogData>()
+                incident = new NetworkIncidentData()
+                {
+                    IncidentId = _incidentId,
+                    ServerId = 1,
+                    IPAddress = "11.10.10.10",
+                    NIC = "ripe.net",
+                    NetworkName = "NetworkName",
+                    AbuseEmailAddress = "AbuseEmailAddress",
+                    ISPTicketNumber = "ISPTicketNumber",
+                    Mailed = false,
+                    Closed = false,
+                    Special = false,
+                    Notes = "Notes",
+                },
+                user = _user,
+                incidentNotes = new List<IncidentNoteData>(),
+                deletedNotes = new List<IncidentNoteData>(),
+                networkLogs = new List<NetworkLogData>(),
+                deletedLogs = new List<NetworkLogData>()
             };
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             Assert.IsNull(_updateResults.Exception);
@@ -179,7 +182,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _mockApplication.Setup(x => x.IsEditableRole()).Returns(false);
             NetworkIncidentUpdateCommandHandler _handler = new NetworkIncidentUpdateCommandHandler(
                 db_context, _mockMediator.Object, _mockApplication.Object, _mockNotification.Object);
-            NetworkIncidentUpdateCommand _update = new NetworkIncidentUpdateCommand();
+            NetworkIncidentSaveQuery _update = new NetworkIncidentSaveQuery();
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             Assert.IsNotNull(_updateResults.Exception);
             Assert.IsTrue(_updateResults.Exception.InnerException is NetworkIncidentUpdateCommandPermissionsException);
@@ -200,19 +203,22 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _mockApplication.Setup(x => x.IsEditableRole()).Returns(true);
             NetworkIncidentUpdateCommandHandler _handler = new NetworkIncidentUpdateCommandHandler(
                 db_context, _mockMediator.Object, _mockApplication.Object, _mockNotification.Object);
-            NetworkIncidentUpdateCommand _update = new NetworkIncidentUpdateCommand()
+            NetworkIncidentSaveQuery _update = new NetworkIncidentSaveQuery()
             {
-                IncidentId = _incidentId,
-                ServerId = 0,
-                IPAddress = "11.10",
-                NIC = "",
-                NetworkName = "",
-                AbuseEmailAddress = "",
-                ISPTicketNumber = "",
-                Mailed = false,
-                Closed = false,
-                Special = false,
-                Notes = "",
+                incident = new NetworkIncidentData()
+                {
+                    IncidentId = _incidentId,
+                    ServerId = 0,
+                    IPAddress = "11.10",
+                    NIC = "",
+                    NetworkName = "",
+                    AbuseEmailAddress = "",
+                    ISPTicketNumber = "",
+                    Mailed = false,
+                    Closed = false,
+                    Special = false,
+                    Notes = "",
+                },
             };
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             Assert.IsNotNull(_updateResults.Exception);
@@ -234,24 +240,27 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _mockApplication.Setup(x => x.IsEditableRole()).Returns(true);
             NetworkIncidentUpdateCommandHandler _handler = new NetworkIncidentUpdateCommandHandler(
                 db_context, _mockMediator.Object, _mockApplication.Object, _mockNotification.Object);
-            NetworkIncidentUpdateCommand _update = new NetworkIncidentUpdateCommand()
+            NetworkIncidentSaveQuery _update = new NetworkIncidentSaveQuery()
             {
-                IncidentId = _incidentId,
-                ServerId = 1,
-                IPAddress = "11.10.10.10",
-                NIC = "ripe.net",
-                NetworkName = "NetworkName",
-                AbuseEmailAddress = "AbuseEmailAddress",
-                ISPTicketNumber = "ISPTicketNumber",
-                Mailed = false,
-                Closed = false,
-                Special = false,
-                Notes = "Notes",
-                User = _user,
-                IncidentNotes = new List<IncidentNoteData>(),
-                DeletedNotes = new List<IncidentNoteData>(),
-                NetworkLogs = new List<NetworkLogData>(),
-                DeletedLogs = new List<NetworkLogData>()
+                incident = new NetworkIncidentData()
+                {
+                    IncidentId = _incidentId,
+                    ServerId = 1,
+                    IPAddress = "11.10.10.10",
+                    NIC = "ripe.net",
+                    NetworkName = "NetworkName",
+                    AbuseEmailAddress = "AbuseEmailAddress",
+                    ISPTicketNumber = "ISPTicketNumber",
+                    Mailed = false,
+                    Closed = false,
+                    Special = false,
+                    Notes = "Notes",
+                },
+                user = _user,
+                incidentNotes = new List<IncidentNoteData>(),
+                deletedNotes = new List<IncidentNoteData>(),
+                networkLogs = new List<NetworkLogData>(),
+                deletedLogs = new List<NetworkLogData>()
             };
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             Assert.IsNotNull(_updateResults.Exception);
