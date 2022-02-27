@@ -71,7 +71,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(results)
                 .Verifiable("Note type list was not sent.");
             NoteTypesController sut = new NoteTypesController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/NoteTypes/", controllerHeaders);
             // when
             var actual = await sut.Index();
             // then
@@ -96,7 +96,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Note type details was not sent.");
             NoteTypesController sut = new NoteTypesController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/NoteTypes/", controllerHeaders);
             // when
             var actual = await sut.Details(1);
             // then
@@ -123,7 +123,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Note type create was not sent.");
             NoteTypesController sut = new NoteTypesController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/NoteTypes/", controllerHeaders);
             // when
             var actual = await sut.Create(mediatorParam);
             // then
@@ -147,7 +147,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Note type edit was not sent.");
             NoteTypesController sut = new NoteTypesController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/NoteTypes/", controllerHeaders);
             // when
             var actual = await sut.Edit(4);
             // then
@@ -173,7 +173,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Note type edit was not sent.");
             NoteTypesController sut = new NoteTypesController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/NoteTypes/", controllerHeaders);
             // when
             var actual = await sut.Edit(mediatorParam);
             // then
@@ -197,7 +197,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Note type delete was not sent.");
             NoteTypesController sut = new NoteTypesController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/NoteTypes/", controllerHeaders);
             // when
             var actual = await sut.Delete(4);
             // then
@@ -223,7 +223,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Note type edit was not sent.");
             NoteTypesController sut = new NoteTypesController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/NoteTypes/", controllerHeaders);
             // when
             var actual = await sut.DeleteConfirmed(4);
             // then

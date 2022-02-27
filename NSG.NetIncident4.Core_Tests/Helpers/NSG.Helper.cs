@@ -11,9 +11,11 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 using MediatR;
 using Moq;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NSG.Integration.Helpers
 {
@@ -32,6 +34,7 @@ namespace NSG.Integration.Helpers
         public static string User_Name2 = "author";
         public static string User_Email2 = @"author@any.net";
         public static string Password2 = @"P@ssword0";
+        public static MockRepository mockRepository = new MockRepository(MockBehavior.Strict);
         //
         public static ApplicationDbContext GetMemoryDbContext(ServiceCollection services)
         {

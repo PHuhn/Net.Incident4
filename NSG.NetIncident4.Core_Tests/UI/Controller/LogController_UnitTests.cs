@@ -51,7 +51,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
                 .ReturnsAsync(results)
                 .Verifiable("Log List was not sent.");
             LogController sut = new LogController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext(userName, "admin");
+            sut.ControllerContext = Fixture_ControllerContext(userName, "admin", "/Log/", controllerHeaders);
             // when
             var actual = await sut.Index();
             // then

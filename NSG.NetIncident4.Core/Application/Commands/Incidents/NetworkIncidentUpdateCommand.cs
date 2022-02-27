@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
+using System.Transactions;
 //
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -71,7 +72,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             //
             var _entity = await _context.Incidents
                 .Include(_i => _i.IncidentIncidentNotes)
-				.SingleOrDefaultAsync(_r => _r.IncidentId == request.incident.IncidentId, cancellationToken);
+                .ThenInclude(IncidentIncidentNotes => IncidentIncidentNotes.IncidentNote)
+                .SingleOrDefaultAsync(_r => _r.IncidentId == request.incident.IncidentId, cancellationToken);
 			if (_entity == null)
 			{
 				throw new NetworkIncidentUpdateCommandKeyNotFoundException(request.incident.IncidentId);
@@ -83,7 +85,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 bool _mailedBefore = _entity.Mailed;
                 // Move from update command class to entity class.
                 MoveRequestToEntity(request, _entity);
-                //
+                // ** IncidentNotes **
                 // Add and update notes
                 await IncidentNotesAddUpdateAsync(request, _entity);
                 // Delete notes and IncidentIncidentNotes
@@ -95,7 +97,6 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 await NetworkLogsDeleteAsync(request, _entity);
                 //
                 await _context.SaveChangesAsync(cancellationToken);
-                // "Inside, after save ... id: " + request.incident.IncidentId.ToString());
                 //
                 if (_mailedBefore == false && request.incident.Mailed == true)
                 {
@@ -110,6 +111,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             }
             catch (Exception _ex)
             {
+                _context.RollBackChanges();
                 await Mediator.Send(new LogCreateCommand(
                     LoggingLevel.Warning, MethodBase.GetCurrentMethod(),
                     _ex.GetBaseException().Message, _ex));
@@ -239,8 +241,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                     IncidentIncidentNote _inn = entity.IncidentIncidentNotes.FirstOrDefault(_einn => _einn.IncidentNoteId == _ind.IncidentNoteId);
                     if( _inn != null)
                     {
-                        _context.IncidentNotes.Remove(_inn.IncidentNote);
+                        IncidentNote _incidentNoteDelete = _inn.IncidentNote;
                         _context.IncidentIncidentNotes.Remove(_inn);
+                        _context.IncidentNotes.Remove(_incidentNoteDelete);
                     }
                 }
             }

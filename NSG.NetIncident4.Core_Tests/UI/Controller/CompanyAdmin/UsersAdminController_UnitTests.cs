@@ -132,7 +132,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(results)
                 .Verifiable("ApplicationUser list was not sent.");
             UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin", "/UsersAdmin/", controllerHeaders);
             // when
             var actual = await sut.Index();
             // then
@@ -156,7 +156,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser details was not sent.");
             UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin", "/UsersAdmin/", controllerHeaders);
             // when
             var actual = await sut.Details(mediatorReturn.UserName);
             // then
@@ -189,7 +189,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser edit was not sent.");
             UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin", "/UsersAdmin/", controllerHeaders);
             // when
             var actual = await sut.Edit(mediatorReturn.UserName);
             // then
@@ -216,7 +216,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser edit was not sent.");
             UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin", "/UsersAdmin/", controllerHeaders);
             // when
             var actual = await sut.Edit(mediatorParam);
             // then
@@ -239,7 +239,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser delete was not sent.");
             UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin", "/UsersAdmin/", controllerHeaders);
             // when
             var actual = await sut.Delete(mediatorReturn.UserName);
             // then
@@ -264,7 +264,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("ApplicationUser edit was not sent.");
             UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin", "/UsersAdmin/", controllerHeaders);
             // when
             var actual = await sut.DeleteConfirmed(mediatorParam.UserName);
             // then

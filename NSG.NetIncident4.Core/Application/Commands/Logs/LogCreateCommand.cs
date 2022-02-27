@@ -81,6 +81,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 		/// <returns>The Log entity class.</returns>
 		public async Task<LogData> Handle(LogCreateCommand request, CancellationToken cancellationToken)
 		{
+			string codeName = "LogCreateCommandHandler.Handle";
 			Validator _validator = new Validator();
 			ValidationResult _results = _validator.Validate(request);
 			if (!_results.IsValid)
@@ -88,20 +89,29 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 				// Call the FluentValidationErrors extension method.
 				throw new CreateCommandValidationException(_results.FluentValidationErrors());
 			}
-            // Move from create command class to entity class.
-            var _entity = new LogData
+			//
+			// Move from create command class to entity class.
+			var _entity = new LogData
 			{
 				Date = _application.Now(),
 				Application = _application.GetApplicationName(),
-                Method = (request.Method.Length > 255 ? request.Method.Substring(0, 255) : request.Method),
-                LogLevel = request.LogLevel,
-                Level = request.Level,
-                UserAccount = _application.GetUserAccount(),
-                Message = (request.Message.Length > 4000 ? request.Message.Substring(0, 4000) : request.Message),
+				Method = (request.Method.Length > 255 ? request.Method.Substring(0, 255) : request.Method),
+				LogLevel = request.LogLevel,
+				Level = request.Level,
+				UserAccount = _application.GetUserAccount(),
+				Message = (request.Message.Length > 4000 ? request.Message.Substring(0, 4000) : request.Message),
 				Exception = request.Exception.Length > 4000 ? request.Exception.Substring(0, 4000) : request.Exception
-            };
-            _context.Logs.Add(_entity);
-			await _context.SaveChangesAsync(cancellationToken);
+			};
+			try
+            {
+				_context.Logs.Add(_entity);
+				await _context.SaveChangesAsync(cancellationToken);
+			}
+			catch (Exception _ex)
+			{
+				System.Diagnostics.Debug.WriteLine(_ex.ToString());
+				throw (new Exception($"{codeName}: add failed: {_ex.Message}", _ex));
+			}
 			// Return the entity class.
 			return _entity;
 		}
@@ -146,4 +156,3 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 	//
 }
 // ---------------------------------------------------------------------------
-

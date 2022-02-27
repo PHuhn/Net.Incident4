@@ -71,7 +71,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(results)
                 .Verifiable("NIC list was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
             // when
             var actual = await sut.Index();
             // then
@@ -96,7 +96,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("NIC details was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
             // when
             var actual = await sut.Details("NIC3");
             // then
@@ -123,7 +123,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("NIC create was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
             // when
             var actual = await sut.Create(mediatorParam);
             // then
@@ -147,7 +147,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("NIC edit was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
             // when
             var actual = await sut.Edit("NIC4");
             // then
@@ -173,7 +173,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("NIC edit was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
             // when
             var actual = await sut.Edit(mediatorParam);
             // then
@@ -197,7 +197,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("NIC delete was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
             // when
             var actual = await sut.Delete("NIC4");
             // then
@@ -223,7 +223,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("NIC edit was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
             // when
             var actual = await sut.DeleteConfirmed("NIC4");
             // then

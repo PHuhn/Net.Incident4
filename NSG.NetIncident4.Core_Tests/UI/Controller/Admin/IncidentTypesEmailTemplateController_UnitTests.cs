@@ -71,7 +71,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(results)
                 .Verifiable("IncidentType list was not sent.");
             IncidentTypesEmailTemplateController sut = new IncidentTypesEmailTemplateController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/IncidentTypes/", controllerHeaders);
             // when
             var actual = await sut.Index();
             // then
@@ -96,7 +96,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("IncidentType details was not sent.");
             IncidentTypesEmailTemplateController sut = new IncidentTypesEmailTemplateController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/IncidentTypes/", controllerHeaders);
             // when
             var actual = await sut.Details(3);
             // then
@@ -123,7 +123,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("IncidentType create was not sent.");
             IncidentTypesEmailTemplateController sut = new IncidentTypesEmailTemplateController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/IncidentTypes/", controllerHeaders);
             // when
             var actual = await sut.Create(mediatorParam);
             // then
@@ -147,7 +147,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("IncidentType edit was not sent.");
             IncidentTypesEmailTemplateController sut = new IncidentTypesEmailTemplateController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/IncidentTypes/", controllerHeaders);
             // when
             var actual = await sut.Edit(4);
             // then
@@ -173,7 +173,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("IncidentType edit was not sent.");
             IncidentTypesEmailTemplateController sut = new IncidentTypesEmailTemplateController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/IncidentTypes/", controllerHeaders);
             // when
             var actual = await sut.Edit(mediatorParam);
             // then
@@ -197,7 +197,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("IncidentType delete was not sent.");
             IncidentTypesEmailTemplateController sut = new IncidentTypesEmailTemplateController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/IncidentTypes/", controllerHeaders);
             // when
             var actual = await sut.Delete(4);
             // then
@@ -223,7 +223,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("IncidentType edit was not sent.");
             IncidentTypesEmailTemplateController sut = new IncidentTypesEmailTemplateController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/IncidentTypes/", controllerHeaders);
+            
             // when
             var actual = await sut.DeleteConfirmed(4);
             // then

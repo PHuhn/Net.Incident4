@@ -1,6 +1,7 @@
 ﻿//
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Net.Http;
@@ -21,6 +22,7 @@ using MediatR;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using System.Collections.Specialized;
 //
 namespace NSG.Integration.Helpers
 {
@@ -32,6 +34,19 @@ namespace NSG.Integration.Helpers
         static public UserManager<ApplicationUser> userManager;
         static public RoleManager<ApplicationRole> roleManager;
         static public IConfiguration configuration = null;
+        static public Dictionary<string, string> controllerHeaders =
+            new Dictionary<string, string>()
+            {
+                ["cookie"] = "ai_user=Zn3LO|2021-11-19T15:30:13.062Z; .AspNetCore.Antiforgery.TgedqpnEzL8=CfDJ8MoWY2n3geRBvkgVUWBREdrAbSv3olymADsefAXujoG9VNEcZw3EiwDGCXW4wXuNsrXgp3p7ZTSQAlQvBV5m31kilXUR8tla-lte-Mo9j3HZFbLoXrP9DEhmmJr6wUTqcJd-4uKk5ehaN2u-Za-Jeac; ai_session=xBril|1645283096306.1|1645285831298.5",
+                ["user-agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.50"
+            };
+        static public Dictionary<string, string> apiHeaders =
+            new Dictionary<string, string>()
+            {
+                ["Authorization"] = "Bearer 12345678901234567890123456789012345678901234567890",
+                ["user-agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.50"
+            };
+        static public Dictionary<string, string> emptyHeaders = new Dictionary<string, string>();
         //
         private IWebHostBuilder _builder;
         private TestServer _server;
@@ -154,32 +169,89 @@ namespace NSG.Integration.Helpers
         /// <summary>
         /// Create a fake controller context
         /// <example>
-        ///  sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", mockMediator.Object);
+        ///  sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/UserAdmin/", controllerHeaders);
         /// </example>
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="role"></param>
-        /// <param name="mediator"></param>
+        /// <param name="path"></param>
+        /// <param name="headers"></param>
         /// <returns>
         /// ControllerContext with a mock HttpContext and an assigned IPrincipal User
         /// </returns>
-        public ControllerContext Fixture_ControllerContext(string userName, string role)
+        public ControllerContext Fixture_ControllerContext(string userName, string role, string path, Dictionary<string, string> headers)
+        {
+            //
+            ControllerContext controllerContext = new ControllerContext();
+            controllerContext.HttpContext = Fixture_HttpContext(userName, role, path, headers);
+            return controllerContext;
+        }
+        //
+        /// <summary>
+        /// Create a fake http context
+        /// <example>
+        ///  sut.HttpContext = Fixture_HttpContext("TestUser", "admin", "/UserAdmin/", controllerHeaders);
+        /// </example>
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="role"></param>
+        /// <param name="path"></param>
+        /// <param name="headers"></param>
+        /// <returns>
+        /// HttpContext with a mock HttpContext and an assigned IPrincipal User
+        /// </returns>
+        public HttpContext Fixture_HttpContext(string userName, string role, string path, Dictionary<string, string> headers)
         {
             //
             Mock<HttpContext> httpContext = new Mock<HttpContext>();
             //
             // https://stackoverflow.com/questions/38557942/mocking-iprincipal-in-asp-net-core
-            if( userName != "" )
+            if (userName != "")
             {
                 IPrincipal currentUser = Fixture_TestPrincipal(userName, role);
                 httpContext.SetupGet(m => m.User).Returns((ClaimsPrincipal)currentUser);
             }
+            httpContext.SetupGet(m => m.Request).Returns(
+                (HttpRequest)Fixture_CreateHttpRequest(path, headers));
             //
-            ControllerContext controllerContext = new ControllerContext();
-            controllerContext.HttpContext = httpContext.Object;
-            return controllerContext;
+            return httpContext.Object;
         }
         //
+        /// <summary>
+        /// Create a fake HttpRequest
+        /// </summary>
+        /// <param name="path">path/route</param>
+        /// <returns></returns>
+        public HttpRequest Fixture_CreateHttpRequest(string path, Dictionary<string, string> headers)
+        {
+            // 
+            // cookie: ai_user=Zn3LO|2021-11-19T15:30:13.062Z; .AspNetCore.Antiforgery.TgedqpnEzL8=CfDJ8MoWY2n3geRBvkgVUWBREdrAbSv3olymADsefAXujoG9VNEcZw3EiwDGCXW4wXuNsrXgp3p7ZTSQAlQvBV5m31kilXUR8tla-lte-Mo9j3HZFbLoXrP9DEhmmJr6wUTqcJd-4uKk5ehaN2u-Za-Jeac; ai_session=xBril|1645283096306.1|1645285831298.5
+            // user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.50
+            // Headers = headers, // Dictionary<string, string>
+            //
+            Mock<HttpRequest> httpRequest = new Mock<HttpRequest>();
+            httpRequest.SetupGet(m => m.Path).Returns((PathString)new PathString(path));
+            httpRequest.SetupGet(m => m.PathBase).Returns(new PathString(path));
+            httpRequest.SetupGet(m => m.Host).Returns((HostString)new HostString("localhost", 44378));
+            httpRequest.SetupGet(m => m.Scheme).Returns("https");
+            httpRequest.SetupGet(m => m.QueryString).Returns(new QueryString());
+            HttpRequest hr = httpRequest.Object;
+            return hr;
+        }
+        //             _context.Url = (new Mock<IUrlHelper>()).Object;
+        public IUrlHelper Fixture_CreateUrlHelper(string fullPath)
+        {
+            string action = "ConfirmEmail";
+            string controller = "Account";
+            object values = null;
+            string protocol = "https";
+            Mock<IUrlHelper> urlHelper = new Mock<IUrlHelper>();
+            // urlHelper.Setup(m => m.Page).Returns(fullPath);
+            urlHelper.Setup(m => m.Action(action,controller,values,protocol)).Returns(fullPath);
+            IUrlHelper url = urlHelper.Object;
+            return url;
+        }
+
         /// <summary>
         /// Cleanup resources
         /// </summary>

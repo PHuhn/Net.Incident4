@@ -392,6 +392,7 @@ namespace NSG.NetIncident4.Core
             //
             //NSG.NetIncident4.Core.Domain.Entities.SeedData.Initialize(
             //    context, roleManager, false).Wait();
+            //NSG.NetIncident4.Core.Domain.Entities.SeedData.SeedFakeIncidents(context, 1).Wait();
             //
         }
     }

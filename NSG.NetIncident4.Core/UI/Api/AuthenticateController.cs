@@ -41,6 +41,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] ApiModels.LoginModel model)
         {
+            ControllerBase cntrlr = this;
             var user = await userManager.FindByNameAsync(model.Username);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
@@ -141,6 +142,10 @@ namespace NSG.NetIncident4.Core.UI.Api
             return Ok(new Response { Status = "Success", Message = "Account created, must confirm your email!" });
         }
 
+        public static implicit operator Controller(AuthenticateController v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 // ===========================================================================

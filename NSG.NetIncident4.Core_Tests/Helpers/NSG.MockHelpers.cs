@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 //
 using Moq;
@@ -12,11 +11,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 //
 using MimeKit;
 using MimeKit.NSG;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Domain.Entities;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 //
 namespace NSG.Integration.Helpers
 {
@@ -109,6 +115,78 @@ namespace NSG.Integration.Helpers
             //
             return _user;
         }
+        public static Mock<IUrlHelper> MockUrlHelper(string userName, string role, string path)
+        {
+            ActionContext context = CreatePageActionContext(userName, role, path, "/Account");
+            Mock<IUrlHelper> urlHelper = new Mock<IUrlHelper>();
+            urlHelper.SetupGet(h => h.ActionContext)
+                .Returns(context);
+            return urlHelper;
+        }
+        //
+        public static ActionContext CreatePageActionContext(string userName, string role, string path, string page)
+        {
+            RouteValueDictionary rvd = new RouteValueDictionary();
+            rvd.Add("Account", page);
+            ActionDescriptor actionDesc = new ActionDescriptor();
+            ActionContext ac = new ActionContext(
+                Mock_CreateHttpContext(userName, role, path),
+                new Microsoft.AspNetCore.Routing.RouteData(rvd),
+                actionDesc,
+                new ModelStateDictionary());
+            return ac;
+        }
+        //
+        public static PageContext CreatePageContext(string userName, string role, string path, string page)
+        {
+            return new PageContext(CreatePageActionContext(userName, role, path, page));
+        }
+        //
+        /// <summary>
+        /// Create a fake http context
+        /// <example>
+        ///  sut.HttpContext = Fixture_HttpContext("TestUser", "admin", "/UserAdmin/", controllerHeaders);
+        /// </example>
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="role"></param>
+        /// <param name="path"></param>
+        /// <returns>
+        /// HttpContext with a mock HttpContext and an assigned IPrincipal User
+        /// </returns>
+        public static HttpContext Mock_CreateHttpContext(string userName, string role, string path)
+        {
+            //
+            Mock<HttpContext> httpContext = new Mock<HttpContext>();
+            //
+            // https://stackoverflow.com/questions/38557942/mocking-iprincipal-in-asp-net-core
+            if (userName != "")
+            {
+                httpContext.SetupGet(m => m.User).Returns((ClaimsPrincipal)TestPrincipal(userName, role));
+            }
+            httpContext.SetupGet(m => m.Request).Returns(
+                (HttpRequest)Mock_CreateHttpRequest(path));
+            //
+            return httpContext.Object;
+        }
+        //
+        public static HttpRequest Mock_CreateHttpRequest(string path)
+        {
+            // 
+            // cookie: ai_user=Zn3LO|2021-11-19T15:30:13.062Z; .AspNetCore.Antiforgery.TgedqpnEzL8=CfDJ8MoWY2n3geRBvkgVUWBREdrAbSv3olymADsefAXujoG9VNEcZw3EiwDGCXW4wXuNsrXgp3p7ZTSQAlQvBV5m31kilXUR8tla-lte-Mo9j3HZFbLoXrP9DEhmmJr6wUTqcJd-4uKk5ehaN2u-Za-Jeac; ai_session=xBril|1645283096306.1|1645285831298.5
+            // user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.50
+            // Headers = headers, // Dictionary<string, string>
+            //
+            Mock<HttpRequest> httpRequest = new Mock<HttpRequest>();
+            httpRequest.SetupGet(m => m.Path).Returns((PathString)new PathString(path));
+            httpRequest.SetupGet(m => m.PathBase).Returns(new PathString(path));
+            httpRequest.SetupGet(m => m.Host).Returns((HostString)new HostString("localhost", 44378));
+            httpRequest.SetupGet(m => m.Scheme).Returns("https");
+            httpRequest.SetupGet(m => m.QueryString).Returns(new QueryString());
+            HttpRequest hr = httpRequest.Object;
+            return hr;
+        }
+        //
         // https://github.com/dotnet/aspnetcore/blob/main/src/Identity/test/Shared/MockHelpers.cs
         public static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
         {

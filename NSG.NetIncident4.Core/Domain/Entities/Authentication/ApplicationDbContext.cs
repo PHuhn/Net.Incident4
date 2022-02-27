@@ -1,4 +1,5 @@
 ﻿// ===========================================================================
+using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +7,7 @@ using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
 {
-    public class ApplicationDbContext : IdentityDbContext<
+    public partial class ApplicationDbContext : IdentityDbContext<
             ApplicationUser, // TUser
             ApplicationRole, // TRole
             string, // TKey
@@ -180,9 +181,6 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
             });
             //
         }
-        //
-        // public DbSet<ApplicationRole> Roles { get; set; }
-        // public DbSet<ApplicationUserRole> UserRoles { get; set; }
         // support
         public DbSet<LogData> Logs { get; set; }
         public DbSet<Company> Companies { get; set; }

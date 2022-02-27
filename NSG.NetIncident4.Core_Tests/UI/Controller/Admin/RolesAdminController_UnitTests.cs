@@ -75,7 +75,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(results)
                 .Verifiable("Role list was not sent.");
             RolesAdminController sut = new RolesAdminController(mockLogger.Object, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/RolesAdmin/", controllerHeaders);
             // when
             var actual = await sut.Index();
             // then
@@ -101,7 +101,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Role details was not sent.");
             RolesAdminController sut = new RolesAdminController(mockLogger.Object, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/RolesAdmin/", controllerHeaders);
             // when
             var actual = await sut.Details("adm");
             // then
@@ -129,7 +129,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Role create was not sent.");
             RolesAdminController sut = new RolesAdminController(mockLogger.Object, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/RolesAdmin/", controllerHeaders);
             // when
             var actual = await sut.Create(mediatorParam);
             // then
@@ -154,7 +154,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Role edit was not sent.");
             RolesAdminController sut = new RolesAdminController(mockLogger.Object, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/RolesAdmin/", controllerHeaders);
             // when
             var actual = await sut.Edit("adm");
             // then
@@ -181,7 +181,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Role edit was not sent.");
             RolesAdminController sut = new RolesAdminController(mockLogger.Object, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/RolesAdmin/", controllerHeaders);
             // when
             var actual = await sut.Edit(mediatorParam);
             // then
@@ -206,7 +206,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Role delete was not sent.");
             RolesAdminController sut = new RolesAdminController(mockLogger.Object, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/RolesAdmin/", controllerHeaders);
             // when
             var actual = await sut.Delete("adm");
             // then
@@ -233,7 +233,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Role edit was not sent.");
             RolesAdminController sut = new RolesAdminController(mockLogger.Object, mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/RolesAdmin/", controllerHeaders);
             // when
             var actual = await sut.DeleteConfirmed("adm", "TestUser");
             // then
