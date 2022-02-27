@@ -78,7 +78,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(results)
                 .Verifiable("CompanyServer list was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.Index();
             // then
@@ -126,7 +126,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyServer details was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.Details(3);
             // then
@@ -161,7 +161,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Company create was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.CompanyCreate(mediatorParam);
             // then
@@ -202,7 +202,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyServer edit was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.Edit(2);
             // then
@@ -233,7 +233,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyServer edit was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.CompanyEdit(mediatorParam);
             // then
@@ -265,7 +265,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Server edit was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.ServerEdit(mediatorParam);
             // then
@@ -306,7 +306,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyServer delete was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.Delete(4);
             // then
@@ -349,7 +349,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyServer edit was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.CompanyDelete(2, mediatorParam);
             // then
@@ -381,7 +381,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Server delete was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
-            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin");
+            sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.ServerDelete(3, mediatorParam);
             // then
