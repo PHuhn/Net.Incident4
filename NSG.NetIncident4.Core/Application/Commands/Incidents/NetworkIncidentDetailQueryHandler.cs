@@ -58,7 +58,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 			}
 			//
 			// Return the detail query model.
-			return CreateDetail(_entity);
+			return await CreateDetail(_entity);
 		}
 		//
 		/// <summary>
@@ -77,7 +77,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 // .Include("Incidents.IncidentIncidentNotes.IncidentNotes")
         }
         //
-        NetworkIncidentDetailQuery CreateDetail(Incident incident)
+        async Task<NetworkIncidentDetailQuery> CreateDetail(Incident incident)
         {
             NetworkIncidentDetailQuery _detail = new NetworkIncidentDetailQuery();
             //
@@ -85,7 +85,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             //
             _detail.message = "";
             //
-            _detail.networkLogs = NetworkLogDataList(incident.ServerId, incident.IncidentId, incident.Mailed);
+            _detail.networkLogs = await Extensions.GetNetworkLogData(_context, incident.IncidentId, incident.ServerId, incident.Mailed);
             _detail.deletedLogs = new List<NetworkLogData>();
             //
             _detail.incidentNotes = new List<IncidentNoteData>();
@@ -114,51 +114,6 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 		{
 			public long IncidentId { get; set; }
 		}
-        //
-        /// <summary>
-        /// Return an IQueryable of NetworkLog
-        /// </summary>
-        /// <returns></returns>
-        private IQueryable<NetworkLogData> NetworkLogDataQueryable()
-        {
-            return
-                from _r in _context.NetworkLogs
-                select new NetworkLogData()
-                {
-                    NetworkLogId = _r.NetworkLogId,
-                    ServerId = _r.ServerId,
-                    IPAddress = _r.IPAddress,
-                    NetworkLogDate = _r.NetworkLogDate,
-                    Log = _r.Log,
-                    IncidentTypeId = _r.IncidentTypeId,
-                    IncidentTypeShortDesc = _r.IncidentType.IncidentTypeShortDesc,
-                    IncidentId = (_r.IncidentId.HasValue ? _r.IncidentId.Value : 0),
-                    Selected = (_r.IncidentId.HasValue ? (_r.IncidentId.Value > 0 ? true : false) : false),
-                    IsChanged = false
-                };
-        }
-        //
-        /// <summary>
-        /// Return a list with all rows of NetworkLog
-        /// </summary>
-        /// <param name="companyId"></param>
-        /// <param name="incidentId"></param>
-        /// <param name="closed"></param>
-        /// <returns></returns>
-        public List<NetworkLogData> NetworkLogDataList(int companyId, long incidentId, bool mailed)
-        {
-            long?[] incidents;
-            if (mailed)
-                incidents = new long?[] { incidentId };
-            else
-                incidents = new long?[] { incidentId, (long)0, null };
-            List<NetworkLogData> _networkLogs = null;
-            _networkLogs = NetworkLogDataQueryable()
-                .OrderByDescending(_r => _r.Selected).ThenBy(_r2 => _r2.NetworkLogDate)
-                .Where(_r => _r.ServerId == companyId
-                   && incidents.Contains(_r.IncidentId)).ToList();
-            return _networkLogs;
-        }
         //
         /// <summary>
         /// FluentValidation of the 'NetworkIncidentDetailQuery' class.

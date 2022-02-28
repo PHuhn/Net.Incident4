@@ -76,9 +76,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 			_detail.incident.ServerId = server.ServerId;
             //
             _detail.message = "";
-            //
-            _detail.networkLogs = new List<NetworkLogData>();
-            _detail.deletedLogs = new List<NetworkLogData>();
+			//
+			_detail.networkLogs = await Extensions.GetNetworkLogData(_context, _detail.incident.IncidentId, server.ServerId, _detail.incident.Mailed);
+			_detail.deletedLogs = new List<NetworkLogData>();
             //
             _detail.incidentNotes = new List<IncidentNoteData>();
             _detail.deletedNotes = new List<IncidentNoteData>();

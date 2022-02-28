@@ -283,9 +283,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <param name="request"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        async Task NetworkLogsDeleteAsync(NetworkIncidentSaveQuery request, Incident entity)
+        async Task<string> NetworkLogsDeleteAsync(NetworkIncidentSaveQuery request, Incident entity)
         {
-            // Delete Logs;
+            string _ret = "";
+            // Delete Logs
             foreach (NetworkLogData _nld in request.deletedLogs)
             {
                 if (_nld.Selected == false)
@@ -296,9 +297,17 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                     {
                         _context.NetworkLogs.Remove(_networkLog);
                     }
+                    else
+                    {
+                        _ret = (_ret == "" ? "" : ", ") + $"{_nld.IPAddress} not found.";
+                    }
+                }
+                else
+                {
+                    _ret = (_ret == "" ? "" : ", ") + $"{_nld.IPAddress} is selected, please unselect and save.";
                 }
             }
-            //
+            return _ret;
         }
         //
         #endregion // NetworkLogs processing

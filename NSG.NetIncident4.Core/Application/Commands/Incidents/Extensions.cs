@@ -104,6 +104,27 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             };
         }
         //
+        /// <summary>
+        /// Extension method that translates from NetworkLog to NetworkLogListQuery.
+        /// </summary>
+        /// <param name="entity">The NetworkLog entity class.</param>
+        /// <returns>'NetworkLogListQuery' or NetworkLog list query.</returns>
+        public static NetworkLogData ToNetworkLogData(this NetworkLog entity, long incidentId)
+        {
+            return new NetworkLogData
+            {
+                NetworkLogId = entity.NetworkLogId,
+                ServerId = entity.ServerId,
+                IncidentId = entity.IncidentId,
+                IPAddress = entity.IPAddress,
+                NetworkLogDate = entity.NetworkLogDate,
+                Log = entity.Log,
+                IncidentTypeId = entity.IncidentTypeId,
+                IsChanged = false,
+                Selected = (incidentId == entity.IncidentId ? true : false)
+            };
+        }
+        //
         //  GetNoteTypes
         //  GetNICs
         //  GetIncidentTypes
@@ -192,6 +213,53 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                      IncidentTypeLogTemplate = _et == null ? _i.IncidentTypeLogTemplate : _et.LogTemplate,
                      IncidentTypeTemplate = _et == null ? _i.IncidentTypeTemplate : _et.Template
                  }).ToList();
+        }
+        //
+        /// <summary>
+        /// Return an IQueryable of NetworkLog
+        /// </summary>
+        /// <returns></returns>
+        private static IQueryable<NetworkLogData> NetworkLogDataQueryable(ApplicationDbContext context)
+        {
+            return
+                from _r in context.NetworkLogs
+                select new NetworkLogData()
+                {
+                    NetworkLogId = _r.NetworkLogId,
+                    ServerId = _r.ServerId,
+                    IPAddress = _r.IPAddress,
+                    NetworkLogDate = _r.NetworkLogDate,
+                    Log = _r.Log,
+                    IncidentTypeId = _r.IncidentTypeId,
+                    IncidentTypeShortDesc = _r.IncidentType.IncidentTypeShortDesc,
+                    IncidentId = (_r.IncidentId.HasValue ? _r.IncidentId.Value : 0),
+                    Selected = (_r.IncidentId.HasValue ? (_r.IncidentId.Value > 0 ? true : false) : false),
+                    IsChanged = false
+                };
+        }
+        //
+        /// <summary>
+        /// Return a list with select rows of NetworkLog.
+        /// * only one server
+        /// * if not mailed all unassigned network logs
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="incidentId"></param>
+        /// <param name="serverId"></param>
+        /// <param name="mailed"></param>
+        /// <returns></returns>
+        public static async Task<List<NetworkLogData>> GetNetworkLogData( ApplicationDbContext context, long incidentId, int serverId, bool mailed )
+        {
+            long?[] incidents;
+            if (mailed)
+                incidents = new long?[] { incidentId };
+            else
+                incidents = new long?[] { incidentId, (long)0, null };
+            //
+            return await NetworkLogDataQueryable(context)
+                .OrderByDescending(_r => _r.Selected).ThenBy(_r2 => _r2.NetworkLogDate)
+                .Where(_r => _r.ServerId == serverId
+                   && incidents.Contains(_r.IncidentId)).ToListAsync();
         }
         //
     }
