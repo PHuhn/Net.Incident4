@@ -132,20 +132,26 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         #region "Get SelectItems"
         //
         /// <summary>
-        /// 
+        /// Create the dropdown data
         /// </summary>
+        /// <param name="context"></param>
         /// <returns></returns>
-        public static List<SelectItem> GetNoteTypes(ApplicationDbContext context)
+        public static List<SelectItemExtra> GetNoteTypes(ApplicationDbContext context)
         {
             return
                 context.NoteTypes
-                .Select(_nt => new SelectItem
-                {
-                    value = _nt.NoteTypeId.ToString(),
-                    label = _nt.NoteTypeShortDesc
-                }).ToList();
+                    .Select(_nt => new SelectItemExtra(
+                        _nt.NoteTypeId.ToString(),
+                        _nt.NoteTypeShortDesc,
+                        _nt.NoteTypeClientScript
+                    )).ToList();
         }
         //
+        /// <summary>
+        /// Create the dropdown data
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static List<SelectItem> GetNICs(ApplicationDbContext context)
         {
             return

@@ -28,7 +28,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         //
         public List<SelectItem> incidentTypes { get; set; }
         //
-        public List<SelectItem> noteTypes { get; set; }
+        public List<SelectItemExtra> noteTypes { get; set; }
         //
         public string message { get; set; }
         //
@@ -44,7 +44,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             typeEmailTemplates = new List<IncidentTypeData>();
             NICs = new List<SelectItem>();
             incidentTypes = new List<SelectItem>();
-            noteTypes = new List<SelectItem>();
+            noteTypes = new List<SelectItemExtra>();
             message = "";
             user = new ApplicationUserServerDetailQuery();
         }
@@ -387,10 +387,25 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
     }
     //
     /// <summary>
+    /// Interface ISelectItem.
+    /// </summary>
+    /// <remarks>See PrimeNG's SelectItem interface.</remarks>
+    public interface ISelectItem
+    {
+        #region "SelectItem interface Properties"
+        public object value { get; set; }
+        public string label { get; set; }
+        public string styleClass { get; set; }
+        // methods
+        public string ToString();
+        #endregion // SelectItem interface Properties
+    }
+    //
+    /// <summary>
     /// POCO of a SelectItem.
     /// </summary>
     /// <remarks>Multiple constructors</remarks>
-    public class SelectItem
+    public class SelectItem : ISelectItem
     {
         #region "SelectItem Class Properties"
         public object value { get; set; }
@@ -442,6 +457,44 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         {
             return String.Format("record:[value: {0}, label: {1}, styleClass: {2}]",
                 this.value, this.label, this.styleClass);
+        }
+        //
+        #endregion // SelectItem Class Properties
+    }
+    //
+    /// <summary>
+    /// POCO of a SelectItem.
+    /// </summary>
+    /// <remarks>Multiple constructors</remarks>
+    public class SelectItemExtra : ISelectItem
+    {
+        #region "SelectItem Class Properties"
+        public object value { get; set; }
+        public string label { get; set; }
+        public string styleClass { get; set; }
+        public string extra { get; set; }
+        //
+        /// <summary>
+        /// Create a SelectItem object using 2 parameters constructor, default selected to false.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <remarks></remarks>
+        public SelectItemExtra(string value, string label, string extra)
+        {
+            this.value = value;
+            this.label = label;
+            this.extra = extra;
+            this.styleClass = "";
+        }
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public override string ToString()
+        {
+            return String.Format("record:[value: {0}, label: {1}, styleClass: {2}, extra: {3}]",
+                this.value, this.label, this.styleClass, this.extra);
         }
         //
         #endregion // SelectItem Class Properties
