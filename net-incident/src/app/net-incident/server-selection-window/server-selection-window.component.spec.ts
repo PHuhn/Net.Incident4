@@ -1,0 +1,122 @@
+// ===========================================================================
+import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Observable, throwError } from 'rxjs';
+import { By } from '@angular/platform-browser';
+//
+import { Dialog } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { FocusTrapModule } from 'primeng/focustrap';
+import { Header, Footer, SelectItem } from 'primeng/api';
+//
+import { ServerSelectionWindowComponent } from './server-selection-window.component';
+import { SelectItemClass } from '../../global/select-item-class';
+//
+describe('ServerSelectionWindowComponent', () => {
+	let sut: ServerSelectionWindowComponent;
+	let fixture: ComponentFixture<ServerSelectionWindowComponent>;
+	//
+	const windowTitleSelector: string =
+		'#serverSelectionWindow > div > div > div > span.p-dialog-title > p-header';
+	// document.querySelector('#serverSelectionWindow > div > div > div > span.p-dialog-title > p-header')
+	const expectedWindowTitle: string = 'Select a server';
+	const mockData: SelectItem[] = [
+		new SelectItemClass( 'nsg-1', 'Router 1' ),
+		new SelectItemClass( 'nsgServ2', 'Router 2' ),
+		new SelectItemClass( 'nsg-3', 'Web Server' )
+	];
+	const displayWindow: boolean = true;
+	//
+	beforeEach(waitForAsync(() => {
+		TestBed.configureTestingModule({
+			imports: [ FormsModule,
+				FocusTrapModule,
+				BrowserAnimationsModule
+			],
+			declarations: [
+				ServerSelectionWindowComponent,
+				Dialog, Header, Footer
+			]
+		})
+		.compileComponents();
+	}));
+	//
+	beforeEach(() => {
+		fixture = TestBed.createComponent(ServerSelectionWindowComponent);
+		sut = fixture.componentInstance;
+		sut.selectItems = mockData;
+		sut.displayWin = displayWindow;
+		fixture.detectChanges();
+		fixture.whenStable( );
+	});
+	/*
+	** Cleanup so no dialog window will still be open
+	*/
+	function windowCleanup( ) {
+		sut.displayWin = false;
+		fixture.detectChanges( ); // trigger initial data binding
+		fixture.whenStable( );
+	}
+	//
+	it('should be created ...', () => {
+		console.log(
+			'===================================\n' +
+			'ServerSelectionWindowComponent should create ...' );
+		expect(sut).toBeTruthy();
+		windowCleanup( );
+	});
+	//
+	it('should initialize (input) with all server data ...', () => {
+		expect(sut.model.length).toEqual(mockData.length);
+		windowCleanup( );
+	});
+	//
+	it('should accept display window (input) ...', () => {
+		expect(sut.displayWin).toEqual(displayWindow);
+		windowCleanup( );
+	});
+	//
+	it('should launch window when display window set ...', () => {
+		const titleVar = fixture.debugElement.query(By.css(
+			'#serverSelectionWindow' )).nativeElement;
+		const title: HTMLDivElement = fixture.debugElement.query(By.css(
+			windowTitleSelector )).nativeElement;
+		expect( title.innerText ).toEqual( expectedWindowTitle );
+		windowCleanup( );
+	});
+	//
+	it('should return selected server 0 ...', fakeAsync( () => {
+		const idx: number = 0;
+		const server: SelectItem = mockData[ idx ];
+		const value: string = server.label;
+		const radioSelector: string =
+			`div.p-dialog-content > div > div > div:nth-child(${idx + 1}) > input[type=radio]`;
+		const radio: HTMLInputElement = fixture.debugElement.query(By.css(
+			radioSelector )).nativeElement;
+		spyOn( sut.emitClose, 'emit' );
+		expect( radio.checked ).toBeFalsy(); // default state
+		//
+		radio.click();
+		expect( sut.emitClose.emit ).toHaveBeenCalledWith( value );
+		windowCleanup( );
+	}));
+	//
+	it('should return selected server 1 ...', fakeAsync( () => {
+		const idx: number = 1;
+		const server: SelectItem = mockData[ idx ];
+		const value: string = server.label;
+		const radioSelector: string =
+			`div.p-dialog-content > div > div > div:nth-child(${idx + 1}) > input[type=radio]`;
+		const radio: HTMLInputElement = fixture.debugElement.query(By.css(
+			radioSelector )).nativeElement;
+		spyOn( sut.emitClose, 'emit' );
+		expect( radio.checked ).toBeFalsy(); // default state
+		//
+		radio.click();
+		expect( sut.emitClose.emit ).toHaveBeenCalledWith( value );
+		windowCleanup( );
+	}));
+	//
+});
+// ===========================================================================

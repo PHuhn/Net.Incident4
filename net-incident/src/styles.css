@@ -1,0 +1,141 @@
+/* You can add global styles to this file, and also import other style files */
+/* prime-face prime-ng
+Afterdark, afternoon, Afterwork, Aristo, Black-Tie, Blitzer, Bluesky, Bootstrap,
+ Casablanca, cruze, !cupertino, Dark-Hive, Delta, Dot-Luv, Eggplant, Excite-Bike,
+ !flick, Glass-x, Home, Hot-Sneaks, Humanity, Le-Frog, Midnight, Mint-Choc,
+ Overcast, Pepper-grinder, !Redmond, Rocket, Sam, Smoothness, South-street, !Start,
+ Sunny, Swanky-Purse, Trontastic, Darkness, Lightness, Vader
+ luna-amber, luna-blue, luna-green, luna-pink, nova-colored, nova-dark, nova-light, rhea
+* moved to angular.json config file
+@import "primeicons/primeicons.css";
+@import "primeng/resources/themes/nova-light/theme.css";
+@import "primeng/resources/primeng.min.css";
+*
+==============================================================================
+custom html styling
+*/
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 1.2rem;
+	line-height: 1.5; /* 1.5 */
+	color: #000;
+	background-color: #fff;
+}
+optgroup, select, textarea {
+	font-family: sans-serif;
+	font-size: 100%;
+	line-height: 1.15;
+	margin: 0;
+}
+button, input, select, textarea {
+	line-height: inherit;
+	font-family: sans-serif;
+	font-size: 100%;
+}
+input::placeholder, textarea::placeholder { color: lightgray; }
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 500;  line-height: 1.1;
+	margin-top: 0; margin-bottom: .5rem;
+}
+h1 { font-size: 2.25rem; }
+h2 { font-size: 2.00rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.60rem; }
+h5 { font-size: 1.45rem; }
+h6 { font-size: 1.30rem; }
+/*
+==============================================================================
+PrimeNg
+*/
+/* remove boxes around inputs */
+body .p-inputtext { padding: 0px 0 2px 0; border: 0 none; }
+/* style popup dialogs boxes */
+body .p-dialog .p-dialog-titlebar { font-weight: bold; }
+body .p-dialog .p-dialog-footer { background-color: #f4f4f4; }
+/* icon button sizing */
+body .p-fluid .p-button-icon-only { width: 1.8em; }
+body .p-button { font-size: 12px; }
+body .p-button.p-state-default.p-button-secondary, body .p-buttonset.p-button-secondary > .p-button.p-state-default {
+	border: 1px solid gray; }
+/* selected table item */
+body .p-table .p-table-tbody > tr.p-state-highlight {
+    background-color: #add8e6; color: #000000;
+}
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.571rem 0.600rem;
+}
+/*
+==============================================================================
+NSG
+*/
+/* Info */
+.nsg-msg-info {
+	background-color: #61a5da; /* #007ad9 */
+	border: 2px solid #bae1ff;
+	border-radius: 8px;
+	color: #000000;
+	font-weight: bold;
+}
+/* Success */
+.nsg-msg-success {
+	background-color: #59ad5b; /* #34a835 */
+	border: 2px solid #c4edc4;
+	border-radius: 8px;
+	color: #000000;
+	font-weight: bold;
+}
+/* Warning */
+.nsg-msg-warning {
+	background-color: #ffba01;
+	border: 2px solid #fff1ce;
+	border-radius: 8px;
+	color: #000000;
+	font-weight: bold;
+}
+/* Danger */
+.nsg-msg-danger {
+	background-color: #fc6d79; /* #e91224;*/
+	border: 2px solid #fac7cb;
+	border-radius: 8px;
+	color: #000000;
+	font-weight: bold;
+}
+/* custom appearance and positioning styles */
+.nsg-header {
+	height: 60px; padding-top: 12px;
+}
+.nsg-jumbotron {
+	padding: 48px 32px 48px 32px;
+}
+/* https://www.sessions.edu/color-calculator/ */
+.nsg-inputtext { padding: 1px 1px 1px 4px; font-size: 1.2rem; border: 0 none; }
+.nsg-primary-color { color: #0073ea; } /* #0073ea .p-state-default */
+.nsg-color-back { color: #000000; } /* black */
+.nsg-bold { font-weight: bold; }
+.nsg-complementary-color { color: #ea5a00; }
+.nsg-triadic-lite-color { color: #eacf00; }
+.nsg-triadic-dark-color { color: #ea003b; }
+.nsg-alert-color { color: red; }
+.nsg-primary-bgcolor { background-color: #f6f6f6; }
+.nsg-text-left { text-align: left !important; }
+.nsg-text-right { text-align: right !important; }
+.nsg-text-center { text-align: center !important; }
+.nsg-spacer25 { height: 25px; }
+.nsg-button-div { width: 40px; height: 32px; padding: 0; margin: 0; }
+.nsg-icon-button { width: 110px; }
+.nsg-link-div { color: #0073ea; text-decoration: underline; }
+.nsg-column-container {
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+.nsg-inc-det-left-side { float: left; padding-right: 2px; }
+.nsg-inc-det-right-side { float: left; padding: 0 2px; }
+.nsg-input-wide { width: 98%; }
+.nsg-block-center { text-align: center; }
+/* media queries must appear in low to high order */
+@media (max-width: 768px) {
+	.nsg-text-right { text-align: left !important; }
+}
+/* End of style.css */

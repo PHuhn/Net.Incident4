@@ -1,0 +1,17 @@
+<!-- app.component.html -->
+<!-- global/alerts/alerts.component.html -->
+<!-- Global alert box to appear in upper right corner  -->
+<app-alerts></app-alerts>
+<!-- global/menu/menu.component.html -->
+<router-outlet></router-outlet>
+<!-- modal comfirmation popup -->
+<p-confirmDialog key='delete' header='Delete Confirmation' icon='pi pi-trash'></p-confirmDialog>
+<!-- content -->
+<app-header (logout)='onAuthLogout($event)'></app-header>
+<div *ngIf='authenticated === false'>
+  <app-login (emitClose)='onAuthenticated($event)'></app-login>
+</div>
+<div *ngIf='authenticated === true'>
+  <app-incident-grid [user]='user'></app-incident-grid>
+</div>
+<!-- end -->

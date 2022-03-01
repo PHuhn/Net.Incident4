@@ -1,0 +1,19 @@
+Linting "net-incident"...
+
+ERROR: ./global/alerts/alerts.service.ts[35, 7]: Identifier 'msgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./global/alerts/alerts.service.ts[42, 7]: Identifier 'msgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./global/alerts/alerts.service.ts[49, 7]: Identifier 'msgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./global/alerts/alerts.service.ts[57, 7]: Identifier 'msgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./net-incident/abuse-email-report.ts[217, 7]: Identifier 'lines' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./net-incident/incident-detail-window/incident-detail-window.component.ts[204, 7]: Identifier 'errMsgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./net-incident/incident-note-detail-window/incident-note-detail-window.component.ts[229, 7]: Identifier 'errMsgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./net-incident/login.ts[17, 7]: Identifier 'errMsgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./net-incident/services/network-incident.service.ts[32, 7]: Identifier 'errMsgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./net-incident/services/network-incident.service.ts[83, 7]: Identifier 'errMsgs' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./net-incident/whois-abuse.ts[59, 7]: Identifier 'returnArray' is never reassigned; use 'const' instead of 'let'.
+ERROR: ./public/login/login.component.ts[62, 7]: Identifier 'errMsgs' is never reassigned; use 'const' instead of 'let'.
+
+Linting "net-incident-e2e"...
+
+
+All files pass linting.
