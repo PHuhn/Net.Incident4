@@ -89,7 +89,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentNotes
 			{
 				//
 				RuleFor(x => x.IncidentNoteId).NotNull();
-				RuleFor(x => x.NoteTypeId).NotNull();
+				RuleFor(x => x.NoteTypeId).NotNull().GreaterThan(0);
 				RuleFor(x => x.Note).NotEmpty().MaximumLength(1073741823);
 				RuleFor(x => x.CreatedDate).NotNull();
 				//

@@ -154,8 +154,8 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** * WhoIs this IP-address,
 	** * Compose e-mail message for this IP-address.
 	*/
-	performIncidentType( noteType: number, noteScript: string ): void {
-		this._console.Information( `${this.codeName}.performIncidentType: Entering, id: ${noteType}, ${noteScript}` );
+	performIncidentType( id: number, noteScript: string ): void {
+		this._console.Information( `${this.codeName}.performIncidentType: Entering, id: ${id}, ${noteScript}` );
 		switch( noteScript.toLowerCase( ) ) {
 			case 'ping': {
 				this.getPing( );
@@ -170,7 +170,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 				break;
 			}
 			default: {
-				const msg = `Invalid 'id' not found: ${noteType}, ${noteScript}`;
+				const msg = `Invalid NoteType's 'ClientScript', not found: ${id}, ClientScript: ${noteScript}`;
 				this._console.Warning( `${this.codeName}.performIncidentType: ${msg}` );
 				this._alerts.setWhereWhatWarning(
 					`${this.codeName}.performIncidentType`, msg );

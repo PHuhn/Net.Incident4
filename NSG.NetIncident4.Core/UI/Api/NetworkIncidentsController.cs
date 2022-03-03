@@ -1,4 +1,5 @@
-﻿//
+﻿// ===========================================================================
+// File: NetworkIncidentsController.cs
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,6 @@ using MediatR;
 //
 using NSG.NetIncident4.Core.Application.Commands.Incidents;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
-using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core.UI.Api
 {
@@ -121,24 +121,27 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<NetworkIncidentDetailQuery> PostIncident(NetworkIncidentCreateCommand model)
+        public async Task<NetworkIncidentDetailQuery> PostIncident(NetworkIncidentSaveQuery model)
         {
+            string message = "";
             try
             {
                 if (ModelState.IsValid)
                 {
-                    NetworkIncidentDetailQuery _detailIncident = await Mediator.Send(model);
+                    NetworkIncidentDetailQuery _detailIncident = await Mediator.Send( new NetworkIncidentCreateCommand() { SaveQuery = model });
                     return _detailIncident;
                 }
             }
             catch (Exception _ex)
             {
+                message = _ex.GetBaseException().Message;
                 await Mediator.Send(new LogCreateCommand(
                     LoggingLevel.Error, MethodBase.GetCurrentMethod(),
                     _ex.Message, _ex));
             }
             NetworkIncidentDetailQuery _results =
-                await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = model.ServerId });
+                await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = model.incident.ServerId });
+            _results.message += message;
             return _results;
         }
         //
@@ -146,3 +149,4 @@ namespace NSG.NetIncident4.Core.UI.Api
         //
     }
 }
+// ===========================================================================

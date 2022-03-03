@@ -1,7 +1,6 @@
-//
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// File: NetworkIncidentCreateCommand.cs
 // Incident create command.
-//
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,27 +25,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 	/// </summary>
 	public class NetworkIncidentCreateCommand : IRequest<NetworkIncidentDetailQuery>
 	{
-		public int ServerId { get; set; }
-		public string IPAddress { get; set; }
-		public string NIC { get; set; }
-		public string NetworkName { get; set; }
-		public string AbuseEmailAddress { get; set; }
-		public string ISPTicketNumber { get; set; }
-		public bool Mailed { get; set; }
-		public bool Closed { get; set; }
-		public bool Special { get; set; }
-		public string Notes { get; set; }
-		public DateTime CreatedDate { get; set; }
         //
-        public string message;
-        //
-        public List<IncidentNoteData> IncidentNotes;
-        public List<IncidentNoteData> DeletedNotes;
-        //
-        public List<NetworkLogData> NetworkLogs;
-        public List<NetworkLogData> DeletedLogs;
-        //
-        public UserServerData User;
+        public NetworkIncidentSaveQuery SaveQuery { get; set; }
         //
     }
     //
@@ -85,24 +65,24 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 throw new NetworkIncidentCreateCommandPermissionsException("user not in editable group.");
             }
             Validator _validator = new Validator();
-			ValidationResult _results = _validator.Validate(request);
+			ValidationResult _results = _validator.Validate(request.SaveQuery);
 			if (!_results.IsValid)
 			{
 				// Call the FluentValidationErrors extension method.
 				throw new NetworkIncidentCreateCommandValidationException(_results.FluentValidationErrors());
 			}
-            string _userNameIP = $"Entering with, User: {request.User.UserName}, IP: {request.IPAddress}";
+            string _userNameIP = $"Entering with, User: {request.SaveQuery.user.UserName}, IP: {request.SaveQuery.incident.IPAddress}";
             System.Diagnostics.Debug.WriteLine(_userNameIP);
             // Move from create command class to entity class.
-            Incident _entity = CreateIncidentFromRequest(request);
+            Incident _entity = CreateIncidentFromRequest(request.SaveQuery);
             _context.Incidents.Add(_entity);
             //
             try
             {
                 // Add the IncidentNotes and link IncidentIncidentNotes
-                AddIncidentNotes(request, _entity);
-                await NetworkLogsUpdateAsync(request, _entity);
-                await NetworkLogsDeleteAsync(request, _entity);
+                AddIncidentNotes(request.SaveQuery, _entity);
+                await NetworkLogsUpdateAsync(request.SaveQuery, _entity);
+                await NetworkLogsDeleteAsync(request.SaveQuery, _entity);
                 //
                 await _context.SaveChangesAsync(cancellationToken);
             }
@@ -123,22 +103,22 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         /// <param name="request">requested NetworkIncidentCreateCommand</param>
         /// <returns>new Incident with request data</returns>
-        Incident CreateIncidentFromRequest(NetworkIncidentCreateCommand request)
+        Incident CreateIncidentFromRequest(NetworkIncidentSaveQuery request)
         {
             return new Incident
             {
-                ServerId = request.ServerId,
-                IPAddress = request.IPAddress,
-                NIC_Id = request.NIC,
-                NetworkName = request.NetworkName,
-                AbuseEmailAddress = request.AbuseEmailAddress,
-                ISPTicketNumber = request.ISPTicketNumber,
+                ServerId = request.incident.ServerId,
+                IPAddress = request.incident.IPAddress,
+                NIC_Id = request.incident.NIC,
+                NetworkName = request.incident.NetworkName,
+                AbuseEmailAddress = request.incident.AbuseEmailAddress,
+                ISPTicketNumber = request.incident.ISPTicketNumber,
                 // cannot mail or close incident on creation
                 Mailed = false, // request.Mailed (need IncidentId),
                 Closed = false, // request.Closed,
-                Special = request.Special,
-                Notes = request.Notes,
-                CreatedDate = request.CreatedDate,
+                Special = request.incident.Special,
+                Notes = request.incident.Notes,
+                CreatedDate = DateTime.Now,
             };
         }
         //
@@ -147,11 +127,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         /// <param name="request">requested NetworkIncidentCreateCommand</param>
         /// <param name="entity">the new Incident with request data</param>
-        void AddIncidentNotes(NetworkIncidentCreateCommand request, Incident entity)
+        void AddIncidentNotes(NetworkIncidentSaveQuery request, Incident entity)
         {
             //var _incidentIncidentNotes = new List<IncidentIncidentNote>();
             //var _incidentNotes = new List<IncidentNote>();
-            foreach (IncidentNoteData _ind in request.IncidentNotes)
+            foreach (IncidentNoteData _ind in request.incidentNotes)
             {
                 var _incidentNote = new IncidentNote()
                 {
@@ -176,11 +156,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         /// <param name="request"></param>
         /// <param name="entity"></param>
-        async Task NetworkLogsUpdateAsync(NetworkIncidentCreateCommand request, Incident entity)
+        async Task NetworkLogsUpdateAsync(NetworkIncidentSaveQuery request, Incident entity)
         {
             // List<NetworkLogData> networkLogs;
             // var _networkLogs = new List<NetworkLog>();
-            foreach (NetworkLogData _nld in request.NetworkLogs.Where(_l => _l.Selected == true))
+            foreach (NetworkLogData _nld in request.networkLogs.Where(_l => _l.Selected == true))
             {
                 NetworkLog _networkLog = await _context.NetworkLogs.FirstOrDefaultAsync(_nl => _nl.NetworkLogId == _nld.NetworkLogId);
                 if(_networkLog != null)
@@ -195,10 +175,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <param name="request"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        async Task NetworkLogsDeleteAsync(NetworkIncidentCreateCommand request, Incident entity)
+        async Task NetworkLogsDeleteAsync(NetworkIncidentSaveQuery request, Incident entity)
         {
             // List<NetworkLogData> deletedLogs;
-            foreach (NetworkLogData _nld in request.DeletedLogs)
+            foreach (NetworkLogData _nld in request.deletedLogs)
             {
                 NetworkLog _networkLog = await _context.NetworkLogs.FirstOrDefaultAsync(_nl => _nl.NetworkLogId == _nld.NetworkLogId);
                 if(_networkLog != null)
@@ -209,40 +189,6 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         //
         #endregion // NetworkLogs processing
         //
-        /// <summary>
-        /// FluentValidation of the 'NetworkIncidentCreateCommand' class.
-        /// </summary>
-        public class Validator : AbstractValidator<NetworkIncidentCreateCommand>
-		{
-			//
-			/// <summary>
-			/// Constructor that will invoke the 'NetworkIncidentCreateCommand' validator.
-			/// </summary>
-			public Validator()
-			{
-				//
-				RuleFor(x => x.ServerId).NotNull().GreaterThan(0);
-				RuleFor(x => x.IPAddress).NotEmpty().MinimumLength(7).MaximumLength(50)
-                    .Must(Extensions.ValidateIPv4);
-				RuleFor(x => x.NIC).NotEmpty().MaximumLength(16);
-				RuleFor(x => x.NetworkName).MaximumLength(255);
-				RuleFor(x => x.AbuseEmailAddress).MaximumLength(255);
-				RuleFor(x => x.ISPTicketNumber).MaximumLength(50);
-				RuleFor(x => x.Mailed).NotNull();
-				RuleFor(x => x.Closed).NotNull();
-				RuleFor(x => x.Special).NotNull();
-				RuleFor(x => x.Notes).MaximumLength(1073741823);
-				RuleFor(x => x.CreatedDate).NotNull();
-                //
-                RuleFor(n => n.IncidentNotes).NotNull();
-                RuleFor(n => n.NetworkLogs).NotNull();
-                RuleFor(n => n.DeletedLogs).NotNull();
-                RuleFor(u => u.User).NotNull();
-                //
-            }
-            //
-        }
-		//
 	}
 	//
 	/// <summary>
@@ -278,4 +224,4 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
     }
     //
 }
-// ---------------------------------------------------------------------------
+// ===========================================================================

@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿// ===========================================================================
+// File: NetworkIncidentsController_UnitTests.cs
+using NUnit.Framework;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,7 +92,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
                 .Verifiable("Incident empty was not sent.");
             sut = new NetworkIncidentsController(_mediator.Object);
             // when
-            NetworkIncidentDetailQuery _results = await sut.PostIncident(new NetworkIncidentCreateCommand()); // Server id
+            NetworkIncidentDetailQuery _results = await sut.PostIncident(new NetworkIncidentSaveQuery()); // Server id
             // then
             Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results);
             Assert.AreEqual(_results.message, "");
@@ -101,3 +103,4 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
         //
     }
 }
+// ===========================================================================

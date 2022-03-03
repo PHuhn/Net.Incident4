@@ -79,25 +79,29 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 .Returns(Task.FromResult(_retModel));
             NetworkIncidentCreateCommandHandler _handler = new NetworkIncidentCreateCommandHandler(db_context, _mockMediator.Object, _mockApplication.Object);
             var _nld = new NetworkLogData() { NetworkLogId = 4, ServerId = 1, IncidentId = null, IPAddress = "54.183.209.144", IncidentTypeId = 3, Selected = true };
-            NetworkIncidentCreateCommand _create = new NetworkIncidentCreateCommand()
+            NetworkIncidentSaveQuery _create = new NetworkIncidentSaveQuery()
             {
-                ServerId = 1,
-                IPAddress = "11.10.10.10",
-                NIC = "ripe.net",
-                NetworkName = "NetworkName",
-                AbuseEmailAddress = "AbuseEmailAddress",
-                ISPTicketNumber = "ISPTicketNumber",
-                Mailed = false,
-                Closed = false,
-                Special = false,
-                Notes = "Notes",
-                CreatedDate = DateTime.Now,
-                User = _user,
-                IncidentNotes = new List<IncidentNoteData>(),
-                NetworkLogs = new List<NetworkLogData>() { _nld },
-                DeletedLogs = new List<NetworkLogData>()
+                incident = new NetworkIncidentData()
+                {
+                    ServerId = 1,
+                    IPAddress = "11.10.10.10",
+                    NIC = "ripe.net",
+                    NetworkName = "NetworkName",
+                    AbuseEmailAddress = "AbuseEmailAddress",
+                    ISPTicketNumber = "ISPTicketNumber",
+                    Mailed = false,
+                    Closed = false,
+                    Special = false,
+                    Notes = "Notes",
+                    CreatedDate = DateTime.Now,
+                },
+                user = _user,
+                incidentNotes = new List<IncidentNoteData>(),
+                deletedNotes = new List<IncidentNoteData>(),
+                networkLogs = new List<NetworkLogData>() { _nld },
+                deletedLogs = new List<NetworkLogData>()
             };
-            Task<NetworkIncidentDetailQuery> _createResults = _handler.Handle(_create, CancellationToken.None);
+            Task<NetworkIncidentDetailQuery> _createResults = _handler.Handle(new NetworkIncidentCreateCommand() { SaveQuery = _create }, CancellationToken.None);
             Assert.IsNull(_createResults.Exception);
             NetworkIncidentDetailQuery _entity = _createResults.Result;
             Assert.AreEqual(2, _entity.incident.IncidentId);
@@ -124,7 +128,19 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Console.WriteLine($"{_testName} ...");
             _mockApplication.Setup(x => x.IsEditableRole()).Returns(true);
             NetworkIncidentCreateCommandHandler _handler = new NetworkIncidentCreateCommandHandler(db_context, _mockMediator.Object, _mockApplication.Object);
-            NetworkIncidentCreateCommand _create = new NetworkIncidentCreateCommand();
+            NetworkIncidentCreateCommand _create = new NetworkIncidentCreateCommand()
+            {
+                SaveQuery = new NetworkIncidentSaveQuery()
+                {
+                    incident = new NetworkIncidentData(),
+                    incidentNotes = new List<IncidentNoteData>(),
+                    deletedNotes = new List<IncidentNoteData>(),
+                    networkLogs = new List<NetworkLogData>(),
+                    deletedLogs = new List<NetworkLogData>(),
+                    user = new UserServerData(),
+                    message = ""
+                }
+            };
             Task<NetworkIncidentDetailQuery> _createResults = _handler.Handle(_create, CancellationToken.None);
             Assert.IsNotNull(_createResults.Exception);
             Assert.IsTrue(_createResults.Exception.InnerException is NetworkIncidentCreateCommandValidationException);

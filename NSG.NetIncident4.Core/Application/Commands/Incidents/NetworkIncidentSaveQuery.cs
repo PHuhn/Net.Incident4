@@ -38,7 +38,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         public Validator()
         {
             //
-            RuleFor(x => x.incident.IncidentId).NotNull().GreaterThan(0);
+            RuleFor(x => x.incident.IncidentId).NotNull().GreaterThan(-1);
             RuleFor(x => x.incident.ServerId).NotNull().GreaterThan(0);
             RuleFor(x => x.incident.IPAddress).NotEmpty().MinimumLength(7).MaximumLength(50)
                 .Must(Extensions.ValidateIPv4);
@@ -56,9 +56,30 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             RuleFor(n => n.networkLogs).NotNull();
             RuleFor(n => n.deletedLogs).NotNull();
             RuleFor(u => u.user).NotNull();
+            // foreach( )
+            RuleForEach(x => x.incidentNotes).SetValidator(new IncidentNoteValidator());
             //
         }
         //
+    }
+    //
+    /// <summary>
+    /// 
+    /// </summary>
+    public class IncidentNoteValidator : AbstractValidator<IncidentNoteData>
+    {
+        //
+        /// <summary>
+        /// Constructor that will invoke the 'IncidentNoteUpdateCommand' validator.
+        /// </summary>
+        public IncidentNoteValidator()
+        {
+            //
+            RuleFor(x => x.IncidentNoteId).NotNull();
+            RuleFor(x => x.NoteTypeId).NotNull().GreaterThan(0);
+            RuleFor(x => x.Note).NotEmpty().MaximumLength(1073741823);
+            //
+        }
     }
     //
     // ---------------------------------------------------------------------------
