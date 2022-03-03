@@ -21,7 +21,7 @@ import { AlertLevel } from '../../global/alerts/alert-level.enum';
 import { Message } from '../../global/alerts/message';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { ServicesService } from '../services/services.service';
-import { SelectItemClass } from '../../global/select-item-class';
+import { SelectItemClass, SelectItemExtra } from '../../global/select-item-class';
 import { IIncident, Incident } from '../incident';
 import { NetworkIncident } from '../network-incident';
 import { NetworkLog } from '../network-log';
@@ -67,12 +67,12 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		new IncidentNote( 5,2,'Whois','i 5',new Date( '2018-01-05T00:00:00' ), false ),
 		new IncidentNote( 6,3,'ISP Rpt','i 6',new Date( '2018-01-06T00:00:00' ), false )
 	];
-	const noteTypes: SelectItem[] = [
-		new SelectItemClass( 1, 'Ping' ),
-		new SelectItemClass( 2, 'WhoIs' ),
-		new SelectItemClass( 3, 'ISP Rpt' ),
-		new SelectItemClass( 4, 'ISP Addl' ),
-		new SelectItemClass( 5, 'ISP Resp' )
+	const noteTypes: SelectItemExtra[] = [
+		new SelectItemExtra( 1, 'Ping', 'ping' ),
+		new SelectItemExtra( 2, 'WhoIs', 'whois' ),
+		new SelectItemExtra( 3, 'ISP Rpt', 'email' ),
+		new SelectItemExtra( 4, 'ISP Addl', '' ),
+		new SelectItemExtra( 5, 'ISP Resp', '' )
 	];
 	//
 	const inc: Incident = new Incident( 4,1,ipAddr,'arin.net','PSG169',
@@ -320,7 +320,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		servicesServiceSpy.getWhoIs.and.returnValue( throwError( resp ));
 		spyOn( alertService, 'warningSet' );
 		// when
-		sut.performIncidentType(id, 'isp rpt');
+		sut.performIncidentType(id, 'email');
 		// then
 		tickFakeWait( 10 );
 		expect( alertService.warningSet ).toHaveBeenCalled( );

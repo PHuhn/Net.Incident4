@@ -22,6 +22,7 @@ import { ServicesService } from '../services/services.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseCompService } from '../../common/base-comp/base-comp.service';
 //
+import { SelectItemExtra } from '../../global/select-item-class';
 import { IUser, User } from '../user';
 import { IIncident, Incident } from '../incident';
 import { INetworkIncident, NetworkIncident } from '../network-incident';
@@ -62,12 +63,12 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 	//
 	const inc: Incident = new Incident( 4,1,ipAddr,'arin.net','PSG169',
 		'dandy@psg.com','',false,false,false,'',new Date( '2018-04-01T01:00:00' ) );
-	const mockNoteTypes: SelectItem[] = [
-		{ value: 1, label: "Ping" },
-		{ value: 2, label: "WhoIs" },
-		{ value: 3, label: "ISP Rpt" },
-		{ value: 4, label: "ISP Addl" },
-		{ value: 5, label: "ISP Resp" }
+	const mockNoteTypes: SelectItemExtra[] = [
+		new SelectItemExtra( 1, 'Ping', 'ping' ),
+		new SelectItemExtra( 2, 'WhoIs', 'whois' ),
+		new SelectItemExtra( 3, 'ISP Rpt', 'email' ),
+		new SelectItemExtra( 4, 'ISP Addl', '' ),
+		new SelectItemExtra( 5, 'ISP Resp', '' )
 	];
 	//
 	beforeEach( waitForAsync( ( ) => {

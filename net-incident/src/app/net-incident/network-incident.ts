@@ -17,7 +17,7 @@ export interface INetworkIncident {
 	typeEmailTemplates: IncidentType[];
 	NICs: SelectItem[];
 	incidentTypes: SelectItem[];
-	noteTypes: SelectItem[];
+	noteTypes: SelectItemExtra[];
 	message: string;
 	user: User;
 }
