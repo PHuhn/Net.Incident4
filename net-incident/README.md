@@ -1,6 +1,6 @@
 # NetIncident
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
 ## Development server
 
@@ -31,8 +31,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ### About Net-Incident
 
-Given classified incident logs (like SQL injection, XSS or PHP vulnerabilities),
-this application groups the incidents by IP address, lookup the ISP abuse e-mail address, ISP name and NIC (Network Information Center). Can generate an e-mail message via the incident type template.  If mail is configured, it will send the message to the ISP’s abuse e-mail address.
+Given classified incident logs (like SQL injection, XSS or PHP vulnerabilities), this application groups the incidents by IP address, lookup the ISP abuse email address, ISP name and NIC (Network Information Center). Can generate an email message via the incident type template.  If mail is configured in the back-end server, it will send the message to the ISP’s abuse email address.
 
 ### NetIncident Documentation
 
@@ -71,3 +70,13 @@ The app-component is the conventional root component. The component structure is
     * app-incident-note-grid
       * app-incident-note-detail-window
     * app-networklog-grid
+
+Good design practices inherit the components from an application specific class.  This application's base component contains two methods that constantly appeared in the code.
+
+*	baseDeleteConfirm
+*	baseErrorHandler
+
+I addition the application has two custom services:
+
+* alert.service
+* console-log.service

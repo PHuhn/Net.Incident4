@@ -32,7 +32,7 @@
 					<th style='width: 58px;'>
 						<button (click)="addItemClicked( )" pButton type="button" icon="pi pi-plus" class="p-button-primary"></button>
 					</th>
-					<th style='width: 60px;' [pSortableColumn]='"IncidentId"'>
+					<th style='width: 70px;' [pSortableColumn]='"IncidentId"'>
 						Id
 						<p-sortIcon [field]='"IncidentId"'></p-sortIcon>
 					</th>
@@ -52,15 +52,7 @@
 						Abuse Email Address
 						<p-sortIcon [field]='"AbuseEmailAddress"'></p-sortIcon>
 					</th>
-					<th style='width: 60px;'>
-						Mailed
-					</th>
-					<th style='width: 60px;'>
-						Closed
-					</th>
-					<th style='width: 60px;'>
-						Special
-					</th>
+					<th>ISP Ticket #</th>
 					<th style='width: 58px;'></th>
 				</tr>
 			</ng-template>
@@ -74,20 +66,12 @@
 					<td>
 						<button (click)="editItemClicked( rowData )" pButton type="button" icon="pi pi-pencil" class="p-button-primary"></button>
 					</td>
-					<td>{{rowData['IncidentId']}}</td>
+					<td class='nsg-text-right'>{{rowData['IncidentId']}}</td>
 					<td>{{rowData['IPAddress']}}</td>
 					<td>{{rowData['NIC']}}</td>
 					<td>{{rowData['NetworkName']}}</td>
 					<td>{{rowData['AbuseEmailAddress']}}</td>
-					<td>
-						<input type='checkbox' #mailed='ngModel' [(ngModel)]='rowData["Mailed"]' disabled />
-					</td>
-					<td>
-						<input type='checkbox' #closed='ngModel' [(ngModel)]='rowData["Closed"]' disabled />
-					</td>
-					<td>
-						<input type='checkbox' #special='ngModel' [(ngModel)]='rowData["Special"]' disabled />
-					</td>
+					<td>{{rowData['ISPTicketNumber']}}</td>
 					<td>
 						<button (click)="deleteItemClicked( rowData )" pButton type="button" icon="pi pi-trash" class="p-button-danger"></button>
 					</td>
