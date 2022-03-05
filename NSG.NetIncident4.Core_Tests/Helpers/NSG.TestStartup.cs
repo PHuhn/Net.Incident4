@@ -4,10 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 //
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
-using Microsoft.AspNetCore.Identity;
 //
 namespace NSG.Integration.Helpers
 {
@@ -18,14 +19,10 @@ namespace NSG.Integration.Helpers
         {
         }
         //
-        public void ErrorHandler(object sender, EventArgs e)
-        {
-        }
-        //
         public override void ConfigureServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
-            services.AddRazorPages();
+            //
             ApplicationDbContext db_context =
                 NSG_Helpers.GetSqliteMemoryDbContext(NSG_Helpers.GetSqliteMemoryConnection(), services);
             UserManager<ApplicationUser> userManager =
@@ -37,39 +34,35 @@ namespace NSG.Integration.Helpers
             _seeder.Seed().Wait();
         }
         //
-        public override void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
-            ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager)
-        {
-            app.UseExceptionHandler(errorApp =>
-            {
-
-                System.Diagnostics.Debug.Write(errorApp.ToString());
-            });
-            //
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
-            // routing/CORS/endpoint
-            app.UseCors("CorsAnyOrigin");
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseCookiePolicy();
-            app.UseSession();
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSG Net-Incident4.Core v1"));
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
-            //
-        }
+        //public override void Configure(
+        //    IApplicationBuilder app,
+        //    IWebHostEnvironment env,
+        //    ApplicationDbContext context,
+        //    UserManager<ApplicationUser> userManager,
+        //    RoleManager<ApplicationRole> roleManager)
+        //{
+        //    app.UseExceptionHandler(errorApp =>
+        //    {
+        //        System.Diagnostics.Debug.Write(errorApp.ToString());
+        //    });
+        //    app.UseHttpsRedirection();
+        //    app.UseStaticFiles();
+        //    app.UseRouting();
+        //    app.UseCors("CorsAnyOrigin");
+        //    app.UseAuthentication();
+        //    app.UseAuthorization();
+        //    app.UseCookiePolicy();
+        //    app.UseSession();
+        //    app.UseSwagger();
+        //    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSG Net-Incident4.Core v1"));
+        //    app.UseEndpoints(endpoints =>
+        //    {
+        //        endpoints.MapControllerRoute(
+        //            name: "default",
+        //            pattern: "{controller=Home}/{action=Index}/{id?}");
+        //        endpoints.MapRazorPages();
+        //    });
+        //}
         //
     }
 }

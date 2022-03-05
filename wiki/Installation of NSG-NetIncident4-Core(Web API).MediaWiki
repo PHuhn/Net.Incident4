@@ -1,0 +1,99 @@
+= Installation of development NSG.NetIncident4.Core =
+
+# Always operate with least privileges (not as an administrator).  I am a developer, not an administrator.  Your team may have there own best practices that should be followed.
+
+# Install [https://www.npmjs.com/package/fake-smtp-server fake SMTP server].
+
+# Download and install [https://github.com/PHuhn/NSG.Library NSG.Library].  The installation instructions are [https://github.com/PHuhn/NSG.Library/wiki/NSG.Library here].
+
+# Download and install [https://github.com/PHuhn/NSG.PrimeNG/ NSG.PrimeNG].  The installation instructions are [https://github.com/PHuhn/NSG.PrimeNG/wiki here].
+
+# Download '''Net.Incident4''' master zip by the Clone or Download pull-down on the root folder of Net.Incident4. I copied Net.Incident4-main folder and pasted the folder to my development folder along side of the NSG.Library folder (you may have to delete and relink the '''NSG.Library''' and '''NSG.PrimeNG''' projects, I did not have to).
+
+# I renamed Net.Incident4-main to Net.Incident4.
+
+# Download and install a WhoIs command line utility for the '''server'''.  I am using JWhoIs from [GNU-Win32](http://gnuwin32.sourceforge.net/packages/jwhois.htm).  I install my command in the C:\Bin\GnuWin32\bin folder.
+
+# From ''Windows Explorer'' clicked Net.Incident4.sln, and launch ''Visual Studio 2022''. I use the Community edition.
+
+# Configure appsettings.json.
+#* In the ''ConnectionStrings'' section, configure the ''NetIncident4'' item. You will most likely need to change the ''Data Source''.
+#* In the ''JWT'' section, configure the ''ValidIssuer'' and ''Secret'' items. The ''ValidIssuer'' set the server and port as necessary.
+#* In the ''AuthSettings'' section, configure the ''JwtSecret'', ''JwtIssuer'' and the ''CorsAllowOrigins'' items.
+#* In the ''EmailSettings'' section, configure values appropriately.
+#* In the ''ServicesSettings'' section, configure the ''WhoisDir'' and ''WhoisCmd'' items.
+#* In the ''ApplicationSettings'' section, configure the ''Phone''.
+
+# Launch the ''fake-smtp-server'' by the '''fake-smtp''' batch script in the '''NSG.Library''' folder.
+
+# From ''Visual Studio 2022'' go into the package manager command line and create the database by the following (make sure that NSG.WebSrv is selected): ` Add-Migration InitialCreate ` and ` Update-Database -verbose `
+
+# From ''Visual Studio 2022'' go into the solution properties and set '''NSG.NetIncident4.Core''' as the startup project.
+
+# Launch the NSG.NetIncident4.Core project.
+
+# Create initial admin user: Click the Register link on the Home page and register yourself.  You will need to use ''NSG Memb'' for the '''Server Short Name'''.
+
+# Convert initial admin user: Launch ''SQL Server Management Studio'' and convert yourself to being a administrator.  Edit the top 200 of the ''AspNetUserRoles'' table.  There should be only one row in the table the user just created.  Change the role from ''pub'' to ''adm''.
+
+# Create SQL security account: From the ''SQL Server Management Studio'' expand the '''Security''' below '''Databases'''. Expand '''Logins'''.  If ''NT AUTHORITY\LOCAL SERVICE'' or ''NT AUTHORITY\NETWORK SERVICE'' accounts do not exist then add the desired account.  To add a login, right click the '''Logins''' and click ''New Login...'' option.  From the ''Login - New'' panel click the '''Search...''' button.  From the ''Select User or Group'' panel click the '''Advanced...''' button.  From the ''Select User or Group 2'' panel click the '''Find Now...''' button.  From the ''Search results'' select either ''LOCAL SERVICE'' or ''NETWORK SERVICE'' desired account and click '''OK''' through the various panels to save this login account.
+
+# Set SQL security permissions: From the ''SQL Server Management Studio'' expand the '''Databases''' and then expand '''NetIncident2''' database and finally expand '''Security'''.  To add a user, right click the '''Users''' and click ''New User...'' option.  From the ''Database User - New'' panel, click the ''Login name'' '''...''' button.  From the ''Select Login'' panel, click the '''Browse...''' button.  From the ''Browse for Objects'' panel, locate in the Matching Object in the selection and click the checkbox for the desired ''NT AUTHORITY\LOCAL SERVICE'' or ''NT AUTHORITY\NETWORK SERVICE'' account.  Click the '''OK''' button twice to return to the ''Database User - New'' panel.  On the ''Database User - New'' panel, copy and paste the ''Login name'' and duplicate it in the ''User name'' field, type '''dbo''' into the ''Default schema''.  On the right side of the ''Database User - New'' panel, click ''Membership''.  From the ''Database role membership'' check click db''datareader and db''datawriter and click the '''OK''' button.  The IIS website will run as this user, so the user needs to be granted permission to add, update and delete data.
+
+# Create development IIS web-site: Launch ''Internet Information Services (IIS) Manager'' from the ''Adminisitrative Tools'' control panel. Right click the '''Sites''' and click ''Add Website...'' option.  Set '''Site name''' to ''NI''Serivces'', '''Physical path''' to ''C:\inetpub\NI_ServicesCore'', and '''Port''' to ''9111'' (these values can be changed per situations).
+
+# Change IIS web-site App-Pool:  From the left panel of ''Internet Information Services (IIS) Manager'' click the '''Application Pool''' select ''NI''Serivces'' app-pool and then in the right panel click the ''Advanced settings...'' link.  From ''Advanced Settings'' panel click the ''...'' in the '''Identity''' option.  From the ''Application Pool Identity'' panel, change the '''Built-in account''' from ''ApplicationPoolIdentity'' to either ''LocalServices'' or ''NetworkServices'' account.
+
+# Grant developer file permissions: In the ''File Explorer'' grant yourself '''Full Control''' to ''C:\inetpub\NI_ServicesCore'' website folder, so you can publish to the folder.
+
+# From ''Visual Studio 2022'' go into '''NSG.NetIncident4.Core''' and ''Publish'' the website to the ''C:\inetpub\NI_ServicesCore'' website folder.
+
+# Launch a web browser and navigate to localhost:9111 view some of the back-end data.
+#* Manage your account,
+#* All Users,
+#* Roles,
+#* Companies and server/devices,
+#* E-mail Templates.
+
+----
+
+Alternately, one can use my development web-site Powershell script to create the web-site.  The WebSite.ps1 script can be found [https://github.com/PHuhn/ProjectNami-Windows-Install-Utils ProjectNami Utilities].
+
+ PS C:\scripts> .\website.ps1 -baseDir "C:\inetpub\" -siteName NI_ServicesCore -siteUser "NT AUTHORITY\LOCAL SERVICE" -portNum "9111" -owner Phil -wordPress 0
+
+Output as follows:
+
+ C:\inetpub\ NI_ServicesCore NT AUTHORITY\LOCAL SERVICE  Phil False
+ C:\inetpub\NI_ServicesCore \Sites\NI_ServicesCore \AppPools\NI_ServicesCore NI_ServicesCore *:9111:
+  
+  
+     Directory: C:\inetpub
+  
+  
+ Mode                LastWriteTime         Length Name                                                          
+ ----                -------------         ------ ----                                                          
+ d-----        5/11/2018   9:32 AM                NI_ServicesCore                                                  
+ 
+ Name  : NI_ServicesCore
+ State : Started
+ 
+ 
+ Name         : NI_ServicesCore
+ ID           : 11
+ State        : Started
+ PhysicalPath : C:\inetpub\NI_ServicesCore
+ Bindings     : Microsoft.IIs.PowerShell.Framework.ConfigurationElement
+ 
+ set-DirPermissions, directory:  C:\inetpub\NI_ServicesCore , user:  NT AUTHORITY\LOCAL SERVICE , perm:  ReadAndExecute
+ set-DirPermissions, directory:  C:\inetpub\NI_ServicesCore , user:  Phil , perm:  FullControl
+ 
+ The NI_ServicesCore site may require additional configuration from the
+ 'Internet Information Services (IIS) Manager' console.
+ 
+ 
+ 
+ PS C:\scripts> 
+
+----
+
+Instruction for install the Angular UI are [https://github.com/PHuhn/net-incident/wiki/Installation-of-Angular-net-incident here].

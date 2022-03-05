@@ -1,0 +1,26 @@
+= Installation of the Angular CLI net-incident application =
+
+This is an Angular CLI application.  CLI stands for '''C'''ommand '''L'''ine '''I'''nterface.  CLI is a specific platform for developing an Angular application.  CLI command are entered on the command line and starts with '''ng'''. 
+
+The ''net-incident'' is embedded in ''net-incident-master'' which contains both Web API services and this Angular application.
+
+# Download node modules:
+#: Launch a command line DOS prompt and navigate to the ''Net-Incident\net-incident'' root Angular application folder.  At the command line enter '''npm install''' and wait for it to complete.  The ''node_modules'' folder should contain over 30,000 files.  This folder should rarely be backed up.
+
+# Test the application:
+#: From the previous command line enter '''ng test''' and it should launch Chrome and continuously run all of the tests (to exit, enter Cntl C).
+
+# Download VS Code:
+#: I use VS Code to build the application (its free).  You can use what you desire.
+
+# Launch VS Code:
+#: Launch a command line DOS prompt and navigate to the ''Net-Incident\net-incident'' root Angular application folder.  At the command line enter:
+#:: '''code .'''
+
+# Launch development application web server:
+#: Launch a command line DOS prompt and navigate to the ''Net-Incident\net-incident'' root Angular application folder.  At the command line enter '''ng serve'''  In a browser window, navigate to ''localhost:4200''
+
+# Build production:
+#: Launch a command line DOS prompt and navigate to the ''Net-Incident\net-incident'' root Angular application folder.  At the command line enter:
+#:: '''ng build --prod --env=prod'''
+#: This will transpile the ''typescript'' to the ''dist'' folder.  The ''dist'' folder can then be copied to a website.

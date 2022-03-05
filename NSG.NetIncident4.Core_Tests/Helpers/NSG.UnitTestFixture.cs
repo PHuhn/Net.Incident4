@@ -29,30 +29,29 @@ namespace NSG.Integration.Helpers
     public class UnitTestFixture
     {
         //
-        static public SqliteConnection sqliteConnection;
-        static public ApplicationDbContext db_context;
-        static public UserManager<ApplicationUser> userManager;
-        static public RoleManager<ApplicationRole> roleManager;
-        static public IConfiguration configuration = null;
-        static public Dictionary<string, string> controllerHeaders =
+        public SqliteConnection sqliteConnection;
+        public ApplicationDbContext db_context;
+        public UserManager<ApplicationUser> userManager;
+        public RoleManager<ApplicationRole> roleManager;
+        public IConfiguration configuration = null;
+        public Dictionary<string, string> controllerHeaders =
             new Dictionary<string, string>()
             {
                 ["cookie"] = "ai_user=Zn3LO|2021-11-19T15:30:13.062Z; .AspNetCore.Antiforgery.TgedqpnEzL8=CfDJ8MoWY2n3geRBvkgVUWBREdrAbSv3olymADsefAXujoG9VNEcZw3EiwDGCXW4wXuNsrXgp3p7ZTSQAlQvBV5m31kilXUR8tla-lte-Mo9j3HZFbLoXrP9DEhmmJr6wUTqcJd-4uKk5ehaN2u-Za-Jeac; ai_session=xBril|1645283096306.1|1645285831298.5",
                 ["user-agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.50"
             };
-        static public Dictionary<string, string> apiHeaders =
+        public Dictionary<string, string> apiHeaders =
             new Dictionary<string, string>()
             {
                 ["Authorization"] = "Bearer 12345678901234567890123456789012345678901234567890",
                 ["user-agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.50"
             };
-        static public Dictionary<string, string> emptyHeaders = new Dictionary<string, string>();
+        public Dictionary<string, string> emptyHeaders = new Dictionary<string, string>();
         //
         private IWebHostBuilder _builder;
         private TestServer _server;
         private HttpClient _client;
         //
-        public IWebHostBuilder builder { get { return _builder; } }
         public TestServer server { get { return _server; } }
         public HttpClient client { get { return _client; } }
         //
@@ -126,6 +125,21 @@ namespace NSG.Integration.Helpers
                     Console.WriteLine("client is null");
                 }
                 throw new Exception("UnitTestFixture.Fixture_ControllerTestSetup: failed to create server & client.");
+            }
+            userManager = _server.Services.GetService<UserManager<ApplicationUser>>();
+            roleManager = _server.Services.GetService<RoleManager<ApplicationRole>>();
+            db_context = _server.Services.GetService<ApplicationDbContext>();
+            if (userManager == null || roleManager == null)
+            {
+                if (userManager == null)
+                {
+                    Console.WriteLine("userManager is null");
+                }
+                if (roleManager == null)
+                {
+                    Console.WriteLine("roleManager is null");
+                }
+                throw new Exception("UnitTestFixture.Fixture_UnitTestSetup: failed to create managers.");
             }
         }
         //
