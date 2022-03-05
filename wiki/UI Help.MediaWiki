@@ -1,0 +1,115 @@
+= Help =
+== Overview ==
+Network Incidents is meant to help in the process of reporting to an ISP that an IP address from their network has in-properly probed your device or server. Their are many pain points in the process of reporting network incidents. This streamlines getting the abuse e-mail address and the construction of the e-mail to the ISP. It also yields an id for this incident that can be used in the correspondence.
+
+This does not cover the pain points of extraction, categorization and loading of various logs. Additionally, one needs some sort of emailing solution to be configured in the web service site. This is normally SMTP relay to a local e-mail server/service, but SendGrid and MailGun may be an option. No facility exist for loading ISP response into the 'notes', except for cut and paste.
+
+== Introduction ==
+The application starts with network logs of various intrusions (only the intrusions). The logs are loaded with the appropriate server id and intrusion type id. From the application one selects the server and adds an incident. One selects (checks) the incident and the application will collect all like IP addresses, and attempt to lookup the abuse e-mail address, NIC and ISP name.
+
+This application gets the abuse e-mail address, NIC and ISP name by the whois command on the server. Whois communicates to various Regional Internet Registries or RIR's around the worlds. The primary RIR's are as follows:
+
+=== NIC's ===
+* afrinic.net	(Africian Network Information Centre)
+* apnic.net	(Asian-Pacfic Network Information Centre)
+* arin.net	(Americian (North) Registry of Internet Numbers)
+* lacnic.net	(Latin America and Caribbean Network Information Centre)
+* ripe.net	(Réseaux IP Européens Network Coordination Centre - Europe)
+
+The individual repositories are also called Network Information Center or NIC. NIC's is the term that this applicaion uses.
+
+=== Incident Types ===
+Different types of probes/attacks can occur.  Generally the probe is testing for a vulnerability.  The base set of '''incident types''' is as follows: 
+* Unk (Unknown)
+* Multiple (Multiple Types)
+* SQL (SQL Injection)
+* PHP (PHP)
+* XSS (Cross Site Scripting)
+* VS (ViewState)
+* DIR (Directory traversal)
+* DoS (Denial-of-service attack)
+
+=== Email Templates ===
+As of now there is a one-to-one correspondence between ''incident types'' and ''email templates''.  The following is an example of an ''email template''.
+{|
+|'''Description'''
+|Multiple Types
+|-
+|'''Use Server Values'''
+|X
+|-
+|'''Subject Line'''
+|Network abuse from ${IPAddress}
+|-
+|'''Email Template'''
+|Hi\n\nStop the intrusion from your IP address ${IPAddress}.\nThe following IP address probe my network, probing for multiple vulnerabilities.\nPlease contain the following reference # in all communications: ${IncidentId}\n\n${Device}\n${ServerLocation}\nIncident times: 
+|-
+|'''Time Template'''
+|${IncidentTypeShortDesc}: ${NetworkLogDate} ${TimeZone} 
+|-
+|'''Thanks Template'''
+|\nThank you,\n${FromName}\n================ 
+|-
+|'''Log Template'''
+|\n${Log}\n-------------------------------- 
+|}
+
+=== Note Types ===
+The ''notes'' can store a variety of information concerning an incident.  Each ''note'' is of a specific type.  The following are the base ''note types'':
+* Ping (Ping)
+* WhoIs (WhoIs)
+* ISP Rpt (Abuse Report to ISP)
+* ISP Addl (Additional Communication from ISP)
+* ISP Resp (ISP Response)
+
+== Network Incident application ==
+=== Login ===
+To login to the development server, navigate to ''localhost:4200'', and enter the registered user name and password.    You will need to use ''NSG Memb'' for the '''Server Short Name'''.  One can enter the '''Server Short Name''', or if left blank, a server selection form will appear.
+
+[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Login.png]]
+
+=== Network Incident grid ===
+Initially, the Network Incident grid will be empty.  The grid is filtered by the selected server and a combination of flags as follows:
+* Mailed
+* Closed
+* Special
+The default flag value is false.  So if all incidents are either mailed and closed, then this is what you will see.
+[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Grid-Empty.png]]
+
+To add an incidents, click the '''+''' icon on the upper left side of the grid.
+
+=== Network Incident detail ===
+The forms fields will be empty, except for any unassigned log records, located in the right side grid.  The log grid contains limited information.  If you would like to see the entire log record click on the '''>''' icon on the left side of the grid and it will reveal more information.  If you see logs that are not an incident, then you can just click the delete icon, and when the record is saved will be deleted.
+
+[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-Empty.png]]
+
+Check the desired log record, the grid will filter on the selected IP address, and the WhoIs command should populate the ''NIC'', ''ISP'' and ''abuse e-mail address''.  If the WhoIs command was successful, but could not identity the abuse e-mail address, the output from the WhoIs will be stored in the Notes.  If multiple records were selected and you would like to report the incidents separately, just uncheck the ones not to be reported.
+
+[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-IP-Selected.png]]
+
+To save the incident click the '''Save''' button in the right side of the footer.  The application will return to the ''Network Incident grid''.
+
+
+=== Editing Network Incident and Notes ===
+On the ''Network Incident grid'' click the ''Pencil'' icon to edit the network incident.
+To create a note, click the '''+''' icon on the note grid.
+From the note detail popup, on the ''Type'' drop-down, select '''Ping'''.
+After about 10 seconds the ping command should return.
+The output can sometimes give you a deeper name of the network and will tell you if the IP address is still active.
+Click the Save button on the footer of the note detail form.
+
+[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-Note-Ping.png]]
+
+Click the '''+''' to add another note.
+From the note detail popup, on the ''Type'' drop-down select '''ISP Rpt'''.
+This will take the template for the incident type and the data and create a JSON string containing an abuse email.
+Click the Save button on the note.
+
+[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-Note-Report.png]]
+
+Check the Mailed checkbox and click the '''Save''' button and the application will return to the ''Network Incident grid''.
+
+=== Email messages ===
+In a browser window, navigate to ''localhost:10080'' view the emails mailled in the ''fake-smtp-server''.
+
+[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Fake-Smtp-Emails.png]]

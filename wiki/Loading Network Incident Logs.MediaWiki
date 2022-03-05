@@ -1,0 +1,100 @@
+= Powershell scripts =
+
+== Loading Network Incident Logs from Netgear Router ==
+I have a Netgear 300 wireless router.  The router logs are available by e-mail, or logging on as the administrator and copying the logs to a text file.  I did the latter.  I saved the file as NG-300-2018-05-03.txt
+
+I ran the following batch command (text file name minus the extent of txt).  The batch file uses a GNUWin32 GREP command.
+
+  C:\...\logs> LogFilter NG-300-2018-05-03
+
+This should create two files, as follows: 
+
+* NG-300-2018-05-03.admin.txt
+* NG-300-2018-05-03.probe.txt
+
+I created a sample PowerShell script to demonstrate loading network incidents to the database.
+
+Launch the PowerShell ISE.  Change directory as follows to the working log directory:
+
+  PS C:> cd C:\...\logs
+
+You can get help for the logs load Netgear powershell script as follows:
+
+  PS C:> get-help .\LogsLoad-NG.ps1 -full
+
+You can run the logs load Netgear powershell script as follows:
+
+  PS C:> .\LogsLoad-NG.ps1 -server ".\Express" -filePath "C:\Dat\Nsg\L\Web\Ng\NetIncidents3\logs\ng-300-2018-05-03-probe.txt" -serverId 4 -incidentTypeId 1026
+
+== Loading Network Incident Logs from IIS ==
+
+Change directory to the location of the log script.
+
+=== LogsLoad-IIS Help ===
+
+Execute the following to get full help on the load IIS logs script:
+
+  PS C:> get-help .\LogsLoad-IIS.ps1 -full
+
+=== Sample LogsLoad-IIS Execution ===
+
+To load IIS logs with something like the following:
+
+  PS C:> .\LogsLoad-IIS.ps1 -server ".\Express" -filePath "C:\inetpub\logs\LogFiles\W3SVC1\u_ex180528.log" -serverId 1
+
+= Python script =
+
+== Loading Network Incident Logs from Netgear Router ==
+
+Go to the .\NetIncidents3\logs\Py-Net-Incident folder and execute the following command (changing appropriate values):
+
+  C:\> python logs_load.py --logType NG --server .\Express --filePath .\data\NG-300-2018-05-03.txt --serverId 8
+
+The following is the help by passing -h option:
+
+  usage: logs_load.py [-h] --logType log_type (of NG or IIS)
+                      [--server server (.\SQLExpress)]
+                      [--dbName db_name (NetIncident2)] --filePath file_path
+                      --serverId server_id
+  Load IIS logs to database
+  optional arguments:
+    -h, --help            show this help message and exit
+    --logType log_type (of NG or IIS)
+                          A magic value defining what type of logs, values:
+                          NG/IIS
+    --server server (.\SQLExpress)
+                          SQL Server instance name
+    --dbName db_name (NetIncident2))
+                          Database name
+    --filePath file_path  Full path and file name of IIS logs
+    --serverId server_id  An integer value of the server logs that are being
+                          loaded
+
+== Loading Network Incident Logs from IIS ==
+
+Go to the .\NetIncidents3\logs\Py-Net-Incident folder and execute the following command (changing appropriate values):
+
+  C:\> python logs_load.py --logType IIS --server .\Express --filePath .\data\iis.log --serverId 8
+
+The following is the help by passing -h option:
+
+  usage: logs_load.py [-h] --logType log_type (of NG or IIS)
+                      [--server server (.\SQLExpress)]
+                      [--dbName db_name (NetIncident2)] --filePath file_path
+                      --serverId server_id
+  Load IIS logs to database
+  optional arguments:
+    -h, --help            show this help message and exit
+    --logType log_type (of NG or IIS)
+                          A magic value defining what type of logs, values:
+                          NG/IIS
+    --server server (.\SQLExpress)
+                          SQL Server instance name
+    --dbName db_name (NetIncident2))
+                          Database name
+    --filePath file_path  Full path and file name of IIS logs
+    --serverId server_id  An integer value of the server logs that are being
+                          loaded
+
+Good luck and thanks for helping make the internet safer.
+Phil

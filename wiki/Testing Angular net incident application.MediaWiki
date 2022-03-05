@@ -1,0 +1,27 @@
+= Testing of the Angular CLI net-incident application =
+
+# In a browser window, navigate to ''localhost:4200'' and login to the application.  You will need to use ''NSG Memb'' for the '''Server Short Name'''.  If you do not enter the '''Server Short Name''' a separate panel will appear.
+
+# Add incidents: the ''Network Incident grid'' will be empty.
+
+## Click the '''+''' icon to add an incident.
+
+## You will see an empty form, except for 4 fake log records.  Check the top one and the other three should now be filtered out and the WhoIs command should populate the ''NIC'', ''ISP'' and ''abuse e-mail address''.  If the WhoIs command was successful but could not identity the abuse e-mail address, the WhoIs output will be stored in the Notes.
+
+## '''Save''' the incident and the application will return to the ''Network Incident grid''.
+
+# Repeat the previous adds steps two more times.
+
+# Edit incidents:
+
+## On the ''Network Incident grid'' click the ''Pencil'' icon to edit the network incident. 
+
+## Click the '''+''' to add a note.  From the ''Type'' drop-down select '''Ping'''.  This can some time give you a deeper name of the network. After about 10 seconds the ping command should return.  Click the Save button on the note.
+
+## Click the '''+''' to add another note.  From the ''Type'' drop-down select '''ISP Rpt'''.  This will take the template for the incident type and the data and create a JSON string containing an abuse email.  Click the Save button on the note.
+
+# Check the Mailed checkbox and click the '''Save''' button and the application will return to the ''Network Incident grid''.
+
+# Repeat the previous edit step two more times.
+
+# In a browser window, navigate to ''localhost:10080'' view the ''fake-smtp-server'' to see that the three incident would have been mailled.
