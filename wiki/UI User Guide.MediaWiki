@@ -1,4 +1,4 @@
-= Help =
+= UI User Guide (Help) =
 == Overview ==
 Network Incidents is meant to help in the process of reporting to an ISP that an IP address from their network has in-properly probed your device or server. Their are many pain points in the process of reporting network incidents. This streamlines getting the abuse e-mail address and the construction of the e-mail to the ISP. It also yields an id for this incident that can be used in the correspondence.
 
@@ -66,7 +66,7 @@ The ''notes'' can store a variety of information concerning an incident.  Each '
 === Login ===
 To login to the development server, navigate to ''localhost:4200'', and enter the registered user name and password.    You will need to use ''NSG Memb'' for the '''Server Short Name'''.  One can enter the '''Server Short Name''', or if left blank, a server selection form will appear.
 
-[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Login.png]]
+[[https://github.com/PHuhn/Net.Incident4/blob/main/wiki/Login.png]]
 
 === Network Incident grid ===
 Initially, the Network Incident grid will be empty.  The grid is filtered by the selected server and a combination of flags as follows:
@@ -74,18 +74,18 @@ Initially, the Network Incident grid will be empty.  The grid is filtered by the
 * Closed
 * Special
 The default flag value is false.  So if all incidents are either mailed and closed, then this is what you will see.
-[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Grid-Empty.png]]
+[[https://github.com/PHuhn/Net.Incident4/blob/main/wiki/Incid-Grid-Empty.png]]
 
 To add an incidents, click the '''+''' icon on the upper left side of the grid.
 
 === Network Incident detail ===
 The forms fields will be empty, except for any unassigned log records, located in the right side grid.  The log grid contains limited information.  If you would like to see the entire log record click on the '''>''' icon on the left side of the grid and it will reveal more information.  If you see logs that are not an incident, then you can just click the delete icon, and when the record is saved will be deleted.
 
-[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-Empty.png]]
+[[https://github.com/PHuhn/Net.Incident4/blob/main/wiki/Incid-Detail-Empty.png]]
 
 Check the desired log record, the grid will filter on the selected IP address, and the WhoIs command should populate the ''NIC'', ''ISP'' and ''abuse e-mail address''.  If the WhoIs command was successful, but could not identity the abuse e-mail address, the output from the WhoIs will be stored in the Notes.  If multiple records were selected and you would like to report the incidents separately, just uncheck the ones not to be reported.
 
-[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-IP-Selected.png]]
+[[https://github.com/PHuhn/Net.Incident4/blob/main/wiki/Incid-Detail-IP-Selected.png]]
 
 To save the incident click the '''Save''' button in the right side of the footer.  The application will return to the ''Network Incident grid''.
 
@@ -98,18 +98,18 @@ After about 10 seconds the ping command should return.
 The output can sometimes give you a deeper name of the network and will tell you if the IP address is still active.
 Click the Save button on the footer of the note detail form.
 
-[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-Note-Ping.png]]
+[[https://github.com/PHuhn/Net.Incident4/blob/main/wiki/Incid-Detail-Note-Ping.png]]
 
 Click the '''+''' to add another note.
 From the note detail popup, on the ''Type'' drop-down select '''ISP Rpt'''.
 This will take the template for the incident type and the data and create a JSON string containing an abuse email.
 Click the Save button on the note.
 
-[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Incid-Detail-Note-Report.png]]
+[[https://github.com/PHuhn/Net.Incident4/blob/main/wiki/Incid-Detail-Note-Report.png]]
 
 Check the Mailed checkbox and click the '''Save''' button and the application will return to the ''Network Incident grid''.
 
 === Email messages ===
 In a browser window, navigate to ''localhost:10080'' view the emails mailled in the ''fake-smtp-server''.
 
-[[https://github.com/PHuhn/Net.Incident4/raw/master/wiki/Fake-Smtp-Emails.png]]
+[[https://github.com/PHuhn/Net.Incident4/blob/main/wiki/Fake-Smtp-Emails.png]]
