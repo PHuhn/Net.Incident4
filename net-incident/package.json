@@ -1,6 +1,6 @@
 {
   "name": "net-incident",
-  "version": "13.1.0",
+  "version": "13.4.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -47,6 +47,8 @@
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "primeng": "^13.2.1",
+    "source-map": "^0.7.3",
+    "source-map-generator": "^0.8.0",
     "typescript": "~4.4.4"
   }
 }

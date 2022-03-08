@@ -1762,6 +1762,17 @@ SOLUTION:
 ProjectProjectTaskFakeService > validateProject: should handle a validation Active required error...
 Failed: NG0200: Circular dependency in DI detected for DataManagerService. Find more at https://angular.io/errors/NG0200
 
+PROBLEM:
+========
+	Get version information from package.json
+SOLUTION:
+	in tsconfig.json:
+	    "allowSyntheticDefaultImports": true,
+	in component:
+		import pkg from 'package.json'
+		...
+		version = `${pkg.version}`;
+
 ===================================================
 Done:
 	service logging 12/22
@@ -1813,11 +1824,9 @@ Done:
 	V11.1.0.34 - Implemented base component class, more code coverage, removed custom mocks, lint
 	V12.1.0.34 - Upgraged from Angular 11 to 12, moving to ES-Lint
 	V12.1.0.35 - Changes per ES-Lint
+	V13.4.0.0 - .net core version - version from package.json
 
 To Do's:
-	V - delete of network-log not working
-	V1.1 - convert to 2.1 Core
-			https://www.codeproject.com/Articles/1274433/Getting-Started-with-Angular-7-And-ASP-NET-Core-2
 	V
 		https://kimsereyblog.blogspot.com/2018/11/create-navigation-loading-bar-for.html
 
