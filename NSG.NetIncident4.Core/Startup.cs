@@ -62,8 +62,8 @@ namespace NSG.NetIncident4.Core
             ConfigureSessionServices(services);
             // CORS
             ConfigureCorsServices(services);
-            //
-            ConfigureAuthenticationServices(services);
+            // Cookie auth not working
+            // ConfigureAuthenticationServices(services);
             // AdminRole/CompanyAdminRole/AnyUserRole
             ConfigureAuthorizationPolicyServices(services);
             //

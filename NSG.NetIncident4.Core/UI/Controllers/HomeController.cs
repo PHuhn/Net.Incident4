@@ -37,7 +37,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         */
         public IActionResult Index()
         {
-            _logger.Log(LogLevel.Information, "In home page");
+            var _name = _application.GetApplicationName();
+            _logger.Log(LogLevel.Information, $"{_name}: In home page, authenticated: {User.Identity.IsAuthenticated}, Name: {User.Identity.Name}");
             return View();
         }
         /*
