@@ -2,6 +2,7 @@
 // ---------------------------------------------------------------------------
 //
 using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace NSG.NetIncident4.Core.UI.Api
     //
     // -----------------------------------------------------------------------
     //
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Authorize(Policy = "AnyUserRole")]
     [ApiController]
     [Route("api/[controller]")]

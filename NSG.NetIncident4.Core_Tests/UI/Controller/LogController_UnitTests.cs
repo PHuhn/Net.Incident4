@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using MediatR;
 using Moq;
 //
+using NSG.PrimeNG.LazyLoading;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.UI.Controllers;
@@ -52,8 +53,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
                 .Verifiable("Log List was not sent.");
             LogController sut = new LogController(mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext(userName, "admin", "/Log/", controllerHeaders);
+            LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = 4 };
             // when
-            var actual = await sut.Index();
+            var actual = await sut.Index(event2);
             // then
             var viewResult = actual as ViewResult;
             Assert.IsNotNull(viewResult);
