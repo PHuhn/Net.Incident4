@@ -14,6 +14,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.PrimeNG.LazyLoading;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.Logs
 {
@@ -66,10 +67,13 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 			return new ViewModel()
 			{
 				LogsList = await _context.Logs
-                    .Where( lg => lg.UserAccount == queryRequest.UserAccount )
-                    .OrderByDescending( ob => ob.Date )
-                    .Take( 25 )
-					.Select(cnt => cnt.ToLogListQuery()).ToListAsync()
+					.Where(lg => lg.UserAccount == queryRequest.UserAccount)
+					.OrderByDescending(ob => ob.Date)
+					.Select(d => d).AsQueryable()
+					.LazySkipTake2<LogData>(queryRequest.lazyLoadEvent)
+					.Select(cnt => cnt.ToLogListQuery()).ToListAsync(),
+				TotalRecords = _context.Logs
+					.Where(lg => lg.UserAccount == queryRequest.UserAccount).Count()
 			};
 		}
 		//
@@ -79,6 +83,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 		public class ViewModel
 		{
 			public IList<LogListQuery> LogsList { get; set; }
+			public long TotalRecords { get; set; }
 		}
 		//
 		/// <summary>
@@ -87,7 +92,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 		public class ListQuery : IRequest<ViewModel>
 		{
             public string UserAccount { get; set; }
-        }
+			public LazyLoadEvent2 lazyLoadEvent { get; set; }
+		}
 		//
 		/// <summary>
 		/// FluentValidation of the 'LogListQuery' class.
@@ -100,7 +106,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 			/// </summary>
 			public Validator()
 			{
-				//
+				RuleFor(x => x.UserAccount).NotEmpty().MinimumLength(2).MaximumLength(256);
+				RuleFor(x => x.lazyLoadEvent).NotNull();
 			}
 			//
 		}

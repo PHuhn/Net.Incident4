@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 //
 using NSG.NetIncident4.Core.Application.Commands.Logs;
+using NSG.PrimeNG.LazyLoading;
+using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
 {
@@ -26,14 +28,30 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         /// GET: Log
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    string _user = Base_GetUserAccount();
+        //    ViewBag.UserAccount = _user;
+        //    LogListQueryHandler.ListQuery _parm = new LogListQueryHandler.ListQuery() { UserAccount = _user };
+        //    Console.WriteLine($"{codeName}: User: {_parm.UserAccount}");
+        //    LogListQueryHandler.ViewModel _results = await Mediator.Send(_parm);
+        //    return View("Index", _results.LogsList);
+        //}
+        public async Task<IActionResult> Index(LazyLoadEvent2? event2)
         {
+            if (event2.rows == 0) { event2.rows = 5; }
             string _user = Base_GetUserAccount();
             ViewBag.UserAccount = _user;
-            LogListQueryHandler.ListQuery _parm = new LogListQueryHandler.ListQuery() { UserAccount = _user };
+            LogListQueryHandler.ListQuery _parm = new LogListQueryHandler.ListQuery() { UserAccount = _user, lazyLoadEvent = event2 };
             Console.WriteLine($"{codeName}: User: {_parm.UserAccount}");
             LogListQueryHandler.ViewModel _results = await Mediator.Send(_parm);
-            return View("Index", _results.LogsList);
+            Pagination<LogListQuery> pagination = new Pagination<LogListQuery>(
+                _results.LogsList as List<LogListQuery>,
+                event2,
+                _results.TotalRecords
+            );
+            //
+            return View(pagination);
         }
         //
     }
