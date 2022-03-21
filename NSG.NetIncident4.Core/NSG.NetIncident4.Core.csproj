@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
 	<!-- Version <core>.<major>.<minor>.<build> -->
-	<Version>5.4.0.1</Version>
+	<Version>5.4.0.3</Version>
 	<Copyright>Copyright © 2022</Copyright>
 	<Company>Northern Software Group</Company>
 	<Authors>Phil Huhn (NSG)</Authors>
@@ -44,6 +44,10 @@
     <ProjectReference Include="..\..\..\Ng\NSG.MimeKit\NSG.MimeKit.Extensions\NSG.MimeKit.Extensions.csproj" />
     <ProjectReference Include="..\..\..\Ng\NSG.MimeKit\NSG.MimeKit.SendGrid.Extensions\NSG.MimeKit.SendGrid.Extensions.csproj" />
     <ProjectReference Include="..\..\..\Ng\NSG.PrimeNG\NSG.PrimeNG.LazyLoading\NSG.PrimeNG.LazyLoading.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
 
   <Target Name="CreateLogsFolder" AfterTargets="Publish">
