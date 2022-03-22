@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 //
 using MediatR;
@@ -18,6 +19,7 @@ using NSG.NetIncident4.Core.UI.Controllers;
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
     [Authorize(Policy = "CompanyAdminRole")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class CompanyServerController : BaseController
     {
         //

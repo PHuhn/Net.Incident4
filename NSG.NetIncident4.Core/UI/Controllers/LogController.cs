@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
@@ -11,7 +12,7 @@ using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class LogController : BaseController
     {
         string codeName = "LogController";
@@ -37,7 +38,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         //    LogListQueryHandler.ViewModel _results = await Mediator.Send(_parm);
         //    return View("Index", _results.LogsList);
         //}
-        public async Task<IActionResult> Index(LazyLoadEvent2? event2)
+        public async Task<ActionResult<Pagination<LogListQuery>>> Index(LazyLoadEvent2? event2)
         {
             if (event2.rows == 0) { event2.rows = 5; }
             string _user = Base_GetUserAccount();

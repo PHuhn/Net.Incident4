@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,7 @@ using NSG.NetIncident4.Core.UI.ViewHelpers;
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
     [Authorize(Policy = "CompanyAdminRole")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class UsersAdminController : BaseController
     {
         //

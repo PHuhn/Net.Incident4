@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,7 @@ using NSG.NetIncident4.Core.Application.Commands.Logs;
 namespace NSG.NetIncident4.Core.UI.Controllers.Admin
 {
     [Authorize(Policy = "AdminRole")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class RolesAdminController : BaseController
     {
         //

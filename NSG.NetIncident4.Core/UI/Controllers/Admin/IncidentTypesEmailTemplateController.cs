@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ using NSG.NetIncident4.Core.UI.Controllers;
 namespace NSG.NetIncident4.Core.UI.Controllers.Admin
 {
     [Authorize(Policy = "AdminRole")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class IncidentTypesEmailTemplateController : BaseController
     {
         //
