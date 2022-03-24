@@ -12,6 +12,7 @@ using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
+using NSG.PrimeNG.LazyLoading;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
@@ -197,9 +198,10 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         [Test]
         public void LogListQuery_Test()
         {
+            LazyLoadEvent2 event2 = new LazyLoadEvent2() { rows = 4, first = 0 };
             LogListQueryHandler _handler = new LogListQueryHandler(db_context);
             LogListQueryHandler.ListQuery _listQuery =
-                new LogListQueryHandler.ListQuery() { UserAccount = _userName };
+                new LogListQueryHandler.ListQuery() { UserAccount = _userName, lazyLoadEvent = event2 };
             Task<LogListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
             IList<LogListQuery> _list = _viewModelResults.Result.LogsList;
