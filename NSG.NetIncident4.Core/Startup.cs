@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,8 +22,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 //
 using FluentValidation.AspNetCore;
 using MediatR;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 //
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
@@ -63,7 +62,7 @@ namespace NSG.NetIncident4.Core
             // CORS
             ConfigureCorsServices(services);
             // Cookie auth not working
-            // ConfigureAuthenticationServices(services);
+            ConfigureAuthenticationServices(services);
             // AdminRole/CompanyAdminRole/AnyUserRole
             ConfigureAuthorizationPolicyServices(services);
             //
@@ -143,7 +142,6 @@ namespace NSG.NetIncident4.Core
             {
                 options.DefaultAuthenticateScheme = "BearerOrCookie";
                 options.DefaultChallengeScheme = "BearerOrCookie";
-                options.DefaultScheme = "BearerOrCookie";
             })
                 /*
                 ** Add Jwt Bearer
@@ -151,7 +149,6 @@ namespace NSG.NetIncident4.Core
                 .AddJwtBearer(options =>
                 {
                     options.SaveToken = true;
-                    options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidateIssuer = true,
@@ -160,11 +157,19 @@ namespace NSG.NetIncident4.Core
                         ValidIssuer = Configuration["JWT:ValidIssuer"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                     };
+                    // Do not use in production.
+                    options.RequireHttpsMetadata = false;
                 })
                 /*
                 ** Add cookie authentication scheme
                 */
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.LoginPath = new PathString("/Account/Login");
+                    options.LogoutPath = new PathString("/Account/Logout");
+                    options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                })
                 /*
                 ** Conditionally add either JWT bearer of cookie authentication scheme
                 */
@@ -176,8 +181,8 @@ namespace NSG.NetIncident4.Core
                         if (context.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
                             return JwtBearerDefaults.AuthenticationScheme;
                         else
-                            return CookieAuthenticationDefaults.AuthenticationScheme;
-                    };
+                            return IdentityConstants.ApplicationScheme;                    };
+                            // return CookieAuthenticationDefaults.AuthenticationScheme;
                 });
         }
         //

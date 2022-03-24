@@ -20,6 +20,7 @@ using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.UI.Controllers;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
+using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Controller
 {
@@ -38,6 +39,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         public async Task Index_Test()
         {
             // given
+            long pagerRows = 4;
             // return values
             LogListQueryHandler.ViewModel results = new LogListQueryHandler.ViewModel()
             {
@@ -53,15 +55,16 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
                 .Verifiable("Log List was not sent.");
             LogController sut = new LogController(mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext(userName, "admin", "/Log/", controllerHeaders);
-            LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = 4 };
+            LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = pagerRows };
             // when
             var actual = await sut.Index(event2);
             // then
-            var viewResult = actual as ViewResult;
+            Assert.IsNotNull(actual);
+            var viewResult = actual.Result as ViewResult;
             Assert.IsNotNull(viewResult);
-            var model = viewResult.ViewData.Model as List<LogListQuery>;
+            var model = viewResult.Model as Pagination<LogListQuery>;
             Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.Count);
+            Assert.AreEqual(1, model.items.Count);
         }
         //
         [Test]
