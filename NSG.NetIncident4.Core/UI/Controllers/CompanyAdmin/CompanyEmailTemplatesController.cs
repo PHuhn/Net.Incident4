@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 //
@@ -18,12 +17,12 @@ using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.NetIncident4.Core.Application.Commands.Companies;
 using NSG.NetIncident4.Core.UI.ViewModels;
 using NSG.NetIncident4.Core.Application.Commands.IncidentTypes;
-using NSG.NetIncident4.Core.UI.Controllers;
+using NSG.NetIncident4.Core.Infrastructure.Common;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
     [Authorize(Policy = "CompanyAdminRole")]
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = SharedConstants.IdentityApplicationScheme)]
     public class CompanyEmailTemplatesController : BaseController
     {
         //

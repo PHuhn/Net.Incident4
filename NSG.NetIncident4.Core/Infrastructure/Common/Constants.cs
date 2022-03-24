@@ -19,4 +19,8 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         public static readonly string userRole = "User";
         //
     }
+    public class SharedConstants
+    {
+        public const string IdentityApplicationScheme = "Identity.Application";
+    }
 }

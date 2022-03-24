@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -15,13 +14,13 @@ using MediatR;
 //
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationRoles;
-using NSG.NetIncident4.Core.UI.Controllers;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
+using NSG.NetIncident4.Core.Infrastructure.Common;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.Admin
 {
     [Authorize(Policy = "AdminRole")]
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = SharedConstants.IdentityApplicationScheme)]
     public class RolesAdminController : BaseController
     {
         //

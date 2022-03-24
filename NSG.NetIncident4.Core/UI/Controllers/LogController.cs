@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 //
+using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.PrimeNG.LazyLoading;
 using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = SharedConstants.IdentityApplicationScheme)]
     public class LogController : BaseController
     {
         string codeName = "LogController";
@@ -28,16 +29,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         /// <summary>
         /// GET: Log
         /// </summary>
+        /// <param name="event2"></param>
         /// <returns></returns>
-        //public async Task<IActionResult> Index()
-        //{
-        //    string _user = Base_GetUserAccount();
-        //    ViewBag.UserAccount = _user;
-        //    LogListQueryHandler.ListQuery _parm = new LogListQueryHandler.ListQuery() { UserAccount = _user };
-        //    Console.WriteLine($"{codeName}: User: {_parm.UserAccount}");
-        //    LogListQueryHandler.ViewModel _results = await Mediator.Send(_parm);
-        //    return View("Index", _results.LogsList);
-        //}
         public async Task<ActionResult<Pagination<LogListQuery>>> Index(LazyLoadEvent2? event2)
         {
             if (event2.rows == 0) { event2.rows = 5; }

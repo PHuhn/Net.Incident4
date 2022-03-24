@@ -142,6 +142,7 @@ namespace NSG.NetIncident4.Core
             {
                 options.DefaultAuthenticateScheme = "BearerOrCookie";
                 options.DefaultChallengeScheme = "BearerOrCookie";
+                options.DefaultScheme = "BearerOrCookie";
             })
                 /*
                 ** Add Jwt Bearer
@@ -181,8 +182,9 @@ namespace NSG.NetIncident4.Core
                         if (context.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
                             return JwtBearerDefaults.AuthenticationScheme;
                         else
-                            return IdentityConstants.ApplicationScheme;                    };
+                            return IdentityConstants.ApplicationScheme;
                             // return CookieAuthenticationDefaults.AuthenticationScheme;
+                    };
                 });
         }
         //
