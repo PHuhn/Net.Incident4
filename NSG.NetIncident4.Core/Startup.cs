@@ -183,7 +183,6 @@ namespace NSG.NetIncident4.Core
                             return JwtBearerDefaults.AuthenticationScheme;
                         else
                             return IdentityConstants.ApplicationScheme;
-                            // return CookieAuthenticationDefaults.AuthenticationScheme;
                     };
                 });
         }
