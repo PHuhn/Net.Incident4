@@ -13,15 +13,10 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
 using MediatR;
 //
+using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.Integration.Helpers;
-using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.Servers;
-using NSG.Integration.Helpers;
-using Microsoft.Extensions.Options;
 using NSG.NetIncident4.Core.Application.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {

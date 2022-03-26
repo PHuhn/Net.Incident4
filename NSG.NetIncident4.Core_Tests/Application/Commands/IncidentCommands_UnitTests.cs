@@ -3,16 +3,15 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 //
 using Moq;
 using MediatR;
 //
+using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Application.Commands.Incidents;
-using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
-using Microsoft.EntityFrameworkCore;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 //

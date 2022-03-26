@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using Moq;
 using MediatR;
 //
+using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
-using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.PrimeNG.LazyLoading;
 //

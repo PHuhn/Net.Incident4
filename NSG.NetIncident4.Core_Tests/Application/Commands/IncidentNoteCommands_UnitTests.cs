@@ -13,11 +13,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
 using MediatR;
 //
+using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.Integration.Helpers;
-using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.IncidentNotes;
-using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {

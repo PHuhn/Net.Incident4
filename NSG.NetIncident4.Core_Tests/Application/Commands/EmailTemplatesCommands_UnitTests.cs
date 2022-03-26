@@ -10,15 +10,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Moq;
 using MediatR;
 //
-using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.Integration.Helpers;
+using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates;
-using NSG.Integration.Helpers;
-using Microsoft.Extensions.Options;
 using NSG.NetIncident4.Core.Application.Infrastructure;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
