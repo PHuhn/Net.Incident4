@@ -10,7 +10,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
     //
     /// <summary>
     /// Class in support of a pageination control.
-    /// <<  < 1 2 3 4 5 6 7 >  >>
+    /// <<  < 1 2 3 4 5 6 7 >  >> select v
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public partial class Pagination<T> : IPagination
@@ -40,24 +40,49 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// </summary>
         public long pageCount { get; set; }
         /// <summary>
+        /// How many pages to display, default is 7
+        /// </summary>
+        public long pageWindowSize { get; set; }
+        /// <summary>
         /// The action, defaults to 'Index' action.
         /// </summary>
         public string action { get; set; }
         //
         /// <summary>
         /// Constructor
+        /// <example>
+        ///   LazyLoadEvent2 event2 = new LazyLoadEvent2() {first=0, rows = 4}; 
+        ///   Pagination<TestData> pagination = new Pagination<TestData>(
+        ///     _data.Select(d => d).AsQueryable().LazySkipTake2<TestData>(event2).ToList(),
+        ///     event2,
+        ///     _data.Count
+        ///   )
+        ///   {
+        ///     rowsPerPageOptions = new int[3] { 4, 8, 16 }
+        ///   };
+        /// In view:
+        ///   @model NSG.NetIncident4.Core.UI.ViewModels.Pagination<TestData>
+        ///   ...
+        ///   <partial name="PagerPartial" model="Model" />
+        /// or:
+        ///   <paginator paginator-model="@Model"></paginator>
+        /// </example>
         /// </summary>
         /// <param name="items"></param>
         /// <param name="event2"></param>
         /// <param name="total"></param>
         public Pagination(List<T> items, LazyLoadEvent2 event2, long total)
         {
+            // parameter values
             this.items = items;
             this.lazyLoadEvent = event2;
             this.totalRecords = total;
-            this.rowsPerPageOptions = new int[3] { 5, 10, 20 };
+            // calculated values
             this.pageIndex = (long)Math.Ceiling((decimal)((decimal)this.lazyLoadEvent.first / (decimal)this.lazyLoadEvent.rows)) + 1;
             this.pageCount = (long)Math.Ceiling((decimal)((decimal)this.totalRecords / (decimal)this.lazyLoadEvent.rows));
+            // default values
+            this.rowsPerPageOptions = new int[3] { 5, 10, 20 };
+            this.pageWindowSize = (long)7;
             this.action = "Index";
         }
         //
@@ -93,14 +118,13 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         private long[] GetStartEndWindow()
         {
             long startPage = 1;
-            long windowSize = 7;
             long numberOfPages = this.pageCount + 1;
-            long visiblePages = Math.Min(windowSize, numberOfPages);
+            long visiblePages = Math.Min(this.pageWindowSize, numberOfPages);
             // calculate range, keep current in middle if necessary
             long start = Math.Max(startPage, (long)Math.Ceiling((decimal)this.pageIndex - (((decimal)visiblePages) / (decimal)2))),
                 end = Math.Min(numberOfPages - 1, start + visiblePages - 1);
             // check when approaching to last page
-            var delta = windowSize - (end - start + 1);
+            var delta = this.pageWindowSize - (end - start + 1);
             start = Math.Max(startPage, start - delta);
             return new long[2] { start, end };
         }

@@ -1,6 +1,25 @@
 ﻿@using NSG.PrimeNG.LazyLoading
 @model NSG.NetIncident4.Core.UI.ViewModels.IPagination
 @{
+    // =======================================================================
+    // File: PaginatorTagHelper.cs
+    // Pager using the PrimeNG's LazyLoadEvent2 class
+    // ReflectionIT.Mvc.Paging.IPagingList
+    // example:
+    // In controller:
+    //   LazyLoadEvent2 event2 = new LazyLoadEvent2() {first=0, rows = 4}; 
+    //   Pagination<TestData> pagination = new Pagination<TestData>(
+    //     _data.Select(d => d).AsQueryable().LazySkipTake2<TestData>(event2).ToList(),
+    //     event2,
+    //     _data.Count
+    //   )
+    //   {
+    //     rowsPerPageOptions = new int[3] { 4, 8, 16 }
+    //   };
+    // In view:
+    //   @model NSG.NetIncident4.Core.UI.ViewModels.Pagination<TestData>
+    //   ...
+    //   <partial name="PagerPartial" model="Model" />
     var start = this.Model.GetStartWindow();
     var stop = this.Model.GetEndWindow();
     string form_url = Url.Action(Model.action, null, null, null, null, null);
@@ -34,7 +53,7 @@
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
-        <li class="page-item">
+        <li class='page-item @(this.Model.rowsPerPageOptions.Count() == 0 ? "disabled" : "")'>
             <select id="pageSizeOption" onchange="pageSizeOption_onchange(this.value)" asp-for="@Model.lazyLoadEvent.rows" class="form-control" asp-items="@new SelectList(Model.rowsPerPageOptions)" style="max-width: 100px;">
                 <option value="">select</option>
             </select>
@@ -64,8 +83,6 @@
     ** param {string} [method=post] the method to use on the form
     */
     function post_form(path, params, method='post') {
-      // The rest of this code assumes you are not using a library.
-      // It can be made less verbose if you use one.
       const form = document.createElement('form');
       form.method = method;
       form.action = path;

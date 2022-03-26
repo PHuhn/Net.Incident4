@@ -34,6 +34,10 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// </summary>
         long pageCount { get; set; }
         /// <summary>
+        /// How many pages to display, default is 7
+        /// </summary>
+        long pageWindowSize { get; set; }
+        /// <summary>
         /// The action, defaults to 'Index' action.
         /// </summary>
         string action { get; set; }

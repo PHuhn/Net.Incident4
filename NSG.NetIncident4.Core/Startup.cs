@@ -28,6 +28,7 @@ using NSG.NetIncident4.Core.Infrastructure.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Infrastructure.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 //
 namespace NSG.NetIncident4.Core
 {
@@ -286,6 +287,7 @@ namespace NSG.NetIncident4.Core
             AuthSettings _authSettings = Options.Create<AuthSettings>(
                 Configuration.GetSection("AuthSettings").Get<AuthSettings>()).Value;
             services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             /*
             ** Add email/notification services
             */
