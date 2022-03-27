@@ -15,7 +15,6 @@ namespace NSG.NetIncident4.Core.UI.Api
     [ApiController]
     public class LogController : BaseApiController
     {
-        string codeName = "LogController";
         //
         /// <summary>
         /// Explicitly pass mediator

@@ -31,7 +31,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         /// </summary>
         /// <param name="event2"></param>
         /// <returns></returns>
-        public async Task<ActionResult<Pagination<LogListQuery>>> Index(LazyLoadEvent2? event2)
+        public async Task<ActionResult<Pagination<LogListQuery>>> Index(LazyLoadEvent2 event2)
         {
             if (event2.rows == 0) { event2.rows = 5; }
             string _user = Base_GetUserAccount();

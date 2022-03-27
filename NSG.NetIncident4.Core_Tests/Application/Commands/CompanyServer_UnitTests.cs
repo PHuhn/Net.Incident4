@@ -13,12 +13,8 @@ using Microsoft.Extensions.Options;
 using Moq;
 using MediatR;
 //
-using NSG.NetIncident4.Core.UI.Controllers;
-using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.Integration.Helpers;
-using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.CompanyServers;
-using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Application.Infrastructure;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands

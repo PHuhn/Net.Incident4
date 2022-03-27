@@ -25,7 +25,6 @@ namespace NSG.NetIncident4.Core.UI.Api
     public class AuthenticateController : ControllerBase
     {
         //
-        private readonly string codeName = "AuthenticateController";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;

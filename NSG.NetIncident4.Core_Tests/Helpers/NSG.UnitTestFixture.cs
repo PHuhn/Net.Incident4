@@ -48,7 +48,6 @@ namespace NSG.Integration.Helpers
             };
         public Dictionary<string, string> emptyHeaders = new Dictionary<string, string>();
         //
-        private IWebHostBuilder _builder;
         private TestServer _server;
         private HttpClient _client;
         //
@@ -100,15 +99,16 @@ namespace NSG.Integration.Helpers
         /// <exception cref="Exception"></exception>
         public void Fixture_ControllerTestSetup()
         {
-            _builder = null;
+            string projectPath = @"C:\Dat\Nsg\L\Web\22\Net.Incident4\NSG.NetIncident4.Core";
+            IWebHostBuilder _builder = null;
             _server = null;
             _client = null;
             _builder = new WebHostBuilder()
-                .UseContentRoot(@"C:\Dat\Nsg\L\Web\22\Net.Incident4\NSG.NetIncident4.Core")
+                .UseContentRoot(projectPath)
                 .UseEnvironment("Development")
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    // config.SetBasePath(Directory.GetCurrentDirectory());
+                    config.SetBasePath(projectPath);
                     config.AddJsonFile("appsettings.json");
                 }).UseStartup<TestStartup>();
             _server = new TestServer(_builder);
@@ -294,10 +294,6 @@ namespace NSG.Integration.Helpers
             {
                 roleManager.Dispose();
                 roleManager = null;
-            }
-            if (_builder != null)
-            {
-                _builder = null;
             }
             if (_client != null)
             {
