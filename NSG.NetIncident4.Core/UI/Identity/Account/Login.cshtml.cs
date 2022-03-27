@@ -29,6 +29,10 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            Input = new InputModel();
+            ExternalLogins = new List<AuthenticationScheme>();
+            ReturnUrl = "/";
+            ErrorMessage = "";
         }
 
         [BindProperty]

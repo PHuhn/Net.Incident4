@@ -43,6 +43,10 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             _logger = logger;
             _emailSender = emailSender;
             _context = context;
+            ReturnUrl = "/";
+            Input = new InputModel();
+            ExternalLogins = new List<AuthenticationScheme>();
+            CompanySelectList = new List<SelectListItem>();
         }
 
         [BindProperty]
@@ -106,12 +110,15 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
 
         public async Task OnGetAsync(string? returnUrl = null)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity != null)
             {
-                Response.Redirect("/Home");
+                if (User.Identity.IsAuthenticated)
+                {
+                    Response.Redirect("/Home");
+                }
             }
             //
-            ReturnUrl = returnUrl;
+            ReturnUrl = returnUrl == null ? "/" : returnUrl;
             try
             {
                 CompanySelectList = _context.Servers.Select(s => new SelectListItem(s.ServerShortName, s.CompanyId.ToString())).ToList();

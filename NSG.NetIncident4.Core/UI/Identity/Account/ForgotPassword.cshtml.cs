@@ -24,6 +24,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            Input = new InputModel();
         }
 
         [BindProperty]
@@ -34,6 +35,11 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            //
+            public InputModel()
+            {
+                Email = "";
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()

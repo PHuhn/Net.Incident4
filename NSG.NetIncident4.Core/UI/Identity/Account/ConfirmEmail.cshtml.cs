@@ -20,6 +20,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
         public ConfirmEmailModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
+            StatusMessage = "";
         }
 
         [TempData]
