@@ -53,13 +53,22 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+            //
+            public InputModel()
+            {
+                this.UserName = "";
+                this.Password = "";
+            }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = null)
         {
-            if (User.Identity.IsAuthenticated)
+            if( User.Identity != null)
             {
-                Response.Redirect("/Home");
+                if (User.Identity.IsAuthenticated)
+                {
+                    Response.Redirect("/");
+                }
             }
             //
             if (!string.IsNullOrEmpty(ErrorMessage))
@@ -77,7 +86,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 

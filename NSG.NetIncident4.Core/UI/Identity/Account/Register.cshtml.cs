@@ -90,9 +90,21 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            //
+            public InputModel()
+            {
+                this.UserName = "";
+                this.FirstName = "";
+                this.LastName = "";
+                this.UserNicName = "";
+                this.CompanyId = 0;
+                this.Email = "";
+                this.Password = "";
+                this.ConfirmPassword = "";
+            }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = null)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -121,7 +133,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             }
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

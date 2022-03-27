@@ -39,9 +39,9 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
         /// <returns>void/complete</returns>
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return SendEmailAsync(Extensions.NewMimeMessage()
+            return SendEmailAsync(MimeKit.Extensions.NewMimeMessage()
                 .From(_emailSettings.UserEmail, _emailSettings.UserName).To(email)
-                .Subject(subject).Body(Extensions.TextBody(message)));
+                .Subject(subject).Body(MimeKit.Extensions.TextBody(message)));
         }
         //
         /// <summary>
@@ -55,7 +55,7 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
         public Task SendEmailAsync(string from, string to, string subject, string message)
         {
             return SendEmailAsync(MimeKit.Extensions.NewMimeMessage()
-                .From(from).To(to).Subject(subject).Body(Extensions.TextBody(message)));
+                .From(from).To(to).Subject(subject).Body(MimeKit.Extensions.TextBody(message)));
         }
         //
         /// <summary>
