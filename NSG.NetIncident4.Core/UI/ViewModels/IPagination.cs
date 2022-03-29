@@ -41,7 +41,14 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// The action, defaults to 'Index' action.
         /// </summary>
         string action { get; set; }
-        //
+        /// <summary>
+        /// Toggle for displaying the rowsPerPageOptions dropdown.
+        /// </summary>
+        bool pageOptions { get; set; }
+        /// <summary>
+        /// Toggle for displaying the previous and next buttons.
+        /// </summary>
+        bool previousNext { get; set; }
         LazyLoadEvent2 GetRouteForPage(long pageIndex);
         //
         /// <summary>

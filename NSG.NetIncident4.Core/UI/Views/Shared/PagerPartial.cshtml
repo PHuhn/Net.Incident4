@@ -31,33 +31,39 @@
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class='page-item @(this.Model.IsFirstPage() ? "disabled" : "")'>
-            <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageIndex - 1), null, null, null)" aria-label="Previous" class='page-link'>
-                <span aria-hidden="true">&lt;</span>
-            </a>
-        </li>
+        @if (this.Model.previousNext) {
+            <li class='page-item @(this.Model.IsFirstPage() ? "disabled" : "")'>
+                <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageIndex - 1), null, null, null)" aria-label="Previous" class='page-link'>
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+        }
         @for (long pg = start; pg <= stop; pg++) {
             <li class="page-item @((Model.pageIndex == pg) ? "active" : null)">
-                <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(pg), null, null, null)" aria-label="Previous" class="page-link">
+                <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(pg), null, null, null)" aria-label="Page @pg" class="page-link">
                     <span aria-hidden="true">@pg.ToString()</span>
                 </a>
             </li>
         }
-        <li class='page-item @(this.Model.IsLastPage() ? "disabled" : "")'>
-            <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageIndex + 1))" aria-label="Next" class='page-link'>
-                <span aria-hidden="true">&gt;</span>
-            </a>
-        </li>
+        @if (this.Model.previousNext) {
+            <li class='page-item @(this.Model.IsLastPage() ? "disabled" : "")'>
+                <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageIndex + 1))" aria-label="Next" class='page-link'>
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+        }
         <li class='page-item @(this.Model.IsLastPage() ? "disabled" : "")'>
             <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageCount))" aria-label="Last" class='page-link'>
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
-        <li class='page-item @(this.Model.rowsPerPageOptions.Count() == 0 ? "disabled" : "")'>
-            <select id="pageSizeOption" onchange="pageSizeOption_onchange(this.value)" asp-for="@Model.lazyLoadEvent.rows" class="form-control" asp-items="@new SelectList(Model.rowsPerPageOptions)" style="max-width: 100px;">
-                <option value="">select</option>
-            </select>
-        </li>
+        @if (this.Model.pageOptions) {
+            <li class='page-item @(this.Model.rowsPerPageOptions.Count() == 0 ? "disabled" : "")'>
+                <select id="pageSizeOption" onchange="pageSizeOption_onchange(this.value)" asp-for="@Model.lazyLoadEvent.rows" class="form-control" asp-items="@new SelectList(Model.rowsPerPageOptions)" style="max-width: 100px;">
+                    <option value="">select</option>
+                </select>
+            </li>
+        }
     </ul>
 }
 <script type="text/javascript">

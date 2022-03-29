@@ -6,9 +6,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
         <!-- Version <core>.<major>.<minor>.<build> -->
-        <Version>6.4.0.7</Version>
+        <Version>6.4.0.8</Version>
         <Copyright>Copyright © 2022</Copyright>
-        <Company>Northern Software Group</Company>
+        <Company>Phillip N. Huhn, DBA Northern Software Group</Company>
         <Authors>Phil Huhn (NSG)</Authors>
         <Description>Backend and administration to Network Incident</Description>
         <Product>Network Incident Backend</Product>
@@ -51,6 +51,8 @@
     <PackageReference Include="jquery" Version="3.6.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.1.0" />
     <PackageReference Include="MimeKit" Version="2.15.1" />

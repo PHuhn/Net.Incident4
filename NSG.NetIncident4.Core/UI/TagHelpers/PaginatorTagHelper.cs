@@ -66,14 +66,20 @@ namespace NSG.NetIncident4.Core.UI.TagHelpers
                 var start = Model.GetStartWindow();
                 var end = Model.GetEndWindow();
                 output.Content.AppendHtml("<ul class='pagination pagination justify-content-center nsg-hd-row'>");
-                AddPageLink(output, CreateUrl(1), "&laquo;", Model.IsFirstPage());
-                AddPageLink(output, CreateUrl(Model.pageIndex - 1), "&lt;", Model.IsFirstPage());
+                AddPageLink(output, CreateUrl(1), "&laquo;", Model.IsFirstPage(), false, "First");
+                if (this.Model.previousNext)
+                {
+                    AddPageLink(output, CreateUrl(Model.pageIndex - 1), "&lt;", Model.IsFirstPage(), false, "Previous");
+                }
                 for (var pg = start; pg <= end; pg++)
                 {
-                    AddPageLink(output, CreateUrl(pg), pg.ToString(), (pg == Model.pageIndex));
+                    AddPageLink(output, CreateUrl(pg), pg.ToString(), false, (pg == Model.pageIndex), "Page " + pg.ToString());
                 }
-                AddPageLink(output, CreateUrl(Model.pageIndex + 1), "&gt;", Model.IsLastPage());
-                AddPageLink(output, CreateUrl(Model.pageCount), "&raquo;", Model.IsLastPage());
+                if (this.Model.previousNext)
+                {
+                    AddPageLink(output, CreateUrl(Model.pageIndex + 1), "&gt;", Model.IsLastPage(), false, "Next");
+                }
+                AddPageLink(output, CreateUrl(Model.pageCount), "&raquo;", Model.IsLastPage(), false, "Last");
                 output.Content.AppendHtml("</ul>");
             }
         }
@@ -84,10 +90,10 @@ namespace NSG.NetIncident4.Core.UI.TagHelpers
             return _urlHelper.Action(Model.action, null, Model.GetRouteForPage(pg), null, null, null);
         }
         //
-        private void AddPageLink(TagHelperOutput output, string url, string text, bool diabled)
+        private void AddPageLink(TagHelperOutput output, string url, string text, bool diabled, bool active, string aria)
         {
-            output.Content.AppendHtml($"<li class='page-item{(diabled ? " disabled" : "")}' >");
-            output.Content.AppendHtml($"<a class='page-link' href='{url}'>{text}</a>");
+            output.Content.AppendHtml($"<li class='page-item{(diabled ? " disabled" : "")}{(active ? " active" : "")}' >");
+            output.Content.AppendHtml($"<a class='page-link' href='{url}' aria-label='{aria}'><span aria-hidden='true'>{text}</span></a>");
             output.Content.AppendHtml("</li>");
         }
         //
