@@ -9,7 +9,7 @@ import pkg from 'package.json'
 export class AboutComponent {
 	//
 	applicationName = 'Network Incident';
-	companyName = 'Northern Software Group';
+	companyName = 'Phillip N. Huhn, DBA Northern Software Group';
 	copyright ='Copyright © 2022';
 	// (angular version).major.minor.build
 	// major is application version
