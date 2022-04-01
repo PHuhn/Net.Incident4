@@ -48,7 +48,6 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
         /// </summary>
         public ApplicationUser() : base()
         {
-            Id = Guid.NewGuid().ToString();
             FirstName = "";
             LastName = "";
             FullName = "";

@@ -86,6 +86,10 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             [MaxLength(16)]
             public string UserNicName { get; set; }
 
+            [MaxLength(30)]
+            [Display(Name = "Phone #")]
+            public string Phone { get; set; }
+
             [Required(ErrorMessage = "'Company id' is required")]
             [Display(Name = "Company Id")]
             public int ServerId { get; set; }
@@ -95,6 +99,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 this.FirstName = "";
                 this.LastName = "";
                 this.UserNicName = "";
+                this.Phone = "";
                 this.ServerId = 0;
                 this.Email = "";
             }
@@ -111,6 +116,11 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            // get companies dropdown
+            if (!GetCompanies())
+            {
+                return RedirectToPage("./Login");
+            }
             return new ChallengeResult(provider, properties);
         }
 
@@ -123,16 +133,8 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
             }
             // get companies dropdown
-            try
+            if( !GetCompanies())
             {
-                ServerSelectList = _context.Servers
-                    .Include(_c => _c.Company)
-                    .Select(s => new SelectListItem($"{s.Company.CompanyShortName} - {s.ServerShortName}", s.ServerId.ToString())).ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{_codeName}: Servers.Select failed with message: {ex.Message}");
-                _logger.LogError(ex.ToString());
                 return RedirectToPage("./Login");
             }
             //
@@ -196,6 +198,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                         LastName = Input.LastName,
                         FullName = $"{Input.FirstName} {Input.LastName}",
                         UserNicName = Input.UserNicName,
+                        PhoneNumber = Input.Phone,
                         CompanyId = _server.CompanyId,
                         CreateDate = DateTime.Now,
                         Email = Input.Email
@@ -246,6 +249,25 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             ProviderDisplayName = info.ProviderDisplayName;
             ReturnUrl = returnUrl;
             return Page();
+        }
+        private bool GetCompanies()
+        {
+            // get companies dropdown
+            try
+            {
+                ServerSelectList = _context.Servers
+                    .Include(_c => _c.Company)
+                    .Select(s => new SelectListItem($"{s.Company.CompanyShortName} - {s.ServerShortName}", s.ServerId.ToString())).ToList();
+            }
+            catch (Exception ex)
+            {
+                var message = $"Servers.Select failed with message: {ex.Message}";
+                ErrorMessage = message;
+                _logger.LogError($"{_codeName}: {message}");
+                _logger.LogError(ex.ToString());
+                return false;
+            }
+            return true;
         }
     }
 }

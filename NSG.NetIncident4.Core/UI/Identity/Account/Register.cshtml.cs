@@ -80,6 +80,10 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             [Display(Name = "Nic Name")]
             public string UserNicName { get; set; }
 
+            [MaxLength(30)]
+            [Display(Name = "Phone #")]
+            public string Phone { get; set; }
+
             [Required(ErrorMessage = "'Server' is required")]
             [Display(Name = "Server")]
             public int ServerId { get; set; }
@@ -107,6 +111,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 this.FirstName = "";
                 this.LastName = "";
                 this.UserNicName = "";
+                this.Phone = "";
                 this.ServerId = 0;
                 this.Email = "";
                 this.Password = "";
@@ -164,8 +169,8 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                     var user = new ApplicationUser {
                         UserName = Input.UserName, FirstName = Input.FirstName,
                         LastName = Input.LastName, FullName = $"{Input.FirstName} {Input.LastName}",
-                        UserNicName = Input.UserNicName, CompanyId = _server.CompanyId,
-                        CreateDate = DateTime.Now, Email = Input.Email };
+                        UserNicName = Input.UserNicName, PhoneNumber = Input.Phone,
+                        CompanyId = _server.CompanyId, CreateDate = DateTime.Now, Email = Input.Email };
                     // Attach role to the user
                     ApplicationUserRole _urole = new ApplicationUserRole()
                     {
