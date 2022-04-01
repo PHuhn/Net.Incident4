@@ -49,6 +49,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             ReturnUrl = "/";
             ErrorMessage = "";
             ServerSelectList = new List<SelectListItem>();
+            GetCompanies();
         }
 
         [BindProperty]
@@ -116,11 +117,6 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            // get companies dropdown
-            if (!GetCompanies())
-            {
-                return RedirectToPage("./Login");
-            }
             return new ChallengeResult(provider, properties);
         }
 
@@ -238,9 +234,14 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                             return LocalRedirect(returnUrl);
                         }
                     }
+
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
+                        if( error.Description.Contains("is already taken."))
+                        {
+                            ModelState.AddModelError(string.Empty, "If already registered this email account, then did you check your email and confirmed the account.");
+                        }
                     }
                 }
                 else
