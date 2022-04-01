@@ -20,15 +20,23 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender  = emailSender;
+            _context = context;
+            Username = "";
+            CompanyName = "";
+            Role = "";
+            StatusMessage = "";
+            Input = new InputModel();
         }
 
         public string Username { get; set; }
@@ -72,9 +80,18 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
             //
+            public InputModel()
+            {
+                Email = "";
+                FirstName = "";
+                LastName = "";
+                FullName = "";
+                UserNicName = "";
+                PhoneNumber = "";
+            }
         }
 
-        private async Task LoadAsync(ApplicationUser user)
+    private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
@@ -89,7 +106,8 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
             }
             else
             {
-                CompanyName = $"- ({user.CompanyId})";
+                var company = _context.Companies.FirstOrDefault(c => c.CompanyId == user.CompanyId);
+                CompanyName = $"{(company != null ? company.CompanyName : "")} - ({user.CompanyId})";
             }
             if (roles.Count > 0)
             {

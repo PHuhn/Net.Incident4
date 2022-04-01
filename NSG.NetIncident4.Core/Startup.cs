@@ -186,6 +186,35 @@ namespace NSG.NetIncident4.Core
                             return IdentityConstants.ApplicationScheme;
                     };
                 });
+            // Conditionally add Google external authentication.
+            IConfigurationSection googleAuthSection = Configuration.GetSection("Authentication:Google");
+            if (googleAuthSection != null)
+            {
+                if (!string.IsNullOrEmpty(googleAuthSection["ClientId"]))
+                {
+                    services.AddAuthentication()
+                        .AddGoogle(options =>
+                        {
+                            options.ClientId = googleAuthSection["ClientId"];
+                            options.ClientSecret = googleAuthSection["ClientSecret"];
+                            // options.SignInScheme = IdentityConstants.ExternalScheme;
+                        });
+                }
+            };
+            // Conditionally add Microsoft Account external authentication.
+            IConfigurationSection microsoftAuthSection = Configuration.GetSection("Authentication:Microsoft");
+            if (microsoftAuthSection != null)
+            {
+                if (!string.IsNullOrEmpty(microsoftAuthSection["ClientId"]))
+                {
+                    services.AddAuthentication()
+                        .AddMicrosoftAccount(microsoftOptions =>
+                        {
+                            microsoftOptions.ClientId = microsoftAuthSection["ClientId"];
+                            microsoftOptions.ClientSecret = microsoftAuthSection["ClientSecret"];
+                        });
+                }
+            };
         }
         //
         /// <summary>

@@ -8,5 +8,10 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
     {
         public string UserHttpContext { get; set; }
         public string UserClaimsPrincipal { get; set; }
+        public TestUserViewModel()
+        {
+            UserHttpContext = "";
+            UserClaimsPrincipal = "";
+        }
     }
 }

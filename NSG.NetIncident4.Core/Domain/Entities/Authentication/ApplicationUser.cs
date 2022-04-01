@@ -46,7 +46,18 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
         /// <summary>
         /// No parameter constructor, assigns a guid to the Id.
         /// </summary>
-        public ApplicationUser() : base() { }
+        public ApplicationUser() : base()
+        {
+            Id = Guid.NewGuid().ToString();
+            FirstName = "";
+            LastName = "";
+            FullName = "";
+            UserNicName = "";
+            CompanyId = 0;
+            CreateDate = DateTime.Now;
+            Logins = new List<IdentityUserLogin<string>>();
+            Tokens = new List<IdentityUserToken<string>>();
+        }
         //
         //
         /// <summary>
@@ -79,7 +90,26 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
             else
                 _return.AppendFormat("/LockoutEnd/, ");
             _return.AppendFormat("LockoutEnabled: {0}, ", LockoutEnabled.ToString());
-            _return.AppendFormat("AccessFailedCount: {0}]", AccessFailedCount.ToString());
+            _return.AppendFormat("AccessFailedCount: {0}, ", AccessFailedCount.ToString());
+            if( this.UserRoles != null )
+            {
+                _return.Append("[");
+                foreach (var _urole in this.UserRoles)
+                {
+                    _return.AppendFormat("Role: {0}, ", _urole.RoleId );
+                }
+                _return.Append("]");
+            }
+            if (this.UserServers != null)
+            {
+                _return.Append("[");
+                foreach (var _userver in this.UserServers)
+                {
+                    _return.AppendFormat("Server Id: {0}, ", _userver.ServerId);
+                }
+                _return.Append("]");
+            }
+            _return.Append("]");
             return _return.ToString();
         }
         //

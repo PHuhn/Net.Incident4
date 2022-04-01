@@ -19,6 +19,8 @@ using Microsoft.Extensions.Logging;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NSG.NetIncident4.Core.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace NSG.NetIncident4.Core.UI.Identity.Account
 {
@@ -46,7 +48,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             ReturnUrl = "/";
             Input = new InputModel();
             ExternalLogins = new List<AuthenticationScheme>();
-            CompanySelectList = new List<SelectListItem>();
+            ServerSelectList = new List<SelectListItem>();
         }
 
         [BindProperty]
@@ -55,7 +57,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
         public string ReturnUrl { get; set; }
         //
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
-        public List<SelectListItem> CompanySelectList { get; set; }
+        public List<SelectListItem> ServerSelectList { get; set; }
         //
         public class InputModel
         {
@@ -64,23 +66,27 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             public string UserName { get; set; }
 
             [Required(ErrorMessage = "'First Name' is required")]
+            [MaxLength(100)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required(ErrorMessage = "'Last Name' is required")]
+            [MaxLength(100)]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
             [Required(ErrorMessage = "'Nic Name' is required")]
+            [MaxLength(16)]
             [Display(Name = "Nic Name")]
             public string UserNicName { get; set; }
 
-            [Required(ErrorMessage = "'Company id' is required")]
-            [Display(Name = "Company Id")]
-            public int CompanyId { get; set; }
+            [Required(ErrorMessage = "'Server' is required")]
+            [Display(Name = "Server")]
+            public int ServerId { get; set; }
 
             [Required]
             [EmailAddress]
+            [MaxLength(255)]
             [Display(Name = "Email Address")]
             public string Email { get; set; }
 
@@ -101,7 +107,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 this.FirstName = "";
                 this.LastName = "";
                 this.UserNicName = "";
-                this.CompanyId = 0;
+                this.ServerId = 0;
                 this.Email = "";
                 this.Password = "";
                 this.ConfirmPassword = "";
@@ -121,7 +127,9 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             ReturnUrl = returnUrl == null ? "/" : returnUrl;
             try
             {
-                CompanySelectList = _context.Servers.Select(s => new SelectListItem(s.ServerShortName, s.CompanyId.ToString())).ToList();
+                ServerSelectList = _context.Servers
+                    .Include(_c => _c.Company)
+                    .Select(s => new SelectListItem($"{s.Company.CompanyShortName} - {s.ServerShortName}", s.ServerId.ToString())).ToList();
             }
             catch (Exception ex)
             {
@@ -146,34 +154,56 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {
-                    UserName = Input.UserName, FirstName = Input.FirstName,
-                    LastName = Input.LastName, FullName = $"{Input.FirstName} {Input.LastName}",
-                    UserNicName = Input.UserNicName, CompanyId = Input.CompanyId,
-                    CreateDate = DateTime.Now, Email = Input.Email };
-                _logger.LogInformation(user.ToString());
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                //
+                // Get server to be added (and also defines default company)...
+                //
+                Server? _server = await _context.Servers.FindAsync(Input.ServerId);
+                if (_server != null)
                 {
-                    _logger.LogInformation($"{Input.UserName} account created with a password.");
-                    await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    // Construct user
+                    var user = new ApplicationUser {
+                        UserName = Input.UserName, FirstName = Input.FirstName,
+                        LastName = Input.LastName, FullName = $"{Input.FirstName} {Input.LastName}",
+                        UserNicName = Input.UserNicName, CompanyId = _server.CompanyId,
+                        CreateDate = DateTime.Now, Email = Input.Email };
+                    // Attach role to the user
+                    ApplicationUserRole _urole = new ApplicationUserRole()
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        RoleId = "pub"
+                    };
+                    user.UserRoles.Add(_urole);
+                    // Attach server to the user
+                    ApplicationUserServer _userver = new ApplicationUserServer()
+                    {
+                        ServerId = Input.ServerId
+                    };
+                    user.UserServers.Add(_userver);
+                    // Ready to create the user...
+                    _logger.LogInformation(user.ToString());
+                    var result = await _userManager.CreateAsync(user, Input.Password);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation($"{Input.UserName} account created with a password.");
+                        await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                        //
+                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        {
+                            return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        }
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
                     }
-                    else
+                    foreach (var error in result.Errors)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                else
+                    ModelState.AddModelError("", $"Server not found: {Input.ServerId}");
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

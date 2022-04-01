@@ -5,11 +5,11 @@
     ViewData["Title"] = "Log in";
     Layout = "~/UI/Identity/_AuthLayout.cshtml";
 }
-<div class="login-form-icon">
-    <i class="fas fa-user-circle fa-5x text-secondary"></i>
-</div>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
+        <div class="login-form-icon">
+            <i class="fas fa-user-circle fa-5x text-secondary"></i>
+        </div>
         <form id="account" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -46,6 +46,43 @@
                 <button type="submit" class="btn btn-primary">Log in</button>
             </div>
         </form>
+    </div>
+    <div class="col-md-5 col-md-offset-1">
+        <div class="login-form-icon">
+            <i class="fa fa-cloud fa-5x text-secondary"></i>
+        </div>
+        <h5>Use another service to log in.</h5>
+        <hr />
+        @{
+            // BearerOrCookie shows up
+            if ((Model.ExternalLogins?.Count ?? 0) < 2)
+            {
+                <div>
+                    <p>
+                        There are no external authentication services configured.
+                        This application will accept <strong>Google</strong> or <strong>Microsoft</strong> logins.
+                        See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                        about setting up this ASP.NET application to support logging in via external services</a>.
+                    </p>
+                </div>
+            }
+            else
+            {
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @if(Model.ExternalLogins != null)
+                            {
+                                @foreach (var provider in Model.ExternalLogins.Where(el => el.Name.ToLower() != "bearerorcookie"))
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button><br />
+                                }
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+        }
     </div>
 </div>
 <div class="row">&nbsp;</div>
