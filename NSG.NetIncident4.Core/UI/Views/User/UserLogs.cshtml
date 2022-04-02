@@ -1,0 +1,45 @@
+﻿@using NSG.PrimeNG.LazyLoading
+@model NSG.NetIncident4.Core.UI.ViewModels.Pagination<NSG.NetIncident4.Core.Application.Commands.Logs.LogListQuery>
+@{
+    ViewData["Title"] = "Index";
+}
+<h3>Logs for: @ViewData["UserAccount"]</h3>
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-2 nsg-bold">Date</div>
+        <div class="col-md-3 nsg-bold">Method</div>
+        <div class="col-md-1 nsg-bold">Level</div>
+        <div class="col-md-6 nsg-bold">Message</div>
+    </div>
+    @foreach (var item in Model.items)
+    {
+        <div class="row">
+            <div class="col-md-2">
+                @Html.DisplayFor(modelItem => item.Date)
+            </div>
+            <div class="col-md-3 text-break">
+                @Html.DisplayFor(modelItem => item.Method)
+            </div>
+            <div class="col-md-1">
+                @Html.DisplayFor(modelItem => item.Level)
+            </div>
+            <div class="col-md-6">
+                <a href="#" data-toggle="popover" title="Exception"
+                    data-content="@(item.Exception.StripCRLF())">
+                    @Html.DisplayFor(modelItem => item.Message)
+                </a>
+            </div>
+        </div>
+    }
+}
+<!-- add paginator to form, model must be Pagination<T> -->
+<partial name="PagerPartial" model="Model" />
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({ html: true, container: 'body', trigger: "hover" });
+        });
+    </script>
+}
+<!-- End of view -->

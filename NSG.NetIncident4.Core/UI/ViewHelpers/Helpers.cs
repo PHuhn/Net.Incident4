@@ -3,7 +3,8 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Xml;
+using System.ServiceModel.Syndication;
 using Microsoft.AspNetCore.Mvc.Rendering;
 //
 namespace NSG.NetIncident4.Core.UI.ViewHelpers
@@ -82,6 +83,33 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
             };
         }
         //
+        /// <summary>
+        /// Get the rss feed, and assign it to the syndication feed.
+        /// </summary>
+        /// <remarks>
+        /// https://khalidabuhakmeh.com/reading-rss-feeds-with-dotnet-core
+        /// https://talkdotnet.wordpress.com/2018/02/12/reading-rss-feed-with-microsoft-syndicationfeed-readerwriter/
+        /// </remarks>
+        public static SyndicationFeed GetSyndicationFeed(string rssUrlFeed)
+        {
+            //
+            SyndicationFeed feed = new SyndicationFeed();
+            try
+            {
+                using (var reader = XmlReader.Create(rssUrlFeed))
+                {
+                    feed = SyndicationFeed.Load(reader);
+                }
+            }
+            catch (Exception _ex)
+            {
+                var text = $"Sorry, no news is available at this time for {rssUrlFeed}.<br />{_ex.Message}<br />";
+                throw new Exception(text);
+            }
+            //
+            return feed;
+        }
     }
+    //
 }
 // ===========================================================================

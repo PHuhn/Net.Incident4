@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web API Services</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style='min-width: 60px;'>Web API Services</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -48,8 +48,9 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="" asp-page="/account/manage/Index">Manage</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserLogs">User Logs</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Log" asp-action="Index">User Logs</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="AccuWeather">AccuWeather Forecast</a>
                                 </div>
                             </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin"))

@@ -28,6 +28,8 @@ Packages:
 	Install-package Microsoft.AspNetCore.Authentication.Google -version 6.0.3
 	Install-package Microsoft.AspNetCore.Authentication.MicrosoftAccount -version 6.0.3
 
+	Install-Package System.ServiceModel.Syndication -Version 6.0.0
+
 	install-package jquery
 	bootstrap
 
