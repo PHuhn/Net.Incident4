@@ -6,6 +6,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MediatR;
 //
 using NSG.NetIncident4.Core.Infrastructure.Common;
@@ -13,7 +14,6 @@ using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.PrimeNG.LazyLoading;
 using NSG.NetIncident4.Core.UI.ViewModels;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
-using Microsoft.EntityFrameworkCore;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
 {
@@ -23,7 +23,6 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         string codeName = "UserController";
         //
         private UserManager<ApplicationUser> _userManager;
-        private ApplicationDbContext _context;
         //
         /// <summary>
         /// Explicitly pass mediator
@@ -51,7 +50,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers
                 _results.LogsList as List<LogListQuery>,
                 event2,
                 _results.TotalRecords
-            );
+            )
+            { action = "UserLogs" };
             //
             return View(pagination);
         }
@@ -75,6 +75,18 @@ namespace NSG.NetIncident4.Core.UI.Controllers
             string _zipCode = _entity.Company.PostalCode;
             //
             return View(Forecast.ToAccuForecast(_zipCode));
+        }
+        /*
+        ** home/Bootstrap
+        ** display bootstrap feature
+        */
+        public async Task<ActionResult<List<News>>> NewsFeeds(string? url, int? max)
+        {
+            if (url == null) return View(new List<News>());
+            if (max == null) max = 10;
+            //
+            return View( await
+                NSG.NetIncident4.Core.UI.ViewHelpers.Helpers.GetNewsFeed(url, max.Value));
         }
     }
 }

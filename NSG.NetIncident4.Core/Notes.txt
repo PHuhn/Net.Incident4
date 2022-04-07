@@ -29,6 +29,7 @@ Packages:
 	Install-package Microsoft.AspNetCore.Authentication.MicrosoftAccount -version 6.0.3
 
 	Install-Package System.ServiceModel.Syndication -Version 6.0.0
+	Install-Package Microsoft.SyndicationFeed.ReaderWriter -Version 1.0.2
 
 	install-package jquery
 	bootstrap

@@ -25,7 +25,7 @@ using NSG.NetIncident4.Core.UI.ViewModels;
 namespace NSG.NetIncident4.Core_Tests.UI.Controller
 {
     [TestFixture]
-    public class LogController_UnitTests : UnitTestFixture
+    public class UserController_UnitTests : UnitTestFixture
     {
         //
         public string userName = "TestUser";
@@ -33,10 +33,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         [SetUp]
         public void Setup()
         {
+            Fixture_UnitTestSetup();
         }
         //
         [Test]
-        public async Task Index_Test()
+        public async Task UserLogs_Test()
         {
             // given
             long pagerRows = 4;
@@ -53,11 +54,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
                 .Setup(m => m.Send(It.IsAny<LogListQueryHandler.ListQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(results)
                 .Verifiable("Log List was not sent.");
-            LogController sut = new LogController(mockMediator.Object);
+            UserController sut = new UserController(userManager, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext(userName, "admin", "/Log/", controllerHeaders);
             LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = pagerRows };
             // when
-            var actual = await sut.Index(event2);
+            var actual = await sut.UserLogs(event2);
             // then
             Assert.IsNotNull(actual);
             var viewResult = actual.Result as ViewResult;
@@ -68,12 +69,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         }
         //
         [Test]
-        public void Index_AuthorizeAttribute_Test()
+        public void UserLogs_AuthorizeAttribute_Test()
         {
             // given
             Mock<IMediator> mockMediator = new Mock<IMediator>();
             // when
-            LogController sut = new LogController(mockMediator.Object);
+            UserController sut = new UserController(userManager, mockMediator.Object);
             // then
             Type type = sut.GetType();
             var attribute = type.GetCustomAttribute(typeof(AuthorizeAttribute), true);

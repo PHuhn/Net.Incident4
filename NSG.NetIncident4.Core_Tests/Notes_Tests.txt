@@ -5,3 +5,4 @@ Install-Package Moq
 Install-Package Microsoft.EntityFrameworkCore.Sqlite -Version 5.0.12
 Install-Package Microsoft.AspNetCore.TestHost -Version 5.0.12
 
+Install-Package Microsoft.SyndicationFeed.ReaderWriter -Version 1.0.2

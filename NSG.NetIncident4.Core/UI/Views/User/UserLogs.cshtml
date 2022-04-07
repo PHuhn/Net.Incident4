@@ -26,7 +26,7 @@
             </div>
             <div class="col-md-6">
                 <a href="#" data-toggle="popover" title="Exception"
-                    data-content="@(item.Exception.StripCRLF())">
+                    data-content="@item.Exception.StripCRLF()">
                     @Html.DisplayFor(modelItem => item.Message)
                 </a>
             </div>

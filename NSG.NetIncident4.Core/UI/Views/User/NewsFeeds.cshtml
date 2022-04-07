@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Http
+@using NSG.NetIncident4.Core.UI.ViewModels
+@model List<News>
+@{
+    // initialize
+    string title = "";
+    string form_url = Url.Action("NewsFeeds", null, null, null, null, null);
+    List<SelectListItem> feedOptions = new List<SelectListItem>() {
+        new SelectListItem("Security: We Live Security", "https://www.welivesecurity.com/feed/"),
+        new SelectListItem("Security: Dark Reading", "https://www.darkreading.com/rss.xml"),
+        new SelectListItem("Security: Threat Post", "https://threatpost.com/feed/"),
+        new SelectListItem("Security: Naked Security (Sophos)", "https://nakedsecurity.sophos.com/feed/"),
+        new SelectListItem("Security: Krebs on Security", "https://krebsonsecurity.com/feed/"),
+        new SelectListItem("News: National Public Radio (NPR)", "https://feeds.npr.org/1001/rss.xml"),
+        new SelectListItem("News: New York Times", "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml")
+    };
+    // Find the selected URL to display the name/text
+    // example of the query string:
+    // ?url=https://feeds.npr.org/1001/rss.xml&max=5
+    string req = Context.Request.QueryString.ToString();
+    int pos = req.IndexOf("url=");
+    if( pos > -1 )
+    {
+        req = req.Substring(pos + 4);
+        pos = req.IndexOf("&");
+        if( pos > -1 )
+        {
+            req = req.Substring(0, pos);
+        }
+        string? temp = feedOptions.Find(fo => fo.Value == req).Text;
+        if( temp != null )
+        {
+            title = temp;
+        }
+    }
+    //
+}
+<input id='formUrl' type='text' hidden value='@(form_url)' />
+<div class='row'>
+    <div class='col-md-6'>
+        <div data-submit-url='@Url.Action("NewsFeeds", "User")'>
+            <select id='feedDropDown' onchange='feed_onchange(this.value)' class='form-control' asp-items='@feedOptions' style='max-width: 450px;'>
+                <option value=''>-select a feed-</option>
+            </select>
+        </div>
+    </div>
+    <div class='col-md-6'>
+        <form method='post' class='form-group'>
+            <button type='submit' class='btn btn-primary'>Refresh</button>
+        </form>
+    </div>
+</div>
+<h2>@title</h2>
+<div>
+@if (Model.Count > 0)
+{
+    @foreach (News item in Model)
+    {
+        <article class='border-primary mb-3' style='width: 100%;'>
+            <h4><a href='@item.Link' target='_blank'>@item.Title</a></h4>
+            <div>By: <span>@item.Creator</span>, published: <span>@item.Published</span></div>
+            <a href='#' data-toggle='popover' title='Details' data-content='@(item.Details)'>
+                @item.Description
+            </a>
+        </article>
+    }
+}
+</div>
+@section Scripts {
+    <script type='text/javascript'>
+        //
+        const codeName = 'UserController.NewsFeeds';
+        console.log( new Date() );
+        //
+        // document.addEventListener('DOMContentLoaded', function(event) {
+        // });
+        function feed_onchange(val) {
+            if( val !== '' ) {
+                var url = document.getElementById('formUrl').value + `?url=${val}`;
+                window.location.href = url;
+            }
+        }
+        //
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({ html: true, container: 'body', trigger: 'hover' });
+        });
+    </script>
+}

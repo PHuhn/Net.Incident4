@@ -72,6 +72,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+		<PackageReference Include="Microsoft.SyndicationFeed.ReaderWriter" Version="1.0.2" />
         <PackageReference Include="Moq" Version="4.16.1" />
         <PackageReference Include="NUnit" Version="3.13.1" />
         <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
@@ -81,6 +82,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NSG.NetIncident4.Core\NSG.NetIncident4.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UI\TagHelpers\" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,10 @@ using System.Linq;
 using System.Xml;
 using System.ServiceModel.Syndication;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.SyndicationFeed;
+using Microsoft.SyndicationFeed.Rss;
+//
+using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core.UI.ViewHelpers
 {
@@ -103,12 +107,63 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
             }
             catch (Exception _ex)
             {
-                var text = $"Sorry, no news is available at this time for {rssUrlFeed}.<br />{_ex.Message}<br />";
+                var text = $"GetSyndicationFeed: Sorry, no data is available at this time for {rssUrlFeed}.<br />{_ex.Message}<br />";
                 throw new Exception(text);
             }
             //
             return feed;
         }
+        //
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="feedUri">URL of the feed</param>
+        /// <param name="max">maximum number of items</param>
+        /// <returns>List of news items</returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<List<News>> GetNewsFeed(string feedUri, int max = 100)
+        {
+            //
+            List<News> _feed = new List<News>();
+            try
+            {
+                // https://feeds.npr.org/1001/rss.xml
+                // https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml
+                using (var xmlReader = XmlReader.Create(feedUri, new XmlReaderSettings() { Async = true }))
+                {
+                    int cnt = 0;
+                    var feedReader = new RssFeedReader(xmlReader);
+                    while (await feedReader.Read() && cnt < max)
+                    {
+                        if (feedReader.ElementType == SyndicationElementType.Item)
+                        {
+                            var content = await feedReader.ReadContent();
+                            var _title = content.Fields.Where(f => f.Name == "title").Select(f => f.Value).FirstOrDefault();
+                            if (_title != null)
+                            {
+                                var _link = content.Fields.Where(f => f.Name == "link").Select(f => f.Value).FirstOrDefault();
+                                var _description = content.Fields.Where(f => f.Name == "description").Select(f => f.Value).FirstOrDefault();
+                                var _published = content.Fields.Where(f => f.Name == "pubDate").Select(f => DateTime.Parse(f.Value)).FirstOrDefault();
+                                var _creator = content.Fields.Where(f => f.Name == "creator").Select(f => f.Value).FirstOrDefault();
+                                var _details = content.Fields.Where(f => f.Name == "encoded").Select(f => f.Value).FirstOrDefault();
+                                _feed.Add(new News(_title, (_link != null ? _link : ""),
+                                    (_description != null ? _description : ""), (_details != null ? _details : ""),
+                                    (_published != null ? _published : new DateTime(1980, 1, 1)), (_creator != null ? _creator : "")));
+                                cnt++;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception _ex)
+            {
+                var text = $"GetNewsFeed: Sorry, no data is available at this time for {feedUri}.<br />{_ex.Message}<br />";
+                throw new Exception(text);
+            }
+            //
+            return _feed;
+        }
+        //
     }
     //
 }
