@@ -2,7 +2,7 @@
  <channel>
   <title>Ann Arbor, MI - AccuWeather.com Forecast</title>
   <link>https://www.accuweather.com/get/weather?locationid=20839_PC</link>
-  <description>AccuWeather.com Forecast & Current Conditions</description>
+  <description>AccuWeather.com Forecast - Current Conditions</description>
   <ttl>60</ttl>
   <copyright>Copyright 2022, AccuWeather, Inc., All rights reserved. For personal use only.</copyright>
   <pubDate>Thu, 07 Apr 2022 16:27:50 GMT</pubDate>
