@@ -1,6 +1,6 @@
 <rss version="2.0">
  <channel>
-  <title>Ann Arbor, MI - AccuWeather.com Forecast</title>
+  <title>Ann Arbor, MI &amp; AccuWeather.com Forecast</title>
   <link>https://www.accuweather.com/get/weather?locationid=20839_PC</link>
   <description>AccuWeather.com Forecast - Current Conditions</description>
   <ttl>60</ttl>
@@ -19,21 +19,22 @@
    <title>Currently: Showers: 44F</title>
    <link>https://www.accuweather.com/get/weather?locationid=20839_PC</link>
    <guid isPermaLink="false">http://www.accuweather.com</guid>
-   <description>Currently in Ann Arbor, MI: 44 °F and Showers <img src="https://vortex.accuweather.com/phoenix2/images/common/icons/12_31x31.gif"> </description>
+	  123456789012345678901234567890123456789012345678901234567890
+	  <description>Currently in Ann Arbor, MI: 44 °F and Showers &lt;img src="https://vortex.accuweather.com/phoenix2/images/common/icons/12_31x31.gif"&gt; </description>
    <pubDate>Thu, 07 Apr 2022 16:27:50 GMT</pubDate>
   </item>
   <item>
    <title>4/7/2022 Forecast</title>
-   <link>https://www.accuweather.com/get/weather?locationid=20839_PC&day=1</link>
-   <guid isPermaLink="false">https://www.accuweather.com/get/weather?locationid=20839_PC&day=1</guid>
-   <description>High: 49 F Low: 33 F A shower <img src="https://vortex.accuweather.com/phoenix2/images/common/icons/13_31x31.gif" ></description>
+   <link>https://www.accuweather.com/get/weather?locationid=20839_PC&amp;day=1</link>
+   <guid isPermaLink="false">https://www.accuweather.com/get/weather?locationid=20839_PC&amp;day=1</guid>
+   <description>High: 49 F Low: 33 F A shower &lt;img src="https://vortex.accuweather.com/phoenix2/images/common/icons/13_31x31.gif" &gt;</description>
    <pubDate>Thu, 07 Apr 2022 16:27:50 GMT</pubDate>
   </item>
   <item>
    <title>4/8/2022 Forecast</title>
-   <link>https://www.accuweather.com/get/weather?locationid=20839_PC&day=2</link>
-   <guid isPermaLink="false">https://www.accuweather.com/get/weather?locationid=20839_PC&day=2</guid>
-   <description>High: 45 F Low: 28 F Afternoon showers <img src="https://vortex.accuweather.com/phoenix2/images/common/icons/29_31x31.gif" ></description>
+   <link>https://www.accuweather.com/get/weather?locationid=20839_PC&amp;day=2</link>
+   <guid isPermaLink="false">https://www.accuweather.com/get/weather?locationid=20839_PC&amp;day=2</guid>
+   <description>High: 45 F Low: 28 F Afternoon showers &lt;img src="https://vortex.accuweather.com/phoenix2/images/common/icons/29_31x31.gif" &gt;</description>
    <pubDate>Thu, 07 Apr 2022 16:27:50 GMT</pubDate>
   </item>
   <item>
