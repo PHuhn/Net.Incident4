@@ -1,17 +1,13 @@
 using NUnit.Framework;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 //
-using System.Security.Principal;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 using MediatR;
 using Moq;
 //
@@ -34,10 +30,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         public void Setup()
         {
             Fixture_UnitTestSetup();
+            DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
+            _seeder.Seed().Wait();
         }
         //
         [Test]
-        public async Task UserLogs_Test()
+        public async Task UserController_UserLogs_Test()
         {
             // given
             long pagerRows = 4;
@@ -69,7 +67,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         }
         //
         [Test]
-        public void UserLogs_AuthorizeAttribute_Test()
+        public void UserController_AuthorizeAttribute_Test()
         {
             // given
             Mock<IMediator> mockMediator = new Mock<IMediator>();
@@ -81,5 +79,22 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             Assert.IsNotNull(attribute, "No AuthorizeAttribute found on LogController");
         }
         //
+        [Test]
+        public async Task UserController_AccuWeather_Test()
+        {
+            // given
+            Mock<IMediator> mockMediator = new Mock<IMediator>();
+            UserController sut = new UserController(userManager, mockMediator.Object);
+            sut.ControllerContext = Fixture_ControllerContext("Phil", "admin", "/Log/", controllerHeaders);
+            // when
+            ActionResult<List<Forecast>> result = await sut.AccuWeather();
+            // then
+            Assert.IsNotNull(result);
+            var viewResult = result.Result as ViewResult;
+            Assert.IsNotNull(viewResult);
+            var model = viewResult.Model as List<Forecast>;
+            Assert.AreEqual(3, model.Count);
+        }
     }
 }
+//

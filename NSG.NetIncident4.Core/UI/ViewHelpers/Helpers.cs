@@ -1,8 +1,7 @@
 ﻿// ===========================================================================
+// File: helpers.cs, in the UI.ViewHelpers directory
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 using System.ServiceModel.Syndication;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,13 +14,14 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
 {
     //
     /// <summary>
-    /// static helper methods
+    /// Collection of static helper methods for views.
     /// </summary>
     public static partial class Helpers
     {
         //
         /// <summary>
-        /// Returns only the first n characters of a String.
+        /// Static helper method that returns only the first n characters of
+        /// a String.
         /// </summary>
         /// <param name="str"></param>
         /// <param name="maxLength"></param>
@@ -32,7 +32,8 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         }
         //
         /// <summary>
-        /// Remove carriage returns and linefeeds characters from string.
+        /// Static helper method that removes carriage returns and linefeeds
+        /// characters from string.
         /// </summary>
         /// <example>In a view (like a chtml file):
         /// <code>
@@ -67,16 +68,18 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         /// <param name="desc">string full description</param>
         /// <param name="id">integer key/id</param>
         /// <param name="shortDesc">string short description</param>
-        /// <returns></returns>
+        /// <returns>Formated string</returns>
         public static string DescIdShortDesc(string desc, int id, string shortDesc)
         {
             return string.Format("{0} ({1} - {2})", desc, id, shortDesc);
         }
         //
         /// <summary>
-        /// 
+        /// Returns an array of SelectListItem, containing the 3 items that
+        /// define the item as invoking a pre defined script to populate
+        /// the note.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Array of SelectListItem, containing the 3 script items</returns>
         public static SelectListItem[] GetClientScriptList()
         {
             return new SelectListItem[] {
@@ -88,12 +91,15 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         }
         //
         /// <summary>
-        /// Get the rss feed, and assign it to the syndication feed.
+        /// Static helper method that get the rss feed, and assign it to the
+        /// syndication feed.
         /// </summary>
         /// <remarks>
         /// https://khalidabuhakmeh.com/reading-rss-feeds-with-dotnet-core
         /// https://talkdotnet.wordpress.com/2018/02/12/reading-rss-feed-with-microsoft-syndicationfeed-readerwriter/
         /// </remarks>
+        /// <returns>Mircosoft's SyndicationFeed</returns>
+        /// <exception cref="Exception">possibly causing an exception</exception>
         public static SyndicationFeed GetSyndicationFeed(string rssUrlFeed)
         {
             //
@@ -115,12 +121,13 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         }
         //
         /// <summary>
-        /// 
+        /// Static helper method that get feed's items and convert to News
+        /// item list, including optional creator and details.
         /// </summary>
         /// <param name="feedUri">URL of the feed</param>
         /// <param name="max">maximum number of items</param>
         /// <returns>List of news items</returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception">possibly causing an exception</exception>
         public static async Task<List<News>> GetNewsFeed(string feedUri, int max = 100)
         {
             //

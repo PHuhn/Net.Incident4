@@ -1,8 +1,6 @@
 ﻿// ===========================================================================
+// File: UserController.cs
 using System;
-using System.Text.RegularExpressions;
-using System.ServiceModel.Syndication;
-using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +23,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         private UserManager<ApplicationUser> _userManager;
         //
         /// <summary>
-        /// Explicitly pass mediator
+        /// Explicitly pass userManager and  mediator
         /// </summary>
         /// <param name="mediator"></param>
         public UserController(UserManager<ApplicationUser> userManager, IMediator mediator) : base(mediator)
@@ -34,10 +32,10 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         }
         // 
         /// <summary>
-        /// GET: Log
+        /// GET: UserLogs
         /// </summary>
         /// <param name="event2"></param>
-        /// <returns></returns>
+        /// <returns>Pagination of LogListQuery</returns>
         public async Task<ActionResult<Pagination<LogListQuery>>> UserLogs(LazyLoadEvent2 event2)
         {
             if (event2.rows == 0) { event2.rows = 5; }
@@ -57,9 +55,10 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         }
         //
         /// <summary>
-        /// 
+        /// Get the AccuWeather weather forecast for the current
+        /// user's company's zipcode
         /// </summary>
-        /// <returns></returns>
+        /// <returns>list of forecasts</returns>
         public async Task<ActionResult<List<Forecast>>> AccuWeather()
         {
             // get zip code from the user's company address
@@ -74,12 +73,16 @@ namespace NSG.NetIncident4.Core.UI.Controllers
             }
             string _zipCode = _entity.Company.PostalCode;
             //
-            return View(Forecast.ToAccuForecast(_zipCode));
+            List<Forecast> feed = Forecast.ToAccuForecast(_zipCode);
+            return View(feed);
         }
-        /*
-        ** home/Bootstrap
-        ** display bootstrap feature
-        */
+        //
+        /// <summary>
+        /// Retrive the desired news feed
+        /// </summary>
+        /// <param name="url">url of the feed</param>
+        /// <param name="max">maximum number of items</param>
+        /// <returns>list of news items</returns>
         public async Task<ActionResult<List<News>>> NewsFeeds(string? url, int? max)
         {
             if (url == null) return View(new List<News>());
