@@ -15,7 +15,7 @@ using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 //
 namespace NSG.NetIncident4.Core.UI.ViewHelpers
 {
-    public static partial class Helpers
+    public static partial class ViewHelpers
     {
         public static async Task EmailConfirmationAsync(object context, UserManager<ApplicationUser> userManager, IEmailSender emailSender, ApplicationUser user)
         {

@@ -189,7 +189,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation($"{Input.UserName} account created with a password.");
-                        await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                        await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
                         //
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {

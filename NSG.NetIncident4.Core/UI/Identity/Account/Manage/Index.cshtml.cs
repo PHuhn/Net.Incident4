@@ -199,7 +199,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             //
-            await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
             StatusMessage = "Verification email sent. Please check your email.";
             await _signInManager.SignOutAsync();
             return LocalRedirect("/home");

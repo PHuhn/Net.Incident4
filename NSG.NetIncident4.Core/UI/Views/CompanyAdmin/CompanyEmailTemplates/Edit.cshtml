@@ -43,14 +43,14 @@
         <div class="row">
             <label for='CompanyId' class='nsg-label col-md-2'>Company:</label>
             <div class="col-md-10">
-                @(Helpers.DescIdShortDesc(detailQuery.CompanyName, detailQuery.CompanyId, detailQuery.CompanyShortName))
+                @(ViewHelpers.DescIdShortDesc(detailQuery.CompanyName, detailQuery.CompanyId, detailQuery.CompanyShortName))
             </div>
         </div>
 
         <div class="row">
             <label for='IncidentTypeId' class='nsg-label col-md-2'>Incident Type:</label>
             <div class="col-md-10">
-                @(Helpers.DescIdShortDesc(detailQuery.IncidentTypeDesc, detailQuery.IncidentTypeId, detailQuery.IncidentTypeShortDesc))
+                @(ViewHelpers.DescIdShortDesc(detailQuery.IncidentTypeDesc, detailQuery.IncidentTypeId, detailQuery.IncidentTypeShortDesc))
             </div>
         </div>
 

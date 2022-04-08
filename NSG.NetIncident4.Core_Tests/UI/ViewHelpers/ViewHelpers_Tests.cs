@@ -20,7 +20,7 @@ using NSG.NetIncident4.Core.UI.ViewHelpers;
 namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
 {
     [TestFixture]
-    public class Helpers_Tests : UnitTestFixture
+    public class ViewHelpers_Tests : UnitTestFixture
     {
         [SetUp]
         public void Setup()
@@ -34,7 +34,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             string str = "1234567890";
             int maxLength = 10;
             // when
-            string actual = Helpers.TruncateString(str, maxLength);
+            string actual = Core.UI.ViewHelpers.ViewHelpers.TruncateString(str, maxLength);
             // then
             Assert.AreEqual(str, actual);
         }
@@ -46,7 +46,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             string str = "1234567890";
             int maxLength = 9;
             // when
-            string actual = Helpers.TruncateString(str, maxLength);
+            string actual = Core.UI.ViewHelpers.ViewHelpers.TruncateString(str, maxLength);
             // then
             Assert.AreEqual("123456789...", actual);
         }
@@ -58,7 +58,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // given
             string str = $"1\n\r2";
             // when
-            string actual = Helpers.StripCRLF(str);
+            string actual = Core.UI.ViewHelpers.ViewHelpers.StripCRLF(str);
             // then
             Assert.AreEqual("12", actual);
         }
@@ -71,7 +71,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             int id = 1;
             string shortDesc = "Desc";
             // when
-            string actual = Helpers.DescIdShortDesc(desc, id, shortDesc);
+            string actual = Core.UI.ViewHelpers.ViewHelpers.DescIdShortDesc(desc, id, shortDesc);
             // then
             Assert.AreEqual("Description (1 - Desc)", actual);
         }
@@ -81,7 +81,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
         {
             // given
             // when
-            SelectListItem[] actual = Helpers.GetClientScriptList();
+            SelectListItem[] actual = Core.UI.ViewHelpers.ViewHelpers.GetClientScriptList();
             // then
             Assert.AreEqual("", actual[0].Value);
             Assert.AreEqual("ping", actual[1].Value);
@@ -95,7 +95,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // given
             string feedUrl = @"https://raw.githubusercontent.com/PHuhn/Net.Incident4/main/NSG.NetIncident4.Core_Tests/Data/AccuWeather.xml";
             // when
-            SyndicationFeed actual = Helpers.GetSyndicationFeed(feedUrl);
+            SyndicationFeed actual = Core.UI.ViewHelpers.ViewHelpers.GetSyndicationFeed(feedUrl);
             Assert.IsNotNull(actual);
             var _items = actual.Items.ToArray();
             Assert.AreEqual(4, _items.Length);
@@ -108,7 +108,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // given
             string feedUrl = "https://raw.githubusercontent.com/PHuhn/Net.Incident4/main/NSG.NetIncident4.Core_Tests/Data/npr.xml";
             // when
-            List<News> actual = await Helpers.GetNewsFeed(feedUrl);
+            List<News> actual = await Core.UI.ViewHelpers.ViewHelpers.GetNewsFeed(feedUrl);
             // then
             Assert.IsNotNull(actual);
             Assert.AreEqual(7, actual.Count);
@@ -126,7 +126,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // given
             string feedUrl = "https://raw.githubusercontent.com/PHuhn/Net.Incident4/main/NSG.NetIncident4.Core_Tests/Data/npr.xml";
             // when
-            List<News> actual = await Helpers.GetNewsFeed(feedUrl, 5);
+            List<News> actual = await Core.UI.ViewHelpers.ViewHelpers.GetNewsFeed(feedUrl, 5);
             // then
             Assert.IsNotNull(actual);
             Assert.AreEqual(5, actual.Count);

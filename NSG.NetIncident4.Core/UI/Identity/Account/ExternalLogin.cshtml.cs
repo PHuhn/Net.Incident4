@@ -221,7 +221,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                         {
                             _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                            await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
 
                             // If account confirmation is required, we need to show the link if we don't have a real email sender
                             if (_userManager.Options.SignIn.RequireConfirmedAccount)

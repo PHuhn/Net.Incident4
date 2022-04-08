@@ -2,14 +2,14 @@
 <div class="row">
     <label class="col-md-2 nsg-label" for="CompanyShortName">Company:</label>
     <div class="col-md-9">
-        @(Helpers.DescIdShortDesc(Model.CompanyName, Model.CompanyId, Model.CompanyShortName))
+        @(ViewHelpers.DescIdShortDesc(Model.CompanyName, Model.CompanyId, Model.CompanyShortName))
     </div>
 </div>
 
 <div class="row">
     <label class="col-md-2 nsg-label" for="IncidentTypeShortDesc">Incident Type:</label>
     <div class="col-md-9">
-        @(Helpers.DescIdShortDesc(Model.IncidentTypeDesc, Model.IncidentTypeId, Model.IncidentTypeShortDesc))
+        @(ViewHelpers.DescIdShortDesc(Model.IncidentTypeDesc, Model.IncidentTypeId, Model.IncidentTypeShortDesc))
     </div>
 </div>
 

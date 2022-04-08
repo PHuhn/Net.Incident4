@@ -106,7 +106,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                         if(user.EmailConfirmed == false)
                         {
 
-                            await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
                         }
                     }
                 }

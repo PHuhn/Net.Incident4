@@ -89,7 +89,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers
             if (max == null) max = 10;
             //
             return View( await
-                NSG.NetIncident4.Core.UI.ViewHelpers.Helpers.GetNewsFeed(url, max.Value));
+                NSG.NetIncident4.Core.UI.ViewHelpers.ViewHelpers.GetNewsFeed(url, max.Value));
         }
     }
 }

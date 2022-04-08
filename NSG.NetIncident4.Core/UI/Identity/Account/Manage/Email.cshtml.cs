@@ -128,7 +128,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
                 return Page();
             }
 
-            await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();

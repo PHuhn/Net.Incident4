@@ -39,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.Email)
         </div>
         <div class="col-md-3">
-            @(Helpers.DescIdShortDesc(item.CompanyName, item.CompanyId, item.CompanyShortName))
+            @(ViewHelpers.DescIdShortDesc(item.CompanyName, item.CompanyId, item.CompanyShortName))
         </div>
         <div class="col-md-1">
             <a asp-action="Delete" asp-route-id="@item.UserName" class="nsg-text-danger">Delete</a>

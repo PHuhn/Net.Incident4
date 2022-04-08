@@ -60,7 +60,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
                 return Page();
             }
-            await Helpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
 
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();

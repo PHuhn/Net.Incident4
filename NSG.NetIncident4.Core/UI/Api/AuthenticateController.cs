@@ -136,7 +136,7 @@ namespace NSG.NetIncident4.Core.UI.Api
                 string error = (result.Errors.FirstOrDefault()).Description;
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = $"User creation failed! {error}" });
             }
-            await Helpers.EmailConfirmationAsync(this, userManager, _emailSender, user);
+            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, userManager, _emailSender, user);
 
             return Ok(new Response { Status = "Success", Message = "Account created, must confirm your email!" });
         }

@@ -39,7 +39,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         public static List<Forecast> ToAccuForecast(string zipCode)
         {
             Regex _regex = new Regex("\"(.*?)\"");
-            SyndicationFeed _feed = NSG.NetIncident4.Core.UI.ViewHelpers.Helpers.GetSyndicationFeed("https://rss.accuweather.com/rss/liveweather_rss.asp?locCode=" + zipCode);
+            SyndicationFeed _feed = NSG.NetIncident4.Core.UI.ViewHelpers.ViewHelpers.GetSyndicationFeed("https://rss.accuweather.com/rss/liveweather_rss.asp?locCode=" + zipCode);
             List<SyndicationItem> _posts = _feed.Items.ToList();
             List<Forecast> _forecasts = new List<Forecast>();
             if (_posts.Count() > 2)
