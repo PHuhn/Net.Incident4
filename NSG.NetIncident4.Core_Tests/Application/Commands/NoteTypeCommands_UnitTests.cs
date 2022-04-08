@@ -84,6 +84,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             {
                 NoteTypeShortDesc = "NoteType",
                 NoteTypeDesc = "NoteTypeDesc",
+                NoteTypeClientScript = ""
             };
             db_context.NoteTypes.Add(_create);
             db_context.SaveChanges();
