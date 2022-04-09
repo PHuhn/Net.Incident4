@@ -208,6 +208,12 @@ nsg-alerts-msg-ul {
     padding-right: 5px;
 }
 
+.nsg-control {
+    height: 36px;
+    border-radius: 0.25rem;
+    padding: 0.4rem 0.8rem;
+}
+
 @media (max-width: 768px) {
     .nsg-label {
         text-align: left !important;

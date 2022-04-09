@@ -19,7 +19,7 @@
 </p>
 <div data-submit-url="@Url.Action("Index", "CompanyEmailTemplates")">
     <label for='CompanyDropDown'>Company: </label>
-    <select id='CompanyDropDown' asp-for="@(companyId)" asp-items="@Model.CompanySelect" size="1" style="min-height: 25px; width: 300px;"></select>
+    <select id='CompanyDropDown' asp-for="@(companyId)" asp-items="@Model.CompanySelect" size="1" class='nsg-control' style='width: 350px;'></select>
     <input type="text" hidden value="@(companyId)" />
 </div>
 <div class="row nsg-hd-row">
