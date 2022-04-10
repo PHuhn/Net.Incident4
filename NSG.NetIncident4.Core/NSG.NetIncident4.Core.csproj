@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
         <!-- Version <core>.<major>.<minor>.<build> -->
-        <Version>6.4.0.12</Version>
+        <Version>6.4.0.13</Version>
         <Copyright>Copyright © 2022</Copyright>
         <Company>Phillip N. Huhn, DBA Northern Software Group</Company>
         <Authors>Phil Huhn (NSG)</Authors>

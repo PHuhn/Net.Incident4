@@ -18,7 +18,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
     public interface IIdentityHelpers
     {
         //
-        Task EmailConfirmationAsync(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ApplicationUser user);
+        Task EmailConfirmationAsync(ApplicationUser user);
         //
     }
     //
@@ -32,17 +32,22 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         PageModel? _page = null;
         ControllerBase? _api = null;
         Controller? _controller = null;
+        UserManager<ApplicationUser> _userManager;
+        IEmailSender _emailSender;
         //
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">called from 'this', ie page, controller or api</param>
-        public IdentityHelpers(object context)
+        public IdentityHelpers(object context, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             _context = context;
             _page = _context as PageModel;
             _api = _context as ControllerBase;
             _controller = _context as Controller;
+            _userManager = userManager;
+            _emailSender = emailSender;
+
         }
         //
         /// <summary>
@@ -52,15 +57,15 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         /// <param name="emailSender"></param>
         /// <param name="user">an application user</param>
         /// <returns></returns>
-        public async Task EmailConfirmationAsync(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ApplicationUser user)
+        public async Task EmailConfirmationAsync(ApplicationUser user)
         {
             var userName = "";
             try
             {
                 userName = user.UserName;
-                var userId = await userManager.GetUserIdAsync(user);
-                var email = await userManager.GetEmailAsync(user);
-                var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                var userId = await _userManager.GetUserIdAsync(user);
+                var email = await _userManager.GetEmailAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 string callbackUrl = "";
                 if (_page != null)
@@ -86,7 +91,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
                         }
                     }
                 }
-                await emailSender.SendEmailAsync(email, "Confirm your email",
+                await _emailSender.SendEmailAsync(email, "Confirm your email",
                     $"Please confirm your account: {userName} by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
             }
             catch (Exception _ex)

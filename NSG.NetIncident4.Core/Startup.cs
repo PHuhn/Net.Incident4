@@ -40,6 +40,8 @@ namespace NSG.NetIncident4.Core
         }
 
         public IConfiguration Configuration { get; }
+        AuthSettings authSettings;
+        string corsOriginPolicy = "CorsOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual void ConfigureServices(IServiceCollection services)
@@ -62,7 +64,7 @@ namespace NSG.NetIncident4.Core
             ConfigureSessionServices(services);
             // CORS
             ConfigureCorsServices(services);
-            // Cookie auth not working
+            // Cookie and JWT (swagger) authentication
             ConfigureAuthenticationServices(services);
             // AdminRole/CompanyAdminRole/AnyUserRole
             ConfigureAuthorizationPolicyServices(services);
@@ -121,13 +123,14 @@ namespace NSG.NetIncident4.Core
         /// </param>
         public virtual void ConfigureCorsServices(IServiceCollection services)
         {
+            var _corsOrigins = authSettings.CorsAllowOrigins.Split(";");
             services.AddCors(options => {
-                options.AddPolicy("CorsAnyOrigin", builder => {
+                options.AddPolicy(corsOriginPolicy, builder => {
                     builder
-                        .WithOrigins("http://localhost:4200", "https://localhost:4200", "http://localhost:10111")
-                        .AllowAnyOrigin()
+                        .WithOrigins(_corsOrigins)
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 });
             });
         }
@@ -151,16 +154,21 @@ namespace NSG.NetIncident4.Core
                 .AddJwtBearer(options =>
                 {
                     options.SaveToken = true;
+                    // Require should be true in production appsetting.json
+                    options.RequireHttpsMetadata = authSettings.JwtRequireHttps;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
+                        // needs to match AuthenticateController.Login JwtSecurityToken
+                        ClockSkew = TimeSpan.Zero,
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidAudience = Configuration["JWT:ValidAudience"],
-                        ValidIssuer = Configuration["JWT:ValidIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidAudience = authSettings.JwtAudience,
+                        ValidIssuer = authSettings.JwtIssuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(authSettings.JwtSecret)),
                     };
-                    // Do not use in production.
-                    options.RequireHttpsMetadata = false;
                 })
                 /*
                 ** Add cookie authentication scheme
@@ -169,8 +177,8 @@ namespace NSG.NetIncident4.Core
                     options.LoginPath = new PathString("/Account/Login");
                     options.LogoutPath = new PathString("/Account/Logout");
                     options.AccessDeniedPath = new PathString("/Account/AccessDenied");
-                    options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = authSettings.CookieSlidingExpiration;
+                    options.ExpireTimeSpan = TimeSpan.FromHours(authSettings.CookieExpirationHours);
                 })
                 /*
                 ** Conditionally add either JWT bearer of cookie authentication scheme
@@ -313,7 +321,7 @@ namespace NSG.NetIncident4.Core
             services.Configure<MimeKit.NSG.EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.Configure<ServicesSettings>(Configuration.GetSection("ServicesSettings"));
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            AuthSettings _authSettings = Options.Create<AuthSettings>(
+            authSettings = Options.Create<AuthSettings>(
                 Configuration.GetSection("AuthSettings").Get<AuthSettings>()).Value;
             services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -397,6 +405,11 @@ namespace NSG.NetIncident4.Core
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager)
         {
+            // Use order:
+            // ExceptionHandler/ Hsts / HttpsRedirection / StaticFiles /
+            // CookiePolicy / Routing / RequestLocalization / Cors / Authentication /
+            // Authorization / Session / ResponseCompression / ResponseCaching /
+            // ...custom... / Endpoint
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -410,12 +423,11 @@ namespace NSG.NetIncident4.Core
             //
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
             app.UseRouting();
-            // routing/CORS/endpoint
-            app.UseCors("CorsAnyOrigin");
+            app.UseCors(corsOriginPolicy);
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCookiePolicy();
             app.UseSession();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSG Net-Incident4.Core v1"));

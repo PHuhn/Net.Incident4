@@ -17,6 +17,7 @@ using NSG.NetIncident4.Core.UI.ApiModels;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
 using Microsoft.Extensions.Logging;
+using NSG.NetIncident4.Core.Infrastructure.Authentication;
 //
 namespace NSG.NetIncident4.Core.UI.Api
 {
@@ -40,7 +41,6 @@ namespace NSG.NetIncident4.Core.UI.Api
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] ApiModels.LoginModel model)
         {
-            ControllerBase cntrlr = this;
             var user = await userManager.FindByNameAsync(model.Username);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
@@ -65,12 +65,14 @@ namespace NSG.NetIncident4.Core.UI.Api
                         authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                     }
                     //
-                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+                    AuthSettings authSettings =
+                        _configuration.GetSection("AuthSettings").Get<AuthSettings>();
+                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.JwtSecret));
                     //
                     var token = new JwtSecurityToken(
-                        issuer: _configuration["JWT:ValidIssuer"],
-                        audience: _configuration["JWT:ValidAudience"],
-                        expires: DateTime.Now.AddHours(3),
+                        issuer: authSettings.JwtIssuer, // _configuration["JWT:ValidIssuer"],
+                        audience: authSettings.JwtAudience, // _configuration["JWT:ValidAudience"],
+                        expires: DateTime.Now.AddHours(authSettings.JwtExpirationHours),
                         claims: authClaims,
                         signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                         );
