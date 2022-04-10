@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 //
 namespace NSG.NetIncident4.Core_Tests
 {
@@ -137,6 +138,8 @@ namespace NSG.NetIncident4.Core_Tests
             Console.WriteLine("Startup_Cors_Test");
             ServiceCollection services = new ServiceCollection();
             _startUp.ConfigureLoggingServices(services);
+            _startUp.authSettings =
+                configuration.GetSection("AuthSettings").Get<AuthSettings>();
             // when
             _startUp.ConfigureCorsServices(services);
             // then

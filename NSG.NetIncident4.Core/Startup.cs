@@ -40,7 +40,7 @@ namespace NSG.NetIncident4.Core
         }
 
         public IConfiguration Configuration { get; }
-        AuthSettings authSettings;
+        public AuthSettings authSettings;
         string corsOriginPolicy = "CorsOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.

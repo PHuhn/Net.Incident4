@@ -110,6 +110,7 @@ namespace NSG.Integration.Helpers
                 {
                     config.SetBasePath(projectPath);
                     config.AddJsonFile("appsettings.json");
+                    config.AddUserSecrets<Program>(true);
                 }).UseStartup<TestStartup>();
             _server = new TestServer(_builder);
             _client = _server.CreateClient();
@@ -157,7 +158,9 @@ namespace NSG.Integration.Helpers
         public void SetupConfiguration(string appSettings = "appsettings.json")
         {
             configuration = new ConfigurationBuilder()
+                // .AddEnvironmentVariables()
                 .AddJsonFile(appSettings, optional: true, reloadOnChange: false)
+                .AddUserSecrets<Program>(true)
                 .Build();
         }
         //

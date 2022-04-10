@@ -4,6 +4,14 @@ Clean Architecture:
 	https://github.com/jasontaylordev/NorthwindTraders
 CQRS stands for command query responsibility segregation
 
+For external login of the Web-API:...
+In the secrets.json store:
+	in "Authentication:Google", the generated Google's "ClientId" and "ClientSecret".
+	in "Authentication:Microsoft", the generated Microsoft Account's "ClientId" and "ClientSecret".
+See project file: <UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
+located: C:\Users\Phil\AppData\Roaming\Microsoft\UserSecrets\aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3
+Note: this does not allow login to the Angular app.
+
 Packages:
 	Install-Package Microsoft.EntityFrameworkCore.SqlServer -version 5.0.12
 	Install-Package Microsoft.EntityFrameworkCore.Tools -version 5.0.12
@@ -150,6 +158,18 @@ SOLUTION:
 	GO
 	ALTER ROLE [db_datawriter] ADD MEMBER [NT AUTHORITY\LOCAL SERVICE]
 	GO
+
+PROBLEM:
+	Only in the published site, from the Angular application (after the login):
+		Access to XMLHttpRequest at 'https://localhost:9114/api/Incidents/' from origin 
+		'http://localhost:4200' has been blocked by CORS policy: No
+		'Access-Control-Allow-Origin' header is present on the requested resource.
+SOLUTION:
+	https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#middleware-order
+	In the Startup.cs 'public virtual void Configure' method, use order:
+		ExceptionHandler / Hsts / HttpsRedirection / StaticFiles / CookiePolicy /
+		Routing / RequestLocalization / Cors / Authentication / Authorization /
+		Session / ResponseCompression / ResponseCaching / ...custom... / Endpoint
 
 PROBLEM:
 

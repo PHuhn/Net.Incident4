@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Infrastructure.Authentication;
 
 [assembly: HostingStartup(typeof(NSG.NetIncident4.Core.UI.Identity.IdentityHostingStartup))]
 namespace NSG.NetIncident4.Core.UI.Identity
@@ -17,21 +18,23 @@ namespace NSG.NetIncident4.Core.UI.Identity
             builder.ConfigureServices((context, services) => {
                 //
                 string _connetionString = context.Configuration.GetConnectionString("NetIncident4");
-                if (string.IsNullOrEmpty(_connetionString))
+                IdentitySettings identitySettings = context.Configuration.GetSection(
+                    "IdentitySettings").Get<IdentitySettings>();
+                if (string.IsNullOrEmpty(_connetionString) || identitySettings == null)
                 {
                     throw (new ApplicationException("No connection string found"));
                 }
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(_connetionString));
                 services.AddDefaultIdentity<ApplicationUser>(options => {
-                        options.SignIn.RequireConfirmedAccount = true;
-                        options.Password.RequireDigit = true;
-                        options.Password.RequiredLength = 8;
-                        options.Password.RequireLowercase = true;
-                        options.Password.RequireUppercase = true;
-                        options.Password.RequireNonAlphanumeric = true;
-                        options.User.RequireUniqueEmail = true;
-                        options.SignIn.RequireConfirmedEmail = true;
+                        options.Password.RequiredLength = identitySettings.PasswordMinLength;
+                        options.Password.RequireDigit = identitySettings.PasswordRequireDigit;
+                        options.Password.RequireLowercase = identitySettings.PasswordRequireLowercase;
+                        options.Password.RequireUppercase = identitySettings.PasswordRequireUppercase;
+                        options.Password.RequireNonAlphanumeric = identitySettings.PasswordRequireSpecialCharacter;
+                        options.User.RequireUniqueEmail = identitySettings.UserRequireUniqueEmail;
+                        options.SignIn.RequireConfirmedAccount = identitySettings.SignInRequireConfirmedAccount;
+                        options.SignIn.RequireConfirmedEmail = identitySettings.SignInRequireConfirmedEmail;
                     })
                     .AddRoles<ApplicationRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
