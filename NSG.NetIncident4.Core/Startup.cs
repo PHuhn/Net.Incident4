@@ -174,6 +174,7 @@ namespace NSG.NetIncident4.Core
                 ** Add cookie authentication scheme
                 */
                 .AddCookie(options => {
+                    options.Cookie.Name = SharedConstants.IdentityApplicationScheme;
                     options.LoginPath = new PathString("/Account/Login");
                     options.LogoutPath = new PathString("/Account/Logout");
                     options.AccessDeniedPath = new PathString("/Account/AccessDenied");
