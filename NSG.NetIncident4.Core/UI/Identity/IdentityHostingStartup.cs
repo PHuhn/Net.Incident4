@@ -35,6 +35,9 @@ namespace NSG.NetIncident4.Core.UI.Identity
                         options.User.RequireUniqueEmail = identitySettings.UserRequireUniqueEmail;
                         options.SignIn.RequireConfirmedAccount = identitySettings.SignInRequireConfirmedAccount;
                         options.SignIn.RequireConfirmedEmail = identitySettings.SignInRequireConfirmedEmail;
+                        options.Lockout.AllowedForNewUsers = identitySettings.LockoutAllowed;
+                        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identitySettings.LockoutTimeSpanMinutes);
+                        options.Lockout.MaxFailedAccessAttempts = identitySettings.LockoutFailedAttempts;
                     })
                     .AddRoles<ApplicationRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();

@@ -18,6 +18,9 @@ namespace NSG.NetIncident4.Core.Infrastructure.Authentication
         public bool UserRequireUniqueEmail { get; set; }
         public bool SignInRequireConfirmedAccount { get; set; }
         public bool SignInRequireConfirmedEmail { get; set; }
+        public bool LockoutAllowed { get; set; }
+        public int LockoutTimeSpanMinutes { get; set; }
+        public int LockoutFailedAttempts { get; set; }
     }
 }
 // ===========================================================================

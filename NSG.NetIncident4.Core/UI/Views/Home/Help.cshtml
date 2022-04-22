@@ -7,8 +7,35 @@
         <dl>
             <dt>Register a user and login</dt>
             <dd>
-                Click @Html.ActionLink("Register", "Register", "Account") and see the code in AccountController.cs and Register Action.
-                Click @Html.ActionLink("Log in", "Login", "Account") and see the code in AccountController.cs and Login Action.
+                This application contains a complete set of account creation and log in functionality.
+                To @Html.ActionLink("Register", "Register", "Account").
+                To @Html.ActionLink("Log in", "Login", "Account").
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Account Confirmation</dt>
+            <dd>
+                When you register a new account, you will be sent an email confirmation.
+                You can send email using the EmailSettings which is registered in appSettings.json.
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Basic User Management</dt>
+            <dd>
+                This application contains a complete set of user maintenance functionality
+                and assignment of roles and servers to a user.
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Basic Role Management</dt>
+            <dd>
+                Create, list, update, delete (CRUD) and assignment of Roles.
             </dd>
         </dl>
     </div>
@@ -22,31 +49,9 @@
     </div>
     <div class="col-md-4">
         <dl>
-            <dt>Basic User Management</dt>
+            <dt>Password Reset</dt>
             <dd>
-                Do Create, Update, List and Delete Users.
-                Assign a Role to a User.
-                Only Users In Role Admin can access this page. This uses the [Authorize(Roles = "Admin")] on the UserAdmin controller.
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Basic Role Management</dt>
-            <dd>
-                Do Create, Update, List and Delete Roles.
-                Only Users In Role Admin can access this page. This authorization is doen by using the [Authorize(Roles = "Admin")] on the RolesAdmin controller.
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Account Confirmation</dt>
-            <dd>
-                When you register a new account, you will be sent an email confirmation.
-                You can use an email service such as <a href="http://www.windowsazure.com/en-us/documentation/articles/sendgrid-dotnet-how-to-send-email/">SendGrid</a> which integrate nicely with Windows Azure and requires no configuration or
-                set up an SMTP server to send email.
-                You can send email using the EmailService which is registered in App_Start\IdentityConfig.cs
+                Allows the user to reset their passwords if they have forgotten their password.
             </dd>
         </dl>
     </div>
@@ -54,35 +59,18 @@
         <dl>
             <dt>Account Lockout</dt>
             <dd>
-                Provide a way to Lockout out the user if the user enters their password or two-factor codes incorrectly.
-                The number of invalid attempts and the timespan for the users are locked out can be configured.
-                A developer can optionally turn off Account Lockout for certain user accounts should they need to.
+                Provide a way to Lockout out the user if the user enters their password incorrectly.
+                The number of invalid attempts and the timespan for the users are locked out can be configured in the appSettings.json.
             </dd>
         </dl>
-        <ul>
-            <li>Account LockOut settings can be configured in the UserManager in IdentityConfig.cs</li>
-        </ul>
     </div>
     <div class="col-md-4">
         <dl>
             <dt>Security Token provider</dt>
             <dd>
-                Support a way to regenerate the Security Token for the user in cases when the User changes there password or any other security related information such as removing an associated login(such as Facebook, Google, Microsoft Account etc).
-                This is needed to ensure that any tokens generated with the old password are invalidated. In the sample project, if you change the users password then a new token is generated for the user and any previous tokens are invalidated.
+                Support a way to regenerate the Security Token for the user in cases when the User changes there password or any other security related information such as removing an associated login(such as Google, Microsoft Account etc).
+                This is needed to ensure that any tokens generated with the old password are invalidated.
                 This feature provides an extra layer of security to your application since when you change your password, you will be logged out from everywhere (all other browsers) where you have logged into this application.
-            </dd>
-            <dd>
-                <ul>
-                    <li>The provider is registered when you add CookieAuthentication in StartupAuth to your application.</li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Password Reset</dt>
-            <dd>
-                Allows the user to reset their passwords if they have forgotten their password. In this sample users need to confirm their email before they can reset their passwords.
             </dd>
         </dl>
     </div>
@@ -90,7 +78,7 @@
         <dl>
             <dt>Basic Application Maintenance</dt>
             <dd>
-                You can maintain the following from the Network Incident data:
+                You can maintain the following from the Network Incident application data:
             </dd>
             <dd>
                 <ul>
