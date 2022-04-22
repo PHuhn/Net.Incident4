@@ -121,32 +121,33 @@
 <script type="text/javascript">
     //
     var codeName = 'CompanyEmailTemplate.Create';
+    var __json
     //
     function incidentTypeIdChange() {
-        console.log(codeName + ': in IncidentTypeId change.');
+        console.log(`${codeName}: in IncidentTypeIdChange event.`);
         console.log(@Model.CompanyId);
-        console.log(@Model.IncidentTypeId);
         var sel = document.getElementById("incidentTypeId");
         var id = parseInt( sel.value );
-        console.log(id);
+        console.log(`Id: ${id}`);
         var json = @Html.Raw(Json.Serialize(incidentTypes));
+        __json = json;
         console.log(json);
-        var it = json.find(function (el) { return el.incidentTypeId === id; });
+        var it = json.find(el => el.IncidentTypeId === id);
         if (it !== null && it !== undefined) {
             console.log(it);
             console.log($('#SubjectLine').val());
-            console.log(it.incidentTypeSubjectLine);
+            console.log(it.IncidentTypeSubjectLine);
             console.log("found it");
             // assign the values from the default to the company specific e-mail template
-            $('#FromServer').attr('checked', it.incidentTypeFromServer);
-            $('#SubjectLine').val(it.incidentTypeSubjectLine);
-            $('#EmailBody').val(it.incidentTypeEmailTemplate);
-            $('#TimeTemplate').val(it.incidentTypeTimeTemplate);
-            $('#ThanksTemplate').val(it.incidentTypeThanksTemplate);
-            $('#LogTemplate').val(it.incidentTypeLogTemplate);
-            $('#Template').val(it.incidentTypeTemplate);
+            $('#FromServer').attr('checked', it.IncidentTypeFromServer);
+            $('#SubjectLine').val(it.IncidentTypeSubjectLine);
+            $('#EmailBody').val(it.IncidentTypeEmailTemplate);
+            $('#TimeTemplate').val(it.IncidentTypeTimeTemplate);
+            $('#ThanksTemplate').val(it.IncidentTypeThanksTemplate);
+            $('#LogTemplate').val(it.IncidentTypeLogTemplate);
+            $('#Template').val(it.IncidentTypeTemplate);
         } else {
-            console.error(codeName + ': ERROR, IncidentType not found.');
+            console.error(`${codeName}: ERROR, IncidentType:${sel.value} not found.`);
         }
     }
     //

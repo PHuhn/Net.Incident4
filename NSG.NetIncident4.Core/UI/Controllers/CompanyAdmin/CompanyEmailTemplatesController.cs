@@ -113,7 +113,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                 if (ModelState.IsValid)
                 {
                     EmailTemplate _emailTemplate = await Mediator.Send(model);
-                    return RedirectToAction("Edit",
+                    return RedirectToAction("Details",
                         new { companyId = _emailTemplate.CompanyId, incidentTypeId = _emailTemplate.IncidentTypeId });
                 }
                 else
@@ -193,7 +193,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                 if (ModelState.IsValid)
                 {
                     int ret = await Mediator.Send(model);
-                    return RedirectToAction("Index", new { companyId = model.CompanyId });
+                    return RedirectToAction("Details",
+                        new { companyId = model.CompanyId, incidentTypeId = model.IncidentTypeId });
                 }
                 else
                     Base_AddErrors(ModelState);
