@@ -105,8 +105,9 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 try
                 {
                     ApplicationRole _entity = await Mediator.Send(model);
+                    return RedirectToAction("Details", new { id = model.Id });
                 }
-                catch( Exception _ex)
+                catch ( Exception _ex)
                 {
                     await Mediator.Send(new LogCreateCommand(
                         LoggingLevel.Error, MethodBase.GetCurrentMethod(),
@@ -165,11 +166,13 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 if (ModelState.IsValid)
                 {
                     int ret = await Mediator.Send(model);
+                    return RedirectToAction("Details", new { id = model.Id });
                 }
                 else
+                {
                     Base_AddErrors(ModelState);
-                return RedirectToAction("Index");
-                //return RedirectToAction("Edit", new { id = model.Id });
+                    return View(model);
+                }
             }
             catch (Exception _ex)
             {
@@ -208,7 +211,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
         // POST: /Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id, string deleteUser)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
             if (ModelState.IsValid)
             {

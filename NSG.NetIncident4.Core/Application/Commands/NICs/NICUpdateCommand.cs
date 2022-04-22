@@ -25,9 +25,21 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 	{
 		public string NIC_Id { get; set; }
 		public string NICDescription { get; set; }
-		public string NICAbuseEmailAddress { get; set; }
-		public string NICRestService { get; set; }
-		public string NICWebSite { get; set; }
+		[System.ComponentModel.DataAnnotations.DisplayFormat(ConvertEmptyStringToNull = false)]
+		public string? NICAbuseEmailAddress { get; set; }
+		[System.ComponentModel.DataAnnotations.DisplayFormat(ConvertEmptyStringToNull = false)]
+		public string? NICRestService { get; set; }
+		[System.ComponentModel.DataAnnotations.DisplayFormat(ConvertEmptyStringToNull = false)]
+		public string? NICWebSite { get; set; }
+		//
+		public NICUpdateCommand()
+		{
+			NIC_Id = "";
+			NICDescription = "";
+			NICAbuseEmailAddress = "";
+			NICRestService = "";
+			NICWebSite = "";
+		}
 	}
 	//
 	/// <summary>

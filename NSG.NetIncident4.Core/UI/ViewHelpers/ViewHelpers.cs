@@ -83,7 +83,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         public static SelectListItem[] GetClientScriptList()
         {
             return new SelectListItem[] {
-                (new SelectListItem() { Text = "-none -", Value = "" }),
+                (new SelectListItem() { Text = "-no script-", Value = " " }),
                 (new SelectListItem() { Text = "Ping", Value = "ping" }),
                 (new SelectListItem() { Text = "WhoIs", Value = "whois" }),
                 (new SelectListItem() { Text = "Email ISP Report", Value = "email" })

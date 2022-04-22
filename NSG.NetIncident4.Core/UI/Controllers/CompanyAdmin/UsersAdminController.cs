@@ -112,7 +112,6 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                 }
                 else
                     Base_AddErrors(ModelState);
-                return RedirectToAction("Edit", new { id = model.UserName });
             }
             catch (Exception _ex)
             {
@@ -120,6 +119,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                     LoggingLevel.Error, MethodBase.GetCurrentMethod(),
                     _ex.Message, _ex));
                 Base_AddErrors(_ex);
+                return RedirectToAction("Edit", new { id = model.UserName });
             }
             return View();
         }

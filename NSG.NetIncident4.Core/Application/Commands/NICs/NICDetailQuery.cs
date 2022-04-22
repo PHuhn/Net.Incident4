@@ -26,9 +26,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 		[System.ComponentModel.DataAnnotations.Key]
 		public string NIC_Id { get; set; }
 		public string NICDescription { get; set; }
-		public string NICAbuseEmailAddress { get; set; }
-		public string NICRestService { get; set; }
-		public string NICWebSite { get; set; }
+		public string? NICAbuseEmailAddress { get; set; }
+		public string? NICRestService { get; set; }
+		public string? NICWebSite { get; set; }
 	}
 	//
 	/// <summary>

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Identity;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 {
@@ -40,7 +41,23 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         public string[] SelectedRoles { get; set; }
         public int[] SelectedServers { get; set; }
         //
+        public ApplicationUserUpdateCommand()
+        {
+            Id = "00000000-0000-1000-8000-000000000000";
+            UserName = "";
+            Email = "";
+            PhoneNumber = "";
+            CompanyId = 0;
+            FirstName = "";
+            FullName = "";
+            LastName = "";
+            UserNicName = "";
+            // UserLockedOut = false;
+            // ResetUserLockedOut = false;
+            SelectedRoles = new string[] { };
+            SelectedServers = new int[] { };
     }
+}
     //
     /// <summary>
     /// 'ApplicationUser' update command handler.

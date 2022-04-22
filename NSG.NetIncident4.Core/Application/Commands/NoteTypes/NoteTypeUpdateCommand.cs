@@ -26,7 +26,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 		public int NoteTypeId { get; set; }
 		public string NoteTypeShortDesc { get; set; }
 		public string NoteTypeDesc { get; set; }
-        public string NoteTypeClientScript { get; set; }
+		[System.ComponentModel.DataAnnotations.DisplayFormat(ConvertEmptyStringToNull = false)]
+		public string NoteTypeClientScript { get; set; }
     }
     //
     /// <summary>

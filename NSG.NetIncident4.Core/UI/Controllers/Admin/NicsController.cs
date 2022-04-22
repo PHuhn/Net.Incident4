@@ -53,7 +53,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
         // GET: Nics/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new NICCreateCommand());
         }
 
         // POST: Nics/Create
@@ -68,7 +68,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 if (ModelState.IsValid)
                 {
                     NIC _nic = await Mediator.Send(model);
-                    return RedirectToAction("Edit", new { id = _nic.NIC_Id });
+                    return RedirectToAction("Details", new { id = _nic.NIC_Id });
                 }
                 else
                     Base_AddErrors(ModelState);
@@ -115,6 +115,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 if (ModelState.IsValid)
                 {
                     int ret = await Mediator.Send(model);
+                    return RedirectToAction("Details", new { id = model.NIC_Id });
                 }
                 else
                     Base_AddErrors(ModelState);

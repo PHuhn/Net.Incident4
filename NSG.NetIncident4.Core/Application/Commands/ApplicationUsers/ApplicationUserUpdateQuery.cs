@@ -41,6 +41,24 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         public List<SelectListItem> ServersList { get; set; }
         public List<SelectListItem> CompaniesList { get; set; }
         //
+        public ApplicationUserUpdateQuery()
+        {
+            Id = "00000000-0000-1000-8000-000000000000";
+            UserName = "";
+            Email = "";
+            PhoneNumber = "";
+            CompanyId = 0;
+            FirstName = "";
+            FullName = "";
+            LastName = "";
+            UserNicName = "";
+            // UserLockedOut = false;
+            // ResetUserLockedOut = false;
+            //
+            RolesList = new List<SelectListItem>();
+            ServersList = new List<SelectListItem>();
+            CompaniesList = new List<SelectListItem>();
+        }
     }
     //
     /// <summary>

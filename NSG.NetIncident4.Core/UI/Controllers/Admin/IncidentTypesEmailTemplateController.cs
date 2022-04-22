@@ -91,7 +91,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 if (ModelState.IsValid)
                 {
                     IncidentType _incidentType = await Mediator.Send(model);
-                    return RedirectToAction("Edit", new { id = _incidentType.IncidentTypeId });
+                    return RedirectToAction("Details", new { id = _incidentType.IncidentTypeId });
                 }
                 else
                     Base_AddErrors(ModelState);
@@ -132,6 +132,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 if (ModelState.IsValid)
                 {
                     int ret = await Mediator.Send(model);
+                    return RedirectToAction("Details", new { id = model.IncidentTypeId });
                 }
                 else
                     Base_AddErrors(ModelState);

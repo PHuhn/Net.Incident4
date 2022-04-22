@@ -84,7 +84,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 if (ModelState.IsValid)
                 {
                     NoteType _noteType = await Mediator.Send(model);
-                    return RedirectToAction("Edit", new { id = _noteType.NoteTypeId });
+                    return RedirectToAction("Details", new { id = _noteType.NoteTypeId });
                 }
                 else
                     Base_AddErrors(ModelState);
@@ -131,6 +131,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
                 if (ModelState.IsValid)
                 {
                     int ret = await Mediator.Send(model);
+                    return RedirectToAction("Details", new { id = model.NoteTypeId });
                 }
                 else
                     Base_AddErrors(ModelState);
