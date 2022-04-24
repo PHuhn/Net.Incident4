@@ -121,7 +121,6 @@
 <script type="text/javascript">
     //
     var codeName = 'CompanyEmailTemplate.Create';
-    var __json
     //
     function incidentTypeIdChange() {
         console.log(`${codeName}: in IncidentTypeIdChange event.`);
@@ -130,7 +129,6 @@
         var id = parseInt( sel.value );
         console.log(`Id: ${id}`);
         var json = @Html.Raw(Json.Serialize(incidentTypes));
-        __json = json;
         console.log(json);
         var it = json.find(el => el.IncidentTypeId === id);
         if (it !== null && it !== undefined) {

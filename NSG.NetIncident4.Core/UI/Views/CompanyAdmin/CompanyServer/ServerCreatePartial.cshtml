@@ -112,7 +112,7 @@
                     <label class="col-md-3 nsg-label" for="DST">DST :</label>
                     <div class="col-md-9">
                         <div class="checkbox" style="padding-left: 20px;">
-                            @Html.EditorFor(model => model.DST)
+                            @Html.EditorFor(model => model.DST, new {htmlAttributes = new {onchange = "DST_Changed(this)"}})
                             @Html.ValidationMessageFor(model => model.DST, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -152,3 +152,28 @@
 
     </div>
 </form>
+<script type="text/javascript">
+    function DST_Changed(d) {
+        var dst = d.checked;
+        console.log(dst);
+        if(dst) {
+            var yr = new Date().getFullYear();
+            document.getElementById('DST_Start').value = getDST(yr, 2, 8);
+            document.getElementById('DST_End').value = getDST(yr, 10, 1);
+            document.getElementById('TimeZone_DST').value = `DST (UTC-${new Date(2022, 6, 1).getTimezoneOffset()/60})`;
+        } else {
+            document.getElementById('DST_Start').value = "";
+            document.getElementById('DST_End').value = "";
+            document.getElementById('TimeZone_DST').value = "";
+        }
+        return false;
+    }
+    function getDST(yr, mth, dy) {
+        var dt = nsg_getAddDate(nsg_getWeekStarting(new Date(yr, mth, dy )),7);
+        var dt2 = nsg_getYYYYMMDD(dt) + 'T02:00';
+        console.log(dt2);
+        return dt2;
+    }
+        
+</script>
+<!-- End of partial view -->

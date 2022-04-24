@@ -34,9 +34,26 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
 		public string FromEmailAddress { get; set; }
 		public string TimeZone { get; set; }
 		public bool DST { get; set; }
-		public string TimeZone_DST { get; set; }
+		public string? TimeZone_DST { get; set; }
 		public DateTime? DST_Start { get; set; }
 		public DateTime? DST_End { get; set; }
+		//
+		public ServerCreateCommand()
+		{
+			ServerId = 0;
+			CompanyId = 0;
+			ServerShortName = "";
+			ServerName = "";
+			ServerDescription = "";
+			WebSite = "";
+			ServerLocation = "";
+			FromName = "";
+			FromNicName = "";
+			FromEmailAddress = "";
+			TimeZone = "";
+			DST = false;
+			TimeZone_DST = "";
+		}
 	}
 	//
 	/// <summary>

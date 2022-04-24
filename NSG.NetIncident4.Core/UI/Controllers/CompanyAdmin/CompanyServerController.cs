@@ -98,12 +98,14 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                 int _companyId = model.CompanyId;
                 if (ModelState.IsValid)
                 {
-                    if (model.DST && model.DST_Start != null && model.DST_End != null)
+                    if (model.DST == true && (model.DST_Start == null || model.DST_End == null))
+                    {
+                        Error("DTS requires start/end dates.");
+                    }
+                    else
                     {
                         Server _server = await Mediator.Send(model);
                     }
-                    else
-                        Error("DTS requires start/end dates.");
                 }
                 else
                     Base_AddErrors(ModelState);
@@ -253,13 +255,12 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ServerDelete(int id, ServerDetailQuery model)
+        public async Task<ActionResult> ServerDelete(int serverId, int companyId)
         {
-            int _companyId = model.CompanyId;
             try
             {
-                int _count = await Mediator.Send(new ServerDeleteCommand() { ServerId = id });
-                return RedirectToAction("Delete", new { id = _companyId });
+                int _count = await Mediator.Send(new ServerDeleteCommand() { ServerId = serverId });
+                return RedirectToAction("Delete", new { id = companyId });
             }
             catch (Exception _ex)
             {
@@ -268,7 +269,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                     _ex.Message, _ex));
                 Base_AddErrors(_ex);
             }
-            return RedirectToAction("Delete", new { id = _companyId });
+            return RedirectToAction("Delete", new { id = companyId });
         }
         //
         #endregion // Delete section

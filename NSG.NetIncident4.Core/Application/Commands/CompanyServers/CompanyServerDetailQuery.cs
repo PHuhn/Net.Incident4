@@ -34,7 +34,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyServers
         public string PostalCode { get; set; }
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         //
         public List<ServerDetailQuery> ServerList { get; set; }
         //

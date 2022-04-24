@@ -36,7 +36,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public string Country { get; set; }
         [MaxLength(50, ErrorMessage = "'Phone #' must be 50 or less characters.")]
         public string PhoneNumber { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         //
         public virtual ICollection<Server> Servers { get; } = new List<Server>();
         public virtual ICollection<ApplicationUser> Users { get; } = new List<ApplicationUser>();
