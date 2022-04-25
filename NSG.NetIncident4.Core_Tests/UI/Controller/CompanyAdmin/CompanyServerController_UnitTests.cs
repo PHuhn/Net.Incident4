@@ -383,7 +383,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
-            var actual = await sut.ServerDelete(3, mediatorParam);
+            var actual = await sut.ServerDelete(3, mediatorParam.CompanyId);
             // then
             var viewResult = actual as RedirectToActionResult;
             Assert.IsNotNull(viewResult);

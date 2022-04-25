@@ -33,7 +33,6 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 	/// </summary>
 	public class ApplicationRoleUpdateCommandHandler : IRequestHandler<ApplicationRoleUpdateCommand, int>
 	{
-		//private readonly ApplicationDbContext _context;
         private RoleManager<ApplicationRole> _roleManager;
         protected IMediator Mediator;
         //

@@ -46,17 +46,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
     public class ApplicationRoleUserDetailQueryHandler : IRequestHandler<ApplicationRoleUserDetailQueryHandler.DetailQuery, ApplicationRoleUserDetailQuery>
 	{
         private RoleManager<ApplicationRole> _roleManager;
-		private ApplicationDbContext _context;
 		//
 		/// <summary>
 		//  The constructor for the inner handler class, to detail the ApplicationRole entity.
 		/// </summary>
 		/// <param name="roleManager"></param>
 		/// <param name="context">The database interface context.</param>
-		public ApplicationRoleUserDetailQueryHandler(RoleManager<ApplicationRole> roleManager, ApplicationDbContext context)
+		public ApplicationRoleUserDetailQueryHandler(RoleManager<ApplicationRole> roleManager)
 		{
             _roleManager = roleManager;
-			_context = context;
 		}
 		//
 		/// <summary>

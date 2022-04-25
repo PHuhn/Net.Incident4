@@ -83,7 +83,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             SelectListItem[] actual = Core.UI.ViewHelpers.ViewHelpers.GetClientScriptList();
             // then
-            Assert.AreEqual("", actual[0].Value);
+            Assert.AreEqual(" ", actual[0].Value);
             Assert.AreEqual("ping", actual[1].Value);
             Assert.AreEqual("whois", actual[2].Value);
             Assert.AreEqual("email", actual[3].Value);

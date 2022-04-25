@@ -64,43 +64,6 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Console.WriteLine("");
         }
         //
-        // You will need to check that the indexes work with you test data.
-        //
-        [Test]
-        public void ApplicationUserCreateCommand_Test()
-        {
-            _testName = "ApplicationUserCreateCommand_Test";
-            Console.WriteLine($"{_testName} ...");
-            ApplicationUserCreateCommandHandler _handler = new ApplicationUserCreateCommandHandler(db_context);
-            ApplicationUserCreateCommand _create = new ApplicationUserCreateCommand()
-            {
-                Id = "Id",
-                UserName = "UserName",
-                NormalizedUserName = "NormalizedUserName",
-                Email = "Email",
-                NormalizedEmail = "NormalizedEmail",
-                EmailConfirmed = false,
-                PasswordHash = "PasswordHash",
-                SecurityStamp = "SecurityStamp",
-                ConcurrencyStamp = "ConcurrencyStamp",
-                PhoneNumber = "PhoneNumber",
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnd = DateTime.Now,
-                LockoutEnabled = false,
-                AccessFailedCount = 1,
-                CompanyId = 1,
-                CreateDate = DateTime.Now,
-                FirstName = "FirstName",
-                FullName = "FullName",
-                LastName = "LastName",
-                UserNicName = "UserNicName",
-            };
-            Task<ApplicationUser> _createResults = _handler.Handle(_create, CancellationToken.None);
-            ApplicationUser _entity = _createResults.Result;
-            Assert.AreEqual("Id", _entity.Id);
-        }
-        //
         [Test]
         public void ApplicationUserUpdateCommand_Test()
         {

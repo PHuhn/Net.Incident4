@@ -129,7 +129,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             // then
             var viewResult = actual as RedirectToActionResult;
             Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Edit");
+            Assert.AreEqual(viewResult.ActionName, "Details");
             Assert.AreEqual(NoteTypesController.Alerts.Count, 0);
         }
         //
@@ -179,7 +179,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             // then
             var viewResult = actual as RedirectToActionResult;
             Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Index");
+            Assert.AreEqual(viewResult.ActionName, "Details");
             Assert.AreEqual(NoteTypesController.Alerts.Count, 0);
         }
         //

@@ -34,17 +34,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 	public class ApplicationRoleDeleteCommandHandler : IRequestHandler<ApplicationRoleDeleteCommand, int>
 	{
         private RoleManager<ApplicationRole> _roleManager;
-		private ApplicationDbContext _context;
         protected IMediator Mediator;
         //
         /// <summary>
         ///  The constructor for the inner handler class, to delete the ApplicationRole entity.
         /// </summary>
         /// <param name="context">The database interface context.</param>
-        public ApplicationRoleDeleteCommandHandler(RoleManager<ApplicationRole> roleManager, ApplicationDbContext context, IMediator mediator)
+        public ApplicationRoleDeleteCommandHandler(RoleManager<ApplicationRole> roleManager, IMediator mediator)
 		{
             _roleManager = roleManager;
-			_context = context;
 			Mediator = mediator;
         }
         //
@@ -65,7 +63,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 			}
 			ApplicationRole _entity = await _roleManager.Roles
 				.Include(u => u.UserRoles).ThenInclude(ur => ur.User)
-				.FirstOrDefaultAsync(r => r.Id == request.Id);
+				.FirstOrDefaultAsync(r => r.Id == request.Id, cancellationToken: cancellationToken);
 			if (_entity == null)
 			{
 				throw new ApplicationRoleDeleteCommandKeyNotFoundException(request.Id);

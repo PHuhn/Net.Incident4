@@ -100,7 +100,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             db_context.SaveChanges();
             //
             // Now delete what was just created ...
-            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(roleManager, db_context, _mockMediator.Object);
+            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(roleManager, _mockMediator.Object);
             ApplicationRoleDeleteCommand _delete = new ApplicationRoleDeleteCommand()
             {
                 Id = _create.Id,
@@ -116,7 +116,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _testName = "ApplicationRoleDeleteCommand_ActiveUsersException_Test";
             Console.WriteLine($"{_testName} ...");
             //
-            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(roleManager, db_context, _mockMediator.Object);
+            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(roleManager, _mockMediator.Object);
             ApplicationRoleDeleteCommand _delete = new ApplicationRoleDeleteCommand()
             {
                 Id = "adm"
