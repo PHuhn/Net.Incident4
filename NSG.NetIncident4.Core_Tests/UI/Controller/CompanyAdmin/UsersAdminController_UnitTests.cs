@@ -222,7 +222,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             // then
             var viewResult = actual as RedirectToActionResult;
             Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Edit");
+            Assert.AreEqual(viewResult.ActionName, "Details");
             Assert.AreEqual(UsersAdminController.Alerts.Count, 0);
         }
         //

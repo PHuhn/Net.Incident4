@@ -62,7 +62,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
     /// <summary>
     /// 'ApplicationUser' update command handler.
     /// </summary>
-    public class ApplicationUserUpdateCommandHandler : IRequest<ApplicationUser>
+    public class ApplicationUserUpdateCommandHandler : IRequestHandler<ApplicationUserUpdateCommand, ApplicationUser>
     {
         private readonly ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userManager;
@@ -100,7 +100,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
                 .Include(u => u.Company)
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserServers).ThenInclude(us => us.Server).ThenInclude(s => s.Company)
-                .FirstOrDefaultAsync(r => r.UserName == request.UserName);
+                .FirstOrDefaultAsync(r => r.UserName == request.UserName, cancellationToken: cancellationToken);
             if (_entity == null)
 			{
                 await Mediator.Send(new LogCreateCommand(

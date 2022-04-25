@@ -33,6 +33,17 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         public int CompanyId { get; set; }
         public string CompanyShortName { get; set; }
         public string CompanyName { get; set; }
+		//
+		public ApplicationUserListQuery()
+		{
+			Id = "";
+			UserName = "";
+			Email = "";
+			FullName = "";
+			CompanyId = 0;
+			CompanyShortName = "";
+			CompanyName = "";
+		}
 	}
 	//
 	/// <summary>

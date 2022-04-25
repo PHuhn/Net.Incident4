@@ -42,12 +42,31 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         //
         public List<string> RoleList { get; set; }
         public List<ApplicationUserServerListQuery> ServerList { get; set; }
-        //
-    }
-    public class ApplicationUserServerListQuery
-    {
+		//
+		public ApplicationUserDetailQuery()
+		{
+			Id = "00000000-0000-1000-8000-000000000000";
+			UserName = "";
+			Email = "";
+			PhoneNumber = "";
+			CompanyId = 0;
+			FirstName = "";
+			FullName = "";
+			LastName = "";
+			UserNicName = "";
+			// UserLockedOut = false;
+			// ResetUserLockedOut = false;
+			//
+			RoleList = new List<string>();
+			ServerList = new List<ApplicationUserServerListQuery>();
+		}
+		//
+	}
+	public class ApplicationUserServerListQuery
+	{
         public string CompanyShortName { get; set; }
         public string ServerShortName { get; set; }
+
     }
     //
     /// <summary>

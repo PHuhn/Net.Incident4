@@ -36,6 +36,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         public string LastName { get; set; }
         public string UserNicName { get; set; }
         //
+        public ApplicationUserManageUpdateCommand()
+        {
+            //
+            UserName = "";
+            Email = "";
+            PhoneNumber = "";
+            FirstName = "";
+            FullName = "";
+            LastName = "";
+            UserNicName = "";
+            //
+        }
     }
     //
     /// <summary>

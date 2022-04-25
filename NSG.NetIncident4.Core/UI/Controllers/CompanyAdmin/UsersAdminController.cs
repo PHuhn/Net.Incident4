@@ -25,6 +25,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
         //
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
         //
         public UsersAdminController(UserManager<ApplicationUser> userManager,
             IEmailSender emailSender,
@@ -105,10 +106,12 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                     {
                         if(user.EmailConfirmed == false)
                         {
-
                             await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
                         }
+                        return RedirectToAction("Details", new { id = user.UserName });
                     }
+                    Error($"Return entity of {model.UserName} was empty.");
+                    return RedirectToAction("Edit", new { id = model.UserName });
                 }
                 else
                     Base_AddErrors(ModelState);
