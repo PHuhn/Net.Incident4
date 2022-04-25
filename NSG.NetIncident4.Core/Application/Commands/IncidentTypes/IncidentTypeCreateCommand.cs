@@ -32,6 +32,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
 		public string IncidentTypeThanksTemplate { get; set; }
 		public string IncidentTypeLogTemplate { get; set; }
 		public string IncidentTypeTemplate { get; set; }
+		//
+		public IncidentTypeCreateCommand()
+		{
+			IncidentTypeId = 0;
+			IncidentTypeSubjectLine = "";
+			IncidentTypeEmailTemplate = "";
+			IncidentTypeTimeTemplate = "";
+			IncidentTypeThanksTemplate = "";
+			IncidentTypeLogTemplate = "";
+			IncidentTypeTemplate = "";
+			IncidentTypeFromServer = false;
+		}
 	}
 	//
 	/// <summary>
