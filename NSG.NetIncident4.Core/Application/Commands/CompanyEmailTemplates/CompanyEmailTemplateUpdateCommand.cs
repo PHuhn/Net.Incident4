@@ -31,6 +31,19 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 		public string LogTemplate { get; set; }
 		public string Template { get; set; }
 		public bool FromServer { get; set; }
+		//
+		public CompanyEmailTemplateUpdateCommand()
+		{
+			CompanyId = 0;
+			IncidentTypeId = 0;
+			SubjectLine = "";
+			EmailBody = "";
+			TimeTemplate = "";
+			ThanksTemplate = "";
+			LogTemplate = "";
+			Template = "";
+			FromServer = false;
+		}
 	}
 	//
 	/// <summary>

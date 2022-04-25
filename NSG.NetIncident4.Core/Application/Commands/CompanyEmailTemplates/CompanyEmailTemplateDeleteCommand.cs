@@ -27,6 +27,12 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 	{
 		public int CompanyId { get; set; }
 		public int IncidentTypeId { get; set; }
+		//
+		public CompanyEmailTemplateDeleteCommand()
+		{
+			CompanyId = 0;
+			IncidentTypeId = 0;
+		}
 	}
 	//
 	/// <summary>
