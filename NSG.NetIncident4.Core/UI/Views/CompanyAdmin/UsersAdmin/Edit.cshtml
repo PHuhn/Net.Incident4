@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="row">
-                    <label class="col-md-3 nsg-label" for="UserName">
+                    <label class="col-md-4 nsg-label" for="UserName">
                         User Name:
                     </label>
                     <div class="col-md-8">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-md-3 nsg-label" for="Email">
+                    <label class="col-md-4 nsg-label" for="Email">
                         Email:
                     </label>
                     <div class="col-md-8">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-md-3 nsg-label" for="PhoneNumber">
+                    <label class="col-md-4 nsg-label" for="PhoneNumber">
                         Phone #:
                     </label>
                     <div class="col-md-8">
@@ -52,7 +52,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-md-3 nsg-label" for="CompanyId">Company:</label>
+                    <label class="col-md-4 nsg-label" for="PhoneNumberConfirmed">
+                        Phone # Confirmed:
+                    </label>
+                    <div class="col-md-8">
+                        <input type="checkbox" asp-for="PhoneNumberConfirmed"/>
+                        <span asp-validation-for="PhoneNumberConfirmed" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 nsg-label" for="CompanyId">Company:</label>
                     <div class="col-md-8">
                         <select asp-for="CompanyId" asp-items="Model.CompaniesList" style="height: 35px; width: 250px;"></select>
                         <span asp-validation-for="CompanyId" class="text-danger"></span>
@@ -97,7 +106,22 @@
                         <span asp-validation-for="UserNicName" class="text-danger"></span>
                     </div>
                 </div>
-
+                <div class="row">
+                    <label class="col-md-3 nsg-label" for="UserLockedOut">Locked-out:</label>
+                    <div class="col-md-9">
+                        <div style='float: left;'>
+                            <input type="checkbox" name="UserLockedOut" value="@Model.UserLockedOut" checked="@Model.UserLockedOut" class="checkbox-inline" disabled />
+                            <input id="ResetUserLockedOut" asp-for="ResetUserLockedOut" type="text" value="@Model.ResetUserLockedOut" hidden />
+                        </div>
+                        <div style='display: @(Model.UserLockedOut ? "block" : "none"); float: left;'>
+                            <div style='float: left;'>
+                                &nbsp;
+                                <input type="button" value="Reset" class="btn btn-primary" onclick="var rst = document.getElementById('ResetUserLockedOut'); rst.value=true;" />
+                            </div>
+                            <div style='float: left;'> &nbsp; &nbsp; Need to save the reset.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <hr />
 

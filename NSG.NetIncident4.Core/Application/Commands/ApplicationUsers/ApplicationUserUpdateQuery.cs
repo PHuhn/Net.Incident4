@@ -31,11 +31,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public string UserName { get; set; }
 		public string Email { get; set; }
 		public string PhoneNumber { get; set; }
-		public int CompanyId { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public int CompanyId { get; set; }
 		public string FirstName { get; set; }
 		public string FullName { get; set; }
 		public string LastName { get; set; }
 		public string UserNicName { get; set; }
+        //
+        public bool UserLockedOut { get; set; }
+        public bool ResetUserLockedOut { get; set; }
         //
         public List<SelectListItem> RolesList { get; set; }
         public List<SelectListItem> ServersList { get; set; }
@@ -47,13 +51,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
             UserName = "";
             Email = "";
             PhoneNumber = "";
+            PhoneNumberConfirmed = false;
             CompanyId = 0;
             FirstName = "";
             FullName = "";
             LastName = "";
             UserNicName = "";
-            // UserLockedOut = false;
-            // ResetUserLockedOut = false;
+            //
+            UserLockedOut = false;
+            ResetUserLockedOut = false;
             //
             RolesList = new List<SelectListItem>();
             ServersList = new List<SelectListItem>();
@@ -279,12 +285,16 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				UserName = entity.UserName,
 				Email = entity.Email,
 				PhoneNumber = entity.PhoneNumber,
-				CompanyId = entity.CompanyId,
+                PhoneNumberConfirmed = entity.PhoneNumberConfirmed,
+                CompanyId = entity.CompanyId,
 				FirstName = entity.FirstName,
 				FullName = entity.FullName,
 				LastName = entity.LastName,
 				UserNicName = entity.UserNicName,
-			};
+                UserLockedOut = (entity.LockoutEnd == null ? false :
+                                (entity.LockoutEnd > DateTime.Now ? true : false)),
+                ResetUserLockedOut = false,
+            };
 		}
 	}
 }

@@ -32,11 +32,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         public string UserName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
         public int CompanyId { get; set; }
         public string FirstName { get; set; }
         public string FullName { get; set; }
         public string LastName { get; set; }
         public string UserNicName { get; set; }
+        public bool UserLockedOut { get; set; }
+        public bool ResetUserLockedOut { get; set; }
         //
         public string[] SelectedRoles { get; set; }
         public int[] SelectedServers { get; set; }
@@ -47,17 +50,20 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
             UserName = "";
             Email = "";
             PhoneNumber = "";
+            PhoneNumberConfirmed = false;
             CompanyId = 0;
             FirstName = "";
             FullName = "";
             LastName = "";
             UserNicName = "";
-            // UserLockedOut = false;
-            // ResetUserLockedOut = false;
+            // reset of locked out because of password failures
+            UserLockedOut = false;
+            ResetUserLockedOut = false;
+            //
             SelectedRoles = new string[] { };
             SelectedServers = new int[] { };
+        }
     }
-}
     //
     /// <summary>
     /// 'ApplicationUser' update command handler.
@@ -136,6 +142,13 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
                     entity.PhoneNumber = request.PhoneNumber;
                     entity.PhoneNumberConfirmed = false;
                 }
+                else
+                {
+                    if (entity.PhoneNumberConfirmed != request.PhoneNumberConfirmed)
+                    {
+                        entity.PhoneNumberConfirmed = request.PhoneNumberConfirmed;
+                    }
+                }
                 if (entity.CompanyId != request.CompanyId)
                 {
                     entity.CompanyId = request.CompanyId;
@@ -156,6 +169,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
                 if (entity.UserNicName != request.UserNicName)
                 {
                     entity.UserNicName = request.UserNicName;
+                }
+                if (request.ResetUserLockedOut)
+                {
+                    entity.LockoutEnd = null;
                 }
             }
             catch (Exception _ex)
