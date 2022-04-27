@@ -22,6 +22,15 @@ The application does allow for external logins from:
 - Google
 - Microsoft Account
 
+External login will require obtaining and id and secret from the provider.  The configuration is via appSettings (secrets) or another implemetation.  The following is a sample secrets.json settings:
+
+    {
+      "Authentication:Microsoft:ClientSecret": "",
+      "Authentication:Microsoft:ClientId": "",
+      "Authentication:Google:ClientSecret": "GOC...T",
+      "Authentication:Google:ClientId": "300...apps.googleusercontent.com"
+    }
+
 ### Application Maintenance (Views)
 
 This maintains the following from the Network Incident application data:
