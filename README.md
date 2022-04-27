@@ -1,13 +1,14 @@
-# Net-Incident
+# Net.Incident4
 ## Overview
 This solution contains three projects as follows:
-- net-incident - Angular 13 CLI SPA UI,
-- NSG.NetIncident4.Core - .Net Web Api and MVC application to support net-incident.
+- net-incident - Angular CLI SPA UI,
+- NSG.NetIncident4.Core - .Net Core Web Api and MVC application to support net-incident.
 - NSG.NetIncident4.Core_Tests - tests for above project.
 
 ## The libraries
 - NSG.NetIncident4.Core requires [NSG.Library](https://github.com/PHuhn/NSG.Library/wiki/NSG.Library),
-- NSG.NetIncident4.Core requires PrimeFaces NG library of [NSG.PrimeNG](https://github.com/PHuhn/NSG.PrimeNG).
+- NSG.NetIncident4.Core requires PrimeFaces NG library of [NSG.PrimeNG](https://github.com/PHuhn/NSG.PrimeNG),
+- Net-Incident (Angular application) requires [PrimeNG](https://www.primefaces.org/primeng/)
 
 ## Installation Instructions ##
 * [Installation of development NSG.NetIncident4.Core](https://github.com/PHuhn/Net.Incident4/wiki/Installation-of-NSG-NetIncident4-Core-(Web-API-and-Identity))
