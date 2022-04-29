@@ -7,7 +7,7 @@
  @REM
  @REM ignore [Service blocked: ICMP_echo_req] not illegal ...
  grep -E "^\[admin login" %inp% > %1%-admin.txt
- grep -vE "^\[DHCP IP: \(192.168|^\[Service blocked: ICMP_echo_req|^\[Time synchronized|^\[Internet connected|^\[Internet disconnected|^\[admin login|^\[Initialized, firmware|^\[Log Cleared" %inp% > %1%-probe.txt
+ grep -vE "^\[DHCP IP: \(192.168.1|^\[Service blocked: ICMP_echo_req|^\[Time synchronized|^\[Internet connected|^\[Internet disconnected|^\[admin login|^\[Initialized, firmware|^\[Log Cleared" %inp% > %1%-probe.txt
  @REM
  TYPE %1%-admin.txt
  TYPE %1%-probe.txt
