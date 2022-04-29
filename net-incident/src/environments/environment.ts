@@ -4,6 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 // port # 9111 or 63074
 // base_Url: 'https://localhost:9114/api/',
+// base_Url: 'https://localhost:44378/api/',
+// LogLevel: 	Error = 0, Warning = 1, Success = 2, Info = 3, Debug = 4, Verbose = 5
 export const environment = {
   production: false,
   envName: 'dev',

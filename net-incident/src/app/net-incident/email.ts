@@ -29,15 +29,15 @@ export class EmailContent {
 }
 //
 export class EmailPersonalization {
-	tos: EmailAddress[];
-	ccs: EmailAddress[];
-	bccs: EmailAddress[];
+	to: EmailAddress[];
+	cc: EmailAddress[];
+	bcc: EmailAddress[];
 	subject: string;
 	constructor( to: string, subject: string ) {
-		this.tos = [];
-		this.ccs = [];
-		this.bccs = [];
-		this.tos.push( new EmailAddress( to ) ); // = [ ...this.to, to ];
+		this.to = [];
+		this.cc = [];
+		this.bcc = [];
+		this.to.push( new EmailAddress( to ) ); // = [ ...this.to, to ];
 		this.subject = subject;
 	}
 }
@@ -45,7 +45,7 @@ export class EmailPersonalization {
 export class EmailRequest {
 	personalizations: EmailPersonalization[];
 	from: EmailAddress;
-	contents: EmailContent[];
+	content: EmailContent[];
 	attachments: any[];
 	subject: string;
 	htmlContent: string;
@@ -57,11 +57,11 @@ export class EmailRequest {
 		subject: string,
 		body: string
 	) {
-		this.contents = [];
+		this.content = [];
 		this.personalizations = [];
 		this.from = new EmailAddress( from );
 		this.personalizations.push( new EmailPersonalization( to, subject ) );
-		this.contents.push( new EmailContent( body ) );
+		this.content.push( new EmailContent( body ) );
 		this.subject = subject;
 		//
 		this.attachments = [];

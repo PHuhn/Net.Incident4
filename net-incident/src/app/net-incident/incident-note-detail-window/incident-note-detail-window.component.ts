@@ -64,7 +64,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 				this.model.IsChanged = true;
 			}
 			this._console.Verbose(
-				`${this.codeName}.Input.incidentnote: ${this.id}, win: ${this.displayWin}` );
+				`${this.codeName}.Input.incidentnote: ${this.id}, add: ${this.add}, win: ${this.displayWin}` );
 		} else {
 			this.displayWin = false;
 		}
@@ -93,8 +93,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** On component initialization.
 	*/
 	ngOnInit() {
-		this._console.Information( `${this.codeName}: ngOnInit: ...` );
-		this._console.Information( JSON.stringify( this.networkIncident ) );
+		this._console.Debug( `${this.codeName}: ngOnInit: ...` );
 	}
 	/**
 	** Cleanup
@@ -113,7 +112,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** close the window, via
 	*/
 	windowClose(saved: boolean) {
-		this._console.Information( `${this.codeName}: windowClose: ${saved}` );
+		this._console.Debug( `${this.codeName}: windowClose: ${saved}` );
 		if( saved === false ) {
 			this.emitCloseWin.emit( saved );
 			this.displayWin = false;
@@ -134,7 +133,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** (change)='onTypeIdDropdownChanged( $event )'
 	*/
 	onTypeIdDropdownChanged( selected: number ) {
-		this._console.Information( `${this.codeName}: onTypeIdDropdownChanged: ${selected}` );
+		this._console.Debug( `${this.codeName}: onTypeIdDropdownChanged: ${selected}` );
 		if( selected > 0 ) {
 			this.model.NoteTypeId = selected;
 			const noteType: SelectItemExtra | undefined = this.networkIncident.noteTypes.find( t => t.value === selected );
@@ -155,7 +154,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** * Compose e-mail message for this IP-address.
 	*/
 	performIncidentType( id: number, noteScript: string ): void {
-		this._console.Information( `${this.codeName}.performIncidentType: Entering, id: ${id}, ${noteScript}` );
+		this._console.Debug( `${this.codeName}.performIncidentType: Entering, id: ${id}, ${noteScript}` );
 		switch( noteScript.toLowerCase( ) ) {
 			case 'ping': {
 				this.getPing( );
@@ -182,7 +181,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** Ping this IP-address
 	*/
 	getPing( ): void {
-		this._console.Information( `${this.codeName}.getPing: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
+		this._console.Debug( `${this.codeName}.getPing: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
 		this.model.Note = 'This may take 10 seconds...';
 		this.httpSubscription = this._services.getPing( this.networkIncident.incident.IPAddress ).subscribe(( pingData: string ) => {
 			this.model.Note = ( pingData !== '' ? pingData :
@@ -197,7 +196,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** WhoIs this IP-address
 	*/
 	getWhoIs( ): void {
-		this._console.Information( `${this.codeName}.getWhoIs: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
+		this._console.Debug( `${this.codeName}.getWhoIs: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
 		this.httpSubscription = this._services.getWhoIs( this.networkIncident.incident.IPAddress ).subscribe(( whoisData: string ) => {
 			this.model.Note = ( whoisData !== '' ? whoisData :
 				`-no data for ${this.networkIncident.incident.IPAddress}-` );
@@ -209,7 +208,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** Compose e-mail message for this IP-address
 	*/
 	getReport( ): void {
-		this._console.Information( `${this.codeName}.getReport: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
+		this._console.Debug( `${this.codeName}.getReport: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
 		const abuseReport: AbuseEmailReport = new AbuseEmailReport( this.networkIncident );
 		if( abuseReport.IsValid() ) {
 			this.model.Note = abuseReport.ComposeEmail( ).replace(/\\n/g, '\n');
@@ -262,7 +261,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	*/
 	createItem( ): void {
 		if( this.model.IncidentNoteId === 0 ) {
-			this._console.Information( JSON.stringify( this.model ) );
+			this._console.Debug( JSON.stringify( this.model ) );
 			// give a fake id, -1 is a bad fake id because findIndex can return -1
 			this.model.IncidentNoteId = this.newNoteId();
 			// this reassignment (spread), tells angular to update view
@@ -293,8 +292,9 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	** if successful then emit to parent form success.
 	*/
 	updateItem( ): void {
-		if( this.model.IncidentNoteId !== 0 ) {
+		if( this.model.IncidentNoteId > 0 && this.add === false ) {
 			const idx = this.networkIncident.incidentNotes.findIndex( n => n.IncidentNoteId  === this.model.IncidentNoteId );
+			this._console.Information( `${this.codeName}.updateItem: id: ${this.model.IncidentNoteId}, idx: ${idx}` );
 			if( idx !== -1 ) {
 				this.model.IsChanged = true;
 				this.networkIncident.incidentNotes = this.networkIncident.incidentNotes.map(
@@ -307,7 +307,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 				this._alerts.setWhereWhatWarning( 'NotesWindow: updateItem', msg );
 			}
 		} else {
-			const msg = `Invalid 'id' found: ${this.model.IncidentNoteId}`;
+			const msg = `Invalid 'id' found: ${this.model.IncidentNoteId}, add: ${ this.add}`;
 			this._console.Warning( `${this.codeName}.updateItem: ${msg}` );
 			this._alerts.setWhereWhatWarning( 'NotesWindow: updateItem', msg );
 		}
