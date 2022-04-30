@@ -103,6 +103,27 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// For pseudo column, for change tracking
         /// </summary>
         public bool IsChanged { get; set; }
+        //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public IncidentListQuery()
+        {
+            IncidentId = 0;
+            ServerId = 0;
+            IPAddress = "";
+            NIC = "";
+            NetworkName = "";
+            AbuseEmailAddress = "";
+            ISPTicketNumber = "";
+            Mailed = false;
+            Closed = false;
+            Special = false;
+            Notes = "";
+            CreatedDate = DateTime.Now;
+            IsChanged = false;
+        }
+
     }
     //
     /// <summary>
@@ -143,23 +164,31 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 				throw new IncidentListQueryValidationException(_results.FluentValidationErrors());
 			}
             ViewModel _return = new ViewModel();
-            _return.loadEvent = JsonConvert.DeserializeObject<LazyLoadEvent>(queryRequest.JsonString);
-            IQueryable<Incident> _incidentQuery = _context.Incidents
-                                    .LazyFilters<Incident>(_return.loadEvent);
-            if (!string.IsNullOrEmpty(_return.loadEvent.sortField))
+            _return.loadEvent = queryRequest.JsonString;
+            LazyLoadEvent? _loadEvent = JsonConvert.DeserializeObject<LazyLoadEvent>(queryRequest.JsonString);
+            if( _loadEvent != null)
             {
-                _incidentQuery = _incidentQuery.LazyOrderBy<Incident>(_return.loadEvent);
+                IQueryable<Incident> _incidentQuery = _context.Incidents
+                                        .LazyFilters<Incident>(_loadEvent);
+                if (!string.IsNullOrEmpty(_loadEvent.sortField))
+                {
+                    _incidentQuery = _incidentQuery.LazyOrderBy<Incident>(_loadEvent);
+                }
+                else // Default sort order
+                {
+                    _incidentQuery = _incidentQuery.OrderByDescending(_r => _r.IncidentId);
+                }
+                // 'OrderBy' must be called before the method 'Skip'.
+                _incidentQuery = _incidentQuery.LazySkipTake<Incident>(_loadEvent);
+                // Execute query and convert from Incident to IncidentData (POCO) ...
+                _return.incidentsList = await _incidentQuery
+                    .Select(incid => incid.ToIncidentListQuery()).ToListAsync();
+                _return.totalRecords = GetCountPagination(_loadEvent);
             }
-            else // Default sort order
+            else
             {
-                _incidentQuery = _incidentQuery.OrderByDescending(_r => _r.IncidentId);
+                _return.message = $"Problem deserialization of LazyLoadEvent: {queryRequest.JsonString}";
             }
-            // 'OrderBy' must be called before the method 'Skip'.
-            _incidentQuery = _incidentQuery.LazySkipTake<Incident>(_return.loadEvent);
-            // Execute query and convert from Incident to IncidentData (POCO) ...
-            _return.incidentsList = await _incidentQuery
-                .Select(incid => incid.ToIncidentListQuery()).ToListAsync();
-            _return.totalRecords = GetCountPagination(_return.loadEvent);
             //
             return _return;
 		}
@@ -179,16 +208,16 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 		{
             public IList<IncidentListQuery> incidentsList { get; set; }
             //
-            public LazyLoadEvent loadEvent;
+            public long totalRecords { get; set; }
             //
-            public long totalRecords;
+            public string loadEvent { get; set; }
             //
-            public string message;
+            public string message { get; set; }
             //
             public ViewModel()
             {
                 incidentsList = new List<IncidentListQuery>();
-                loadEvent = null;
+                loadEvent = "";
                 totalRecords = 0;
                 message = "";
             }

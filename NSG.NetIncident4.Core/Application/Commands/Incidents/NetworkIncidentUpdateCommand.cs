@@ -102,18 +102,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 {
                     await Task.Run(async () =>
                     {
-                         await EMailIspReportAsync(request);
+                         await EMailIspReportAsync(request, cancellationToken);
                     });
                 }
                 await Mediator.Send(new LogCreateCommand(
-                    LoggingLevel.Info, MethodBase.GetCurrentMethod(),
-                    $"Inside, Saved id: {request.incident.IncidentId}"));
+                    LoggingLevel.Debug, MethodBase.GetCurrentMethod(),
+                    $"Exit of NetworkIncidentUpdateCommand handler, id: {request.incident.IncidentId}"));
             }
             catch (Exception _ex)
             {
                 _context.RollBackChanges();
                 await Mediator.Send(new LogCreateCommand(
-                    LoggingLevel.Warning, MethodBase.GetCurrentMethod(),
+                    LoggingLevel.Error, MethodBase.GetCurrentMethod(),
                     _ex.GetBaseException().Message, _ex));
                 System.Diagnostics.Debug.WriteLine(_ex.ToString());
                 throw ( new Exception($"{codeName}: update failed", _ex) );
@@ -317,35 +317,59 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// EMail the last ISP Report
         /// </summary>
         /// <param name="data"></param>
-        private async Task EMailIspReportAsync(NetworkIncidentSaveQuery data)
+        private async Task EMailIspReportAsync(NetworkIncidentSaveQuery data, CancellationToken cancellationToken)
         {
             string codeName = "EMailIspReportAsync";
-            Incident _incident = await _context.Incidents
+            var _emailNoteTypeId = await _context.NoteTypes.Where(_it => _it.NoteTypeClientScript == "email").Select(_it => _it.NoteTypeId).FirstOrDefaultAsync();
+            Incident? _entity = await _context.Incidents
                 .Include(_i => _i.IncidentIncidentNotes)
-                .FirstOrDefaultAsync(i => i.IncidentId == data.incident.IncidentId);
-            var _note = _incident.IncidentIncidentNotes
-                .Where(_iin => _iin.IncidentNote.NoteType.NoteTypeClientScript == "email")
-                .Select(_iin => _iin.IncidentNote).FirstOrDefault();
-            if (_note != null)
+                .ThenInclude(IncidentIncidentNotes => IncidentIncidentNotes.IncidentNote)
+                .SingleOrDefaultAsync(_r => _r.IncidentId == data.incident.IncidentId, cancellationToken);
+            //
+            if( _entity != null )
             {
-                try
+                IncidentNote? _note = _entity.IncidentIncidentNotes.Where(_inn => _inn.IncidentNote.NoteTypeId == _emailNoteTypeId).Select(_in => _in.IncidentNote).FirstOrDefault();
+                if (_note != null)
                 {
-                    // translate the message from json string of sendgrid type
-                    SendGridMessage _sgm = JsonConvert.DeserializeObject<SendGridMessage>(_note.Note);
-                    await _notification.SendEmailAsync(MimeKit.SendGridExtensions.NewMimeMessage(_sgm));
+                    try
+                    {
+                        // translate the message from json string of sendgrid type
+                        SendGridMessage _sgm = JsonConvert.DeserializeObject<SendGridMessage>(_note.Note);
+                        await _notification.SendEmailAsync(MimeKit.SendGridExtensions.NewMimeMessage(_sgm));
+                    }
+                    catch (Exception _ex)
+                    {
+                        await Mediator.Send(new LogCreateCommand(
+                            LoggingLevel.Warning, MethodBase.GetCurrentMethod(),
+                            _ex.GetBaseException().Message, _ex));
+                        System.Diagnostics.Debug.WriteLine(_ex.ToString());
+                        throw (new Exception($"{codeName}: email failed, see logs.", _ex));
+                    }
                 }
-                catch (Exception _ex)
+                else
                 {
+                    string _msg = $"Email note record for incident id: {data.incident.IncidentId} not found.";
+                    System.Diagnostics.Debug.WriteLine(_msg);
+                    Exception _ex = new KeyNotFoundException(_msg);
                     await Mediator.Send(new LogCreateCommand(
-                        LoggingLevel.Warning, MethodBase.GetCurrentMethod(),
-                        _ex.GetBaseException().Message, _ex));
-                    System.Diagnostics.Debug.WriteLine(_ex.ToString());
-                    throw (new Exception($"{codeName}: email failed, see logs.", _ex));
+                        LoggingLevel.Error, MethodBase.GetCurrentMethod(),
+                        _ex.Message, _ex));
+                    throw _ex;
                 }
             }
+            else
+            {
+                string _msg = $"Incident record with id: {data.incident.IncidentId} not found.";
+                System.Diagnostics.Debug.WriteLine(_msg);
+                Exception _ex = new KeyNotFoundException(_msg);
+                await Mediator.Send(new LogCreateCommand(
+                    LoggingLevel.Error, MethodBase.GetCurrentMethod(),
+                    _ex.Message, _ex));
+                throw _ex;
+            }
         }
-		//
-	}
+        //
+    }
 	//
 	/// <summary>
 	/// Custom NetworkIncidentSaveQuery record not found exception.

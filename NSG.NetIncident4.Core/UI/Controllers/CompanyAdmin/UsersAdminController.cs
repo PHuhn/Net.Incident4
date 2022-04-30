@@ -25,7 +25,6 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
         //
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
-        private readonly ApplicationDbContext _context;
         //
         public UsersAdminController(UserManager<ApplicationUser> userManager,
             IEmailSender emailSender,

@@ -73,6 +73,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 		public class ViewModel
 		{
 			public IList<ApplicationRoleListQuery> ApplicationRolesList { get; set; }
+			//
+			public ViewModel()
+			{
+				ApplicationRolesList = new List<ApplicationRoleListQuery>();
+			}
 		}
 		//
 		/// <summary>
