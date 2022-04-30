@@ -51,6 +51,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 		{
 			CompanyId = 0;
 			IncidentTypeId = 0;
+			IncidentTypeShortDesc = "";
+			IncidentTypeDesc = "";
 			SubjectLine = "";
 			EmailBody = "";
 			FromServer = false;

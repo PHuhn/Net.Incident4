@@ -38,6 +38,21 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyServers
         //
         public List<ServerDetailQuery> ServerList { get; set; }
         //
+        public CompanyServerDetailQuery()
+        {
+            CompanyShortName = "";
+            CompanyName = "";
+            Address = "";
+            City = "";
+            State = "";
+            PostalCode = "";
+            Country = "USA";
+            PhoneNumber = "";
+            Notes = "";
+            //
+            ServerList = new List<ServerDetailQuery>();
+        }
+        //
     }
     //
     /// <summary>

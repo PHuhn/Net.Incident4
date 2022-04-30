@@ -42,7 +42,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 		public CompanyEmailTemplateDetailQuery()
 		{
 			CompanyId = 0;
+			CompanyShortName = "";
+			CompanyName = "";
 			IncidentTypeId = 0;
+			IncidentTypeShortDesc = "";
+			IncidentTypeDesc = "";
 			SubjectLine = "";
 			EmailBody = "";
 			TimeTemplate = "";

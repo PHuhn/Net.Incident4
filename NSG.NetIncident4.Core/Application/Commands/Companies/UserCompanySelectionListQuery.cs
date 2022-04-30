@@ -82,6 +82,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.Companies
         public class ViewModel
         {
             public List<SelectListItem> CompanyList { get; set; }
+            //
+            public ViewModel()
+            {
+                CompanyList = new List<SelectListItem>();
+            }
         }
         //
         /// <summary>
@@ -89,7 +94,12 @@ namespace NSG.NetIncident4.Core.Application.Commands.Companies
         /// </summary>
         public class ListQuery : IRequest<ViewModel>
         {
-            public string UserName;
+            public string UserName { get; set; }
+            //
+            public ListQuery()
+            {
+                UserName = "";
+            }
         }
         //
         /// <summary>

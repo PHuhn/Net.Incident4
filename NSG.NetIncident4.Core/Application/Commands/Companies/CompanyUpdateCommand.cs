@@ -33,6 +33,19 @@ namespace NSG.NetIncident4.Core.Application.Commands.Companies
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
         public string? Notes { get; set; }
+        //
+        public CompanyUpdateCommand()
+        {
+            CompanyShortName = "";
+            CompanyName = "";
+            Address = "";
+            City = "";
+            State = "";
+            PostalCode = "";
+            Country = "USA";
+            PhoneNumber = "";
+            Notes = "";
+        }
     }
     //
     /// <summary>

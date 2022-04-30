@@ -30,11 +30,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 		public string Message { get; set; }
 		public string Exception { get; set; }
         //
-        public LogCreateCommand(LoggingLevel level, MethodBase method, string message, Exception exception = null)
+        public LogCreateCommand(LoggingLevel level, MethodBase? method, string message, Exception? exception = null)
         {
             LogLevel = (byte)level;
             Level = level.GetName();
-            Method = method.DeclaringType.FullName + "." + method.Name;
+            Method =  (method == null ? "-unknown-" : method.DeclaringType.FullName + "." + method.Name);
             Message = message;
             Exception = (exception == null ? "" : exception.ToString());
         }

@@ -30,6 +30,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyServers
         //
         public List<ServerListQuery> ServerList { get; set; }
         //
+        public CompanyServerListQuery()
+        {
+            CompanyId = 0;
+            CompanyName = "";
+            CompanyShortName = "";
+            //
+            ServerList = new List<ServerListQuery>();
+        }
     }
     //
     public class ServerListQuery

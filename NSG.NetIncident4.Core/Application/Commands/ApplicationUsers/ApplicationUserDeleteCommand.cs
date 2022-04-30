@@ -27,6 +27,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 	public class ApplicationUserDeleteCommand : IRequest<int>
 	{
 		public string UserName { get; set; }
+		//
+		public ApplicationUserDeleteCommand()
+		{
+			UserName = "";
+		}
 	}
 	//
 	/// <summary>
