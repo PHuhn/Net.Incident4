@@ -140,7 +140,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 			if( noteType !== undefined && noteType.label !== undefined) {
 				this.model.NoteTypeShortDesc = noteType.label;
 				if( this.add ) {
-					if( noteType.extra !== '' ) {
+					if( noteType.extra.trim() !== '' ) {
 						this.performIncidentType( this.model.NoteTypeId, noteType.extra );
 					}
 				}
