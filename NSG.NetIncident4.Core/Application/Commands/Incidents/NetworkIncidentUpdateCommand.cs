@@ -195,15 +195,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 if (_ind.IncidentNoteId > 0)
                 {
                     // Update notes
-                    IncidentNote _incidentNote = await _context.IncidentNotes
+                    IncidentNote? _incidentNote = await _context.IncidentNotes
                         .FirstOrDefaultAsync(_in => _in.IncidentNoteId == _ind.IncidentNoteId);
-                    if (_incidentNote.NoteTypeId != _ind.NoteTypeId)
+                    if(_incidentNote != null)
                     {
-                        _incidentNote.NoteTypeId = _ind.NoteTypeId;
-                    }
-                    if (_incidentNote.Note != _ind.Note)
-                    {
-                        _incidentNote.Note = _ind.Note;
+                        if (_incidentNote.NoteTypeId != _ind.NoteTypeId)
+                        {
+                            _incidentNote.NoteTypeId = _ind.NoteTypeId;
+                        }
+                        if (_incidentNote.Note != _ind.Note)
+                        {
+                            _incidentNote.Note = _ind.Note;
+                        }
                     }
                 }
                 if (_ind.IncidentNoteId < 0)
@@ -238,7 +241,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             {
                 if (_ind.IncidentNoteId > 0)
                 {
-                    IncidentIncidentNote _inn = entity.IncidentIncidentNotes.FirstOrDefault(_einn => _einn.IncidentNoteId == _ind.IncidentNoteId);
+                    IncidentIncidentNote? _inn = entity.IncidentIncidentNotes.FirstOrDefault(_einn => _einn.IncidentNoteId == _ind.IncidentNoteId);
                     if( _inn != null)
                     {
                         IncidentNote _incidentNoteDelete = _inn.IncidentNote;
@@ -266,7 +269,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         {
             foreach (NetworkLogData _nld in request.networkLogs.Where(_l => _l.IsChanged == true))
             {
-                NetworkLog _networkLog = entity.NetworkLogs.FirstOrDefault(_r => _r.NetworkLogId == _nld.NetworkLogId);
+                NetworkLog? _networkLog = entity.NetworkLogs.FirstOrDefault(_r => _r.NetworkLogId == _nld.NetworkLogId);
                 if (_networkLog != null)
                 {
                     if(_networkLog.IncidentId != _nld.IncidentId)
@@ -291,7 +294,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             {
                 if (_nld.Selected == false)
                 {
-                    NetworkLog _networkLog = await _context.NetworkLogs
+                    NetworkLog? _networkLog = await _context.NetworkLogs
                         .FirstOrDefaultAsync(_in => _in.NetworkLogId == _nld.NetworkLogId);
                     if(_networkLog != null)
                     {
@@ -334,7 +337,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                     try
                     {
                         // translate the message from json string of sendgrid type
-                        SendGridMessage _sgm = JsonConvert.DeserializeObject<SendGridMessage>(_note.Note);
+                        SendGridMessage? _sgm = JsonConvert.DeserializeObject<SendGridMessage>(_note.Note);
                         await _notification.SendEmailAsync(MimeKit.SendGridExtensions.NewMimeMessage(_sgm));
                     }
                     catch (Exception _ex)

@@ -37,8 +37,16 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         */
         public IActionResult Index()
         {
-            var _name = _application.GetApplicationName();
-            _logger.Log(LogLevel.Information, $"{_name}: In home page, authenticated: {User.Identity.IsAuthenticated}, Name: {User.Identity.Name}");
+            var _appName = _application.GetApplicationName();
+            string _userName = "-";
+            bool _authenticated = false;
+
+            if (User.Identity != null)
+            {
+                _userName = _application.GetUserAccount();
+                _authenticated = _application.IsAuthenticated();
+            }
+            _logger.Log(LogLevel.Information, $"{_appName}: In home page, authenticated: {_authenticated}, Name: {_userName}");
             return View();
         }
         /*
@@ -108,13 +116,16 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         public ActionResult TestUser()
         {
             TestUserViewModel _model = new TestUserViewModel();
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity != null)
             {
-                _model = new TestUserViewModel()
+                if (User.Identity.IsAuthenticated)
                 {
-                    UserHttpContext = _application.GetUserAccount(),
-                    UserClaimsPrincipal = Base_GetUserAccount()
-                };
+                    _model = new TestUserViewModel()
+                    {
+                        UserHttpContext = _application.GetUserAccount(),
+                        UserClaimsPrincipal = Base_GetUserAccount()
+                    };
+                }
             }
             return View(_model);
         }

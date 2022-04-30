@@ -38,6 +38,23 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
 		public string TimeZone_DST { get; set; }
 		public DateTime? DST_Start { get; set; }
 		public DateTime? DST_End { get; set; }
+		//
+		public ServerUpdateCommand()
+		{
+			ServerId = 0;
+			CompanyId = 0;
+			ServerShortName = "";
+			ServerName = "";
+			ServerDescription = "";
+			WebSite = "";
+			ServerLocation = "";
+			FromName = "";
+			FromNicName = "";
+			FromEmailAddress = "";
+			TimeZone = "";
+			DST = false;
+			TimeZone_DST = "";
+		}
 	}
 	//
 	/// <summary>
@@ -79,8 +96,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
             {
                 throw new ServerUpdateCommandPermissionException($"User does not have permission for company: {request.CompanyId}");
             }
-            Server _entity = await _context.Servers
-				.SingleOrDefaultAsync(r => r.ServerId == request.ServerId, cancellationToken);
+			Server? _entity = await _context.Servers
+				.SingleOrDefaultAsync(r => r.ServerId == request.ServerId, cancellationToken: cancellationToken);
 			if (_entity == null)
 			{
 				throw new UpdateCommandKeyNotFoundException(request.ServerId);
@@ -120,7 +137,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
 				//
 				RuleFor(x => x.ServerId).NotNull();
 				RuleFor(x => x.CompanyId).NotNull();
-				RuleFor(x => x.ServerShortName).NotEmpty().MaximumLength(12);
+				RuleFor(x => x.ServerShortName).NotEmpty().MinimumLength(6).MaximumLength(12);
 				RuleFor(x => x.ServerName).NotEmpty().MaximumLength(80);
 				RuleFor(x => x.ServerDescription).NotEmpty().MaximumLength(255);
 				RuleFor(x => x.WebSite).NotEmpty().MaximumLength(255);

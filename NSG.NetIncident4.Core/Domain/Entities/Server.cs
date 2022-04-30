@@ -60,6 +60,24 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual ICollection<Incident> Incidents { get; }
             = new List<Incident>();
         //
+        public Server()
+        {
+            ServerId = 0;
+            CompanyId = 0;
+            ServerShortName = "";
+            ServerName = "";
+            ServerDescription = "";
+            WebSite = "";
+            ServerLocation = "";
+            FromName = "";
+            FromNicName = "";
+            FromEmailAddress = "";
+            TimeZone = "";
+            DST = false;
+            TimeZone_DST = "";
+            //
+        }
+        //
         /// <summary>
         /// Create a 'to string'.
         /// </summary>

@@ -61,7 +61,9 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         public ClaimsPrincipal GetUserClaimsPrincipal()
         {
             ClaimsPrincipal _claimsPrincipal = new ClaimsPrincipal();
-            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            if (_httpContextAccessor.HttpContext != null)
+                if (_httpContextAccessor.HttpContext.User.Identity != null)
+                    if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
                 _claimsPrincipal = _httpContextAccessor.HttpContext.User;
             return _claimsPrincipal;
         }
@@ -74,8 +76,10 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         {
             var _currentUserName = Constants.NotAuthenticated;
             ClaimsPrincipal _claimsPrincipal = GetUserClaimsPrincipal();
-            if (_claimsPrincipal.Identity.IsAuthenticated)
-                _currentUserName = _claimsPrincipal.Identity.Name;
+            if (_claimsPrincipal.Identity != null)
+                if (_claimsPrincipal.Identity.IsAuthenticated)
+                    if (_claimsPrincipal.Identity.Name != null)
+                        _currentUserName = _claimsPrincipal.Identity.Name;
             return _currentUserName;
         }
         //
@@ -85,8 +89,11 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         /// <returns>boolean value if user is authenticated.</returns>
         public bool IsAuthenticated()
         {
+            bool _isAuthenticated = false;
             ClaimsPrincipal _claimsPrincipal = GetUserClaimsPrincipal();
-            return _claimsPrincipal.Identity.IsAuthenticated;
+            if (_claimsPrincipal.Identity != null)
+                _isAuthenticated = _claimsPrincipal.Identity.IsAuthenticated;
+            return _isAuthenticated;
         }
         //
         // For role variables see Constants.cs
@@ -99,8 +106,9 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         {
             bool _admin = false;
             ClaimsPrincipal _claimsPrincipal = GetUserClaimsPrincipal();
-            if (_claimsPrincipal.Identity.IsAuthenticated)
-                _admin = _claimsPrincipal.IsInRole(Constants.adminRole);
+            if (_claimsPrincipal.Identity != null)
+                if (_claimsPrincipal.Identity.IsAuthenticated)
+                    _admin = _claimsPrincipal.IsInRole(Constants.adminRole);
             return _admin;
         }
         //
@@ -112,11 +120,14 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         {
             bool _company = false;
             ClaimsPrincipal _claimsPrincipal = GetUserClaimsPrincipal();
-            if (_claimsPrincipal.Identity.IsAuthenticated)
+            if (_claimsPrincipal.Identity != null)
             {
-                _company = IsAdminRole();
-                if (!_company)
-                    _company = _claimsPrincipal.IsInRole(Constants.companyadminRole);
+                if (_claimsPrincipal.Identity.IsAuthenticated)
+                {
+                    _company = IsAdminRole();
+                    if (!_company)
+                        _company = _claimsPrincipal.IsInRole(Constants.companyadminRole);
+                }
             }
             return _company;
         }
@@ -129,13 +140,16 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         {
             bool _editable = false;
             ClaimsPrincipal _claimsPrincipal = GetUserClaimsPrincipal();
-            if (_claimsPrincipal.Identity.IsAuthenticated)
+            if (_claimsPrincipal.Identity != null)
             {
-                _editable = IsAdminRole();
-                if (!_editable)
-                    _editable = _claimsPrincipal.IsInRole(Constants.companyadminRole);
-                if (!_editable)
-                    _editable = _claimsPrincipal.IsInRole(Constants.userRole);
+                if (_claimsPrincipal.Identity.IsAuthenticated)
+                {
+                    _editable = IsAdminRole();
+                    if (!_editable)
+                        _editable = _claimsPrincipal.IsInRole(Constants.companyadminRole);
+                    if (!_editable)
+                        _editable = _claimsPrincipal.IsInRole(Constants.userRole);
+                }
             }
             return _editable;
         }

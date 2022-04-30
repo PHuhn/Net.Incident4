@@ -69,11 +69,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				// Call the FluentValidationErrors extension method.
 				throw new DeleteCommandValidationException(_results.FluentValidationErrors());
 			}
-            ApplicationUser _entity = await _userManager.Users
+            ApplicationUser? _entity = await _userManager.Users
                 .Include(u => u.Company)
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserServers).ThenInclude(us => us.Server).ThenInclude(s => s.Company)
-                .FirstOrDefaultAsync(r => r.UserName == request.UserName);
+                .FirstOrDefaultAsync(r => r.UserName == request.UserName, cancellationToken: cancellationToken);
             if (_entity == null)
 			{
 				throw new DeleteCommandKeyNotFoundException(request.UserName);

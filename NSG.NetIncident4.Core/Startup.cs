@@ -37,9 +37,10 @@ namespace NSG.NetIncident4.Core
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            authSettings = new AuthSettings ();
         }
 
-        public IConfiguration Configuration { get; }
+    public IConfiguration Configuration { get; }
         public AuthSettings authSettings;
         string corsOriginPolicy = "CorsOrigins";
 

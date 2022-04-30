@@ -113,7 +113,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
 				FromEmailAddress = request.FromEmailAddress,
 				TimeZone = request.TimeZone,
 				DST = request.DST,
-				TimeZone_DST = request.TimeZone_DST,
+				TimeZone_DST = request.TimeZone_DST == null ? "" :request.TimeZone_DST,
 				DST_Start = request.DST_Start,
 				DST_End = request.DST_End,
 			};
@@ -136,7 +136,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
 			{
 				//
 				RuleFor(x => x.CompanyId).NotNull();
-				RuleFor(x => x.ServerShortName).NotEmpty().MaximumLength(12);
+				RuleFor(x => x.ServerShortName).NotEmpty().MinimumLength(6).MaximumLength(12);
 				RuleFor(x => x.ServerName).NotEmpty().MaximumLength(80);
 				RuleFor(x => x.ServerDescription).NotEmpty().MaximumLength(255);
 				RuleFor(x => x.WebSite).NotEmpty().MaximumLength(255);
