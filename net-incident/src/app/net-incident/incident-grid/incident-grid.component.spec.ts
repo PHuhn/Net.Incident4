@@ -144,7 +144,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		const page = new IncidentPaginationData( );
 		const event = {'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null} as LazyLoadEvent;
 		page.incidentsList = lazyLoading.LazyLoading( mockDatum, event );
-		page.loadEvent = event;
+		page.loadEvent = JSON.stringify(event);
 		page.totalRecords = page.incidentsList.length;
 		incidentServiceSpy.getIncidentsLazy.and.returnValue( of( page ) );
 		userServiceSpy.getUserServer.and.returnValue(of( user ));
@@ -430,6 +430,23 @@ describe( 'IncidentGridComponent', ( ) => {
 		windowCleanup( );
 		//
 	}));
+	//
+	fit('should understand next/error/complete ...', () => {
+		const values = [1,2,3];
+		of(values).subscribe({
+			next: (val) => {
+				console.log(val);
+				expect(val).toEqual(values);
+			},
+			error: (err) => {
+				fail();
+				console.error(err);
+			},
+			complete: () => {
+				console.info('complete');
+			}
+		})
+	});
 	//
 } );
 // ===========================================================================

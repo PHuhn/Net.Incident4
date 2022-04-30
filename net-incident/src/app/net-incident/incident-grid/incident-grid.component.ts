@@ -267,16 +267,20 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 			// ev.filters = { 'Special':
 			// 	[{ value: this.special, matchMode: 'equals' }] };
 			//
-			this._data.getIncidentsLazy( event ).subscribe((incidentPaginationData) => {
-				console.log( JSON.stringify( incidentPaginationData ) );
-				this.loading = false;
-				this.incidents = incidentPaginationData.incidentsList;
-				this.totalRecords = incidentPaginationData.totalRecords;
-			}, ( error ) => {
-				this.loading = false;
-				this.baseErrorHandler(
-					this.codeName, `loadIncidentsLazy`, error );
-			});
+			this._data.getIncidentsLazy( event ).subscribe({
+				next: (incidentPaginationData: IncidentPaginationData ) => {
+					this._console.Debug( `${this.codeName}.loadIncidentsLazy: # records: ${incidentPaginationData.incidentsList.length} totalRecords: ${incidentPaginationData.totalRecords}` );
+					// console.log( JSON.stringify( incidentPaginationData ) );
+					this.loading = false;
+					this.incidents = incidentPaginationData.incidentsList;
+					this.totalRecords = incidentPaginationData.totalRecords;
+				},
+				error: (error) => {
+					this.loading = false;
+					this.baseErrorHandler(
+						this.codeName, `loadIncidentsLazy`, error );
+				}
+			})
 		}, 0 );
 	}
 	//

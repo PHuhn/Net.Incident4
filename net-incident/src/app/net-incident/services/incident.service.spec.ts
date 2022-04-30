@@ -101,7 +101,7 @@ describe('IncidentService', () => {
 		const page = new IncidentPaginationData( );
 		page.incidentsList = mockDatum.slice(0, 4);
 		page.totalRecords = mockDatum.length;
-		page.loadEvent = event;
+		page.loadEvent = JSON.stringify(event);
 		request.flush( page );
 		//
 	}));
