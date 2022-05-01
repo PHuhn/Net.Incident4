@@ -41,6 +41,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// Local variables
 	incidents: Incident[] = [];
 	totalRecords: number = 0;
+	private lastTableLazyLoadEvent: LazyLoadEvent;
 	id: number = -1;
 	loading: boolean = false;
 	@ViewChild('dt') dt: Table | undefined;
@@ -159,7 +160,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 		if( saved === true ) {
 			this._console.Information(
 				`${this.codeName}.onClose: Refreshing...` );
-			this.refreshWithVisibility();
+			this.refreshWithLastEvent();
 		}
 		this.windowDisplay = false;
 		this.detailWindow = undefined;
@@ -185,14 +186,14 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 		this._console.Information(
 			`${this.codeName}.onServerSelected: ${event}` );
 	}
-	//
-	// updateVisibility, refresh by instantly toggling visiblity
-	//
-	refreshWithVisibility(): void {
-		this._console.Information(
-			`${this.codeName}.refreshWithVisibility: entered` );
-		this.visible = false;
-		setTimeout( ( ) => this.visible = true );
+	/**
+	** Refresh by resending the last lazy loading event
+	** to the load method.
+	*/
+	refreshWithLastEvent(): void {
+		this._console.Debug(
+			`${this.codeName}.refreshWithLastEvent: entered` );
+		this.loadIncidentsLazy(this.lastTableLazyLoadEvent);
 	}
 	//
 	// --------------------------------------------------------------------
@@ -257,6 +258,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 				matchMode: 'equals'
 			};
 			event.globalFilter = '';
+			this.lastTableLazyLoadEvent = event;
 			// const ev: any = { ... event };
 			// ev.filters = { 'ServerId':
 			// 	[{ value: this.user.Server.ServerId, matchMode: 'equals' }] };
