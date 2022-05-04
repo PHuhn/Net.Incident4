@@ -16,7 +16,6 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     [Table("NetworkLog")]
     public partial class NetworkLog
     {
-        public NetworkLog() { }
         //
         [Required(ErrorMessage = "NetworkLogId is required.")]
         public long NetworkLogId { get; set; }
@@ -35,8 +34,22 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual IncidentType IncidentType { get; set; }
         public virtual Server Server { get; set; }
         // Incident is an optional nullable relationship
-        public virtual Incident Incident { get; set; }
+        public virtual Incident? Incident { get; set; }
         //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public NetworkLog()
+        {
+            NetworkLogId = 0;
+            ServerId = 0;
+            IPAddress = "";
+            NetworkLogDate = DateTime.Now;
+            Log = "";
+            IncidentTypeId = 0;
+            // IncidentType IncidentType
+            // Server Server
+        }
     }
 }
 // ---------------------------------------------------------------------------

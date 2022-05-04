@@ -19,8 +19,6 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public partial class IncidentNote
     {
         //
-        public IncidentNote() { }
-        //
         [Required(ErrorMessage = "IncidentNoteId is required.")]
         public long IncidentNoteId { get; set; }
         [Required(ErrorMessage = "NoteTypeId is required.")]
@@ -32,6 +30,17 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual NoteType NoteType { get; set; }
         public virtual ICollection<IncidentIncidentNote> IncidentIncidentNotes { get; }
             = new List<IncidentIncidentNote>();
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public IncidentNote()
+        {
+            IncidentNoteId = 0;
+            NoteTypeId = 0;
+            Note = "";
+            CreatedDate = DateTime.Now;
+        }
         //
         //
         /// <summary>

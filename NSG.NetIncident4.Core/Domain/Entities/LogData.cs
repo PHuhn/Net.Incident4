@@ -36,6 +36,21 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         [MaxLength(4000, ErrorMessage = "'Exception' must be 4000 or less characters.")]
         public string Exception { get; set; }
         //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public LogData()
+        {
+            Id = 0;
+            Date = DateTime.Now;
+            Application = "";
+            Method = "";
+            LogLevel = 0;
+            Level = "";
+            UserAccount = "";
+            Message = "";
+            Exception = "";
+        }
     }
 }
 // ---------------------------------------------------------------------------

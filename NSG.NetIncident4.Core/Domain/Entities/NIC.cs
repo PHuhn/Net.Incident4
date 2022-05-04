@@ -16,7 +16,6 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     [Table("NIC")]
     public partial class NIC
     {
-        public NIC() { }
         //
         [Required(ErrorMessage = "NIC_Id is required."), MaxLength(16, ErrorMessage = "'NIC_Id' must be 16 or less characters.")]
         public string NIC_Id { get; set; }
@@ -31,5 +30,17 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         //
         public virtual ICollection<Incident> Incidents { get; set; }
         //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public NIC()
+        {
+            NIC_Id = "";
+            NICDescription = "";
+            NICAbuseEmailAddress = "";
+            NICRestService = "";
+            NICWebSite = "";
+            Incidents = new List<Incident>();
+        }
     }
 }

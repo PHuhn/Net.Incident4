@@ -49,6 +49,27 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual ICollection<NetworkLog> NetworkLogs { get; }
             = new List<NetworkLog>();
         //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public Incident()
+        {
+            IncidentId = 0;
+            ServerId = 0;
+            IPAddress = "";
+            NIC_Id = "";
+            NetworkName = "";
+            AbuseEmailAddress = "";
+            ISPTicketNumber = "";
+            Mailed = false;
+            Closed = false;
+            Special = false;
+            Notes = "";
+            CreatedDate = DateTime.Now;
+            //
+            // NIC NIC
+            // Server Server
+        }
     }
 }
 // ---------------------------------------------------------------------------

@@ -43,6 +43,23 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual ICollection<EmailTemplate> EmailTemplates { get; } = new List<EmailTemplate>();
         //
         /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public Company()
+        {
+            CompanyId = 0;
+            CompanyShortName = "";
+            CompanyName = "";
+            Address = "";
+            City = "";
+            State = "";
+            PostalCode = "";
+            Country = "";
+            PhoneNumber = "";
+            Notes = "";
+        }
+        //
+        /// <summary>
         /// Create a 'to string'.
         /// </summary>
         public override string ToString()

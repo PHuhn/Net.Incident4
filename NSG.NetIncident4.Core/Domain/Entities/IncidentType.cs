@@ -16,7 +16,6 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     [Table("IncidentType")]
     public partial class IncidentType
     {
-        public IncidentType() { }
         //
         [Required(ErrorMessage = "IncidentTypeId is required.")]
         public int IncidentTypeId { get; set; }
@@ -42,6 +41,25 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual ICollection<NetworkLog> NetworkLogs { get; set; }
         public virtual ICollection<EmailTemplate> EmailTemplates { get; set; }
         //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public IncidentType()
+        {
+            IncidentTypeId = 0;
+            IncidentTypeShortDesc = "";
+            IncidentTypeDesc = "";
+            IncidentTypeFromServer = false;
+            IncidentTypeSubjectLine = "";
+            IncidentTypeEmailTemplate = "";
+            IncidentTypeTimeTemplate = "";
+            IncidentTypeThanksTemplate = "";
+            IncidentTypeLogTemplate = "";
+            IncidentTypeTemplate = "";
+            //
+            NetworkLogs = new List<NetworkLog>();
+            EmailTemplates = new List<EmailTemplate>();
+        }
     }
 }
 // ---------------------------------------------------------------------------

@@ -29,6 +29,17 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         //
         public virtual ICollection<IncidentNote> IncidentNotes { get; set; }
         //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public NoteType()
+        {
+            NoteTypeId = 0;
+            NoteTypeShortDesc = "";
+            NoteTypeDesc = "";
+            NoteTypeClientScript = "";
+            IncidentNotes = new List<IncidentNote>() { };
+        }
     }
 }
 // ---------------------------------------------------------------------------

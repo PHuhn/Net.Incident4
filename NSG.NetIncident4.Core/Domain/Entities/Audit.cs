@@ -37,6 +37,19 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         [Required]
         [MaxLength(4000)]
         public string After { get; set; }
+        //
+        public Audit()
+        {
+            Id = 0;
+            ChangeDate = DateTime.Now;
+            UserName = "";
+            Program = "";
+            TableName = "";
+            UpdateType = "";
+            Keys = "";
+            Before = "";
+            After = "";
+        }
     }
 }
 // ===========================================================================

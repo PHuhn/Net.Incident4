@@ -23,6 +23,16 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         [Required]
         public long IncidentNoteId { get; set; }
         public virtual IncidentNote IncidentNote { get; set; }
+        //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public IncidentIncidentNote()
+        {
+            IncidentId = 0;
+            IncidentNoteId = 0;
+        }
+
     }
 }
 // ---------------------------------------------------------------------------

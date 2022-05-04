@@ -36,6 +36,21 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public Company Company { get; set; }
         public IncidentType IncidentType { get; set; }
         //
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public EmailTemplate()
+        {
+            CompanyId = 0;
+            IncidentTypeId = 0;
+            SubjectLine = "";
+            EmailBody = "";
+            TimeTemplate = "";
+            ThanksTemplate = "";
+            LogTemplate = "";
+            Template = "";
+            FromServer = false;
+        }
     }
 }
 // ---------------------------------------------------------------------------
