@@ -25,6 +25,12 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
         [System.ComponentModel.DataAnnotations.Key]
         public string Id { get; set; }
         public string Name { get; set; }
+        //
+        public ApplicationRoleDetailQuery()
+        {
+            Id = "";
+            Name = "";
+        }
     }
     //
     /// <summary>
@@ -75,6 +81,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
         public class DetailQuery : IRequest<ApplicationRoleDetailQuery>
         {
             public string Id { get; set; }
+            //
+            public DetailQuery()
+            {
+                Id = "";
+            }
         }
         //
         /// <summary>

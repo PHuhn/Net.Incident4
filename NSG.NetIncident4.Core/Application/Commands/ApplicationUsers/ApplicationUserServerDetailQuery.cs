@@ -105,6 +105,26 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         /// For collection of roles
         /// </summary>
         public string[] Roles { get; set; }
+        #region "Parameterless Constructor"
+        public ApplicationUserServerDetailQuery()
+        {
+            Id = "";
+            UserName = "";
+            FirstName = "";
+            LastName = "";
+            FullName = "";
+            UserNicName = "";
+            Email = "";
+            EmailConfirmed = false;
+            PhoneNumber = "";
+            PhoneNumberConfirmed = false;
+            CompanyId = 0;
+            ServerShortName = "";
+            ServerShortNames = new SelectItem[] {};
+            Roles = new string[] {};
+            Server = new ServerData();
+        }
+        #endregion
         //
         /// <summary>
         /// Create a 'to string'.
@@ -173,7 +193,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				throw new ApplicationUserServerDetailQueryValidationException(_results.FluentValidationErrors());
 			}
             //
-            ApplicationUser _entity = await _userManager.Users
+            ApplicationUser? _entity = await _userManager.Users
                 .Include(u => u.Company)
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserServers).ThenInclude(us => us.Server).ThenInclude(s => s.Company)
@@ -230,12 +250,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		{
 			public string UserName { get; set; }
             public string ServerShortName { get; set; }
+            //
+            public DetailQuery()
+            {
+                UserName = "";
+                ServerShortName = "";
+            }
         }
-		//
-		/// <summary>
-		/// FluentValidation of the 'ApplicationUserServerDetailQuery' class.
-		/// </summary>
-		public class Validator : AbstractValidator<DetailQuery>
+        //
+        /// <summary>
+        /// FluentValidation of the 'ApplicationUserServerDetailQuery' class.
+        /// </summary>
+        public class Validator : AbstractValidator<DetailQuery>
 		{
 			//
 			/// <summary>

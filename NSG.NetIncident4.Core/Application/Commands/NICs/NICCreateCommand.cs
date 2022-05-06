@@ -65,6 +65,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 		/// <returns>The NIC entity class.</returns>
 		public async Task<NIC> Handle(NICCreateCommand request, CancellationToken cancellationToken)
 		{
+			if(request == null)
+            {
+				throw new ArgumentNullException(nameof(request));
+            }
 			Validator _validator = new Validator();
 			ValidationResult _results = _validator.Validate(request);
 			if (!_results.IsValid)
@@ -83,9 +87,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 			{
 				NIC_Id = request.NIC_Id,
 				NICDescription = request.NICDescription,
-				NICAbuseEmailAddress = request.NICAbuseEmailAddress,
-				NICRestService = request.NICRestService,
-				NICWebSite = request.NICWebSite,
+				NICAbuseEmailAddress = request.NICAbuseEmailAddress == null ? "" : request.NICAbuseEmailAddress,
+				NICRestService = request.NICRestService == null ? "" : request.NICRestService,
+				NICWebSite = request.NICWebSite == null ? "" : request.NICWebSite,
 			};
 			_context.NICs.Add(_entity);
 			await _context.SaveChangesAsync(cancellationToken);

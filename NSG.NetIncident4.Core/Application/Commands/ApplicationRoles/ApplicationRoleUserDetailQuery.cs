@@ -29,21 +29,34 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 		public string Name { get; set; }
         //
         public List<UserListQuery> UserList { get; set; }
-        //
-    }
-    //
-    /// <summary>
-    /// 'ApplicationUser' list query, handler and handle.
-    /// </summary>
-    public class UserListQuery
+		//
+		public ApplicationRoleUserDetailQuery()
+		{
+			Id = "";
+			Name = "";
+			//
+			UserList = new List<UserListQuery>();
+			//
+		}
+	}
+	//
+	/// <summary>
+	/// 'ApplicationUser' list query, handler and handle.
+	/// </summary>
+	public class UserListQuery
     {
         public string UserName { get; set; }
-    }
-    //
-    /// <summary>
-    /// 'ApplicationRole' detail query handler.
-    /// </summary>
-    public class ApplicationRoleUserDetailQueryHandler : IRequestHandler<ApplicationRoleUserDetailQueryHandler.DetailQuery, ApplicationRoleUserDetailQuery>
+		//
+		public UserListQuery()
+		{
+			UserName = "";
+		}
+	}
+	//
+	/// <summary>
+	/// 'ApplicationRole' detail query handler.
+	/// </summary>
+	public class ApplicationRoleUserDetailQueryHandler : IRequestHandler<ApplicationRoleUserDetailQueryHandler.DetailQuery, ApplicationRoleUserDetailQuery>
 	{
         private RoleManager<ApplicationRole> _roleManager;
 		//
@@ -73,7 +86,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 				throw new DetailQueryValidationException(_results.FluentValidationErrors());
 			}
 			//
-			ApplicationRole _entity = await _roleManager.Roles
+			ApplicationRole? _entity = await _roleManager.Roles
 				.Include(u => u.UserRoles).ThenInclude(ur => ur.User)
 				.FirstOrDefaultAsync(r => r.Id == request.Id);
 			if (_entity == null)
@@ -100,6 +113,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 		public class DetailQuery : IRequest<ApplicationRoleUserDetailQuery>
 		{
 			public string Id { get; set; }
+			//
+			public DetailQuery()
+			{
+				Id = "";
+			}
 		}
 		//
 		/// <summary>

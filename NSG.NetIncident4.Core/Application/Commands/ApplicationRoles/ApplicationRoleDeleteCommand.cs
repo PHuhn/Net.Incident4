@@ -26,6 +26,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 	public class ApplicationRoleDeleteCommand : IRequest<int>
 	{
 		public string Id { get; set; }
+		//
+		public ApplicationRoleDeleteCommand()
+		{
+			Id = "";
+		}
 	}
 	//
 	/// <summary>
@@ -61,7 +66,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 				// Call the FluentValidationErrors extension method.
 				throw new DeleteCommandValidationException(_results.FluentValidationErrors());
 			}
-			ApplicationRole _entity = await _roleManager.Roles
+			ApplicationRole? _entity = await _roleManager.Roles
 				.Include(u => u.UserRoles).ThenInclude(ur => ur.User)
 				.FirstOrDefaultAsync(r => r.Id == request.Id, cancellationToken: cancellationToken);
 			if (_entity == null)

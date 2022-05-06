@@ -135,7 +135,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             }
             //
             var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
+            if (info == null || info.Principal.Identity == null)
             {
                 ErrorMessage = "Error loading external login information.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });

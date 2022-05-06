@@ -50,6 +50,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 			Email = "";
 			PhoneNumber = "";
 			CompanyId = 0;
+			CompanyShortName = "";
+			CompanyName = "";
 			FirstName = "";
 			FullName = "";
 			LastName = "";
@@ -66,13 +68,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 	{
         public string CompanyShortName { get; set; }
         public string ServerShortName { get; set; }
-
-    }
-    //
-    /// <summary>
-    /// 'ApplicationUser' detail query handler.
-    /// </summary>
-    public class ApplicationUserDetailQueryHandler : IRequestHandler<ApplicationUserDetailQueryHandler.DetailQuery, ApplicationUserDetailQuery>
+		//
+		public ApplicationUserServerListQuery()
+		{
+			CompanyShortName = "";
+			ServerShortName = "";
+		}
+	}
+	//
+	/// <summary>
+	/// 'ApplicationUser' detail query handler.
+	/// </summary>
+	public class ApplicationUserDetailQueryHandler : IRequestHandler<ApplicationUserDetailQueryHandler.DetailQuery, ApplicationUserDetailQuery>
 	{
         private UserManager<ApplicationUser> _userManager;
         private IMediator Mediator;
@@ -107,7 +114,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
             GetUserCompanyListQueryHandler.ViewModel _companiesViewModel =
                 await Mediator.Send(new GetUserCompanyListQueryHandler.ListQuery(), cancellationToken);
             //
-            ApplicationUser _entity = await _userManager.Users
+            ApplicationUser? _entity = await _userManager.Users
                 .Include(u => u.Company)
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserServers).ThenInclude(us => us.Server).ThenInclude(s => s.Company)
@@ -146,6 +153,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public class DetailQuery : IRequest<ApplicationUserDetailQuery>
 		{
 			public string UserName { get; set; }
+			//
+			public DetailQuery()			{
+				UserName = "";
+			}
 		}
 		//
 		/// <summary>

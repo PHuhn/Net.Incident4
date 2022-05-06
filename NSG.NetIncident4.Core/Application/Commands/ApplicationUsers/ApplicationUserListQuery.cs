@@ -100,6 +100,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public class ViewModel
 		{
 			public IList<ApplicationUserListQuery> ApplicationUsersList { get; set; }
+			//
+			public ViewModel()
+			{
+				ApplicationUsersList = new List<ApplicationUserListQuery>();
+			}
 		}
 		//
 		/// <summary>

@@ -87,7 +87,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				// Call the FluentValidationErrors extension method.
 				throw new ApplicationUserManageUpdateCommandValidationException(_results.FluentValidationErrors());
 			}
-            ApplicationUser _entity = await _context.Users
+            ApplicationUser? _entity = await _context.Users
                 .FirstOrDefaultAsync(r => r.UserName == request.UserName);
             if (_entity == null)
 			{

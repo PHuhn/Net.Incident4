@@ -50,8 +50,8 @@ namespace NSG.NetIncident4.Core_Tests
             Console.WriteLine("LoggingService_Test");
             ServiceCollection services = new ServiceCollection();
             _startUp.ConfigureLoggingServices(services);
-            ILoggerFactory _loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
-            ILoggerProvider _loggerProvider = services.BuildServiceProvider().GetService<ILoggerProvider>();
+            ILoggerFactory? _loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
+            ILoggerProvider? _loggerProvider = services.BuildServiceProvider().GetService<ILoggerProvider>();
             //
             Assert.NotNull(_loggerFactory);
             Assert.NotNull(_loggerProvider);
@@ -63,8 +63,8 @@ namespace NSG.NetIncident4.Core_Tests
             Console.WriteLine("Startup_ViewLocations_Test");
             ServiceCollection services = new ServiceCollection();
             _startUp.ConfigureViewLocation(services);
-            IConfigureOptions<RazorPagesOptions> _configureRazorPages = services.BuildServiceProvider().GetService<IConfigureOptions<RazorPagesOptions>>();
-            IConfigureOptions<RazorViewEngineOptions> _configureRazorView = services.BuildServiceProvider().GetService<IConfigureOptions<RazorViewEngineOptions>>();
+            IConfigureOptions<RazorPagesOptions>? _configureRazorPages = services.BuildServiceProvider().GetService<IConfigureOptions<RazorPagesOptions>>();
+            IConfigureOptions<RazorViewEngineOptions>? _configureRazorView = services.BuildServiceProvider().GetService<IConfigureOptions<RazorViewEngineOptions>>();
             //
             Assert.NotNull(_configureRazorPages);
             Assert.NotNull(_configureRazorView);
@@ -81,15 +81,15 @@ namespace NSG.NetIncident4.Core_Tests
             // when
             _startUp.ConfigureNotificationServices(services);
             // then
-            IOptions<MimeKit.NSG.EmailSettings> _emailSettings = services.BuildServiceProvider().GetService<IOptions<MimeKit.NSG.EmailSettings>>();
-            IOptions<ServicesSettings> _serviceSettings = services.BuildServiceProvider().GetService<IOptions<ServicesSettings>>();
-            IOptions<ApplicationSettings> _applicationSettings = services.BuildServiceProvider().GetService<IOptions<ApplicationSettings>>();
-            IOptions<AuthSettings> _authSettings = services.BuildServiceProvider().GetService<IOptions<AuthSettings>>();
+            IOptions<MimeKit.NSG.EmailSettings>? _emailSettings = services.BuildServiceProvider().GetService<IOptions<MimeKit.NSG.EmailSettings>>();
+            IOptions<ServicesSettings>? _serviceSettings = services.BuildServiceProvider().GetService<IOptions<ServicesSettings>>();
+            IOptions<ApplicationSettings>? _applicationSettings = services.BuildServiceProvider().GetService<IOptions<ApplicationSettings>>();
+            IOptions<AuthSettings>? _authSettings = services.BuildServiceProvider().GetService<IOptions<AuthSettings>>();
             //
-            INotificationService _notification = services.BuildServiceProvider().GetService<INotificationService>();
-            IEmailSender _emailSender = services.BuildServiceProvider().GetService<IEmailSender>();
-            IApplication _application = services.BuildServiceProvider().GetService<IApplication>();
-            IMediator _mediator = services.BuildServiceProvider().GetService<IMediator>();
+            INotificationService? _notification = services.BuildServiceProvider().GetService<INotificationService>();
+            IEmailSender? _emailSender = services.BuildServiceProvider().GetService<IEmailSender>();
+            IApplication? _application = services.BuildServiceProvider().GetService<IApplication>();
+            IMediator? _mediator = services.BuildServiceProvider().GetService<IMediator>();
             // then
             Assert.NotNull(_emailSettings.Value);
             Assert.NotNull(_serviceSettings.Value);
@@ -112,7 +112,7 @@ namespace NSG.NetIncident4.Core_Tests
             // when
             _startUp.ConfigureAuthorizationPolicyServices(services);
             // then
-            IAuthorizationService _authorization = services.BuildServiceProvider().GetService<IAuthorizationService>();
+            IAuthorizationService? _authorization = services.BuildServiceProvider().GetService<IAuthorizationService>();
             Assert.NotNull(_authorization);
         }
         //
@@ -125,7 +125,7 @@ namespace NSG.NetIncident4.Core_Tests
             // when
             _startUp.ConfigureSessionServices(services);
             // then
-            IKeyManager _keyManager = services.BuildServiceProvider().GetService<IKeyManager>();
+            IKeyManager? _keyManager = services.BuildServiceProvider().GetService<IKeyManager>();
             // ServiceType = { Name = "ISessionStore" FullName = "Microsoft.AspNetCore.Session.ISessionStore"}
             // ISessionStore _session = services.BuildServiceProvider().GetService<ISessionStore>();
             Assert.NotNull(_keyManager);
@@ -143,7 +143,7 @@ namespace NSG.NetIncident4.Core_Tests
             // when
             _startUp.ConfigureCorsServices(services);
             // then
-            ICorsService _corsService = services.BuildServiceProvider().GetService<ICorsService>();
+            ICorsService? _corsService = services.BuildServiceProvider().GetService<ICorsService>();
             Assert.NotNull(_corsService);
         }
         //
@@ -158,7 +158,7 @@ namespace NSG.NetIncident4.Core_Tests
             // when
             _startUp.ConfigureSwaggerServices(services);
             // then
-            IConfigureOptions<MvcOptions> _swaggerMvc = services.BuildServiceProvider().GetService<IConfigureOptions<MvcOptions>>();
+            IConfigureOptions<MvcOptions>? _swaggerMvc = services.BuildServiceProvider().GetService<IConfigureOptions<MvcOptions>>();
             // ISwaggerProvider _swagger = services.BuildServiceProvider().GetService<ISwaggerProvider>();
             Assert.NotNull(_swaggerMvc);
         }

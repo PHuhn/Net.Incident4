@@ -26,6 +26,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 		public string Id { get; set; }
 		public string Name { get; set; }
 		//
+		public ApplicationRoleListQuery()
+		{
+			Id = "";
+			Name = "";
+		}
 	}
 	//
 	/// <summary>
