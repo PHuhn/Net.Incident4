@@ -41,11 +41,10 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// Local variables
 	incidents: Incident[] = [];
 	totalRecords: number = 0;
-	private lastTableLazyLoadEvent: LazyLoadEvent;
+	lastTableLazyLoadEvent: LazyLoadEvent;
 	id: number = -1;
 	loading: boolean = false;
 	@ViewChild('dt') dt: Table | undefined;
-	visible: boolean = true;
 	//
 	mailed: boolean = false;
 	closed: boolean = false;

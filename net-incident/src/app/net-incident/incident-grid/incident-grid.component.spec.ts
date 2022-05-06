@@ -408,30 +408,28 @@ describe( 'IncidentGridComponent', ( ) => {
 		//
 	}));
 	//
-	it('onClose should set visible off ...', fakeAsync(() => {
+	fit('onClose should refresh grid ...', fakeAsync(() => {
 		// given
-		const incident: Incident = sut.incidents[ 1 ];
-		const response: NetworkIncident = newNetworkIncident( incident );
-		const id = response.incident.IncidentId; // for title
-		const ip = response.incident.IPAddress;
-		networkIncidentServiceSpy.getNetworkIncident.and.returnValue(of( response ));
+		const response = new IncidentPaginationData( );
+		response.incidentsList = [ ... mockDatum.splice(1) ];
+		response.totalRecords = mockDatum.length;
+		incidentServiceSpy.getIncidentsLazy.and.returnValue( of( new IncidentPaginationData( ) ) );
+		sut.lastTableLazyLoadEvent = 
+			{'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null} as LazyLoadEvent;
 		//
-		sut.detailWindow = new DetailWindowInput( {... user }, sut.incidents[ 1 ] );
-		sut.windowDisplay = true;
-		tickFakeWait( 1000 ); // wait 1 second task to get done
-		tickFakeWait( 1000 ); // wait 1 second task to get done
+		tickFakeWait( 1 ); // wait 1 second task to get done
 		// when
 		sut.onClose( true );
 		// then
+		tickFakeWait( 1 ); // wait 1 millisecond task to get done
 		expect( sut.windowDisplay ).toEqual( false );
 		expect( sut.detailWindow ).toBeUndefined( );
-		expect( sut.visible ).toEqual( false );
 		// cleanup
 		windowCleanup( );
 		//
 	}));
 	//
-	fit('should understand next/error/complete ...', () => {
+	it('should understand next/error/complete ...', () => {
 		const values = [1,2,3];
 		of(values).subscribe({
 			next: (val) => {
