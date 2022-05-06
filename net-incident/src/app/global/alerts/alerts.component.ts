@@ -41,12 +41,14 @@ export class AlertsComponent implements OnInit {
 		// console.log( 'AlertsComponent, OnInit ... ' );
 		// Subscribe to the service
 		// Will fire everytime other component use the set methods
-		const subscription = this._alertService.getAlerts().subscribe(
-					(alertMsg: Alerts) => {
-			this.showMessage( alertMsg.level, alertMsg.messages );
-		}, error =>	{
-			this.showMessage( AlertLevel.Error, [new Message('ERR-1', error)] );
-			console.error( `${this.codeName}.subscription: ${error}` );
+		const subscription = this._alertService.getAlerts().subscribe({
+			next: ( alertMsg: Alerts ) => {
+				this.showMessage( alertMsg.level, alertMsg.messages );
+			},
+			error: (error) => {
+				this.showMessage( AlertLevel.Error, [new Message('ERR-1', error)] );
+				console.error( `${this.codeName}.subscription: ${error}` );
+			}
 		} );
 	}
 	/*

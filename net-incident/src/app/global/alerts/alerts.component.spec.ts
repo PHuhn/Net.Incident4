@@ -1,4 +1,4 @@
-/* tslint:disable:no-unused-variable */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ComponentFixture, TestBed, inject, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
@@ -91,7 +91,7 @@ describe('AlertsComponent', () => {
 		// then
 		// console.log( 'AlertsComponent: error: ' + String( sut.msgs.length ) );
 		expect(sut.level).toBe(AlertLevel.Error);
-		expect(sut.msgs.length).toBeTruthy(3);
+		expect(sut.msgs.length).toBe(3);
 		expect(sut.msgs[0].message).toBe('where');
 		expect(sut.msgs[1].message).toBe('what');
 		expect(sut.msgs[2].message).toBe('error');
@@ -140,13 +140,13 @@ describe('AlertsComponent', () => {
 	it('OnInit service subscription should handle an error ...', fakeAsync( () => {
 		// given
 		const errMsg: string = 'Service error';
-		spyOn(service, 'getAlerts').and.returnValue( throwError( errMsg ) );
+		spyOn(service, 'getAlerts').and.returnValue( throwError( () => errMsg ) );
 		// when
 		sut.ngOnInit( );
 		// then
 		tick( 1000 );
 		expect(sut.level).toBe(AlertLevel.Error);
-		expect(sut.msgs.length).toBeTruthy(1);
+		expect(sut.msgs.length).toBe(1);
 		expect(sut.msgs[0].message).toBe( errMsg );
 	} ) );
 	//
