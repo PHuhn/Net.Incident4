@@ -45,7 +45,7 @@ import { LazyLoadingMock } from '../services/mocks/lazy-loading.mock';
 import { AppComponent } from '../../app.component';
 import { Security } from '../security';
 //
-fdescribe( 'IncidentGridComponent', ( ) => {
+describe( 'IncidentGridComponent', ( ) => {
 	let sut: IncidentGridComponent;
 	let fixture: ComponentFixture<IncidentGridComponent>;
 	const lazyLoading: LazyLoadingMock = new LazyLoadingMock();
@@ -154,8 +154,6 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 		pageData = page;
 		tickFakeWait( 1000 );
 		tickFakeWait( 1000 );
-		console.warn( sut.loading );
-		console.warn( sut.incidents );
 		fixture.detectChanges( ); // trigger initial data binding
 		fixture.whenStable( );
 		// sut.incidents = [ ... page.incidentsList ];
@@ -220,7 +218,8 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	// getIncidents( ) : Observable<IIncident[]>
 	//
 	it('should initialize with all data...', fakeAsync( () => {
-		console.warn( `should initialize with all data ${sut.incidents.length} ...` );
+		// given/when/then
+		// console.warn( `should initialize with all data ${sut.incidents.length} ...` );
 		expect( sut.incidents.length ).toBe( 3 );
 		//
 		expect( sut.incidents[ 0 ].IncidentId ).toEqual( 7 );
@@ -233,7 +232,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	*/
 	it('getUserServer select a different server ...', fakeAsync( ( ) => {
 		// given
-		console.warn( `getUserServer select a different server, loading: ${sut.loading}` );
+		// console.warn( `getUserServer select a different server, loading: ${sut.loading}` );
 		let serverShortName = selectItemsWindow[1].label;
 		// setup response to _user.getUserServer service call
 		const user2 = { ... user };
@@ -262,7 +261,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	*/
 	it('onServerSelected select a different server ...', fakeAsync( ( ) => {
 		// given
-		console.warn( 'onServerSelected select a different server ...' );
+		// console.warn( 'onServerSelected select a different server ...' );
 		let serverShortName = 'srv 2';
 		// setup response to _user.getUserServer service call
 		const user2 = { ... user };
@@ -270,8 +269,9 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 		user2.Server.ServerShortName = serverShortName;
 		user2.ServerShortName = serverShortName;
 		userServiceSpy.getUserServer.and.returnValue(of( user2 ));
+		// when
 		sut.onServerSelected( serverShortName );
-		//
+		// then
 		tickFakeWait(1000); // wait 1 second task to get done
 		tickFakeWait(1000); // wait 1 second task to get done
 		//
@@ -287,10 +287,10 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	** onChangeServer( ), launch server selection window
 	*/
 	it('onChangeServer: should launch server selection window ...', fakeAsync( () => {
-		// given
-		console.warn( 'onChangeServer: should launch server selection window ...' );
+		// given / when
+		// console.warn( 'onChangeServer: should launch server selection window ...' );
 		sut.onChangeServer( 'testing' );
-		//
+		// then
 		tickFakeWait(10); // wait 1 second task to get done
 		//
 		expect( sut.displayServersWindow ).toEqual( true );
@@ -303,7 +303,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	*/
 	it('addItemClicked: should launch detail window ...', fakeAsync( () => {
 		// given
-		console.warn( 'addItemClicked: should launch detail window ...' );
+		// console.warn( 'addItemClicked: should launch detail window ...' );
 		const inc = new Incident( 0,0,'','','','','',false,false,false,'',testDate );
 		incidentServiceSpy.emptyIncident.and.returnValue(of( inc ));
 		const response: NetworkIncident = newNetworkIncident(
@@ -312,8 +312,9 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 		const id = response.incident.IncidentId; // for title
 		const ip = response.incident.IPAddress;
 		networkIncidentServiceSpy.getNetworkIncident.and.returnValue( of( response ) );
+		// when
 		sut.addItemClicked( );
-		//
+		// then
 		tickFakeWait(1000); // wait 1 second task to get done
 		tickFakeWait(1000); // wait 1 second task to get done
 		//
@@ -326,11 +327,13 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	//
 	it('addItemClicked: should fail to launch create window when security fails ...', fakeAsync( ( ) => {
 		// given
-		console.warn( 'addItemClicked: should fail to launch create window when security fails ...' );
+		// console.warn( 'addItemClicked: should fail to launch create window when security fails ...' );
 		const incident: Incident = pageData.incidentsList[ 2 ].Clone();
 		AppComponent.securityManager = new Security( undefined );
 		spyOn( alertService, 'setWhereWhatWarning' );
+		// when
 		sut.addItemClicked( );
+		// then
 		tickFakeWait( 1 );
 		expect( alertService.setWhereWhatWarning ).toHaveBeenCalled( );
 	}));
@@ -339,16 +342,13 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	*/
 	it('editItemClicked: should launch detail window ...', fakeAsync( ( ) => {
 		// given
-		console.warn( 'editItemClicked: should launch detail window ...' );
+		// console.warn( 'editItemClicked: should launch detail window ...' );
 		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
-		console.warn( incident );
 		const response: NetworkIncident = newNetworkIncident( incident );
-		console.warn( response );
 		const id = response.incident.IncidentId; // for title
 		const ip = response.incident.IPAddress;
 		networkIncidentServiceSpy.getNetworkIncident.and.returnValue(of( response ));
 		// when
-		// console.warn( 'editItemClicked ...' );
 		sut.editItemClicked( incident );
 		// then
 		expect( sut.windowDisplay ).toEqual( true );
@@ -363,7 +363,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	//
 	it('editItemClicked: should fail to launch detail window when security fails ...', fakeAsync( ( ) => {
 		// given
-		console.warn( 'editItemClicked: should fail to launch detail window when security fails ...' );
+		// console.warn( 'editItemClicked: should fail to launch detail window when security fails ...' );
 		const incident: Incident = pageData.incidentsList[ 2 ].Clone();
 		AppComponent.securityManager = new Security( undefined );
 		spyOn( alertService, 'setWhereWhatWarning' );
@@ -378,13 +378,14 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	*/
 	it( 'deleteItem: should handle an error ...', fakeAsync( () => {
 		// given
-		console.warn( 'deleteItem: should handle an error ...' );
+		// console.warn( 'deleteItem: should handle an error ...' );
 		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
 		incidentServiceSpy.deleteIncident.and.returnValue(of( response ));
 		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
 		const id = incident.IncidentId;
 		const subscription = alertService.getAlerts().subscribe({
 			next: (alertMsg: Alerts) => {
+				// then
 				expect( alertMsg ).toBeTruthy( );
 			},
 			error: (error) => {
@@ -400,7 +401,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	*/
 	it('deleteItemClicked: should delete row when event called and OK is clicked...', fakeAsync(() => {
 		// given
-		console.warn( 'deleteItemClicked: should delete row when event called and OK is clicked...' );
+		// console.warn( 'deleteItemClicked: should delete row when event called and OK is clicked...' );
 		const delRow: Incident = pageData.incidentsList[ 2 ].Clone();
 		const delId: number = delRow.IncidentId;
 		const expected: number = sut.incidents.length - 1;
@@ -411,6 +412,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 			});
 		// when
 		const ret: boolean = sut.deleteItemClicked( delRow );
+		// then
 		expect( ret ).toEqual( false );
 		tickFakeWait( 1000 ); // give it small amount of time
 		expect( sut.incidents.length ).toBe( expected );
@@ -420,7 +422,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	//
 	it('deleteItemClicked: should fail to delete when security fails ...', fakeAsync( ( ) => {
 		// given
-		console.warn( 'deleteItemClicked: should fail to delete when security fails ...' );
+		// console.warn( 'deleteItemClicked: should fail to delete when security fails ...' );
 		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
 		AppComponent.securityManager = new Security( undefined );
 		spyOn( alertService, 'setWhereWhatWarning' );
@@ -434,7 +436,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	*/
 	it('onClose: should set window display off ...', fakeAsync(() => {
 		// given
-		console.warn( 'onClose: should set window display off ...' );
+		// console.warn( 'onClose: should set window display off ...' );
 		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
 		const response: NetworkIncident = newNetworkIncident( incident );
 		const id = response.incident.IncidentId; // for title
@@ -457,7 +459,7 @@ fdescribe( 'IncidentGridComponent', ( ) => {
 	//
 	it('onClose: should refresh grid ...', fakeAsync(() => {
 		// given
-		console.warn( 'onClose: should refresh grid ...' );
+		// console.warn( 'onClose: should refresh grid ...' );
 		const page = newPage( );
 		incidentServiceSpy.getIncidentsLazy.and.returnValue( of( page ) );
 		sut.lastTableLazyLoadEvent = 
