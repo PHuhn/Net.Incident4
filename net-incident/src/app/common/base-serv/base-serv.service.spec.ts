@@ -51,12 +51,15 @@ describe('BaseServService', () => {
 		const resp: any = new HttpErrorResponse(
 			{ status: 599, url: 'http://localhost', statusText: 'Fake error' } );
 		// when
-		sut.baseServiceError( resp ).subscribe( () => {
+		sut.baseServiceError( resp ).subscribe({
+			next: ( ) => {
 				fail( 'handleError: expected error...' );
-			}, ( error ) => {
+			},
+			error: (error) => {
 				// then
 				expect( error.substring(0, errMsg.length) ).toEqual( errMsg );
-		} );
+			},
+		});
 		//
 	}));
 	//
@@ -64,12 +67,15 @@ describe('BaseServService', () => {
 		// given
 		const errMsg: string = 'Fake error';
 		// when
-		sut.baseServiceError( errMsg ).subscribe( () => {
+		sut.baseServiceError( errMsg ).subscribe({
+			next: ( ) => {
 				fail( 'handleError: expected error...' );
-			}, ( error ) => {
+			},
+			error: (error) => {
 				// then
 				expect( error ).toEqual( errMsg );
-		} );
+			},
+		});
 		//
 	}));
 	//

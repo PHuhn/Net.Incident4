@@ -28,6 +28,8 @@ export interface IIncident {
 	CreatedDate: Date;
 	IsChanged: Boolean;
 	//
+	Clone( ): Incident;
+	//
 	toString(): string;
 	//
 }
@@ -57,6 +59,12 @@ export class Incident implements IIncident {
 		public CreatedDate: Date,
 	) {
 		this.IsChanged = false;
+	}
+	/*
+	** Clone the current Incident class.
+	*/
+	public Clone( ): Incident {
+		return new Incident( this.IncidentId, this.ServerId, this.IPAddress, this.NIC, this.NetworkName, this.AbuseEmailAddress, this.ISPTicketNumber, this.Mailed, this.Closed, this.Special, this.Notes, this.CreatedDate );
 	}
 	/*
 	** toString implementation for class Incident

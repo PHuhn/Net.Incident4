@@ -82,7 +82,7 @@ describe('NetworkLogGridComponent', () => {
 	//
 	function createNetworkIncident( ): INetworkIncident {
 		const netInc = new NetworkIncident();
-		netInc.incident = { ... inc };
+		netInc.incident = inc.Clone();
 		netInc.deletedLogs = [];
 		netInc.deletedNotes = [];
 		netInc.incidentNotes = [];

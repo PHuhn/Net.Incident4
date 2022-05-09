@@ -121,7 +121,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 	beforeEach( ( ) => {
 		// pretend that it was wired to something that supplied a row
 		const nl = new NetworkLog(99, serverMock.ServerId, inc.IncidentId, ipAddr, new Date( '2018-01-19T01:00:00' ), 'Fake log', 3, 'Type 3', true);
-		netInc.incident = { ... inc };
+		netInc.incident = inc.Clone();
 		netInc.networkLogs = [ nl ];
 		netInc.deletedLogs = [];
 		netInc.deletedNotes = [];

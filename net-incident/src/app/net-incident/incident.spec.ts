@@ -29,6 +29,26 @@ describe('Incident', () => {
 		//
 	});
 	/*
+	** Clone for class Incident.
+	*/
+	it('clone should assign correct values ...', () => {
+		const _data: Incident = data.Clone( );
+		//
+		expect( _data.IncidentId ).toEqual( 1 );
+		expect( _data.ServerId ).toEqual( 1 );
+		expect( _data.IPAddress ).toEqual( 'i 1' );
+		expect( _data.NIC ).toEqual( 'i 1' );
+		expect( _data.NetworkName ).toEqual( 'i 1' );
+		expect( _data.AbuseEmailAddress ).toEqual( 'i 1' );
+		expect( _data.ISPTicketNumber ).toEqual( 'i 1' );
+		expect( _data.Mailed ).toEqual( true );
+		expect( _data.Closed ).toEqual( true );
+		expect( _data.Special ).toEqual( true );
+		expect( _data.Notes ).toEqual( 'i 1' );
+		expect( _data.CreatedDate ).toEqual( new Date( '2000-01-01T00:00:00' ) );
+		//
+	});
+	/*
 	** toString for class Incident.
 	*/
 	it('toString should output class ...', () => {

@@ -124,7 +124,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 	//
 	function createNetworkIncident( ): INetworkIncident {
 		const networkIncident: INetworkIncident = new NetworkIncident();
-		networkIncident.incident = { ... inc };
+		networkIncident.incident = inc.Clone();
 		networkIncident.noteTypes = [ ... mockNoteTypes ];
 		networkIncident.deletedLogs = [];
 		networkIncident.deletedNotes = [];

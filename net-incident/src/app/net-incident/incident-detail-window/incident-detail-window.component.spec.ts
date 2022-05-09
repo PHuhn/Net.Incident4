@@ -268,7 +268,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 	*/
 	it('ipChanged: should lookup the new ip address ...', fakeAsync( ( ) => {
 		// given
-		const testData: Incident = { ... mockData };
+		const testData: Incident = mockData.Clone();
 		sut.networkIncident = newNetworkIncident( testData );
 		servicesServiceSpy.getWhoIs.and.returnValue( of( whoisMockData_17_142_171_7 ) );
 		// when
