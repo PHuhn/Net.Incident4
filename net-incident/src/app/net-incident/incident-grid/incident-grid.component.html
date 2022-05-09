@@ -3,7 +3,7 @@
 	<div class='container'>
 		<!-- lazy -->
 		<p-table #dt id='incidents-grid' [value]='incidents' [totalRecords]='totalRecords'
-				expandableRows='true' dataKey='IncidentId' *ngIf='visible'
+				expandableRows='true' dataKey='IncidentId'
 				[rows]='5' [paginator]='true' [rowsPerPageOptions]='[5,10,50]'
 				[lazy]='true' (onLazyLoad)='loadIncidentsLazy($event)' [loading]='loading'>
 			<ng-template pTemplate='caption'>

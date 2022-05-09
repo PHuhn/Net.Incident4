@@ -44,7 +44,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	lastTableLazyLoadEvent: LazyLoadEvent;
 	id: number = -1;
 	loading: boolean = false;
-	@ViewChild('dt') dt: Table | undefined;
+	@ViewChild('dt', { static: true }) dt: Table | undefined;
 	//
 	mailed: boolean = false;
 	closed: boolean = false;
@@ -84,7 +84,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// On component initialization, get all data from the data service.
 	//
 	ngOnInit() {
-		this._console.Information(
+		this._console.Debug(
 			`${this.codeName}.ngOnInit: Entering ...` );
 		this.loading = true;
 	}
@@ -95,9 +95,9 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// Add button clicked, launch edit detail window.
 	//
 	addItemClicked( ) {
-		this._console.Information(
+		this._console.Debug(
 			`${this.codeName}.addItemClicked: Entering ...` );
-		this._console.Information( JSON.stringify( this.user ) );
+		this._console.Debug( JSON.stringify( this.user ) );
 		if( AppComponent.securityManager !== undefined ) {
 			if( AppComponent.securityManager.isValidIncidentDetail( ) ) {
 				const empty: Incident = this._data.emptyIncident( );
@@ -154,7 +154,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// on edit window closed
 	//
 	onClose( saved: boolean ) {
-		this._console.Information(
+		this._console.Debug(
 			`${this.codeName}.onClose: entering: ${saved}` );
 		if( saved === true ) {
 			this._console.Information(
@@ -170,7 +170,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// Launch server selection window
 	//
 	onChangeServer( event: any ) {
-		this._console.Information(
+		this._console.Debug(
 			`${this.codeName}.onChangeServer: entering: ${event}` );
 		this.selectItemsWindow = this.user.ServerShortNames;
 		this.displayServersWindow = true;
@@ -181,9 +181,9 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// onServerSelected($event)
 	//
 	onServerSelected( event: any ) {
+		this._console.Debug(
+			`${this.codeName}.onServerSelected: entering: ${event}` );
 		this.getUserServer( this.user.UserName, event );
-		this._console.Information(
-			`${this.codeName}.onServerSelected: ${event}` );
 	}
 	/**
 	** Refresh by resending the last lazy loading event
@@ -202,27 +202,31 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	//
 	getUserServer( userName: string, serverShortName: string ) {
 		//
-		this._console.Information( `${this.codeName}.getUserServer: user: ${userName}, short: ${serverShortName}` );
-		this._user.getUserServer( userName, serverShortName )
-								.subscribe( ( userData: User ) => {
-			this._console.Information(
-				`${this.codeName}.authUser: user: ${userData.UserName}` );
-			if( userData.ServerShortName !== ''
-				&& userData.ServerShortName.toLowerCase()
-						=== serverShortName.toLowerCase() ) {
-					const changed: boolean = ( userData.ServerShortName.toLowerCase() !== this.user.ServerShortName.toLocaleLowerCase() );
-					this.user = userData;
-					this.dt.filter( this.user.Server.ServerId, 'ServerId', 'equals' );
-					this.displayServersWindow = false;
-			} else {
+		this._console.Debug( `${this.codeName}.getUserServer: user: ${userName}, short: ${serverShortName}` );
+		this._user.getUserServer( userName, serverShortName ).subscribe({
+			next: ( userData: User ) => {
 				this._console.Information(
-					`${this.codeName}.getUserServer, Returned: ${userData.ServerShortName}` );
-				this.selectItemsWindow = this.user.ServerShortNames;
-				this.displayServersWindow = true;
-			}
-		},
-		error => this.baseErrorHandler(
-			this.codeName, `User not found: ${userName}`, error ));
+					`${this.codeName}.authUser: user: ${userData.UserName}` );
+				if( userData.ServerShortName !== ''
+					&& userData.ServerShortName.toLowerCase()
+							=== serverShortName.toLowerCase() ) {
+						const changed: boolean = ( userData.ServerShortName.toLowerCase() !== this.user.ServerShortName.toLocaleLowerCase() );
+						this.user = userData;
+						this.dt.filter( this.user.Server.ServerId, 'ServerId', 'equals' );
+						this.displayServersWindow = false;
+				} else {
+					this._console.Information(
+						`${this.codeName}.getUserServer, Returned: ${userData.ServerShortName}` );
+					this.selectItemsWindow = this.user.ServerShortNames;
+					this.displayServersWindow = true;
+				}
+			},
+			error: (error) => {
+				this.baseErrorHandler(
+					this.codeName, `User not found: ${userName}`, error );
+			},
+			complete: () => { }
+		});
 		//
 	}
 	//
@@ -281,7 +285,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 					this.baseErrorHandler(
 						this.codeName, `loadIncidentsLazy`, error );
 				}
-			})
+			});
 		}, 0 );
 	}
 	//
@@ -290,17 +294,20 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	//
 	deleteItem( delId: number ): boolean {
 		if( delId !== 0 ) {
-			this._data.deleteIncident( delId )
-				.subscribe(
-					() => {
-						this.incidents = this.incidents.filter(function(el) {
-							return el.IncidentId !== delId;
-							});
-						this._alerts.setWhereWhatSuccess(
-							'Incident-Grid', 'Deleted:' + delId);
-					},
-					error => this.baseErrorHandler(
-						this.codeName, 'Incident-Grid Delete', error ));
+			this._data.deleteIncident( delId ).subscribe({
+				next: ( ) => {
+					this.incidents = this.incidents.filter(function(el) {
+						return el.IncidentId !== delId;
+						});
+					this._alerts.setWhereWhatSuccess(
+						'Incident-Grid', 'Deleted:' + delId);
+				},
+				error: (error) => {
+					this.baseErrorHandler(
+						this.codeName, 'Incident-Grid Delete', error )
+				},
+				complete: () => { }
+			});
 		}
 		return false;
 	}
