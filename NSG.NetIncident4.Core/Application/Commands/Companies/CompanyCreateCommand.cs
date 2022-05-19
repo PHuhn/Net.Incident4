@@ -11,6 +11,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using Microsoft.EntityFrameworkCore;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.Companies
 {
@@ -90,7 +91,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.Companies
                 Notes = request.Notes,
             };
             _context.Companies.Add(_entity);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateException upExc)
+            {
+                throw _context.HandleDbUpdateException(upExc);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             // Return the entity class.
             return _entity;
         }

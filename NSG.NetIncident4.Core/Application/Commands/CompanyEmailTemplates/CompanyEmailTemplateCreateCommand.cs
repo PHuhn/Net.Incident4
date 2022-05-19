@@ -101,7 +101,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 				FromServer = request.FromServer,
 			};
 			_context.EmailTemplates.Add(_entity);
-			await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+				await _context.SaveChangesAsync(cancellationToken);
+			}
+			catch (DbUpdateException upExc)
+			{
+				throw _context.HandleDbUpdateException(upExc);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 			// Return the entity class.
 			return _entity;
 		}

@@ -32,7 +32,7 @@ namespace NSG.NetIncident4.Core.UI.Identity
                         options.Password.RequireLowercase = identitySettings.PasswordRequireLowercase;
                         options.Password.RequireUppercase = identitySettings.PasswordRequireUppercase;
                         options.Password.RequireNonAlphanumeric = identitySettings.PasswordRequireSpecialCharacter;
-                        options.User.RequireUniqueEmail = identitySettings.UserRequireUniqueEmail;
+                        options.User.RequireUniqueEmail = true; // identitySettings.UserRequireUniqueEmail;
                         options.SignIn.RequireConfirmedAccount = identitySettings.SignInRequireConfirmedAccount;
                         options.SignIn.RequireConfirmedEmail = identitySettings.SignInRequireConfirmedEmail;
                         options.Lockout.AllowedForNewUsers = identitySettings.LockoutAllowed;

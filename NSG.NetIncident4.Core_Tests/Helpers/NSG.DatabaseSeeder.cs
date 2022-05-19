@@ -54,7 +54,7 @@ namespace NSG.Integration.Helpers
             return true;
         }
         //
-        private async Task Seed_Users()
+        public async Task Seed_Users()
         {
             //
             if (_userManager.Users.Count() == 0)
@@ -80,6 +80,10 @@ namespace NSG.Integration.Helpers
                         await _userManager.AddToRolesAsync(_user2, new string[] { "User" });
                         _context.UserServers.Add(new ApplicationUserServer() { Id = _user2.Id, ServerId = 1 });
                         _context.SaveChanges();
+                    }
+                    foreach( ApplicationUser _usr in _context.Users )
+                    {
+                        Console.WriteLine($"User: {_usr.UserName}, Email: {_usr.Email}, Name: {_usr.FullName}");
                     }
                 }
                 catch (Exception _ex)

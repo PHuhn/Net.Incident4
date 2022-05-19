@@ -118,7 +118,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
 				DST_End = request.DST_End,
 			};
 			_context.Servers.Add(_entity);
-			await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+				await _context.SaveChangesAsync(cancellationToken);
+			}
+			catch (DbUpdateException upExc)
+			{
+				throw _context.HandleDbUpdateException(upExc);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 			// Return the entity class.
 			return _entity;
 		}

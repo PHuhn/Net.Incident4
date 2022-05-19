@@ -92,7 +92,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 				NICWebSite = request.NICWebSite == null ? "" : request.NICWebSite,
 			};
 			_context.NICs.Add(_entity);
-			await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+				await _context.SaveChangesAsync(cancellationToken);
+			}
+			catch (DbUpdateException upExc)
+			{
+				throw _context.HandleDbUpdateException(upExc);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 			// Return the entity class.
 			return _entity;
 		}

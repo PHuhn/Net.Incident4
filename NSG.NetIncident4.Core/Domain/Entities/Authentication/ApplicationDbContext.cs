@@ -43,6 +43,9 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                     .HasForeignKey(ut => ut.UserId).IsRequired();
                 item.HasMany(u => u.UserRoles).WithOne(u => u.User)
                     .HasForeignKey(u => u.RoleId).OnDelete(DeleteBehavior.Cascade);
+                // index
+                item.HasIndex(u => u.FullName).IsUnique()
+                    .HasDatabaseName("Idx_AspNetUsers_FullName");
             });
             //
             modelBuilder.Entity<ApplicationRole>((item) =>

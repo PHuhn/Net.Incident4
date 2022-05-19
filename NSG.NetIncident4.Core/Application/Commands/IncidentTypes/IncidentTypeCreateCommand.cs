@@ -93,7 +93,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
 				IncidentTypeTemplate = request.IncidentTypeTemplate,
 			};
 			_context.IncidentTypes.Add(_entity);
-			await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+				await _context.SaveChangesAsync(cancellationToken);
+			}
+			catch (DbUpdateException upExc)
+			{
+				throw _context.HandleDbUpdateException(upExc);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 			// Return the entity class.
 			return _entity;
 		}
