@@ -249,7 +249,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                             }
                             if (!_reported)
                             {
-                                builder.AppendFormat("{0}}. ", upExc.GetBaseException().Message);
+                                builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             }
                             break;
                         case "Company":
@@ -269,7 +269,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                             }
                             if (!_reported)
                             {
-                                builder.AppendFormat("{0}}. ", upExc.GetBaseException().Message);
+                                builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             }
                             break;
                         case "Server":
@@ -289,7 +289,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                             }
                             if (!_reported)
                             {
-                                builder.AppendFormat("{0}}. ", upExc.GetBaseException().Message);
+                                builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             }
                             break;
                         case "IncidentType":
@@ -309,7 +309,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                             }
                             if (!_reported)
                             {
-                                builder.AppendFormat("{0}}. ", upExc.GetBaseException().Message);
+                                builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             }
                             break;
                         case "EmailTemplate":
@@ -332,7 +332,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                             }
                             if (!_reported)
                             {
-                                builder.AppendFormat("{0}}. ", upExc.GetBaseException().Message);
+                                builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             }
                             break;
                         case "NIC":
@@ -351,7 +351,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                             }
                             if (!_reported)
                             {
-                                builder.AppendFormat("{0}}. ", upExc.GetBaseException().Message);
+                                builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             }
                             break;
                         case "NoteType":
@@ -371,11 +371,11 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                             }
                             if (!_reported)
                             {
-                                builder.AppendFormat("{0}}. ", upExc.GetBaseException().Message);
+                                builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             }
                             break;
                         default:
-                            builder.AppendFormat("{0}, {1}}. ", _entityName, upExc.GetBaseException().Message);
+                            builder.AppendFormat("{0}. ", upExc.GetBaseException().Message);
                             break;
                     }
                 }
