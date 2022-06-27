@@ -8,7 +8,7 @@
  @REM usage: logs_load.py [-h]
  @REM                     --logType log_type (of NG NGR or IIS)
  @REM                     [--server server (.\SQLExpress)]
- @REM                     [--dbName db_name (NetIncident2)]
+ @REM                     [--dbName db_name (NetIncidentIdentity04)]
  @REM                     --filePath file_path
  @REM                     --serverId server_id
  @REM

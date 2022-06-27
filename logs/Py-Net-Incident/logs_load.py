@@ -355,8 +355,8 @@ if __name__ == '__main__':
     PARSER.add_argument('--server', metavar=r'server (.\SQLExpress)',
                         default=r'.\SQLExpress', help='SQL Server instance name')
     # PARAMETER dbName: Database name
-    PARSER.add_argument('--dbName', metavar='db_name (NetIncident2))',
-                        default='NetIncident2', help='Database name')
+    PARSER.add_argument('--dbName', metavar='db_name (NetIncidentIdentity04))',
+                        default='NetIncidentIdentity04', help='Database name')
     # PARAMETER filePath: Full path and file name
     PARSER.add_argument('--filePath', metavar='file_path', required=True,
                         help='Full path and file name of IIS logs')
