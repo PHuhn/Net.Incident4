@@ -1,0 +1,175 @@
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@14 @angular/cli@14
+The installed Angular CLI version is outdated.
+Installing a temporary Angular CLI versioned 14.0.3 to perform the update.
+√ Package successfully installed.
+Using package manager: npm
+Collecting installed dependencies...
+Found 38 dependencies.
+Fetching dependency metadata from registry...
+                  Package "@angular-eslint/schematics" has an incompatible peer dependency to "@angular/cli" (requires ">= 13.0.0 < 14.0.0", would install "14.0.3").
+× Migration failed: Incompatible peer dependencies found.
+Peer dependency warnings when installing dependencies means that those dependencies might not work correctly together.
+You can use the '--force' option to ignore incompatible peer dependencies and instead address these warnings later.
+  See "C:\Users\Phil\AppData\Local\Temp\ng-hos69r\angular-errors.log" for further details.
+
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>dir get*
+ Volume in drive C is Windows
+ Volume Serial Number is 1065-8FCA
+
+ Directory of C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident
+
+05/08/2022  01:04 PM               446 GetAngularVer.bat
+03/03/2022  01:47 PM               392 GetEslintVer.bat
+03/03/2022  01:51 PM               283 GetJasmineVer.bat
+               3 File(s)          1,121 bytes
+               0 Dir(s)  80,154,185,728 bytes free
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>geteslintver
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular-eslint/builder@latest @angular-eslint/eslint-plugin@latest @angular-eslint/eslint-plugin-template@latest @angular-eslint/schematics@latest @angular-eslint/template-parser@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint@latest
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR!
+npm ERR! While resolving: net-incident@13.4.0.7
+npm ERR! Found: @angular/cli@13.3.8
+npm ERR! node_modules/@angular/cli
+npm ERR!   dev @angular/cli@"^13.3.5" from the root project
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer @angular/cli@">= 14.0.0 < 15.0.0" from @angular-eslint/schematics@14.0.0
+npm ERR! node_modules/@angular-eslint/schematics
+npm ERR!   dev @angular-eslint/schematics@"14.0.0" from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR!
+npm ERR! See C:\Users\Phil\AppData\Local\npm-cache\eresolve-report.txt for a full report.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\Phil\AppData\Local\npm-cache\_logs\2022-06-27T13_44_35_641Z-debug-0.log
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>geteslintver
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular-eslint/builder@latest @angular-eslint/eslint-plugin@latest @angular-eslint/eslint-plugin-template@latest @angular-eslint/schematics@latest @angular-eslint/template-parser@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-eslint/schematics@14.0.0
+npm WARN Found: @angular/cli@13.3.5
+npm WARN node_modules/@angular/cli
+npm WARN   dev @angular/cli@"^13.3.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/cli@">= 14.0.0 < 15.0.0" from @angular-eslint/schematics@14.0.0
+npm WARN node_modules/@angular-eslint/schematics
+npm WARN   dev @angular-eslint/schematics@"14.0.0" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/cli@14.0.3
+npm WARN node_modules/@angular/cli
+npm WARN   peer @angular/cli@">= 14.0.0 < 15.0.0" from @angular-eslint/schematics@14.0.0
+npm WARN   node_modules/@angular-eslint/schematics
+npm WARN     dev @angular-eslint/schematics@"14.0.0" from the root project
+
+added 8 packages, removed 11 packages, changed 23 packages, and audited 1045 packages in 31s
+
+112 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@14 @angular/cli@14
+The installed Angular CLI version is outdated.
+Installing a temporary Angular CLI versioned 14.0.3 to perform the update.
+√ Package successfully installed.
+Error: Repository is not clean. Please commit or stash any changes before updating.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@14 @angular/cli@14
+The installed Angular CLI version is outdated.
+Installing a temporary Angular CLI versioned 14.0.3 to perform the update.
+√ Package successfully installed.
+Using package manager: npm
+Collecting installed dependencies...
+Found 38 dependencies.
+Fetching dependency metadata from registry...
+    Updating package.json with dependency @angular-devkit/build-angular @ "14.0.3" (was "13.3.2")...
+    Updating package.json with dependency @angular/animations @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/cli @ "14.0.3" (was "13.3.5")...
+    Updating package.json with dependency @angular/common @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/compiler @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/compiler-cli @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/core @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/forms @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/platform-browser @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/platform-browser-dynamic @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency @angular/router @ "14.0.3" (was "13.3.6")...
+    Updating package.json with dependency typescript @ "4.7.4" (was "4.4.4")...
+UPDATE package.json (1643 bytes)
+√ Packages successfully installed.
+** Executing migrations of package '@angular/cli' **
+
+> Remove 'defaultProject' option from workspace configuration.
+  The project to use will be determined from the current working directory.
+UPDATE angular.json (3661 bytes)
+  Migration completed.
+
+> Remove 'showCircularDependencies' option from browser and server builders.
+  Migration completed.
+
+> Replace 'defaultCollection' option in workspace configuration with 'schematicCollections'.
+UPDATE angular.json (3678 bytes)
+  Migration completed.
+
+> Update Angular packages 'dependencies' and 'devDependencies' version prefix to '^' instead of '~'.
+√ Packages installed successfully.
+  Migration completed.
+
+> Remove 'package.json' files from library projects secondary entrypoints.
+  Migration completed.
+
+> Update TypeScript compilation target to 'ES2020'.
+UPDATE tsconfig.json (862 bytes)
+  Migration completed.
+
+** Executing migrations of package '@angular/core' **
+
+> As of Angular version 13, `entryComponents` are no longer necessary.
+  Migration completed.
+
+> In Angular version 14, the `pathMatch` property of `Routes` was updated to be a strict union of the two valid options: `'full'|'prefix'`.
+  `Routes` and `Route` variables need an explicit type so TypeScript does not infer the property as the looser `string`.
+  Migration completed.
+
+> As of Angular version 14, Forms model classes accept a type parameter, and existing usages must be opted out to preserve backwards-compatibility.
+  Migration completed.
+
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>                                   
+Build at: 2022-06-27T14:06:03.512Z - Hash: 6833c4d0bce5dfe9 - Time: 30166ms
+
+./src/polyfills.ts:35:0-29 - Error: Module not found: Error: Can't resolve 'core-js/es6/reflect' in 'C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident\src'
+
+./src/polyfills.ts:36:0-29 - Error: Module not found: Error: Can't resolve 'core-js/es7/reflect' in 'C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident\src'
+
+C:\Dat\Nsg\L\Web\Ng\demo-mg13>
+C:\Dat\Nsg\L\Web\Ng\demo-mg13>npm uninstall --save-dev @babel/polyfill
+
+up to date, audited 1093 packages in 2s
+
+129 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\Nsg\L\Web\Ng\demo-mg13>npm install --save-dev @babel/polyfill
+npm WARN deprecated @babel/polyfill@7.12.1: 🚨 This package has been deprecated in favor of separate inclusion of a polyfill and regenerator-runtime (when needed). See the @babel/polyfill docs (https://babeljs.io/docs/en/babel-polyfill) for more information.
+npm WARN deprecated core-js@2.6.12: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+
+added 2 packages, and audited 1095 packages in 8s
+
+129 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\Nsg\L\Web\Ng\demo-mg13>
