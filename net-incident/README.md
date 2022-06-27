@@ -1,6 +1,6 @@
 # Net-Incident
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was first built as an Angular 4 application and is currently built with Angular 13.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was first built as an Angular 4 application and is currently built with Angular 14.
 
 ## About Net-Incident
 
@@ -16,7 +16,7 @@ Given classified incident logs (like SQL injection, XSS or PHP vulnerabilities),
 
 ## Construction
 
-Is an Angular CLI application that uses PrimeFaces PrimeNG library for the following:
+Is an Angular CLI application that uses the following PrimeFaces PrimeNG library components:
 * p-table,
 * p-ComfirmDialog,
 * p-dialog (window/popup),
@@ -36,13 +36,13 @@ The app-component is the conventional root component. The component structure is
       * app-contact
       * app-help
   * app-login
-    * app-server-selection-window
-  * app-incident-grid
-    * app-server-selection-window
-    * app-incident-detail-window
-    * app-incident-note-grid
-      * app-incident-note-detail-window
-    * app-networklog-grid
+    * app-server-selection-window (p-dialog)
+  * app-incident-grid (p-table)
+    * app-server-selection-window (p-dialog)
+    * app-incident-detail-window (p-dialog)
+    * app-incident-note-grid (p-table)
+      * app-incident-note-detail-window (p-dialog)
+    * app-networklog-grid (p-table)
 
 Good design practices inherit the components from an application specific class.  This application's base component contains two methods that constantly appeared in the code.
 
