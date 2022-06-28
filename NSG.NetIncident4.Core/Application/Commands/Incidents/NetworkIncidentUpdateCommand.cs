@@ -17,7 +17,7 @@ using SendGrid.Helpers.Mail;
 using Newtonsoft.Json;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.Logs;

@@ -87,6 +87,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Domain\Entities\Authentication\" />
     <Folder Include="UI\TagHelpers\" />
   </ItemGroup>
 

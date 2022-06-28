@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 //

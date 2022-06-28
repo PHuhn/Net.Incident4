@@ -11,7 +11,7 @@ using MediatR;
 //
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 using NSG.NetIncident4.Core.Application.Infrastructure;
 using System.Linq;

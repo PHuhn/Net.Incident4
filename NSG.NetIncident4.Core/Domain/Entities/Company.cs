@@ -6,7 +6,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Persistence;
 // using System.ComponentModel.DataAnnotations.Schema;
 //
 namespace NSG.NetIncident4.Core.Domain.Entities

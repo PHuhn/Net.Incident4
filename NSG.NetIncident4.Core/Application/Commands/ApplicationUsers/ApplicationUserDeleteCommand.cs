@@ -14,7 +14,7 @@ using FluentValidation;
 using FluentValidation.Results;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using Microsoft.AspNetCore.Identity;
 //

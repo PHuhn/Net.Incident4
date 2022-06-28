@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using NSG.NetIncident4.Core.Domain.Entities;
 //
-namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
+namespace NSG.NetIncident4.Core.Persistence
 {
     public partial class ApplicationDbContext : IdentityDbContext<
             ApplicationUser, // TUser

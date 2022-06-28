@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using NSG.NetIncident4.Core.Domain.Entities;
 //
-namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
+namespace NSG.NetIncident4.Core.Persistence
 {
     public partial class ApplicationDbContext : IdentityDbContext<
             ApplicationUser, // TUser

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;

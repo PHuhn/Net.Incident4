@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
-
+using NSG.NetIncident4.Core.Persistence;
+//
 namespace NSG.NetIncident4.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]

@@ -12,7 +12,7 @@ using MediatR;
 using FluentValidation;
 using FluentValidation.Results;
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Persistence;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.NICs
 {
