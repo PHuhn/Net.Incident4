@@ -17,7 +17,7 @@ using Moq;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.UI.Controllers;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core_Tests.Infrastructure
 {

@@ -20,7 +20,6 @@ using NSG.NetIncident4.Core.UI.ViewHelpers;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using NSG.NetIncident4.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace NSG.NetIncident4.Core.UI.Identity.Account

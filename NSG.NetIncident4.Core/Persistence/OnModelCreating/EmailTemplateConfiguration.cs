@@ -1,5 +1,5 @@
 ﻿// ===========================================================================
-namespace NSG.NetIncident4.Core.Domain.Entities.Authentication.OnModelCreating
+namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 {
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.Metadata.Builders;

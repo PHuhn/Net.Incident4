@@ -270,31 +270,31 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
         /*
         ** support
         */
-        public DbSet<LogData> Logs { get; set; }
+        public DbSet<LogData> Logs { get; set; } = default!;
         //
-        public DbSet<Company> Companies { get; set; }
+        public DbSet<Company> Companies { get; set; } = default!;
         //
-        public DbSet<Server> Servers { get; set; }
+        public DbSet<Server> Servers { get; set; } = default!;
         //
-        public DbSet<ApplicationUserServer> UserServers { get; set; }
+        public DbSet<ApplicationUserServer> UserServers { get; set; } = default!;
         // types
-        public DbSet<IncidentType> IncidentTypes { get; set; }
+        public DbSet<IncidentType> IncidentTypes { get; set; } = default!;
         //
-        public DbSet<NIC> NICs { get; set; }
+        public DbSet<NIC> NICs { get; set; } = default!;
         //
-        public DbSet<NoteType> NoteTypes { get; set; }
+        public DbSet<NoteType> NoteTypes { get; set; } = default!;
         //
-        public DbSet<EmailTemplate> EmailTemplates { get; set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; set; } = default!;
         /*
         ** incidents
         */
-        public DbSet<NetworkLog> NetworkLogs { get; set; }
+        public DbSet<NetworkLog> NetworkLogs { get; set; } = default!;
         //
-        public DbSet<Incident> Incidents { get; set; }
+        public DbSet<Incident> Incidents { get; set; } = default!;
         //
-        public DbSet<IncidentNote> IncidentNotes { get; set; }
+        public DbSet<IncidentNote> IncidentNotes { get; set; } = default!;
         //
-        public DbSet<IncidentIncidentNote> IncidentIncidentNotes { get; set; }
+        public DbSet<IncidentIncidentNote> IncidentIncidentNotes { get; set; } = default!;
         //
     } // ApplicationDbContext
 } // namespace

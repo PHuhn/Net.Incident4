@@ -17,7 +17,7 @@ using MediatR;
 using Moq;
 //
 using NSG.Integration.Helpers;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.Controllers.Admin;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationRoles;
 //

@@ -1,11 +1,11 @@
 ﻿// ===========================================================================
-namespace NSG.NetIncident4.Core.Domain.Entities.Authentication.OnModelCreating
+namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 {
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.Metadata.Builders;
 	using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 	//
-	using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+	using NSG.NetIncident4.Core.Domain.Entities;
 	//
 	/// <summary>
 	/// Table: ApplicationUserRole

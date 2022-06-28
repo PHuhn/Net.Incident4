@@ -1,5 +1,5 @@
 ﻿// ===========================================================================
-namespace NSG.NetIncident4.Core.Domain.Entities.Authentication.OnModelCreating
+namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 {
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -8,38 +8,38 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication.OnModelCreating
 	using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 	//
 	/// <summary>
-	/// Table: AspNetRoleClaims
+	/// Table: AspNetUserClaims
 	/// </summary>
-	public class IdentityRoleClaimConfiguration : IEntityTypeConfiguration<IdentityRoleClaim<string>>
+	public class IdentityUserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim<string>>
 	{
-		public void Configure(EntityTypeBuilder<IdentityRoleClaim<string>> builder)
+		public void Configure(EntityTypeBuilder<IdentityUserClaim<string>> builder)
 		{
-			builder.ToTable("AspNetRoleClaims");
+			builder.ToTable("AspNetUserClaims");
 			// propteries
 			builder.HasKey(a => a.Id);
-			builder.Property(a => a.RoleId)
+			builder.Property<string>(a => a.UserId)
 				.IsRequired()
 				.HasMaxLength(450)
-				.HasColumnName("RoleId")
+				.HasColumnName("UserId")
 				.HasColumnType("nvarchar");
-			builder.Property(a => a.ClaimType)
+			builder.Property<string>(a => a.ClaimType)
 				.HasMaxLength(1073741823)
 				.HasColumnName("ClaimType")
 				.HasColumnType("nvarchar");
-			builder.Property(a => a.ClaimValue)
+			builder.Property<string>(a => a.ClaimValue)
 				.HasMaxLength(1073741823)
 				.HasColumnName("ClaimValue")
 				.HasColumnType("nvarchar");
 			// indexes
-			builder.HasIndex(a => a.RoleId)
-				.HasDatabaseName("IX_AspNetRoleClaims_RoleId");
+			builder.HasIndex(a => a.UserId)
+				.HasDatabaseName("IX_AspNetUserClaims_UserId");
 			// relationships
-			//builder.HasOne(ft => ft.Role)
-			//	.WithMany(a => a.IdentityRoleClaim<string>)
-			//	.HasForeignKey(a => a.RoleId)
+			//builder.HasOne(ft => ft.User)
+			//	.WithMany(a => a.UserClaims)
+			//	.HasForeignKey(u => u.UserId)
 			//	.OnDelete(DeleteBehavior.Restrict)
-			//	.HasConstraintName("FK_AspNetRoleClaims_AspNetRoles_RoleId");
+			//	.HasConstraintName("FK_AspNetUserClaims_AspNetUsers_UserId");
 		} // Configure
-	} // AspNetRoleClaimConfiguration
+	} // IdentityUserClaimConfiguration
 }
 // ===========================================================================
