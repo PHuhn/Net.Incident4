@@ -11,7 +11,7 @@ using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.PrimeNG.LazyLoading;
 using NSG.NetIncident4.Core.UI.ViewModels;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
 {

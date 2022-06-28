@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using FluentValidation.AspNetCore;
 using MediatR;
 //
+using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Domain.Entities.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Common;

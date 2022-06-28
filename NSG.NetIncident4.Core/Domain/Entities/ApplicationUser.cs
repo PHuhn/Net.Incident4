@@ -7,7 +7,7 @@ using System.Text;
 //
 using Microsoft.AspNetCore.Identity;
 //
-namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
+namespace NSG.NetIncident4.Core.Domain.Entities
 {
     //
     /// <summary>

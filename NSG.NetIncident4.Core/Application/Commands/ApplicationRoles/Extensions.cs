@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 //
 using Microsoft.AspNetCore.Identity;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 {

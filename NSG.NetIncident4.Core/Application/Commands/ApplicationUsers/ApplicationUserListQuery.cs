@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using FluentValidation;
 using FluentValidation.Results;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Application.Infrastructure;
 //

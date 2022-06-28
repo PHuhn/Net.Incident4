@@ -12,7 +12,7 @@ using MediatR;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Domain.Entities;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 {

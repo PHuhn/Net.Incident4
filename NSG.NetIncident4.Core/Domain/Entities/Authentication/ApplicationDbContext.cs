@@ -28,6 +28,8 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
         {
             base.OnModelCreating(modelBuilder);
             //
+            // modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            //
             modelBuilder.Entity<ApplicationUser>((item) =>
             {
                 item.Property(u => u.Id).HasMaxLength(450);
@@ -68,8 +70,15 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                     .HasForeignKey(ur => ur.UserId).IsRequired();
             });
             // ApplicationUserClaims
-            modelBuilder.Entity<IdentityUserClaim<string>>()
-                .Property(u => u.UserId);
+            modelBuilder.Entity<IdentityUserClaim<string>>((item) =>
+            {
+                item.HasKey(a => a.Id);
+                item.Property(a => a.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450)
+                    .HasColumnName("UserId")
+                    .HasColumnType("nvarchar");
+            });
             // ApplicationUserLogins
             modelBuilder.Entity<IdentityUserLogin<string>>()
                 .Property(u => u.UserId);
@@ -93,6 +102,26 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
             modelBuilder.Entity<Company>((item) =>
             {
                 item.HasKey(c => c.CompanyId);
+                // properties
+                item.Property(c => c.CompanyShortName)
+                    .IsRequired()
+                    .HasMaxLength(12);
+                item.Property(c => c.CompanyName)
+                    .IsRequired()
+                    .HasMaxLength(80);
+                item.Property(c => c.Address)
+                    .HasMaxLength(80);
+                item.Property(c => c.City)
+                    .HasMaxLength(50);
+                item.Property(c => c.State)
+                    .HasMaxLength(4);
+                item.Property(c => c.PostalCode)
+                    .HasMaxLength(15);
+                item.Property(c => c.Country)
+                    .HasMaxLength(50);
+                item.Property(c => c.PhoneNumber)
+                    .HasMaxLength(50);
+                // relationships
                 item.HasMany(u => u.Servers).WithOne(s => s.Company).HasForeignKey(s => s.CompanyId);
                 item.HasIndex(c => c.CompanyShortName).IsUnique()
                     .HasDatabaseName("Idx_Companies_ShortName");
@@ -101,9 +130,63 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
             modelBuilder.Entity<Server>((item) =>
             {
                 item.HasKey(s => s.ServerId);
+                // properties
+                item.Property(e => e.CompanyId)
+                    .IsRequired()
+                    .HasColumnName("CompanyId");
+                item.Property(c => c.ServerShortName)
+                    .IsRequired()
+                    .HasMaxLength(12);
+                item.Property(c => c.ServerName)
+                    .IsRequired()
+                    .HasMaxLength(80);
+                item.Property(c => c.ServerDescription)
+                    .IsRequired()
+                    .HasMaxLength(255);
+                item.Property(c => c.WebSite)
+                    .IsRequired()
+                    .HasMaxLength(255);
+                item.Property(c => c.ServerLocation)
+                    .IsRequired()
+                    .HasMaxLength(255);
+                item.Property(c => c.FromName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+                item.Property(c => c.FromNicName)
+                    .IsRequired()
+                    .HasMaxLength(16);
+                item.Property(c => c.FromEmailAddress)
+                    .IsRequired()
+                    .HasMaxLength(255);
+                item.Property(c => c.TimeZone)
+                    .IsRequired()
+                    .HasMaxLength(16);
+                item.Property(c => c.DST)
+                    .IsRequired();
+                item.Property(c => c.TimeZone_DST)
+                    .IsRequired()
+                    .HasMaxLength(16);
+                item.Property(e => e.DST_Start)
+                    .HasColumnType("datetime");
+                item.Property(e => e.DST_End)
+                    .HasColumnType("datetime");
+                // relationships
                 item.HasMany(u => u.UserServers).WithOne(u => u.Server).HasForeignKey(u => u.ServerId);
                 item.HasOne(c => c.Company).WithMany(s => s.Servers)
                     .HasForeignKey(s => s.CompanyId).OnDelete(DeleteBehavior.Restrict);
+                item.HasMany(i => i.Incidents)
+                    .WithOne(s => s.Server)
+                    .HasForeignKey(u => u.ServerId)
+                    .HasConstraintName("FK_Incident_Servers_ServerId");
+                item.HasMany(i => i.NetworkLogs)
+                    .WithOne(s => s.Server)
+                    .HasForeignKey(u => u.ServerId)
+                    .HasConstraintName("FK_NetworkLog_Servers_ServerId");
+                item.HasOne(ft => ft.Company)
+                    .WithMany(s => s.Servers)
+                    .HasForeignKey(s => s.CompanyId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_Servers_Companies_CompanyId");
                 // index
                 item.HasIndex(s => s.ServerShortName).IsUnique()
                     .HasDatabaseName("Idx_AspNetServers_ShortName");
@@ -183,23 +266,36 @@ namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
                     .HasForeignKey(iin => iin.IncidentId).OnDelete(DeleteBehavior.Cascade);
             });
             //
-        }
-        // support
+        } // OnModelCreating
+        /*
+        ** support
+        */
         public DbSet<LogData> Logs { get; set; }
+        //
         public DbSet<Company> Companies { get; set; }
+        //
         public DbSet<Server> Servers { get; set; }
+        //
         public DbSet<ApplicationUserServer> UserServers { get; set; }
         // types
         public DbSet<IncidentType> IncidentTypes { get; set; }
+        //
         public DbSet<NIC> NICs { get; set; }
+        //
         public DbSet<NoteType> NoteTypes { get; set; }
+        //
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
-        // incidents
+        /*
+        ** incidents
+        */
         public DbSet<NetworkLog> NetworkLogs { get; set; }
+        //
         public DbSet<Incident> Incidents { get; set; }
+        //
         public DbSet<IncidentNote> IncidentNotes { get; set; }
+        //
         public DbSet<IncidentIncidentNote> IncidentIncidentNotes { get; set; }
         //
-    }
-}
+    } // ApplicationDbContext
+} // namespace
 // ===========================================================================

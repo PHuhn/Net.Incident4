@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 //
-namespace NSG.NetIncident4.Core.Domain.Entities.Authentication
+namespace NSG.NetIncident4.Core.Domain.Entities
 {
     //
     /// <summary>

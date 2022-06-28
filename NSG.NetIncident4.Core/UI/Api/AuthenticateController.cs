@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity.UI.Services;
 //
 using NSG.NetIncident4.Core.UI.ApiModels;
-using NSG.NetIncident4.Core.Domain.Entities.Authentication;
+using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
 using Microsoft.Extensions.Logging;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
