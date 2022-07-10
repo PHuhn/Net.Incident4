@@ -13,7 +13,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 	{
 		public void Configure(EntityTypeBuilder<NetworkLog> builder)
 		{
-			builder.ToTable("NetworkLogs");
+			builder.ToTable("NetworkLog");
 			// propteries
 			builder.HasKey(n => n.NetworkLogId);
 			builder.Property(n => n.ServerId)

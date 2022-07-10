@@ -13,7 +13,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 	{
 		public void Configure(EntityTypeBuilder<NoteType> builder)
 		{
-			builder.ToTable("NoteTypes");
+			builder.ToTable("NoteType");
 			// propteries
 			builder.HasKey(n => n.NoteTypeId);
 			builder.Property(n => n.NoteTypeShortDesc)
@@ -37,7 +37,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 			// relationships
 			builder.HasMany(nt => nt.IncidentNotes)
 				.WithOne(n => n.NoteType)
-				.HasForeignKey(nt => nt.IncidentNoteId)
+				.HasForeignKey(nt => nt.NoteTypeId)
 				.OnDelete(DeleteBehavior.Restrict)
 				.HasConstraintName("FK_IncidentNote_NoteType_NoteTypeId");
 		} // Configure

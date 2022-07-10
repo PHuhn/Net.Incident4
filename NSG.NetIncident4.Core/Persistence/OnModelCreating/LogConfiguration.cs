@@ -13,7 +13,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 	{
 		public void Configure(EntityTypeBuilder<LogData> builder)
 		{
-			builder.ToTable("Logs");
+			builder.ToTable("Log");
 			// propteries
 			builder.HasKey(l => l.Id);
 			builder.Property(l => l.Date)

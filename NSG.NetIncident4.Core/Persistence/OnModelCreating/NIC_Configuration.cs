@@ -15,7 +15,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 	{
 		public void Configure(EntityTypeBuilder<NIC> builder)
 		{
-			builder.ToTable("NICs");
+			builder.ToTable("NIC");
 			// propteries
 			builder.HasKey(n => n.NIC_Id);
 			builder.Property(n => n.NICDescription)

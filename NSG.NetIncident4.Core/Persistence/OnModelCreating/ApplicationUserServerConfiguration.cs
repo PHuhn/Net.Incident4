@@ -13,7 +13,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 	{
 		public void Configure(EntityTypeBuilder<ApplicationUserServer> builder)
 		{
-			builder.ToTable("ApplicationUserApplicationServers");
+			builder.ToTable("ApplicationUserApplicationServer");
 			// propteries
 			builder.HasKey(us => new { us.Id, us.ServerId });
 			builder.Property(us => us.Id).HasMaxLength(450);

@@ -15,7 +15,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 	{
 		public void Configure(EntityTypeBuilder<IncidentType> builder)
 		{
-			builder.ToTable("IncidentTypes");
+			builder.ToTable("IncidentType");
 			// propteries
 			builder.HasKey(i => i.IncidentTypeId);
 			builder.Property(i => i.IncidentTypeShortDesc)

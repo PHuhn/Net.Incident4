@@ -13,9 +13,13 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 	{
 		public void Configure(EntityTypeBuilder<IncidentNote> builder)
 		{
-			builder.ToTable("IncidentNotes");
+			builder.ToTable("IncidentNote");
 			// propteries
 			builder.HasKey(i => i.IncidentNoteId);
+			builder.Property(i => i.IncidentNoteId)
+				.IsRequired()
+				.HasColumnName("IncidentNoteId")
+				.HasColumnType("bigint");
 			builder.Property(i => i.NoteTypeId)
 				.IsRequired()
 				.HasColumnName("NoteTypeId")
