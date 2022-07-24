@@ -128,7 +128,7 @@ describe('IncidentService', () => {
 		//
 		const mockData: Incident = mockDatum[ 2 ];
 		const id1: number = mockData.IncidentId;
-		const msg = 'Code: 500, Message: Http failure response for https://localhost:44378/api/Incidents/42: 500 Bad Request';
+		const msg = `Code: 500, Message: Http failure response for ${url}/42: 500 Bad Request`;
 		const errorMsg = { errorMessage: 'Invalid request parameters' };
 		const mockErrorResponse: HttpErrorResponse = new HttpErrorResponse({
 			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
