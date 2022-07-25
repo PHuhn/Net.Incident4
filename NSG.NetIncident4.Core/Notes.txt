@@ -171,8 +171,28 @@ SOLUTION:
 		Routing / RequestLocalization / Cors / Authentication / Authorization /
 		Session / ResponseCompression / ResponseCaching / ...custom... / Endpoint
 
+PROBLEM (2022-07-10):
+	InvalidOperationException: The relationship from 'IncidentNote.NoteType' to 
+	'NoteType.IncidentNotes' with foreign key properties {'IncidentNoteId' : long} cannot
+	target the primary key {'NoteTypeId' : int} because it is not compatible. Configure a
+	principal key or a set of foreign key properties with compatible types for this relationship.
+SOLUTION:
+	incorrect OnModelCreating configuration in NoteTypeConfiguration:
+			builder.HasMany(nt => nt.IncidentNotes)
+				.WithOne(n => n.NoteType)
+				.HasForeignKey(nt => nt.IncidentNoteId)
+				.OnDelete(DeleteBehavior.Restrict)
+				.HasConstraintName("FK_IncidentNote_NoteType_NoteTypeId");
+	to:
+			builder.HasMany(nt => nt.IncidentNotes)
+				.WithOne(n => n.NoteType)
+				.HasForeignKey(nt => nt.NoteTypeId)
+				.OnDelete(DeleteBehavior.Restrict)
+				.HasConstraintName("FK_IncidentNote_NoteType_NoteTypeId");
+
 PROBLEM:
 
 
 SOLUTION:
+
 
