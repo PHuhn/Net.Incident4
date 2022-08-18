@@ -1,4 +1,5 @@
 // ===========================================================================
+// File: app.component.ts
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '../environments/environment';
 //
@@ -16,10 +17,10 @@ import { SelectItemClass } from './global/select-item-class';
 	templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-	//
-	// --------------------------------------------------------------------
-	// Data declaration.
-	//
+	/*
+	** --------------------------------------------------------------------
+	** Data declaration.
+	*/
 	static securityManager: Security | undefined;
 	codeName: string = 'App-Component';
 	//
@@ -27,27 +28,27 @@ export class AppComponent implements OnInit {
 	userAccount: string = environment.defaultUserAccount;
 	userPassword: string = '';
 	user: User;
-	//
-	// Constructor of the this the app.component
-	//
+	/*
+	** Constructor of the this the app.component
+	*/
 	constructor(
 		private _alerts: AlertsService,
 		private _console: ConsoleLogService,
 		private _auth: AuthService
 	) {
 		this.user = User.empty( );
-			
 	}
-	//
-	// On component initialization, get all data from the data service.
-	//
+	/*
+	** On component initialization, get all data from the data service.
+	*/
 	ngOnInit() {
-		this._console.Information( `${this.codeName}.ngOnInit: ...`);
+		this._console.Information(
+			`${this.codeName}.${this.ngOnInit.name}: ...`);
 	}
-	//
-	// (onClose)='onAuthenticated($event)
-	// of the login.component
-	//
+	/*
+	** (onClose)='onAuthenticated($event)
+	** of the login.component
+	*/
 	onAuthenticated( user: User ): void {
 		this.user = user;
 		const security: Security = new Security( this.user );
@@ -58,12 +59,13 @@ export class AppComponent implements OnInit {
 			this._alerts.setWhereWhatWarning( this.codeName, 'Not authorized' );
 		}
 	}
-	//
-	// (logout)='onAuthLogout($event)
-	// onClick of Logout button in the header.component
-	//
+	/*
+	** (logout)='onAuthLogout($event)
+	** onClick of Logout button in the header.component
+	*/
 	onAuthLogout(event: any): void {
-		this._console.Information( `${this.codeName}.onAuthLogout: Logout clicked.`);
+		this._console.Information(
+			`${this.codeName}.${this.onAuthLogout.name}: Logout clicked.`);
 		this._auth.logout( );
 		AppComponent.securityManager = undefined;
 		this.authenticated = false;
