@@ -191,6 +191,29 @@ SOLUTION:
 				.HasConstraintName("FK_IncidentNote_NoteType_NoteTypeId");
 
 PROBLEM:
+	Your connection is not private
+	Attackers might be trying to steal your information from localhost (for example, passwords, messages, or credit cards). Learn more
+	NET::ERR_CERT_DATE_INVALID
+
+SOLUTION:
+	MMC => Add Certificate => click root => Action => Find .. LocalHost
+	RClick => delete the out-of-date cert
+	Now I get NET::ERR_CERT_AUTHORITY_INVALID
+		Open IIS Manager as Admin
+		Select Local Machine (Colony7) from the Connection tree
+		Select "Server Certificate" from the IIS section
+		Select "Create Self-Signed Certificate" (on right)
+		Assign a Freindly Name to the certificate
+		Click OK
+		Restart IIS
+		Now I get ERR_CONNECTION_RESET
+			> cd "C:\Program Files (x86)\IIS Express"
+			> IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:9114/ -UseSelfSigned
+			Now I get NET::ERR_CERT_AUTHORITY_INVALID (in IIS Manager it said,
+			the certificate was not trusted,
+			is said to install it into Trusted Root Certificates)
+
+PROBLEM:
 
 
 SOLUTION:
