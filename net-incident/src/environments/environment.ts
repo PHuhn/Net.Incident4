@@ -9,7 +9,7 @@
 export const environment = {
   production: false,
   envName: 'dev',
-  base_Url: 'https://localhost:44378/api/',
+  base_Url: 'https://localhost:9114/api/',
   defaultUserAccount: 'Phil',
   defaultUserServer: 'nsg memb',
   logLevel: 3,
