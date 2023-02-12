@@ -1,6 +1,6 @@
 # Net-Incident
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was first built as an Angular 4 application and is currently built with Angular 14.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was first built as an Angular 4 application and is currently built with Angular 15.
 
 ## About Net-Incident
 
