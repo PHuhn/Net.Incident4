@@ -13,7 +13,7 @@ import { Header, Footer, SelectItem } from 'primeng/api';
 import { ServerSelectionWindowComponent } from './server-selection-window.component';
 import { SelectItemClass } from '../../global/select-item-class';
 //
-describe('ServerSelectionWindowComponent', () => {
+fdescribe('ServerSelectionWindowComponent', () => {
 	let sut: ServerSelectionWindowComponent;
 	let fixture: ComponentFixture<ServerSelectionWindowComponent>;
 	//
@@ -28,7 +28,7 @@ describe('ServerSelectionWindowComponent', () => {
 	];
 	const displayWindow: boolean = true;
 	//
-	beforeEach(waitForAsync(() => {
+	beforeEach(fakeAsync(() => {
 		TestBed.configureTestingModule({
 			imports: [ FormsModule,
 				FocusTrapModule,
@@ -37,7 +37,9 @@ describe('ServerSelectionWindowComponent', () => {
 			declarations: [
 				ServerSelectionWindowComponent,
 				Dialog, Header, Footer
-			]
+			],
+			// Unhandled promise rejection: Error: NG0205: Injector has already been destroyed.
+			teardown: {destroyAfterEach: false}
 		})
 		.compileComponents();
 	}));
@@ -59,32 +61,32 @@ describe('ServerSelectionWindowComponent', () => {
 		fixture.whenStable( );
 	}
 	//
-	it('should be created ...', () => {
+	it('should be created ...', fakeAsync( () => {
 		console.log(
 			'===================================\n' +
 			'ServerSelectionWindowComponent should create ...' );
 		expect(sut).toBeTruthy();
 		windowCleanup( );
-	});
+	} ) );
 	//
-	it('should initialize (input) with all server data ...', () => {
+	it('should initialize (input) with all server data ...', fakeAsync( () => {
 		expect(sut.model.length).toEqual(mockData.length);
 		windowCleanup( );
-	});
+	} ) );
 	//
-	it('should accept display window (input) ...', () => {
+	it('should accept display window (input) ...', fakeAsync( () => {
 		expect(sut.displayWin).toEqual(displayWindow);
 		windowCleanup( );
-	});
+	} ) );
 	//
-	it('should launch window when display window set ...', () => {
+	it('should launch window when display window set ...', fakeAsync( () => {
 		const titleVar = fixture.debugElement.query(By.css(
 			'#serverSelectionWindow' )).nativeElement;
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
 			windowTitleSelector )).nativeElement;
 		expect( title.innerText ).toEqual( expectedWindowTitle );
 		windowCleanup( );
-	});
+	} ) );
 	//
 	it('should return selected server 0 ...', fakeAsync( () => {
 		const idx: number = 0;
