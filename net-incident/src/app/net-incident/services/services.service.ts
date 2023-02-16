@@ -1,49 +1,43 @@
 // ===========================================================================
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 //
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 //
-import { BaseServService } from '../../common/base-serv/base-serv.service';
+import { environment } from '../../../environments/environment';
+import { BaseSrvcService } from '../../common/base-srvc/base-srvc.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Injectable( { providedIn: 'root' } )
-export class ServicesService extends BaseServService {
-	// --------------------------------------------------------------------
-	// Local variables
-	//
-	url: string;
+export class ServicesService extends BaseSrvcService {
+	/* --------------------------------------------------------------------
+	** Local variables
+	*/
 	/**
 	** Service constructor, inject http service.
 	*/
 	constructor(
-		protected http: HttpClient,
+		protected _http: HttpClient,
 		protected _console: ConsoleLogService ) {
-			super( http, _console );
-			this.url = this.base_url;
+			super( _http, _console,
+				environment.base_Url + 'services', 'Services' );
 			this.codeName = 'services-service';
 	}
 	/**
 	** Get ping for ip address
+	** @param ipAddress 
+	** @returns string/text
 	*/
-	getPing( ipAddress: string ): Observable<string> {
-		return this.getService( `${this.url}services/ping/${ipAddress}` );
+	getPing( ipAddress: string ): Observable<string | never> {
+		return this.getText( {service: 'ping', ipaddress: ipAddress} );
 	}
 	/**
-	** Get ping for ip address
+	** Get whois for ip address
+	** @param ipAddress 
+	** @returns string/text
 	*/
-	getWhoIs( ipAddress: string ): Observable<string> {
-		return this.getService( `${this.url}services/whois/${ipAddress}` );
-	}
-	/**
-	** Get service for ip address
-	*/
-	getService( urlPath: string ): Observable<string> {
-		this._console.Information(
-			`${this.codeName}.getService: ${urlPath}` );
-		return this.http.get( urlPath, {responseType: 'text'} )
-			.pipe( catchError( this.baseServiceError.bind(this) ) );
+	getWhoIs( ipAddress: string ): Observable<string | never> {
+		return this.getText( {service: 'whois', ipaddress: ipAddress} );
 	}
 	//
 }

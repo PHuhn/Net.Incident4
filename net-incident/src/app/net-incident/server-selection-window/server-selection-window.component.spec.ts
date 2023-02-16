@@ -13,7 +13,7 @@ import { Header, Footer, SelectItem } from 'primeng/api';
 import { ServerSelectionWindowComponent } from './server-selection-window.component';
 import { SelectItemClass } from '../../global/select-item-class';
 //
-fdescribe('ServerSelectionWindowComponent', () => {
+describe('ServerSelectionWindowComponent', () => {
 	let sut: ServerSelectionWindowComponent;
 	let fixture: ComponentFixture<ServerSelectionWindowComponent>;
 	//

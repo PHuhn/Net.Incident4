@@ -61,8 +61,7 @@ describe('ServicesService', () => {
 	it( 'should get ping results...', waitForAsync( ( ) => {
 		//
 		const ipAddress = '192.168.0.0';
-		const pingUrl: string = `${baseUrl}services/ping/${ipAddress}`;
-		http.get( pingUrl );
+		const pingUrl: string = `${baseUrl}services?service=ping&ipaddress=${ipAddress}`;
 		sut.getPing( ipAddress ).subscribe( ( datum ) => {
 			// console.log( datum );
 			expect( datum ).toBe( ipAddress );
@@ -79,12 +78,12 @@ describe('ServicesService', () => {
 	it( 'should get whois results...', waitForAsync( ( ) => {
 		//
 		const ipAddress = '192.168.0.1';
+		const whoisUrl: string = `${baseUrl}services?service=whois&ipaddress=${ipAddress}`;
 		sut.getWhoIs( ipAddress ).subscribe( ( datum ) => {
 			expect( datum ).toBe( ipAddress );
 		});
-		// use the HttpTestingController to mock requests and the flush method to provide dummy values as responses
 		// use expectOne(), expectNone() and match()
-		const request = backend.expectOne( `${baseUrl}services/whois/${ipAddress}` );
+		const request = backend.expectOne( whoisUrl );
 		expect( request.request.method ).toBe( 'GET' );
 		request.flush(ipAddress);
 		//
@@ -96,6 +95,7 @@ describe('ServicesService', () => {
 		//
 		const ipAddress = '192.168.0.1';
 		const errMsg: string = 'Fake error';
+		const whoisUrl: string = `${baseUrl}services?service=whois&ipaddress=${ipAddress}`;
 		//
 		sut.getWhoIs( ipAddress ).subscribe( ( datum ) => {
 			console.log( datum );
@@ -103,7 +103,7 @@ describe('ServicesService', () => {
 			expect( datum ).toBe( errMsg );
 		});
 		// use the HttpTestingController to mock requests and the flush method to provide dummy values as responses
-		const request = backend.expectOne( `${baseUrl}services/whois/${ipAddress}` );
+		const request = backend.expectOne( whoisUrl );
 		expect( request.request.method ).toBe( 'GET' );
 		request.flush( errMsg );
 		//

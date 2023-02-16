@@ -9,6 +9,7 @@ import { SelectItem } from 'primeng/api';
 import { FilterMetadata } from 'primeng/api';
 import { LazyLoadEvent } from 'primeng/api';
 //
+import { ILazyResults } from '../../common/base-srvc/ibase-srvc';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseCompService } from '../../common/base-comp/base-comp.service';
@@ -20,7 +21,6 @@ import { IncidentService } from '../services/incident.service';
 import { IIncident, Incident } from '../incident';
 import { IncidentDetailWindowComponent } from '../incident-detail-window/incident-detail-window.component';
 import { ServerSelectionWindowComponent } from '../server-selection-window/server-selection-window.component';
-import { IncidentPaginationData } from '../incident-pagination-data';
 import { AppComponent } from '../../app.component';
 //
 @Component({
@@ -203,7 +203,8 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	getUserServer( userName: string, serverShortName: string ) {
 		//
 		this._console.Debug( `${this.codeName}.getUserServer: user: ${userName}, short: ${serverShortName}` );
-		this._user.getUserServer( userName, serverShortName ).subscribe({
+		const srvcParam: any = { id: userName, serverShortName: serverShortName };
+		this._user.getModelById<User>( srvcParam ).subscribe({
 			next: ( userData: User ) => {
 				this._console.Information(
 					`${this.codeName}.authUser: user: ${userData.UserName}` );
@@ -272,13 +273,13 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 			// ev.filters = { 'Special':
 			// 	[{ value: this.special, matchMode: 'equals' }] };
 			//
-			this._data.getIncidentsLazy( event ).subscribe({
-				next: (incidentPaginationData: IncidentPaginationData ) => {
-					this._console.Debug( `${this.codeName}.loadIncidentsLazy: # records: ${incidentPaginationData.incidentsList.length} totalRecords: ${incidentPaginationData.totalRecords}` );
-					// console.log( JSON.stringify( incidentPaginationData ) );
+			this._data.postJsonBody<ILazyResults>( event ).subscribe({
+				next: (paginationData: ILazyResults ) => {
+					this._console.Debug( `${this.codeName}.loadIncidentsLazy: # records: ${paginationData.results.length} totalRecords: ${paginationData.totalRecords}` );
+					// console.warn( JSON.stringify( paginationData ) );
 					this.loading = false;
-					this.incidents = incidentPaginationData.incidentsList;
-					this.totalRecords = incidentPaginationData.totalRecords;
+					this.incidents = paginationData.results as IIncident[];
+					this.totalRecords = paginationData.totalRecords;
 				},
 				error: (error) => {
 					this.loading = false;
@@ -288,13 +289,15 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 			});
 		}, 0 );
 	}
-	//
-	// Call delete data service,
-	// if successful then delete the row from array
-	//
+	/**
+	** Call delete data service,
+	** if successful then delete the row from array
+	** @param delId 
+	** @returns 
+	*/
 	deleteItem( delId: number ): boolean {
 		if( delId !== 0 ) {
-			this._data.deleteIncident( delId ).subscribe({
+			this._data.deleteModel<Incident>( delId ).subscribe({
 				next: ( ) => {
 					this.incidents = this.incidents.filter(function(el) {
 						return el.IncidentId !== delId;

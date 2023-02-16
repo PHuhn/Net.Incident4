@@ -181,7 +181,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 // 'OrderBy' must be called before the method 'Skip'.
                 _incidentQuery = _incidentQuery.LazySkipTake<Incident>(_loadEvent);
                 // Execute query and convert from Incident to IncidentData (POCO) ...
-                _return.incidentsList = await _incidentQuery
+                _return.results = await _incidentQuery
                     .Select(incid => incid.ToIncidentListQuery()).ToListAsync();
                 _return.totalRecords = GetCountPagination(_loadEvent);
             }
@@ -206,17 +206,26 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         public class ViewModel
 		{
-            public IList<IncidentListQuery> incidentsList { get; set; }
-            //
+            /*
+            ** results is an array of generic objects
+            */
+            public IList<IncidentListQuery> results { get; set; }
+            /*
+	        ** totalRecords is the total number of records
+	        */
             public long totalRecords { get; set; }
-            //
+            /*
+	        ** the calling lazy-load-event
+	        */
             public string loadEvent { get; set; }
-            //
+            /*
+	        ** message if any from the service
+	        */
             public string message { get; set; }
             //
             public ViewModel()
             {
-                incidentsList = new List<IncidentListQuery>();
+                results = new List<IncidentListQuery>();
                 loadEvent = "";
                 totalRecords = 0;
                 message = "";

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using MediatR;
 //
 using NSG.NetIncident4.Core.Infrastructure.Services;
+using Org.BouncyCastle.Security;
 //
 namespace NSG.NetIncident4.Core.UI.Api
 {
@@ -40,6 +41,28 @@ namespace NSG.NetIncident4.Core.UI.Api
         {
             _logger = logger;
             _servicesSettings = servicesSettings.Value;
+        }
+        //
+        // [ActionName("ping")]
+        /// <summary>
+        /// GET api/services/ping/192.169.3.2
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="ipaddress"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<string> Get(string service, string ipaddress)
+        {
+            _logger?.LogDebug("{0} - {1}", service, ipaddress);
+            switch (service.ToLower())
+            {
+                case "ping":
+                    return Ping(ipaddress);
+                case "whois":
+                    return WhoIs(ipaddress);
+                default:
+                    throw( new InvalidParameterException ( "service of: " + service ));
+            }
         }
         //
         // [ActionName("ping")]

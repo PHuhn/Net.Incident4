@@ -3,7 +3,7 @@
 import { Incident } from './incident';
 import { LazyLoadEvent } from 'primeng/api';
 //
-export class IncidentPaginationData {
+export class ILazyResults {
 	public incidentsList: Incident[] = [];
 	//
 	public totalRecords: number = 0;

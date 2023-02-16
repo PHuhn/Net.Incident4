@@ -33,7 +33,7 @@ import { SelectItemClass } from '../../global/select-item-class';
 import { IIncident, Incident } from '../incident';
 import { INetworkLog, NetworkLog } from '../network-log';
 import { NetworkIncident } from '../network-incident';
-import { IncidentPaginationData } from '../incident-pagination-data';
+import { ILazyResults } from '../../common/base-srvc/ibase-srvc';
 import { IncidentGridComponent } from './incident-grid.component';
 import { IncidentDetailWindowComponent } from '../incident-detail-window/incident-detail-window.component';
 import { ServerSelectionWindowComponent } from '../../net-incident/server-selection-window/server-selection-window.component';
@@ -56,11 +56,11 @@ describe( 'IncidentGridComponent', ( ) => {
 		'#serverSelectionWindow > div > div > div > span.p-dialog-title > p-header';
 	// document.querySelector('#serverSelectionWindow > div > div > div > span.p-dialog-title > p-header')
 	const userServiceSpy = jasmine.createSpyObj('UserService',
-			['emptyUser', 'getUser', 'getUserServer']);
+			['emptyUser', 'getModelById']);
 	const servicesServiceSpy = jasmine.createSpyObj('ServicesService',
-		['getPing', 'getWhoIs', 'getService']);
+		['getText']);
 	const incidentServiceSpy = jasmine.createSpyObj(
-		'IncidentService', ['emptyIncident', 'getIncidentsLazy', 'deleteIncident']);
+		'IncidentService', ['emptyIncident', 'postJsonBody', 'deleteModel']);
 	let confirmService: ConfirmationService;
 	const networkIncidentServiceSpy = jasmine.createSpyObj(
 		'NetworkIncidentService', ['validateIncident', 'validateNetworkLog',
@@ -99,7 +99,8 @@ describe( 'IncidentGridComponent', ( ) => {
 		new NetworkLog( 6,1,null,'193.5',new Date( '2018-02-27T00:00:00' ),'Log 6',1, 'SQL', false )
 	];
 	const displayServersWindow: boolean = false;
-	let pageData = new IncidentPaginationData( );
+	let pageEmpty: ILazyResults = { results: [], totalRecords: 0, loadEvent: '', message: ''};
+	let pageData: ILazyResults = { results: [], totalRecords: 0, loadEvent: '', message: ''};
 	//
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
@@ -142,9 +143,12 @@ describe( 'IncidentGridComponent', ( ) => {
 	//
 	beforeEach( fakeAsync( ( ) => {
 		// clone the array with slice( 0 )
-		const page: IncidentPaginationData = newPage( );
-		incidentServiceSpy.getIncidentsLazy.and.returnValue( of( page ) );
-		userServiceSpy.getUserServer.and.returnValue(of( user ));
+		const page: ILazyResults = pageData;
+		const temp: IIncident[] = mockDatum.filter( inc => inc.ServerId === 1 ).sort( ( n1: IIncident, n2: IIncident ) => (n1.IncidentId < n2.IncidentId ? 1: -1) );
+		page.totalRecords = temp.length;
+		page.results = temp.slice(0, 3);
+		incidentServiceSpy.postJsonBody.and.returnValue( of( page ) );
+		userServiceSpy.getModelById.and.returnValue(of( user ));
 		AppComponent.securityManager = new Security( user );
 		//
 		fixture = TestBed.createComponent( IncidentGridComponent );
@@ -154,16 +158,14 @@ describe( 'IncidentGridComponent', ( ) => {
 		pageData = page;
 		tickFakeWait( 1000 );
 		tickFakeWait( 1000 );
-		fixture.detectChanges( ); // trigger initial data binding
-		fixture.whenStable( );
-		// sut.incidents = [ ... page.incidentsList ];
 	} ) );
 	//
-	function newPage( ): IncidentPaginationData {
-		const page = new IncidentPaginationData( );
-		const event = {'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null} as LazyLoadEvent;
-		page.incidentsList = lazyLoading.LazyLoading( [ ... mockDatum ], event );
-		page.loadEvent = JSON.stringify(event);
+	function newPage( ): ILazyResults {
+		const page: ILazyResults = { ... pageEmpty };
+		const event: LazyLoadEvent = {'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,
+			'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null};
+		page.results = lazyLoading.LazyLoading( [ ... mockDatum ], event );
+		page.loadEvent = JSON.stringify(event) as string;
 		page.totalRecords = mockDatum.length;
 		return page;
 	}
@@ -223,8 +225,8 @@ describe( 'IncidentGridComponent', ( ) => {
 		expect( sut.incidents.length ).toBe( 3 );
 		//
 		expect( sut.incidents[ 0 ].IncidentId ).toEqual( 7 );
-		expect( sut.incidents[ 1 ].IncidentId ).toEqual( 4 );
-		expect( sut.incidents[ 2 ].IncidentId ).toEqual( 2 );
+		expect( sut.incidents[ 1 ].IncidentId ).toEqual( 5 );
+		expect( sut.incidents[ 2 ].IncidentId ).toEqual( 4 );
 		//
 	}));
 	/*
@@ -239,7 +241,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		user2.Server.ServerName = 'Server 2';
 		user2.Server.ServerShortName = serverShortName;
 		user2.ServerShortName = serverShortName;
-		userServiceSpy.getUserServer.and.returnValue(of( user2 ));
+		userServiceSpy.getModelById.and.returnValue(of( user2 ));
 		tickFakeWait(10); // wait 1 second task to get done
 		// when
 		sut.getUserServer( sut.user.UserName, serverShortName );
@@ -268,7 +270,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		user2.Server.ServerName = 'Server 2';
 		user2.Server.ServerShortName = serverShortName;
 		user2.ServerShortName = serverShortName;
-		userServiceSpy.getUserServer.and.returnValue(of( user2 ));
+		userServiceSpy.getModelById.and.returnValue(of( user2 ));
 		// when
 		sut.onServerSelected( serverShortName );
 		// then
@@ -328,7 +330,7 @@ describe( 'IncidentGridComponent', ( ) => {
 	it('addItemClicked: should fail to launch create window when security fails ...', fakeAsync( ( ) => {
 		// given
 		// console.warn( 'addItemClicked: should fail to launch create window when security fails ...' );
-		const incident: Incident = pageData.incidentsList[ 2 ].Clone();
+		const incident: Incident = pageData.results[ 2 ].Clone();
 		AppComponent.securityManager = new Security( undefined );
 		spyOn( alertService, 'setWhereWhatWarning' );
 		// when
@@ -343,7 +345,7 @@ describe( 'IncidentGridComponent', ( ) => {
 	it('editItemClicked: should launch detail window ...', fakeAsync( ( ) => {
 		// given
 		// console.warn( 'editItemClicked: should launch detail window ...' );
-		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
+		const incident: Incident = pageData.results[ 1 ].Clone();
 		const response: NetworkIncident = newNetworkIncident( incident );
 		const id = response.incident.IncidentId; // for title
 		const ip = response.incident.IPAddress;
@@ -364,7 +366,7 @@ describe( 'IncidentGridComponent', ( ) => {
 	it('editItemClicked: should fail to launch detail window when security fails ...', fakeAsync( ( ) => {
 		// given
 		// console.warn( 'editItemClicked: should fail to launch detail window when security fails ...' );
-		const incident: Incident = pageData.incidentsList[ 2 ].Clone();
+		const incident: Incident = pageData.results[ 2 ].Clone();
 		AppComponent.securityManager = new Security( undefined );
 		spyOn( alertService, 'setWhereWhatWarning' );
 		// when
@@ -380,8 +382,8 @@ describe( 'IncidentGridComponent', ( ) => {
 		// given
 		// console.warn( 'deleteItem: should handle an error ...' );
 		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
-		incidentServiceSpy.deleteIncident.and.returnValue(of( response ));
-		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
+		incidentServiceSpy.deleteModel.and.returnValue(of( response ));
+		const incident: Incident = pageData.results[ 1 ].Clone();
 		const id = incident.IncidentId;
 		const subscription = alertService.getAlerts().subscribe({
 			next: (alertMsg: Alerts) => {
@@ -402,10 +404,10 @@ describe( 'IncidentGridComponent', ( ) => {
 	it('deleteItemClicked: should delete row when event called and OK is clicked...', fakeAsync(() => {
 		// given
 		// console.warn( 'deleteItemClicked: should delete row when event called and OK is clicked...' );
-		const delRow: Incident = pageData.incidentsList[ 2 ].Clone();
+		const delRow: Incident = pageData.results[ 2 ].Clone();
 		const delId: number = delRow.IncidentId;
 		const expected: number = sut.incidents.length - 1;
-		incidentServiceSpy.deleteIncident.and.returnValue(of( 1 ));
+		incidentServiceSpy.deleteModel.and.returnValue(of( 1 ));
 		spyOn(confirmService, 'confirm').and.callFake(
 			(confirmation: Confirmation) => {
 				return confirmation.accept();
@@ -423,7 +425,7 @@ describe( 'IncidentGridComponent', ( ) => {
 	it('deleteItemClicked: should fail to delete when security fails ...', fakeAsync( ( ) => {
 		// given
 		// console.warn( 'deleteItemClicked: should fail to delete when security fails ...' );
-		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
+		const incident: Incident = pageData.results[ 1 ].Clone();
 		AppComponent.securityManager = new Security( undefined );
 		spyOn( alertService, 'setWhereWhatWarning' );
 		// when
@@ -437,7 +439,7 @@ describe( 'IncidentGridComponent', ( ) => {
 	it('onClose: should set window display off ...', fakeAsync(() => {
 		// given
 		// console.warn( 'onClose: should set window display off ...' );
-		const incident: Incident = pageData.incidentsList[ 1 ].Clone();
+		const incident: Incident = pageData.results[ 1 ].Clone();
 		const response: NetworkIncident = newNetworkIncident( incident );
 		const id = response.incident.IncidentId; // for title
 		const ip = response.incident.IPAddress;
@@ -461,7 +463,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		// given
 		// console.warn( 'onClose: should refresh grid ...' );
 		const page = newPage( );
-		incidentServiceSpy.getIncidentsLazy.and.returnValue( of( page ) );
+		incidentServiceSpy.postJsonBody.and.returnValue( of( page ) );
 		sut.lastTableLazyLoadEvent = 
 			{'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null} as LazyLoadEvent;
 		//

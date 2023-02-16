@@ -33,7 +33,7 @@ describe('LoginComponent', () => {
 	const authServiceSpy = jasmine.createSpyObj('AuthService',
 				['authenticate', 'logout', 'isLoggedIn', 'isLoggedOut']);
 	const userServiceSpy = jasmine.createSpyObj('UserService',
-			['emptyUser', 'getUser', 'getUserServer']);
+			['emptyUser', 'getModelById']);
 	//
 	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
@@ -140,7 +140,7 @@ describe('LoginComponent', () => {
 		const emptyUser: User = new User(
 			'','','','','','','',false,'',false,0,[],'',undefined, []);
 		emptyUser.ServerShortName = sut.model.ServerShortName;
-		userServiceSpy.getUserServer.and.returnValue(of( emptyUser ));
+		userServiceSpy.getModelById.and.returnValue(of( emptyUser ));
 		sut.emitClose.subscribe( user => {
 			expect( user ).toBe( emptyUser );
 		} );
@@ -158,7 +158,7 @@ describe('LoginComponent', () => {
 		const emptyUser: User = new User(
 			'','','','','','','',false,'',false,0,[],'',undefined, []);
 		emptyUser.ServerShortName = sut.model.ServerShortName;
-		userServiceSpy.getUserServer.and.returnValue(of( emptyUser ));
+		userServiceSpy.getModelById.and.returnValue(of( emptyUser ));
 		sut.emitClose.subscribe( user => {
 			expect( user ).toBe( emptyUser );
 		} );
@@ -177,7 +177,7 @@ describe('LoginComponent', () => {
 		const emptyUser: User = new User(
 			'','','','','','','',false,'',false,0,[],'',undefined, []);
 		emptyUser.ServerShortName = serverShortName;
-		userServiceSpy.getUserServer.and.returnValue(of( emptyUser ));
+		userServiceSpy.getModelById.and.returnValue(of( emptyUser ));
 		sut.emitClose.subscribe( user => {
 			expect( sut.model.ServerShortName ).toEqual( serverShortName );
 		} );

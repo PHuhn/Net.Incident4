@@ -103,8 +103,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
 	*/
 	getUserServer( userName: string, serverShortName: string ) {
 		//
-		this._user.getUserServer( userName, serverShortName )
-			.subscribe( ( userData: User ) => {
+		this._console.Debug( `${this.codeName}.getUserServer: user: ${userName}, short: ${serverShortName}` );
+		const srvcParam: any = { id: userName, serverShortName: serverShortName };
+		this._user.getModelById<User>( srvcParam ).subscribe({
+			next: ( userData: User ) => {
 				this._console.Information(
 					`${this.codeName}.getUserServer: user: ${userData.UserName}` );
 				this._console.Information( JSON.stringify( userData ) );
@@ -119,9 +121,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
 					this.selectItemsWindow = this.user.ServerShortNames;
 					this.displayServersWindow = true;
 				}
-		},
-		error => this.baseErrorHandler(
-			this.codeName, `User not found: ${userName}`, error ));
+			},
+			error: (error) => {
+				this.baseErrorHandler(
+					this.codeName, `User not found: ${userName}`, error );
+			},
+			complete: () => { }
+		});
 		//
 	}
 	/**

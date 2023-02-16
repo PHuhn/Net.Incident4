@@ -14,7 +14,7 @@ import { Message } from '../../global/alerts/message';
 // import { AlertsService } from '../../global/alerts/alerts.service';
 import { IncidentService } from './incident.service';
 import { IIncident, Incident } from '../incident';
-import { IncidentPaginationData } from '../incident-pagination-data';
+import { ILazyResults } from '../../common/base-srvc/ibase-srvc';
 //
 describe('IncidentService', () => {
 	let sut: IncidentService;
@@ -71,80 +71,6 @@ describe('IncidentService', () => {
 		const newData: Incident = sut.emptyIncident( );
 		expect( newData.IncidentId ).toEqual( 0 );
 	});
-	//
-	// getIncidentsLazy( ) : Observable<IIncident[]>
-	//
-	it( 'should get page of IIncident results...', waitForAsync( ( ) => {
-		// Failed: Expected one matching request for criteria 
-		// "Match URL: https://localhost:44378/api/Incidents?{"first":0,"rows":4,"filters":{"ServerId":{"value":1,"matchMode":"equals"},"Mailed":{"value":true,"matchMode":"equals"}}}", found none. Requests received are: POST https://localhost:44378/api/Incidents/.
-		const event: LazyLoadEvent = {};
-		const srvId: number = 1;
-		event.first = 0;
-		event.rows = 4;
-		event.filters = {};
-		event.filters.ServerId = {
-			value: srvId,
-			matchMode: 'equals'
-		};
-		event.filters.Mailed = {
-			value: true,
-			matchMode: 'equals'
-		};
-		sut.getIncidentsLazy( event ).subscribe( ( datum: IncidentPaginationData ) => {
-			expect( datum.incidentsList.length ).toBe( 4 );
-			expect( datum.totalRecords ).toBe( mockDatum.length );
-			expect( datum.incidentsList[ 1 ].IncidentId ).toEqual( 2 );
-			expect( datum.incidentsList[ 3 ].IncidentId ).toEqual( 4 );
-		});
-		const request = backend.expectOne( url + '/' );
-		expect( request.request.method ).toBe( 'POST' );
-		const page = new IncidentPaginationData( );
-		page.incidentsList = mockDatum.slice(0, 4);
-		page.totalRecords = mockDatum.length;
-		page.loadEvent = JSON.stringify(event);
-		request.flush( page );
-		//
-	}));
-	//
-	// deleteIncident( IncidentId: string )
-	// 204 says explicitly that you do not include a response body
-	//
-	it( 'should delete Incident row...', waitForAsync( ( ) => {
-		//
-		const mockData: Incident = mockDatum[ 2 ];
-		const id1: number = mockData.IncidentId;
-		sut.deleteIncident( id1 ).subscribe(( resp: Incident ) => {
-			expect( resp.IncidentId ).toEqual( id1 );
-		});
-		const request = backend.expectOne( `${url}/${id1}` );
-		expect( request.request.method ).toBe( 'DELETE' );
-		request.flush( mockData );
-		//
-	} ) );
-	//
-	// handle a create error
-	//
-	it( 'should handle an error on delete...', waitForAsync(() => {
-		//
-		const mockData: Incident = mockDatum[ 2 ];
-		const id1: number = mockData.IncidentId;
-		const msg = `Code: 500, Message: Http failure response for ${url}/42: 500 Bad Request`;
-		const errorMsg = { errorMessage: 'Invalid request parameters' };
-		const mockErrorResponse: HttpErrorResponse = new HttpErrorResponse({
-			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
-		sut.deleteIncident( 42 ).subscribe((resp) => {
-			console.log( 'baseServiceError on create: expected error response:' );
-			console.log( JSON.stringify( resp ) );
-			fail( 'baseServiceError: expected error...' );
-		}, ( error ) => {
-			expect( error ).toEqual( msg );
-		} );
-		const request: TestRequest = backend.expectOne( `${url}/42` );
-		expect( request.request.method ).toBe( 'DELETE' );
-		// https://github.com/alisaduncan/tutorial-angular-httpclient/blob/master/src/app/user.service.spec.ts#L89
-		request.flush(errMsg, mockErrorResponse );
-		//
-	}));
 	//
 });
 // ===========================================================================

@@ -4,15 +4,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 //
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 //
 import { IAuthResponse } from '../../public/login/iauth-response';
 import { environment } from '../../../environments/environment';
+import { BaseSrvcService } from '../../common/base-srvc/base-srvc.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Injectable( { providedIn: 'root' } )
-export class AuthService {
+export class AuthService extends BaseSrvcService {
 	//
 	private url: string;
 	public codeName: string;
@@ -20,11 +21,12 @@ export class AuthService {
 	** Service constructor, inject http service.
 	*/
 	public constructor(
-		private http: HttpClient,
-		private _console: ConsoleLogService ) {
-		// base_Url: 'https://localhost:9114/api/',
-		this.url = environment.base_Url + 'Authenticate/Login';
-		this.codeName = 'Auth-Service';
+		protected _http: HttpClient,
+		protected _console: ConsoleLogService ) {
+			super( _http, _console,
+				environment.base_Url + 'Authenticate/Login', 'Authenticate' );
+			this.url = environment.base_Url + 'Authenticate/Login';
+			this.codeName = 'Auth-Service';
 	}
 	/**
 	** Get authenticated with UserName and Pasword
@@ -36,9 +38,9 @@ export class AuthService {
 			`${this.codeName}.authenticate: ${this.url} username=${userName}` );
 		const options = { headers: new HttpHeaders().set( 'Content-Type', 'application/json' ) };
 		// call to login service
-		return this.http.post<IAuthResponse>( this.url, body, options )
-			.pipe(
-				tap( ( authResponse: IAuthResponse ) => {
+		// this.postJsonBody<IAuthResponse>( body ).subscribe
+		return this.postJsonBody<IAuthResponse>( body )
+			.pipe( tap( ( authResponse: IAuthResponse ) => {
 				const len = authResponse.token.length;
 				if( len > 24
 						&& authResponse.expiration.length > 0 ) {
@@ -49,9 +51,8 @@ export class AuthService {
 					throw new Error( `${this.codeName}.authenticate: Invalid token returned.` );
 				}
 				return authResponse;
-			},( err: any ) => {
-				this.handleError( err );
-			} ) );
+			}
+		) );
 		//
 	}
 	/**
@@ -92,16 +93,6 @@ export class AuthService {
 		}
 		const expiresAt: number = JSON.parse(expiration);
 		return expiresAt;
-	}
-	/**
-	** General error handler
-	*/
-	handleError( error: any ) {
-		this._console.Error( this.codeName + '.handleError: ' + error );
-		if ( error instanceof HttpErrorResponse ) {
-			return throwError( `Code: ${error.status}, Message: ${error.message}` || 'Service error' );
-		}
-		return throwError( error.toString() || 'Service error' );
 	}
 	//
 }
