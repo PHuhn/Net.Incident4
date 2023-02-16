@@ -16,13 +16,17 @@ Given classified incident logs (like SQL injection, XSS or PHP vulnerabilities),
 
 ## Construction
 
-Is an Angular CLI application that uses the following PrimeFaces PrimeNG library components:
+### PrimeNG library
+
+Net-Inchdent is an Angular CLI application that uses the following PrimeFaces PrimeNG library components:
 * p-table,
 * p-ComfirmDialog,
 * p-dialog (window/popup),
 * pButton (directive),
 * p-menubar (menu),
 * p-dropdown.
+
+### Application components structure
 
 The app-component is the conventional root component. The component structure is as follows:
 
@@ -44,10 +48,29 @@ The app-component is the conventional root component. The component structure is
       * app-incident-note-detail-window (p-dialog)
     * app-networklog-grid (p-table)
 
-Good design practices inherit the components from an application specific class.  This application's base component contains two methods that constantly appeared in the code.
+### Base Classes
 
-*	baseDeleteConfirm
-*	baseErrorHandler
+Good design practices inherit the components from an application specific class.
+
+I have three different base classes as follows:
+
+* BaseClass which extends class with the following:
+  * Clone( )
+  * toString( )
+* BaseComponent which extends @Component with the following methods:
+  *	baseDeleteConfirm<T>( id: T, callBack: DeleteCallback<T>, label: string = '' )
+  *	baseErrorHandler( where: string, what: string, error: string )
+* BaseSrvcService which extends @Injectable (service) with the following methods:
+  *	getModelAll<T>( )
+  *	getModelLazy<T>( event: LazyLoadEvent )
+  *	getModelSome<T>( param: any )
+  *	getModelById<T>( id: any )
+  *	getText( id: any )
+  *	postJsonBody<T>( body: any )
+  *	createModel<T>( model: T )
+  *	updateModel<T>( id: any, model: T )
+  *	deleteModel<T>( id: any )
+  *	baseSrvcErrorHandler( error: any )
 
 In addition the application has two custom services:
 

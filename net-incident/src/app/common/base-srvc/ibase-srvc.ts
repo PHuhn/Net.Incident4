@@ -101,7 +101,7 @@ export interface IBaseSrvc {
 	** @param id needs to start with either / or ?
 	** @param model object of class T
 	*/
-	deleteModel<T>( id: any ): Observable<T>;
+	deleteModel<T>( id: any ): Observable<T | never>;
 	/**
 	** Handle an error from this service.
 	** 1) Log a console error log,
