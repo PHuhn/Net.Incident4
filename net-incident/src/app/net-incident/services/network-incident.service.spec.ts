@@ -132,32 +132,32 @@ describe('NetworkIncidentService', () => {
 		//
 	} ) );
 	/*
-	** createIncident( Incident: NetworkIncident )
+	** createModel( Incident: NetworkIncident )
 	*/
-	it( 'should create a new NetworkIncident ...', waitForAsync( ( ) => {
+	it( 'createModel: should create a new NetworkIncident ...', waitForAsync( ( ) => {
 		//
 		const mockData: NetworkIncidentSave = new NetworkIncidentSave( );
 		mockData.incident = new Incident( 0,1,ip,'arin.net','i-4-net','a@1.com','',false,false,false,'i 4',testDate );
 		const id1: number = mockData.incident.IncidentId;
-		sut.createIncident( mockData ).subscribe(( resp: NetworkIncident ) => {
+		sut.createModel( mockData ).subscribe(( resp: NetworkIncident ) => {
 			expect( resp.incident.IncidentId ).toEqual( id1 );
 		});
-		const request: TestRequest = backend.expectOne( `${url}` );
+		const request: TestRequest = backend.expectOne( `${url}/` );
 		expect( request.request.method ).toBe( 'POST' );
 		request.flush( mockData );
 		//
 	} ) );
 	/*
-	** updateIncident( networkIncidentSave: NetworkIncidentSave )
+	** updateModel( id: number,networkIncidentSave: NetworkIncidentSave )
 	*/
-	it( 'updateIncident: should update Incident row...', waitForAsync( ( ) => {
+	it( 'updateModel: should update Incident row...', waitForAsync( ( ) => {
 		// given
 		const mockData: NetworkIncidentSave = newNetworkIncident(
 			new Incident( 21,1,ip,'arin.net','i-4-net','a@1.com','',false,false,false,'i 4',testDate )
 		);
 		const id1: number = mockData.incident.IncidentId;
 		// when
-		sut.updateIncident( mockData ).subscribe(( resp: any ) => {
+		sut.updateModel( id1, mockData ).subscribe(( resp: any ) => {
 			// then
 			expect( resp.incident.IncidentId ).toEqual( id1 );
 		});
@@ -165,45 +165,6 @@ describe('NetworkIncidentService', () => {
 		const request: TestRequest = backend.expectOne( `${url}/${id1}` );
 		expect( request.request.method ).toBe( 'PUT' );
 		request.flush( mockData );
-		//
-	} ) );
-	/*
-	** handleError( error: any )
-	*/
-	it( 'should throw an error...', waitForAsync(() => {
-		//
-		sut.handleError( errMsg ).subscribe( () => {
-			fail( 'handleError: expected error...' );
-		}, ( error ) => {
-			expect( error ).toEqual( errMsg );
-		} );
-		//
-	}));
-	//
-	it( 'should throw an empty string error...', waitForAsync(() => {
-		//
-		sut.handleError( '' ).subscribe( () => {
-			fail( 'handleError: expected error...' );
-		}, ( error ) => {
-			expect( error ).toEqual( 'Service error' );
-		} );
-		//
-	}));
-	//
-	it( 'should throw a HttpErrorResponse error...', waitForAsync( ( ) => {
-		// given
-		const msg = 'Code: 599, Message: Http failure response for http://localhost: 599 Fake error';
-		const resp: HttpErrorResponse = new HttpErrorResponse({
-			error: {}, status: 599, url: 'http://localhost', statusText: errMsg
-		});
-		// when
-		sut.handleError( resp ).subscribe( () => {
-			console.log( JSON.stringify( resp ) );
-			fail( 'handleError: expected error...' );
-		}, ( error ) => {
-			// then
-			expect( error ).toEqual( msg );
-		} );
 		//
 	} ) );
 	/*

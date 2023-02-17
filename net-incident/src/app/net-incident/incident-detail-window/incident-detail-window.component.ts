@@ -40,7 +40,6 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	id: number = -1;
 	ip: string = '';
 	private serverId: number = -1;
-	private userWaitTimeout: any;
 	private displayWinTimeout: any;
 	private paramsSubscription: Subscription | undefined;
 	private httpSubscription: Subscription | undefined;
@@ -169,9 +168,6 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 		if( this.displayWinTimeout ) {
 			clearTimeout( this.displayWinTimeout );
 		}
-		if( this.userWaitTimeout ) {
-			clearTimeout( this.userWaitTimeout );
-		}
 		if( this.httpSubscription ) {
 			this.httpSubscription.unsubscribe( );
 		}
@@ -187,11 +183,13 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	** incident # is zero then get empty for server #.
 	*/
 	getNetIncident( incidentId: number, serverId: number ): void {
-		this.httpSubscription = this._netIncident.getNetworkIncident( incidentId, serverId ).subscribe((netIncidentData: NetworkIncident) => {
-			this.moveNetIncidentDetail( netIncidentData, true );
-			// once the data is loaded now display it.
-			this.displayWindow = true;
-			clearTimeout( this.displayWinTimeout );
+		this.httpSubscription = 
+			this._netIncident.getNetworkIncident( incidentId, serverId ).subscribe((netIncidentData: NetworkIncident) => {
+				console.warn( 'getNetIncident: here ' );
+				this.moveNetIncidentDetail( netIncidentData, true );
+				// once the data is loaded now display it.
+				this.displayWindow = true;
+				clearTimeout( this.displayWinTimeout );
 		}, ( error ) =>
 			this.baseErrorHandler(
 				this.codeName, `Get Net Incident`, error ));
@@ -311,39 +309,45 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 			if( ipAddress === '' ) { return; }
 			this._console.Verbose(
 				`${this.codeName}.ipChanged: calling whois with ${ipAddress}` );
-			this._services.getWhoIs( ipAddress ).subscribe(( whoisData: string ) => {
-				if( whoisData !== '' && this.networkIncident !== undefined ) {
-					// instanciate WhoIsAbuse class
-					const whois: WhoIsAbuse = new WhoIsAbuse();
-					whois.GetWhoIsAbuse( whoisData );
-					const cnt: number = this.networkIncident.NICs.reduce( (count, el) => {
-						return count + (el.value === whois.nic ? 1 : 0); }, 0 );
-					if( cnt > 0 ) {
-						this.networkIncident.incident.NIC = whois.nic;
+			this._services.getWhoIs( ipAddress ).subscribe({
+				next: ( whoisData: string ) => {
+					if( whoisData !== '' && this.networkIncident !== undefined ) {
+						// instanciate WhoIsAbuse class
+						const whois: WhoIsAbuse = new WhoIsAbuse();
+						whois.GetWhoIsAbuse( whoisData );
+						const cnt: number = this.networkIncident.NICs.reduce( (count, el) => {
+							return count + (el.value === whois.nic ? 1 : 0); }, 0 );
+						if( cnt > 0 ) {
+							this.networkIncident.incident.NIC = whois.nic;
+						} else {
+							this.networkIncident.incident.NIC = 'other';
+						}
+						this.networkIncident.incident.AbuseEmailAddress = whois.abuse;
+						this.networkIncident.incident.NetworkName = whois.net;
+						this._console.Verbose( `${this.codeName}.ipChanged: WhoIs: ${ipAddress}, ${whois.nic}, ${whois.net}, ${whois.abuse}` );
+						if( whois.BadAbuseEmail( ) ) {
+							const newNote: IncidentNote = new IncidentNote(
+								this.newNoteId(),2,'WhoIs',whoisData,new Date( Date.now() ), true );
+							this.networkIncident.incidentNotes = [ ...this.networkIncident.incidentNotes, newNote ];
+						}
 					} else {
-						this.networkIncident.incident.NIC = 'other';
+						this._alerts.setWhereWhatError( `${this.codeName}: getWhoIs`,
+							'Services-Service failed.', 'Returned no data' );
 					}
-					this.networkIncident.incident.AbuseEmailAddress = whois.abuse;
-					this.networkIncident.incident.NetworkName = whois.net;
-					this._console.Verbose( `${this.codeName}.ipChanged: WhoIs: ${ipAddress}, ${whois.nic}, ${whois.net}, ${whois.abuse}` );
-					if( whois.BadAbuseEmail( ) ) {
-						const newNote: IncidentNote = new IncidentNote(
-							this.newNoteId(),2,'WhoIs',whoisData,new Date( Date.now() ), true );
-						this.networkIncident.incidentNotes = [ ...this.networkIncident.incidentNotes, newNote ];
-					}
-				} else {
+				},
+				error: (error) => {
 					this._alerts.setWhereWhatError( `${this.codeName}: getWhoIs`,
-						'Services-Service failed.', 'Returned no data' );
-				}
-			}, ( error ) =>
-				this._alerts.setWhereWhatError( `${this.codeName}: getWhoIs`,
-					'Services-Service failed.', error || 'Server error'));
+						'Services-Service failed.', error || 'Server error');
+				},
+				complete: () => { }
+			});
 		} else {
 			this._console.Verbose( `${this.codeName}.ipChanged: Addresses are the same ${this.networkIncident.incident.IPAddress}` );
 		}
 	}
 	/**
 	** a new note id needs to be -2 or less
+	** @returns number
 	*/
 	newNoteId(): number {
 		let inId: number = -9999;
@@ -355,54 +359,65 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 		}
 		return inId;
 	}
-	/**
+	/*
 	** --------------------------------------------------------------------
 	** File access
 	** create & update
-	**
+	*/
+	/**
 	** Call create data service,
 	** if successful then emit to parent form success.
+	** @param stay boolean
 	*/
 	createItem( stay: boolean ): void {
 		this._console.Information( `${this.codeName}.createItem, Entering: ${stay}` );
+		console.warn( `createItem ${stay}` );
 		if( this.networkIncidentSave !== undefined ) {
-			this._netIncident.createIncident( this.networkIncidentSave )
-				.subscribe( ( netIncidentData: NetworkIncident ) => {
+			console.warn( `createItem defined` );
+			this.httpCreateSubscription = this._netIncident.createModel<NetworkIncidentSave>( this.networkIncidentSave ).subscribe({
+				next: ( netIncidentData: NetworkIncident ) => {
 					this._console.Verbose( `${this.codeName}.createItem, netIncidentData` );
 					if( netIncidentData.message !== '' ) {
 						this._alerts.setWhereWhatError(
 							this.codeName, `createItem`, `${netIncidentData.message}`);
-					} else
+					} else {
 						this._alerts.setWhereWhatSuccess( this.codeName,
 							`Created: ${this.networkIncident.incident.IncidentId}` );
+					}
 					this.moveNetIncidentDetail( netIncidentData, stay );
 					this.add = false;
 					this._console.Verbose(
 						`${this.codeName}.createItem, Exiting` );
 				},
-				error => this.baseErrorHandler(
-					this.codeName, `Create`, error ));
+				error: (error) => {
+					this.baseErrorHandler( this.codeName, `Create`, error );
+				},
+				complete: () => { }
+			});
 		}
 	}
 	/**
 	** Call update data service,
 	** if successful then emit to parent form success.
+	** @param stay boolean
 	*/
 	updateItem( stay: boolean ): void {
-		this._netIncident.updateIncident( this.networkIncidentSave )
-			.subscribe(
-				( netIncidentData: NetworkIncident ) => {
-					this._console.Verbose( `${this.codeName}.updateItem, netIncidentData` );
-					if( netIncidentData.message !== '' ) {
-						this._alerts.setWhereWhatError(
-							this.codeName, `updateItem`, `${netIncidentData.message}`);
-					} else
-						this._alerts.setWhereWhatSuccess(
-							this.codeName, `Updated: + ${this.id}`);
-					this.moveNetIncidentDetail( netIncidentData, stay );
-				},
-				error => this.baseErrorHandler(
-					this.codeName, `Update`, error ));
+		this.httpUpdateSubscription = this._netIncident.updateModel<NetworkIncidentSave>( this.id, this.networkIncidentSave ).subscribe({
+			next: ( netIncidentData: NetworkIncident ) => {
+				this._console.Verbose( `${this.codeName}.updateItem, netIncidentData` );
+				if( netIncidentData.message !== '' ) {
+					this._alerts.setWhereWhatError(
+						this.codeName, `updateItem`, `${netIncidentData.message}`);
+				} else
+					this._alerts.setWhereWhatSuccess(
+						this.codeName, `Updated: + ${this.id}`);
+				this.moveNetIncidentDetail( netIncidentData, stay );
+			},
+			error: (error) => {
+				this.baseErrorHandler( this.codeName, `Update`, error );
+			},
+			complete: () => { }
+		});
 	}
 	//
 }

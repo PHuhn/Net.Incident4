@@ -11,10 +11,11 @@ import { NetworkIncident } from '../network-incident';
 import { NetworkIncidentSave } from '../network-incident-save';
 import { IIncident, Incident } from '../incident';
 import { INetworkLog, NetworkLog } from '../network-log';
+import { BaseSrvcService } from '../../common/base-srvc/base-srvc.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Injectable( { providedIn: 'root' } )
-export class NetworkIncidentService {
+export class NetworkIncidentService extends BaseSrvcService {
 	//
 	codeName = 'network-incident-service';
 	url: string;
@@ -22,10 +23,11 @@ export class NetworkIncidentService {
 	** Service constructor, inject http service.
 	*/
 	constructor(
-		private http: HttpClient,
-		private _console: ConsoleLogService
-		) {
-		this.url = environment.base_Url + 'NetworkIncidents';
+		protected _http: HttpClient,
+		protected _console: ConsoleLogService ) {
+			super( _http, _console,
+				environment.base_Url + 'NetworkIncidents', 'NetworkIncidents' );
+			this.url = environment.base_Url + 'NetworkIncidents';
 	}
 	/**
 	** Class validation rules.
@@ -138,41 +140,8 @@ export class NetworkIncidentService {
 		}
 		this._console.Information(
 			`${this.codeName}.getNetworkIncident: ${urlPath}` );
-		return this.http.get<NetworkIncident>( urlPath )
-			.pipe( catchError( this.handleError.bind(this) ) );
-	}
-	/**
-	** Create (post) NetworkIncident
-	** netIncidentData: NetworkIncident
-	** 	createIncident( incident: IIncident ): Observable<IIncident | undefined>
-	*/
-	createIncident( networkIncidentSave: NetworkIncidentSave ) {
-		this._console.Information(
-			`${this.codeName}: ${networkIncidentSave}` );
-		return this.http.post<NetworkIncidentSave>( this.url, networkIncidentSave )
-			.pipe( catchError( this.handleError.bind(this) ) );
-	}
-	/**
-	** Update (put) NetworkIncident
-	*/
-	updateIncident( networkIncidentSave: NetworkIncidentSave ) {
-		const urlPath: string = `${this.url}/${networkIncidentSave.incident.IncidentId}`;
-		this._console.Information( `${this.codeName}.updateIncident: ${urlPath}` );
-		return this.http.put<NetworkIncidentSave>( urlPath, networkIncidentSave )
-			.pipe( catchError( this.handleError.bind(this) ) );
-	}
-	/**
-	** General error handler
-	*/
-	handleError( error: any ) {
-		if ( error instanceof HttpErrorResponse ) {
-			this._console.Error(
-				`${this.codeName}.handleError: ${ JSON.stringify( error ) }` );
-			return throwError( `Code: ${error.status}, Message: ${error.message}` || 'Service error' );
-		}
-		this._console.Error(
-			`${this.codeName}.handleError: ${error.toString()}` );
-		return throwError( error.toString() || 'Service error' );
+		return this._http.get<NetworkIncident>( urlPath )
+			.pipe( catchError( this.baseSrvcErrorHandler.bind(this) ) );
 	}
 	//
 }

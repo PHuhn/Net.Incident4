@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, inject, fakeAsync, tick, getTestBed, waitFor
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
-import { HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 //
 import { Observable, of, throwError } from 'rxjs';
 //
@@ -45,7 +45,8 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 	let detailWindow: DetailWindowInput;
 	//
 	const networkIncidentServiceSpy = jasmine.createSpyObj(
-		'NetworkIncidentService', [ 'validateIncident', 'validateNetworkLogs', 'getNetworkIncident', 'createIncident', 'updateIncident' ]);
+		'NetworkIncidentService', [ 'validateIncident', 'validateNetworkLogs',
+		'getNetworkIncident', 'createModel', 'updateModel' ]);
 	const servicesServiceSpy = jasmine.createSpyObj(
 		'ServicesService', ['getPing', 'getWhoIs']);
 	const whoisMockData_17_142_171_7: string =
@@ -120,7 +121,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		TestBed.compileComponents( );
 	}));
 	//
-	beforeEach( waitForAsync( ( ) => {
+	beforeEach( fakeAsync( ( ) => {
 		fixture = TestBed.createComponent( IncidentDetailWindowComponent );
 		sut = fixture.componentInstance;
 		//
@@ -132,8 +133,8 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		sut.detailWindowInput = detailWindow;
 		sut.displayWin = true;
 		//
-		fixture.detectChanges( ); // trigger initial data binding
-		fixture.whenStable( );
+		tickFakeWait( 500 );
+		tickFakeWait( 300 );
 	} ) );
 	//
 	function newNetworkIncident( incident: Incident ): NetworkIncident {
@@ -247,6 +248,18 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		//
 	} ) );
 	//
+	it('validate: should display alert when invalid netIncidentSave ...', fakeAsync( ( ) => {
+		// given
+		sut.networkIncidentSave = undefined;
+		spyOn( alertService, 'warningSet' );
+		// when
+		sut.validate( );
+		// then
+		expect( alertService.warningSet ).toHaveBeenCalled( );
+		windowCleanup( );
+		//
+	} ) );
+	//
 	// validateUser( errMsgs: Message[], model: IUser ): void
 	//
 	it('validateUser: should display alert when invalid ...', fakeAsync( ( ) => {
@@ -282,6 +295,18 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		tickFakeWait( 1000 );
 		//
 	} ) );
+	//
+	it('ipChanged: should fail if invalid ip address ...', fakeAsync( ( ) => {
+		// given
+		sut.networkIncident = undefined;
+		spyOn( alertService, 'warningSet' );
+		// when
+		sut.ipChanged( '17.142.171.7' );
+		// then
+		expect( alertService.warningSet ).toHaveBeenCalled( );
+		windowCleanup( );	// window launched in beforeEach
+		//
+	} ) );
 	/*
 	** newNoteId(): number
 	*/
@@ -294,13 +319,31 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		//
 	} ) );
 	/*
+	** getNetIncident( incidentId: number, serverId: number )
+	*/
+	it( 'getNetIncident: should handle an error ...', fakeAsync( () => {
+		// given
+		const response = new HttpErrorResponse(
+			{ error: {}, status: 500, url: 'http://localhost', statusText: 'Fake Error' });
+		networkIncidentServiceSpy.getNetworkIncident.and.returnValue( throwError( ( ) => response ) );
+		const incId: number = 0;
+		const srvId: number = 1;
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.getNetIncident( incId, srvId ); // close window
+		// then
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
+		windowCleanup( );
+		//
+	}));
+	/*
 	** Simulate a button clicked, call windowClose directly with the default data.
 	*/
 	it('should update class when updateItem called ...', fakeAsync( ( ) => {
 		// given
 		const response = new HttpResponse(
 				{ status: 201, statusText: 'OK' } );
-		networkIncidentServiceSpy.updateIncident.and.returnValue( of( response ) );
+		networkIncidentServiceSpy.updateModel.and.returnValue( of( response ) );
 		networkIncidentServiceSpy.validateIncident.and.returnValue( [] );
 		networkIncidentServiceSpy.validateNetworkLogs.and.returnValue( [] );
 		sut.emitClose.subscribe( saved => {
@@ -312,6 +355,22 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		windowCleanup( );
 		//
 	} ) );
+	//
+	it( 'updateItem: should handle an error ...', fakeAsync( () => {
+		// given
+		const response = new HttpErrorResponse(
+			{ error: {}, status: 500, url: 'http://localhost', statusText: 'Fake Error' });
+		networkIncidentServiceSpy.updateModel.and.returnValue( throwError( ( ) => response ) );
+		const incId: number = 0;
+		const srvId: number = 1;
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.updateItem( false ); // close window
+		// then
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
+		windowCleanup( );
+		//
+	}));
 	//
 	// Simulate a button clicked, call directly windowClose for createItem
 	//
@@ -337,23 +396,37 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		);
 		const response: NetworkIncident = newNetworkIncident( createIncident );
 		networkIncidentServiceSpy.getNetworkIncident.and.returnValue( of( response ) );
-		networkIncidentServiceSpy.createIncident.and.returnValue( of( response ) );
+		networkIncidentServiceSpy.createModel.and.returnValue( of( response ) );
 		networkIncidentServiceSpy.validateIncident.and.returnValue( [] );
 		networkIncidentServiceSpy.validateNetworkLogs.and.returnValue( [] );
 		createIncident.IncidentId = 0;
 		sut.networkIncident.incident = createIncident;
 		// when
 		sut.createItem( false );
+		tickFakeWait( 1 );
 		// then
 		sut.windowClose( true );
-		tickFakeWait( 1000 );
-		tickFakeWait( 1000 );
+		tickFakeWait( 1 );
 		//
 		expect( sut.networkIncident.incident.IncidentId ).toBe( id );
 		sut.displayWin = false;
 		windowCleanup( );
 		//
 	} ) );
+	//
+	it( 'createItem: should handle an error on create...', fakeAsync( () => {
+		// given
+		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
+		sut.networkIncidentSave = new NetworkIncidentSave( );
+		networkIncidentServiceSpy.createModel.and.returnValue( throwError( ( ) => response ) );
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.createItem( false ); // close window
+		// then
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
+		windowCleanup( );
+		//
+	}));
 	//
 	// Simulate a cancel button clicked, call directly windowClose
 	//

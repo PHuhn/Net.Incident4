@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## About Net-Incident
 
-Given classified incident logs (like SQL injection, XSS or PHP vulnerabilities), this application groups the incidents by IP address, lookup the ISP abuse email address, ISP name and NIC (Network Information Center). Can generate an email message via the incident type template.  If mail is configured in the back-end server, it will send the message to the ISP’s abuse email address.
+Given classified incident logs (like SQL injection, XSS or PHP vulnerabilities), this application groups the incidents by IP address, lookup the ISP abuse email address, ISP name and NIC (Network Information Center) via whois command by the server. The application can generate an email message via the incident type template.  If mail is configured in the back-end server, it will send the message to the ISP’s abuse email address.
 
 ## Net-Incident Documentation
 
