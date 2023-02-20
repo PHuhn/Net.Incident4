@@ -16,6 +16,18 @@ export class ConsoleLogService {
 		this._logLevel = newValue;
 	}
 	//
+	private maxMsgNbr: number = 4;
+	private lastMsgNbr: number = this.maxMsgNbr;
+	private msgs: string[] = ['', '', '', '', ''];
+	get lastMessage(): string {
+		return this.msgs[this.lastMsgNbr];
+	}
+	// return in reverse order 'lastMsgNbr' first
+	get messages(): string[] {
+		return this.msgs.slice(0,this.lastMsgNbr+1).reverse()
+			.concat(this.msgs.slice(this.lastMsgNbr+1).reverse());
+	}
+	//
 	constructor() {
 		this._logLevel = environment.logLevel;
 	}
@@ -82,6 +94,8 @@ export class ConsoleLogService {
 					console.error( msg );
 					break;
 			}
+			this.lastMsgNbr = this.lastMsgNbr === this.maxMsgNbr ? 0 : this.lastMsgNbr + 1;
+			this.msgs[this.lastMsgNbr] = msg;
 			return msg;
 		} else {
 			return '';

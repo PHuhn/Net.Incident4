@@ -102,5 +102,29 @@ describe( 'ConsoleLogService', ( ) => {
 		const _ret = sut.getEnumKeyByEnumValue( LogLevel, 99 );
 		expect( _ret ).toEqual( '--' );
 	});
+	/*
+	** Circular messages
+	*/
+	it( 'lastMessage: should return the last register console message ...', ( ) => {
+		sut.Error( 'Error message' );
+		expect( sut.lastMessage ).toEqual( 'Error: Error message' );
+		sut.Warning( 'Warning message' );
+		expect( sut.lastMessage ).toEqual( 'Warning: Warning message' );
+		sut.Information( 'Information message' );
+		expect( sut.lastMessage ).toEqual( 'Info: Information message' );
+	});
+	//
+	it( 'messages: should return the whole list of messages ...', ( ) => {
+		sut.Error( 'Error message' );
+		sut.Warning( 'Warning message' );
+		sut.Information( 'Entering' );
+		sut.Information( 'Information message' );
+		sut.Information( 'Exiting' );
+		sut.Error( 'Last message' );
+		const msgs: string[] = sut.messages;
+		console.warn( msgs );
+		expect( msgs ).toEqual( 
+			['Error: Last message', 'Info: Exiting','Info: Information message','Info: Entering','Warning: Warning message'] );
+	});
 	//
 });
