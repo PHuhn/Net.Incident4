@@ -232,6 +232,20 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		//
 	} ) );
 	//
+	it('createItem: should fail if Id is not zero ...', fakeAsync(() => {
+		// given
+		sut.model = { ... emptyData };
+		sut.model.IncidentNoteId = -1;
+		spyOn( alertService, 'setWhereWhatWarning' );
+		// when
+		sut.createItem( );
+		// then
+		tick( 10 );
+		expect( alertService.setWhereWhatWarning ).toHaveBeenCalled( );
+		windowCleanup( );
+		//
+	} ) );
+	//
 	// Simulate a button clicked, by calling event method
 	//
 	it('should update class when save button clicked ...', fakeAsync(() => {
@@ -249,6 +263,21 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		// when
 		sut.windowClose( true );
 		tickFakeWait( 10 );
+		//
+	} ) );
+	//
+	it('updateItem: should fail if Id is not zero ...', fakeAsync(() => {
+		// given
+		sut.model = { ... emptyData };
+		sut.model.IncidentNoteId = 0;
+		sut.add === false 
+		spyOn( alertService, 'setWhereWhatWarning' );
+		// when
+		sut.updateItem( );
+		// then
+		tick( 10 );
+		expect( alertService.setWhereWhatWarning ).toHaveBeenCalled( );
+		windowCleanup( );
 		//
 	} ) );
 	//

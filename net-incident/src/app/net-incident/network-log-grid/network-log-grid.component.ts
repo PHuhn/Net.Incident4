@@ -11,7 +11,7 @@
 //
 import { Component, OnInit, AfterContentInit, OnChanges, Input, Output, ViewChild, EventEmitter, ElementRef, SimpleChanges, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable, throwError, interval } from 'rxjs';
+import { Observable, throwError, interval, Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 //
 import { Table, TableModule } from 'primeng/table';
@@ -31,7 +31,7 @@ import { NetworkIncident } from '../network-incident';
 	selector: 'app-networklog-grid',
 	templateUrl: './network-log-grid.component.html'
 })
-export class NetworkLogGridComponent extends BaseComponent implements OnInit, AfterContentInit, OnChanges {
+export class NetworkLogGridComponent extends BaseComponent implements AfterContentInit, OnChanges, OnDestroy {
 	//
 	// --------------------------------------------------------------------
 	// Data declaration.
@@ -41,6 +41,8 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 	selectedLogs: NetworkLog[] = [];
 	disabled: boolean = true;
 	expansionColSpan: number = 5;
+	contentInitTimer: any = 0;
+	private intervalSubscription: Subscription | undefined;
 	// communicate to the AlertComponent
 	protected _alerts: AlertsService;
 	// to write console logs condition on environment log-level
@@ -68,26 +70,28 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 		this._console = _baseSrvc._console;
 		this._confirmationService = _baseSrvc._confirmationService;
 		this.codeName = 'network-log-grid';
+		this.selectedLogs = [];
+		this.disabled = true;
 		//
 		this.networkIncident = new NetworkIncident( );
 	}
-	//
-	// On component initialization, set ip address filter.
-	//
-	ngOnInit() {
-		this._console.Information( `${this.codeName}.ngOnInit: entering ...` );
-		this.selectedLogs = [];
-		this.disabled = true;
+	/**
+	** Cleanup
+	** * Stop interval timers (clearTimeout/clearInterval).
+	** * Unsubscribe Observables.
+	** * Detach event handlers (addEventListener > removeEventListener).
+	** * Free resources that will not be garbage collected automatically.
+	** * Unregister all callbacks.
+	*/
+	ngOnDestroy() {
+		if( this.contentInitTimer ) {
+			clearTimeout( this.contentInitTimer );
+		}
+		if( this.intervalSubscription ) {
+			this.intervalSubscription.unsubscribe( );
+		}
 	}
-	//
-	// Cleanup
-	// * Stop interval timers (clearTimeout/clearInterval).
-	// * Unsubscribe Observables.
-	// * Detach event handlers (addEventListener > removeEventListener).
-	// * Free resources that will not be garbage collected automatically.
-	// * Unregister all callbacks.
-	// ngOnDestroy() { }
-	//
+	// Lifecycle hook
 	ngOnChanges(changes: SimpleChanges): void {
 		if(changes['networkIncident']) {
 				this._console.Information( `${this.codeName}.ngOnChanges: entering ...` );
@@ -98,6 +102,7 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 		}
 	}
 	//
+	// Lifecycle hook
 	// After the view is initialized, this will be available.
 	//
 	ngAfterContentInit() {
@@ -111,11 +116,12 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 		// in Observable val = 0, 1, 2, 3
 		// retry every 10th of a second, last time pass true
 		// Observable.interval( 100 ).takeWhile( val => cnt < 4 ).subscribe( val => {
-		setTimeout( ( ) => {
+		this.contentInitTimer = setTimeout( ( ) => {
 			this._console.Information( `${this.codeName}.ngAfterContentInit:` );
 			if( this.afterViewInit( true ) === false ) {
 				let cnt: number = 0;
-				interval( 100 ).pipe(takeWhile(val => cnt < 3)).subscribe(val => {
+				this.intervalSubscription =
+					interval( 100 ).pipe(takeWhile(val => cnt < 3)).subscribe(val => {
 					cnt++;
 					this._console.Information( `${this.codeName}.ngAfterContentInit: ${val}.` );
 					if( this.afterViewInit( cnt === 3 ) === true ) {
@@ -149,10 +155,11 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 		this._console.Information( `${this.codeName}.afterViewInit: returning at: ${new Date().toISOString()}` );
 		return true;
 	}
-	//
-	// sync ip address with value of selected log row.
-	//
-	viewInitIPAddress( ): void {
+	/**
+	** sync ip address with value of selected log row.
+	** @returns 
+	*/
+	viewInitIPAddress( ): string {
 		let ipAddress: string = '';
 		this.selectedLogs = this.networkIncident.networkLogs.filter( (el) => {
 			return el.Selected === true;
@@ -165,25 +172,28 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 			this.networkIncident.incident.IPAddress = ipAddress;
 			this.ipChanged.emit( this.networkIncident.incident.IPAddress );
 		}
+		return ipAddress;
 	}
-	//
-	// Set the ip address filter for the p-table.
-	//
-	setTableFilter( ipAddress: string ): void {
+	/**
+	** Set the ip address filter for the p-table.
+	** @param ipAddress 
+	 * @returns boolean, true then global filter is set
+	 */
+	setTableFilter( ipAddress: string ): boolean {
 		if( this.dt !== undefined ) {
 			this.dt.filterGlobal( ipAddress, 'contains' );
+			this._console.Information( `${this.codeName}.setTableFilter: global filtered with ${ipAddress}` );
+			return true;
 		}
-		this._console.Information( `${this.codeName}.setTableFilter: global filtered with ${ipAddress}` );
+		return false;
 	}
 	//
 	// --------------------------------------------------------------------
-	// Events:
-	// handleRowSelect
-	// handleRowUnSelect
-	// Confirm component (delete)
-	//
-	// selection column checked this row.
-	//
+	// Events: handleRowSelect, handleRowUnSelect, Delete Confirmation
+	/**
+	** selection column checked this row.
+	** @param event 
+	*/
 	handleRowSelect( event: any ) {
 		this._console.Information( `${this.codeName}.handleRowSelect: Entering: ${event} ...` );
 		this._console.Information( JSON.stringify( event ) );
@@ -207,9 +217,10 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 			}
 		}
 	}
-	//
-	// selection column un-checked this row.
-	//
+	/**
+	** selection column un-checked this row.
+	** @param event 
+	*/
 	handleRowUnSelect( event: any ) {
 		this._console.Information( `${this.codeName}.handleRowUnSelect: Entering: ${event} ...` );
 		this._console.Information( JSON.stringify( event ) );
@@ -230,9 +241,11 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 			this._console.Information( `${this.codeName}.handleRowUnSelect: ip: ${this.networkIncident.incident.IPAddress}` );
 		}
 	}
-	//
-	// Rows delete icon clicked, popup a modal confirmation prompt.
-	//
+	/**
+	** Rows delete icon clicked, popup a modal confirmation prompt.
+	** @param item 
+	** @returns false if canceled or true from the callback
+	*/
 	deleteItemClicked( item: NetworkLog ): boolean {
 		const delId = item.NetworkLogId;
 		this._console.Information( `${this.codeName}.deleteItemClicked: del id: ${delId}` );
@@ -241,10 +254,12 @@ export class NetworkLogGridComponent extends BaseComponent implements OnInit, Af
 			return this.deleteItem( ident );
 		} );
 	}
-	//
-	// Rows a delete, move the row from in memory networkLogs to deletedLogs.
-	// This still needs to be saved.
-	//
+	/**
+	** Rows a delete, move the row from in memory networkLogs to deletedLogs.
+	** This still needs to be saved.
+	** @param delId 
+	** @returns 
+	*/
 	deleteItem( delId: number ): boolean {
 		this._console.Information( `${this.codeName}.deleteItem: Entering, del id: ${delId}` );
 		if( delId !== 0 ) {

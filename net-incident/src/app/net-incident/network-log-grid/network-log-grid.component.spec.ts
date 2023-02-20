@@ -1,5 +1,6 @@
 // ===========================================================================
 import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, throwError } from 'rxjs';
@@ -36,12 +37,12 @@ describe('NetworkLogGridComponent', () => {
 		'dandy@psg.com','',false,false,false,'',new Date( '2018-04-01T01:00:00' ) );
 	//
 	const mockDatum = [
-		new NetworkLog( 1,1,null,'192.1',new Date( '2018-02-27T00:00:00' ),'Log 1',1, 'SQL', false ),
-		new NetworkLog( 2,1,null,'192.2',new Date( '2018-02-27T00:00:00' ),'Log 2',1, 'SQL', false ),
-		new NetworkLog( 3,1,null,'192.3',new Date( '2018-02-27T00:00:00' ),'Log 3',1, 'SQL', false ),
-		new NetworkLog( 4,1,null,'192.4',new Date( '2018-02-27T00:00:00' ),'Log 4',1, 'SQL', false ),
-		new NetworkLog( 5,1,null,'192.5',new Date( '2018-02-27T00:00:00' ),'Log 5',1, 'SQL', false ),
-		new NetworkLog( 6,1,null,'192.5',new Date( '2018-02-27T00:00:00' ),'Log 6',1, 'SQL', false )
+		new NetworkLog( 1,1,null,'192.169.101.1',new Date( '2018-02-27T00:00:00' ),'Log 1',1, 'SQL', false ),
+		new NetworkLog( 2,1,null,'192.169.101.2',new Date( '2018-02-27T00:00:00' ),'Log 2',1, 'SQL', false ),
+		new NetworkLog( 3,1,null,'192.169.101.3',new Date( '2018-02-27T00:00:00' ),'Log 3',1, 'SQL', false ),
+		new NetworkLog( 4,1,null,'192.169.101.4',new Date( '2018-02-27T00:00:00' ),'Log 4',1, 'SQL', false ),
+		new NetworkLog( 5,1,null,'192.169.101.5',new Date( '2018-02-27T00:00:00' ),'Log 5',1, 'SQL', false ),
+		new NetworkLog( 6,1,null,'192.169.101.5',new Date( '2018-02-27T00:00:00' ),'Log 6',1, 'SQL', false )
 	];
 	//
 	beforeEach( waitForAsync( ( ) => {
@@ -219,7 +220,45 @@ describe('NetworkLogGridComponent', () => {
 			numRowsSelector ));
 		expect( netLogBodyRows.length ).toBe( numRows );
 	}));
+	// ngOnChanges(changes: SimpleChanges): void
+	// it('ngOnChanges: ...', fakeAsync( () => {
+	// 	// given
+	// 	const changes: SimpleChanges = { 'networkIncident': new SimpleChange('', '', true) };
+	// 	sut.networkIncident = createNetworkIncident( );
+	// 	tickFakeWait( 10 );
+	// 	tickFakeWait( 5000 );
+	// 	console.warn( ' here')
+	// 	// when
+	// 	sut.ngOnChanges( changes );
+	// 	//
+	// 	tickFakeWait( 350 );
+	// } ) );
+	/*
+	** afterViewInit( complete: boolean ): boolean
+	*/
+	it('afterViewInit: should fail ...', fakeAsync(() => {
+		// given
+		sut.networkIncident = null;
+		// console.warn( 'deleteItemClicked: should delete row when event called and OK is clicked...' );
+		// when
+		const ret: boolean = sut.afterViewInit( false );
+		// then
+		expect( ret ).toEqual( false );
+		//
+	}));
 	//
+	// it('ngAfterContentInit: should fail (exceed count) ...', fakeAsync(() => {
+	// 	// given
+	// 	sut.networkIncident = createNetworkIncident( );
+	// 	// when
+	// 	sut.ngAfterContentInit( );
+	// 	// then
+	// 	expect( true ).toEqual( false );
+	// 	//
+	// }));
+	/*
+	** deleteItem( delId: number ): boolean
+	*/
 	it('should delete row from in memory networkLogs and move to deletedLogs ...', fakeAsync( () => {
 		sut.networkIncident = createNetworkIncident( );
 		sut.ngAfterContentInit( );
@@ -235,6 +274,28 @@ describe('NetworkLogGridComponent', () => {
 		expect( sut.networkIncident.deletedLogs.length ).toBe( 1 );
 		expect( sut.networkIncident.networkLogs.length ).toBe( mockDatum.length - 1 );
 		expect( sut.networkIncident.deletedLogs[0].NetworkLogId ).toBe( delId );
+	}));
+	/*
+	** deleteItemClicked( item: Incident ) :boolean
+	*/
+	it('deleteItemClicked: should delete row when event called and OK is clicked...', fakeAsync(() => {
+		// given
+		const delRow: INetworkLog = { ... mockDatum[ 4 ] };
+		const delId: number = delRow.NetworkLogId;
+		sut.networkIncident.networkLogs = [ ... mockDatum ];
+		const expected: number = sut.networkIncident.networkLogs.length - 1;
+		spyOn(confirmService, 'confirm').and.callFake(
+			(confirmation: Confirmation) => {
+				return confirmation.accept();
+			});
+		// when
+		const ret: boolean = sut.deleteItemClicked( delRow );
+		// then
+		expect( ret ).toEqual( false );
+		tickFakeWait( 10 );
+		tickFakeWait( 300 );
+		expect( sut.networkIncident.networkLogs.length ).toBe( expected );
+		//
 	}));
 	//
 });
