@@ -127,22 +127,6 @@ export class NetworkIncidentService extends BaseSrvcService {
 		}
 		//
 	}
-	/**
-	** Get an incident unit of work
-	** api/NetworkIncident/1?serverId=1
-	*/
-	getNetworkIncident( incidentId: number, serverId: number ): Observable<NetworkIncident> {
-		let urlPath: string = '';
-		if( incidentId === 0 ) {
-			urlPath = this.url + `/GetEmpty/${serverId}`;
-		} else {
-			urlPath = this.url + `/${incidentId}`;
-		}
-		this._console.Information(
-			`${this.codeName}.getNetworkIncident: ${urlPath}` );
-		return this._http.get<NetworkIncident>( urlPath )
-			.pipe( catchError( this.baseSrvcErrorHandler.bind(this) ) );
-	}
 	//
 }
 // ===========================================================================

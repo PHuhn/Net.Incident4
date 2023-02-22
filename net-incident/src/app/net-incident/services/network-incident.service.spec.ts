@@ -112,14 +112,14 @@ describe('NetworkIncidentService', () => {
 		expect( sut ).toBeTruthy();
 	} ) );
 	//
-	// getNetworkIncident( incidentId: number, serverId: number ): Observable<NetworkIncident>
+	// getModelById( incidentId: number, serverId: number ): Observable<NetworkIncident>
 	//
 	it( 'should get by id (primary key) ...', waitForAsync( ( ) => {
 		//
 		const mockData: NetworkIncident = newNetworkIncident( mockIncident );
 		const id1: number = mockIncident.IncidentId;
 		const srvId: number = server.ServerId;
-		sut.getNetworkIncident( id1, srvId ).subscribe( ( data: NetworkIncident ) => {
+		sut.getModelById<NetworkIncident>( id1 ).subscribe( ( data: NetworkIncident ) => {
 			// console.log( data );
 			expect( data.incident.IncidentId ).toEqual( id1 );
 		});

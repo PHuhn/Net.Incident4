@@ -181,18 +181,32 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	/**
 	** get the complete requested incident (unit-of-work).
 	** incident # is zero then get empty for server #.
+	** api/NetworkIncident/1
+	** or
+	** api/NetworkIncident?action=empty?serverId=1
+	** @param incidentId 
+	** @param serverId 
 	*/
 	getNetIncident( incidentId: number, serverId: number ): void {
-		this.httpSubscription = 
-			this._netIncident.getNetworkIncident( incidentId, serverId ).subscribe((netIncidentData: NetworkIncident) => {
-				console.warn( 'getNetIncident: here ' );
-				this.moveNetIncidentDetail( netIncidentData, true );
-				// once the data is loaded now display it.
-				this.displayWindow = true;
-				clearTimeout( this.displayWinTimeout );
-		}, ( error ) =>
-			this.baseErrorHandler(
-				this.codeName, `Get Net Incident`, error ));
+		let srvcParam: any = '';
+		if( incidentId === 0 ) {
+			srvcParam = { action: 'empty', serverId: serverId }
+		} else {
+			srvcParam = incidentId;
+		}
+		this.httpSubscription =
+			this._netIncident.getModelById<NetworkIncidentSave>( srvcParam ).subscribe({
+				next: ( netIncidentData: NetworkIncident ) => {
+					this.moveNetIncidentDetail( netIncidentData, true );
+					// once the data is loaded now display it.
+					this.displayWindow = true;
+					clearTimeout( this.displayWinTimeout );
+				},
+				error: (error) => {
+					this.baseErrorHandler( this.codeName, `Get Net Incident`, error );
+				},
+				complete: () => { }
+		});
 	}
 	/**
 	** Move detail data to local data.

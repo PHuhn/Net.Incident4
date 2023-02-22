@@ -46,7 +46,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 	//
 	const networkIncidentServiceSpy = jasmine.createSpyObj(
 		'NetworkIncidentService', [ 'validateIncident', 'validateNetworkLogs',
-		'getNetworkIncident', 'createModel', 'updateModel' ]);
+		'getModelById', 'createModel', 'updateModel' ]);
 	const servicesServiceSpy = jasmine.createSpyObj(
 		'ServicesService', ['getPing', 'getWhoIs']);
 	const whoisMockData_17_142_171_7: string =
@@ -127,7 +127,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		//
 		const response: NetworkIncident = newNetworkIncident( mockData );
 		// netIncidentService.mockGet = response;
-		networkIncidentServiceSpy.getNetworkIncident.and.returnValue( of( response ) );
+		networkIncidentServiceSpy.getModelById.and.returnValue( of( response ) );
 		// supply the input data
 		detailWindow = new DetailWindowInput( user, mockData );
 		sut.detailWindowInput = detailWindow;
@@ -325,7 +325,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		// given
 		const response = new HttpErrorResponse(
 			{ error: {}, status: 500, url: 'http://localhost', statusText: 'Fake Error' });
-		networkIncidentServiceSpy.getNetworkIncident.and.returnValue( throwError( ( ) => response ) );
+		networkIncidentServiceSpy.getModelById.and.returnValue( throwError( ( ) => response ) );
 		const incId: number = 0;
 		const srvId: number = 1;
 		spyOn( alertService, 'setWhereWhatError' );
@@ -395,7 +395,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 			new Date(Date.now()) // CreatedDate: Date,
 		);
 		const response: NetworkIncident = newNetworkIncident( createIncident );
-		networkIncidentServiceSpy.getNetworkIncident.and.returnValue( of( response ) );
+		networkIncidentServiceSpy.getModelById.and.returnValue( of( response ) );
 		networkIncidentServiceSpy.createModel.and.returnValue( of( response ) );
 		networkIncidentServiceSpy.validateIncident.and.returnValue( [] );
 		networkIncidentServiceSpy.validateNetworkLogs.and.returnValue( [] );

@@ -105,15 +105,37 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// </summary>
         /// <param name="id">server id</param>
         /// <returns></returns>
-        [HttpGet("GetEmpty/{id}")]
-        public async Task<ActionResult<NetworkIncidentDetailQuery>> EmptyIncident(int? id)
+        //[HttpGet("GetEmpty/{id}")]
+        //public async Task<ActionResult<NetworkIncidentDetailQuery>> EmptyIncident(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    NetworkIncidentDetailQuery _results =
+        //        await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = id.Value, UserName = Base_GetUserAccount() });
+        //    return _results;
+        //}
+        //
+        /// <summary>
+        /// GET: api/NetworkIncidents/GetEmpty/1
+        /// </summary>
+        /// <param name="action">empty</param>
+        /// <param name="serverId">server id</param>
+        /// <returns></returns>
+        [HttpGet()]
+        public async Task<ActionResult<NetworkIncidentDetailQuery>> EmptyIncident(string action, int? serverId)
         {
-            if (id == null)
+            if (serverId == null)
             {
                 return NotFound();
             }
+            if (action.ToLower() != "empty")
+            {
+                return BadRequest();
+            }
             NetworkIncidentDetailQuery _results =
-                await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = id.Value, UserName = Base_GetUserAccount() });
+                await Mediator.Send(new NetworkIncidentCreateQueryHandler.DetailQuery() { ServerId = serverId.Value, UserName = Base_GetUserAccount() });
             return _results;
         }
         //

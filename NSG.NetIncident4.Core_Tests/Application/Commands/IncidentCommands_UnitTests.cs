@@ -384,7 +384,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 new IncidentListQueryHandler.ListQuery() { JsonString = _jsonString };
             Task<IncidentListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
-            IList<IncidentListQuery> _list = _viewModelResults.Result.incidentsList;
+            IList<IncidentListQuery> _list = _viewModelResults.Result.results;
             Assert.AreEqual(1, _list.Count);
         }
         //

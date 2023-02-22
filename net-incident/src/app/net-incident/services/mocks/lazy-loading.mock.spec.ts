@@ -219,21 +219,21 @@ describe('LazyLoadingMock', () => {
 		// when
 		const ret = lazyLoading.LazyLoading( [ ... mockDatum ], event );
 		// then
-		expect( ret.length ).toEqual( 2 );
-		expect( ret[0].name ).toEqual( 'two' );
-		expect( ret[1].name ).toEqual( 'four' );
+		expect( ret.results.length ).toEqual( 2 );
+		expect( ret.results[0].name ).toEqual( 'two' );
+		expect( ret.results[1].name ).toEqual( 'four' );
 	});
 	//
 	it('LazyLoading: should return unchanged data if no event ...', () => {
 		// given / when
 		const ret = lazyLoading.LazyLoading( [ ... mockDatum ], {} );
 		// then
-		expect( ret.length ).toEqual( 5 );
-		expect( ret[0].name ).toEqual( 'one' );
-		expect( ret[1].name ).toEqual( 'two' );
-		expect( ret[2].name ).toEqual( 'three' );
-		expect( ret[3].name ).toEqual( 'four' );
-		expect( ret[4].name ).toEqual( 'five' );
+		expect( ret.results.length ).toEqual( 5 );
+		expect( ret.results[0].name ).toEqual( 'one' );
+		expect( ret.results[1].name ).toEqual( 'two' );
+		expect( ret.results[2].name ).toEqual( 'three' );
+		expect( ret.results[3].name ).toEqual( 'four' );
+		expect( ret.results[4].name ).toEqual( 'five' );
 	});
 	//
 });

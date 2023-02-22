@@ -1825,6 +1825,10 @@ Done:
 	V12.1.0.34 - Upgraged from Angular 11 to 12, moving to ES-Lint
 	V12.1.0.35 - Changes per ES-Lint
 	V13.4.0.0 - .net core version - version from package.json
+	V14.4.0.7 - Updated to angular 14.0.3
+	V14.4.0.7 - Updated to Angular 14.2.7 and audit fix
+	V15.4.1.0 - base-srvc.service, generic http calls
+	V15.4.1.2 - new circular message queue feature in console-log
 
 To Do's:
 	V

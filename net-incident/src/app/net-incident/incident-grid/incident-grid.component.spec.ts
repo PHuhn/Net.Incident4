@@ -64,7 +64,7 @@ describe( 'IncidentGridComponent', ( ) => {
 	let confirmService: ConfirmationService;
 	const networkIncidentServiceSpy = jasmine.createSpyObj(
 		'NetworkIncidentService', ['validateIncident', 'validateNetworkLog',
-		'validateNetworkLogs', 'getNetworkIncident', 'createIncident', 'updateIncident']);
+		'validateNetworkLogs', 'getModelById', 'createIncident', 'updateIncident']);
 	const expectedWindowTitle: string = 'Incident Detail';
 	const windowTitleSelector: string =
 		'app-incident-detail-window > p-dialog > div > div.p-dialog-titlebar > span > p-header > div';
@@ -161,12 +161,10 @@ describe( 'IncidentGridComponent', ( ) => {
 	} ) );
 	//
 	function newPage( ): ILazyResults {
-		const page: ILazyResults = { ... pageEmpty };
 		const event: LazyLoadEvent = {'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,
 			'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null};
-		page.results = lazyLoading.LazyLoading( [ ... mockDatum ], event );
-		page.loadEvent = JSON.stringify(event) as string;
-		page.totalRecords = mockDatum.length;
+		const page: ILazyResults =
+				lazyLoading.LazyLoading( [ ... mockDatum ], event );
 		return page;
 	}
 	//
@@ -313,7 +311,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		);
 		const id = response.incident.IncidentId; // for title
 		const ip = response.incident.IPAddress;
-		networkIncidentServiceSpy.getNetworkIncident.and.returnValue( of( response ) );
+		networkIncidentServiceSpy.getModelById.and.returnValue( of( response ) );
 		// when
 		sut.addItemClicked( );
 		// then
@@ -349,7 +347,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		const response: NetworkIncident = newNetworkIncident( incident );
 		const id = response.incident.IncidentId; // for title
 		const ip = response.incident.IPAddress;
-		networkIncidentServiceSpy.getNetworkIncident.and.returnValue(of( response ));
+		networkIncidentServiceSpy.getModelById.and.returnValue(of( response ));
 		// when
 		sut.editItemClicked( incident );
 		// then
@@ -443,7 +441,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		const response: NetworkIncident = newNetworkIncident( incident );
 		const id = response.incident.IncidentId; // for title
 		const ip = response.incident.IPAddress;
-		networkIncidentServiceSpy.getNetworkIncident.and.returnValue(of( response ));
+		networkIncidentServiceSpy.getModelById.and.returnValue(of( response ));
 		//
 		sut.detailWindow = new DetailWindowInput( {... user }, sut.incidents[ 1 ] );
 		sut.windowDisplay = true;

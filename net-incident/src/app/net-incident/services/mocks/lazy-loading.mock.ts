@@ -1,47 +1,70 @@
 // ===========================================================================
 // file: LazyLoading.mock
-import { LazyLoadEvent } from 'primeng/api';
-import { FilterMetadata } from 'primeng/api';
+import { LazyLoadEvent, FilterMetadata } from 'primeng/api';
+//
+import { ILazyResults } from '../../../common/base-srvc/ibase-srvc';
 //
 export class LazyLoadingMock {
 	//
 	public codeName: string = 'lazy-loading.mock';
-	//
-	// apply filters, sort/ordered by, skip/take
-	//
-	LazyLoading( datasource: any[], event: LazyLoadEvent ): any[] {
+	/**
+	** apply filters, sort/ordered by, skip/take
+	** @param datasource 
+	** @param event 
+	** @returns ILazyResults
+	*/
+	LazyLoading<T>( datasource: T[], event: LazyLoadEvent ): ILazyResults {
 		//
-		if ( datasource ) {
-			// console.log( event );
-			let filtered: any[] = datasource.slice( 0 );
+		const results: ILazyResults = { results: datasource, totalRecords: datasource.length, loadEvent: JSON.stringify( event ), message: ''};
+		if ( datasource && datasource.length ) {
+			let filtered: T[] = datasource.slice( 0 );
 			if( event.filters ) {
-				filtered = this.LazyFilters( filtered, event );
+				filtered = this.LazyFilters<T>( filtered, event );
 			}
+			results.totalRecords = filtered.length;
 			// sort
 			if( event.sortField !== undefined && event.sortOrder !== undefined ) {
-				filtered = this.LazyOrderBy( filtered, event );
+				filtered = this.LazyOrderBy<T>( filtered, event );
 			}
-			// skip & take
+			// skip & take (needs to be last)
 			if( event.first !== undefined && event.rows !== undefined ) {
-				filtered = this.LazySkipTake( filtered, event );
+				filtered = this.LazySkipTake<T>( filtered, event );
 			}
-			return filtered;
-		} else {
-			console.error( `${this.codeName}.lazyLoading: no data.` );
+			results.results = filtered;
+			return results;
 		}
-		return [];
+		results.message = 'no source data';
+		console.error( `${this.codeName}.lazyLoading: ${results.message}.` );
+		return results;
 	}
-	//
-	// Filters (where)
-	//
-	LazyFilters( filtered: any[], event: LazyLoadEvent ): any[] {
+	/**
+	** Filters (where)
+	** filtered: an array of data to be filtered
+	** event: the lazy-load-event passed by primeng to the onLazyLoad event.
+	**   Uses only the filters? data in lazy-load-event
+	** @param filtered 
+	** @param event 
+	** @returns 
+	*/
+	LazyFilters<T>( filtered: T[], event: LazyLoadEvent ): T[] {
 		if( event.filters ) {
 			for (const key in event.filters) {
 				if (event.filters.hasOwnProperty( key )) {
 					const filterMeta: FilterMetadata = event.filters[key];
 					if (Array.isArray(filterMeta)) {
-						for (const filter of filterMeta) {
-							filtered = this._filter( filtered, key, filter );
+						let tempCat: any[] = [];
+						let opOr: boolean = false;
+						for (const filter of filterMeta.filter(f=> f.value !== null)) {
+							const temp: T[] = this._filter( filtered, key, filter );
+							if( filter.operator === 'and' ) {
+								filtered = temp;
+							} else {
+								opOr = true;
+								tempCat = tempCat.concat( temp );
+							}
+						}
+						if( opOr ) {
+							filtered = tempCat;
 						}
 					} else {
 						filtered = this._filter( filtered, key, filterMeta );
@@ -51,6 +74,7 @@ export class LazyLoadingMock {
 		}
 		return filtered;
 	}
+	//
 	_filter( filtered: any[], key: string, filter: FilterMetadata ): any[] {
 		const matchMode = filter.matchMode !== undefined ? filter.matchMode : '';
 		const value: any = filter.value !== null ? filter.value : '';
@@ -102,12 +126,15 @@ export class LazyLoadingMock {
 		}
 		return filtered;
 	}
-	//
-	// Order-by (sort)
-	// event.sortField = Field name to sort with
-	// event.sortOrder = Sort order as number, 1 for asc and -1 for dec
-	//
-	LazyOrderBy( data: any[], event: LazyLoadEvent ): any[] {
+	/**
+	** Order-by (sort)
+	** event.sortField = Field name to sort with
+	** event.sortOrder = Sort order as number, 1 for asc and -1 for dec
+	** @param data 
+	** @param event 
+	** @returns 
+	*/
+	LazyOrderBy<T>( data: T[], event: LazyLoadEvent ): T[] {
 		if( data.length > 0 ) {
 			if( event.sortField !== undefined ) {
 				const key = event.sortField;
@@ -124,10 +151,13 @@ export class LazyLoadingMock {
 		}
 		return data;
 	}
-	//
-	// skip-take (page of data)
-	//
-	LazySkipTake( data: any[], event: LazyLoadEvent ): any[] {
+	/**
+	** skip-take (page of data)
+	** @param data 
+	** @param event 
+	** @returns 
+	*/
+	LazySkipTake<T>( data: T[], event: LazyLoadEvent ): T[] {
 		if( event.first !== undefined && event.rows !== undefined ) {
 			return data.slice( event.first, ( event.first + event.rows ) );
 		}

@@ -75,7 +75,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
                 .Verifiable("Incident empty was not sent.");
             sut = new NetworkIncidentsController(_mediator.Object);
             // when
-            ActionResult<NetworkIncidentDetailQuery> _results = await sut.EmptyIncident(1); // Server id
+            ActionResult<NetworkIncidentDetailQuery> _results = await sut.EmptyIncident("empty",1); // Server id
             // then
             Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results.Value);
             //
