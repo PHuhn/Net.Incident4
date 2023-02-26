@@ -7,6 +7,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using NSG.NetIncident4.Core.Persistence;
+using System.ComponentModel.DataAnnotations.Schema;
 // using System.ComponentModel.DataAnnotations.Schema;
 //
 namespace NSG.NetIncident4.Core.Domain.Entities
@@ -18,6 +19,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public class Company
     {
         //
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "'Company Id' is required.")]
         public int CompanyId { get; set; }
         [Required(ErrorMessage = "'Company Short Name' is required."), MaxLength(12, ErrorMessage = "'CompanyShortName' must be 12 or less characters.")]

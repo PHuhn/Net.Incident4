@@ -12,7 +12,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     /// </summary>
     public class Audit
     {
-        [System.ComponentModel.DataAnnotations.Key]
+        [System.ComponentModel.DataAnnotations.Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [Required]
         public DateTime ChangeDate { get; set; }

@@ -14,6 +14,7 @@ using FluentValidation.Results;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 {
@@ -23,11 +24,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 	/// </summary>
 	public class NoteTypeDetailQuery
 	{
-		[Key]
-		public int NoteTypeId { get; set; }
-		public string NoteTypeShortDesc { get; set; }
-		public string NoteTypeDesc { get; set; }
-        public string NoteTypeClientScript { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int NoteTypeId { get; set; }
+		public string NoteTypeShortDesc { get; set; } = string.Empty;
+		public string NoteTypeDesc { get; set; } = string.Empty;
+        public string NoteTypeClientScript { get; set; } = string.Empty;
     }
     //
     /// <summary>

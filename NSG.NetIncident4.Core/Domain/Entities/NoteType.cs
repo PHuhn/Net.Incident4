@@ -17,7 +17,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public partial class NoteType
     {
         //
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "'Id' is required.")]
         public int NoteTypeId { get; set; }
         [Required(ErrorMessage = "'Short Desc' is required."), MaxLength(8, ErrorMessage = "'Short Desc' must be 8 or less characters.")]

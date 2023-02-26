@@ -17,6 +17,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public partial class NetworkLog
     {
         //
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "NetworkLogId is required.")]
         public long NetworkLogId { get; set; }
         [Required(ErrorMessage = "ServerId is required.")]

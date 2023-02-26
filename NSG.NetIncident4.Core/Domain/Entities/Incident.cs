@@ -17,6 +17,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public class Incident
     {
         //
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "IncidentId is required.")]
         public long IncidentId { get; set; }
         [Required(ErrorMessage = "ServerId is required.")]
@@ -42,8 +43,8 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         [Required(ErrorMessage = "CreatedDate is required.")]
         public DateTime CreatedDate { get; set; }
         //
-        public NIC NIC { get; set; }
-        public Server Server { get; set; }
+        public NIC NIC { get; set; } = new NIC();
+        public Server Server { get; set; } = new Server();
         public virtual ICollection<IncidentIncidentNote> IncidentIncidentNotes { get; }
             = new List<IncidentIncidentNote>();
         public virtual ICollection<NetworkLog> NetworkLogs { get; }
@@ -67,8 +68,9 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             Notes = "";
             CreatedDate = DateTime.Now;
             //
-            // NIC NIC
-            // Server Server
+            NIC = new NIC();
+            Server = new Server();
+            //
         }
     }
 }

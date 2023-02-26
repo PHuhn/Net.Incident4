@@ -17,6 +17,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public partial class IncidentType
     {
         //
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "IncidentTypeId is required.")]
         public int IncidentTypeId { get; set; }
         [Required(ErrorMessage = "IncidentTypeShortDesc is required."), MaxLength(8, ErrorMessage = "'IncidentTypeShortDesc' must be 8 or less characters.")]

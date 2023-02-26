@@ -16,7 +16,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public partial class LogData
     {
         //
-        [Key, Column(Order = 1)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "Id is required.")]
         public long Id { get; set; }
         [Required(ErrorMessage = "Date is required.")]

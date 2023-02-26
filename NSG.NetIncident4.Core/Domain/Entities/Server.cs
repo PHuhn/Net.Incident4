@@ -18,6 +18,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public class Server : IServer
     {
         //
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "'Server Id' is required.")]
         public int ServerId { get; set; }
         [Required(ErrorMessage = "'Company Id' is required.")]

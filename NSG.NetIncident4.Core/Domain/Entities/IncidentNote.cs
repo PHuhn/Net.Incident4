@@ -19,6 +19,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public partial class IncidentNote
     {
         //
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "IncidentNoteId is required.")]
         public long IncidentNoteId { get; set; }
         [Required(ErrorMessage = "NoteTypeId is required.")]
