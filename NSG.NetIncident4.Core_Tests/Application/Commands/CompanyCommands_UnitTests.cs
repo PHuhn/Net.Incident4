@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 //
+using MockQueryable.Moq;
 using Moq;
 using MediatR;
 //
@@ -11,15 +12,24 @@ using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Application.Commands.Companies;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Application.Infrastructure;
+using NSG.NetIncident4.Core.Persistence;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
     [TestFixture]
-    public class CompanyCommands_UnitTests : UnitTestFixture
+    public class CompanyCommands_UnitTests
     {
         //
-        static Mock<IMediator> _mockGetCompaniesMediator = null;
+        // static Mock<IMediator> _mockGetCompaniesMediator = null;
+        //
         static CancellationToken _cancelToken = CancellationToken.None;
+        static Mock<IMediator> _mediatorMock = null;
+        static Mock<ApplicationDbContext> _contextMock = null;
+        //
         //
         public CompanyCommands_UnitTests()
         {
@@ -31,47 +41,49 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             Console.WriteLine("Setup");
             //
-            Fixture_UnitTestSetup();
-            //
-            // set up mock to get list of permissible list of companies
-            GetUserCompanyListQueryHandler.ViewModel _retViewModel =
-                new GetUserCompanyListQueryHandler.ViewModel() { CompanyList = new List<int>() { 1 } };
-            _mockGetCompaniesMediator = new Mock<IMediator>();
-            _mockGetCompaniesMediator.Setup(x => x.Send(
-                It.IsAny<GetUserCompanyListQueryHandler.ListQuery>(), _cancelToken))
-                .Returns(Task.FromResult(_retViewModel));
-            //
-            DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
-            _seeder.Seed().Wait();
         }
         //
         [Test]
         public void CompanyCreateCommand_Test()
         {
-            Console.WriteLine("CompanyCreateCommand_Test");
-            CompanyCreateCommandHandler _handler = new CompanyCreateCommandHandler(db_context);
+            // given
+            Console.WriteLine("CompanyCreateCommand_Test ...");
+            var _mockDbSet = NSG_Helpers.companiesFakeData.BuildMock().BuildMockDbSet();
+            _ = _mockDbSet.DbSetAddAsync<Company>();
+            //
+            _contextMock = MockHelpers.GetDbContextMock();
+            _contextMock.Setup(x => x.Companies).Returns(_mockDbSet.Object);
+            var _saveResult = _contextMock
+                .Setup(r => r.SaveChangesAsync(_cancelToken))
+                .Returns(Task.FromResult(1));
             CompanyCreateCommand _create = new CompanyCreateCommand()
             {
+                //                  123456789012
                 CompanyShortName = "CompanyShort",
                 CompanyName = "CompanyName",
                 Address = "Address",
                 City = "City",
                 State = "Stat",
-                PostalCode = "PostalCode",
-                Country = "Country",
+                PostalCode = "55555-4444",
+                Country = "USA",
                 PhoneNumber = "PhoneNumber",
                 Notes = "Notes",
             };
+            // when
+            CompanyCreateCommandHandler _handler = new CompanyCreateCommandHandler(_contextMock.Object);
             Task<Company> _createResults = _handler.Handle(_create, CancellationToken.None);
+            // then
             Company _entity = _createResults.Result;
-            Assert.AreEqual(2, _entity.CompanyId);
+            Assert.AreEqual(_create.CompanyShortName, _entity.CompanyShortName);
         }
         //
         [Test]
         public void CompanyCreateCommand_ToLong_Test()
         {
-            Console.WriteLine("CompanyCreateCommand_ToLong_Test");
-            CompanyCreateCommandHandler _handler = new CompanyCreateCommandHandler(db_context);
+            // given
+            Console.WriteLine("CompanyCreateCommand_ToLong_Test ...");
+            _contextMock = MockHelpers.GetDbContextMock();
+            CompanyCreateCommandHandler _handler = new CompanyCreateCommandHandler(_contextMock.Object);
             CompanyCreateCommand _create = new CompanyCreateCommand()
             {
                 CompanyShortName = "CompanyShort-tolong",
@@ -102,56 +114,82 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         [Test]
         public void CompanyUpdateCommand_Test()
         {
-            Console.WriteLine("CompanyUpdateCommand_Test");
-            CompanyUpdateCommandHandler _handler = new CompanyUpdateCommandHandler(db_context, _mockGetCompaniesMediator.Object);
-            CompanyUpdateCommand _update = new CompanyUpdateCommand()
+            // given
+            Console.WriteLine("CompanyUpdateCommand_Test ...");
+            _mediatorMock = new Mock<IMediator>();
+            int _companyId = 2;
+            Company? _return = NSG_Helpers.companiesFakeData.Find(e => e.CompanyId == _companyId);
+            if( _return != null)
             {
-                CompanyId = 1,
-                CompanyShortName = "CompanyShort",
-                CompanyName = "CompanyName 2",
-                Address = "Address 2",
-                City = "City",
-                State = "Stat",
-                PostalCode = "PostalCode",
-                Country = "Country",
-                PhoneNumber = "PhoneNumber",
-                Notes = "Notes",
-            };
-            Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
-            int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+                var _mockDbSet = NSG_Helpers.companiesFakeData.BuildMock().BuildMockDbSet();
+                _mockDbSet.Setup(x => x.FindAsync(_companyId, _cancelToken)).ReturnsAsync(_return);
+                _contextMock = MockHelpers.GetDbContextMock();
+                _contextMock.Setup(x => x.Companies).Returns(_mockDbSet.Object);
+                var _saveResult = _contextMock
+                    .Setup(r => r.SaveChangesAsync(_cancelToken))
+                    .Returns(Task.FromResult(1));
+                var _companiesViewModel = new GetUserCompanyListQueryHandler.ViewModel()
+                {
+                    CompanyList = new List<int>() { 1, _companyId }
+                };
+                Console.WriteLine(_companiesViewModel);
+                _mediatorMock.Setup(x => x.Send(
+                    It.IsAny<GetUserCompanyListQueryHandler.ListQuery>(), _cancelToken))
+                    .Returns(Task.FromResult(_companiesViewModel));
+                CompanyUpdateCommand _update = new CompanyUpdateCommand()
+                {
+                    CompanyId = _companyId,
+                    CompanyShortName = "CompanyShort",
+                    CompanyName = "CompanyName",
+                    Address = "Address",
+                    City = "City",
+                    State = "Stat",
+                    PostalCode = "PostalCode",
+                    Country = "Country",
+                    PhoneNumber = "PhoneNumber",
+                    Notes = "Notes",
+                };
+                // when
+                CompanyUpdateCommandHandler _handler = new CompanyUpdateCommandHandler(_contextMock.Object, _mediatorMock.Object);
+                Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
+                int _count = _updateResults.Result;
+                Assert.AreEqual(1, _count);
+            }
+            else
+            {
+                Assert.Fail($"Company: {_companyId} not found");
+            }
         }
         //
         [Test]
         public void CompanyDeleteCommand_Test()
         {
-            Console.WriteLine("CompanyDeleteCommand_Test");
-            // add a row to be deleted
-            Company _create = new Company()
+            // given
+            Console.WriteLine("CompanyDeleteCommand_Test ...");
+            int _companyId = 2;
+            Company? _return = NSG_Helpers.companiesFakeData.Find(e => e.CompanyId == _companyId);
+            if( _return != null)
             {
-                CompanyShortName = "CompanyShort",
-                CompanyName = "CompanyName",
-                Address = "Address",
-                City = "City",
-                State = "Stat",
-                PostalCode = "PostalCode",
-                Country = "Country",
-                PhoneNumber = "PhoneNumber",
-                Notes = "Notes",
-            };
-            db_context.Companies.Add(_create);
-            db_context.SaveChanges();
-            // IMediator mediator
-            Mock<IMediator> _mockMediator = new Mock<IMediator>();
-            //
-            CompanyDeleteCommandHandler _handler = new CompanyDeleteCommandHandler(db_context, _mockMediator.Object);
-            CompanyDeleteCommand _delete = new CompanyDeleteCommand()
+                var _mockDbSet = NSG_Helpers.companiesFakeData.BuildMock().BuildMockDbSet();
+                // _mockDbSet.Setup(x => x.FindAsync(_companyId, _cancelToken)).ReturnsAsync(_return);
+                _contextMock = MockHelpers.GetDbContextMock();
+                _contextMock.Setup(x => x.Companies).Returns(_mockDbSet.Object);
+                _mediatorMock = new Mock<IMediator>();
+                // when
+                CompanyDeleteCommandHandler _handler = new CompanyDeleteCommandHandler(_contextMock.Object, _mediatorMock.Object);
+                CompanyDeleteCommand _delete = new CompanyDeleteCommand()
+                {
+                    CompanyId = _return.CompanyId,
+                };
+                Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
+                // then
+                int _count = _deleteResults.Result;
+                Assert.AreEqual(1, _count);
+            }
+            else
             {
-                CompanyId = _create.CompanyId,
-            };
-            Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
-            int _count = _deleteResults.Result;
-            Assert.AreEqual(1, _count);
+                Assert.Fail($"Company: {_companyId} not found");
+            }
         }
         //
         //[Test]

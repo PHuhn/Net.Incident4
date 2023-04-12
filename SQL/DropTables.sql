@@ -2,6 +2,7 @@ USE NetIncidentIdentity04
 
 DROP TABLE NetworkLog
 DROP TABLE ApplicationUserApplicationServer
+DROP TABLE [Audit]
 DROP TABLE [Log]
 DROP TABLE EmailTemplates
 DROP TABLE IncidentIncidentNotes

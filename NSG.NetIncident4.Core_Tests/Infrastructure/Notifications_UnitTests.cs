@@ -17,13 +17,23 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
     [TestFixture]
     public class Notification_UnitTests
     {
-        //
+        /*
+        ** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        **
+        ** This test requires some ability to send emails.
+        ** I use fake-smtp-server, which is a nodejs application.
+        ** The project does have a 'fake-smtp.bat', that invokes
+        ** the globally installed node package.
+        **
+        ** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        */
         public IConfiguration Configuration { get; set;  }
         IOptions<MimeKit.NSG.EmailSettings> emailSettings = null;
         Mock<ILogger<NotificationService>> mockLogger = null;
         //
         public Notification_UnitTests()
         {
+            Console.WriteLine("Notification_UnitTests ...");
             string _appSettings = "appsettings.json";
             if (_appSettings != "")
                 if (!File.Exists(_appSettings))
@@ -46,10 +56,13 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         [Test()]
         public async Task SendEmailAsyncEmail_Test()
         {
+            // given
+            Console.WriteLine("SendEmailAsyncEmail_Test ...");
             mockLogger.Reset();
             INotificationService _notificationService = new NotificationService(emailSettings, mockLogger.Object);
+            // when
             await _notificationService.SendEmailAsync("Email@anybody.net", "Email Testing", "Email testing message.");
-            // asserts
+            // then
             // https://adamstorr.azurewebsites.net/blog/mocking-ilogger-with-moq
             // for VerifyLogging see Helpers/MockHelpers.cs
             mockLogger.VerifyLogging(LogLevel.Information, "From: ");
@@ -58,6 +71,8 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         [Test()]
         public async Task SendEmailAsyncFromTo_Test()
         {
+            // given
+            Console.WriteLine("SendEmailAsyncFromTo_Test ...");
             mockLogger.Reset();
             INotificationService _notificationService = new NotificationService(emailSettings, mockLogger.Object);
             await _notificationService.SendEmailAsync("FromTo@site.net", "FromTo@anybody.net", "FromTo Testing", "FromTo testing message.");
@@ -68,6 +83,8 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         [Test()]
         public async Task SendEmailAsyncMimeMessage_Test()
         {
+            // given
+            Console.WriteLine("SendEmailAsyncMimeMessage_Test ...");
             mockLogger.Reset();
             MimeMessage _mimeMessage = MimeKit.Extensions.NewMimeMessage()
                 .From("mm@site.net").To("mm@anybody.net").Subject("mm Testing").Body(MimeKit.Extensions.TextBody("mm testing message."));
@@ -80,6 +97,8 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         [Test()]
         public async Task SendEmailAsyncMimeMessageBad_Test()
         {
+            // given
+            Console.WriteLine("SendEmailAsyncMimeMessageBad_Test ...");
             mockLogger.Reset();
             MimeMessage _mimeMessage = MimeKit.Extensions.NewMimeMessage();
             INotificationService _notificationService = new NotificationService(emailSettings, mockLogger.Object);

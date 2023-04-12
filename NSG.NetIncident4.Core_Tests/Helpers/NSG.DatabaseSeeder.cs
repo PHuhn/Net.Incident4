@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
-using NSG.NetIncident4.Core.Migrations;
 //
 namespace NSG.Integration.Helpers
 {

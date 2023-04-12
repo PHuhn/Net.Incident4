@@ -6,31 +6,32 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 //
+using MockQueryable.Moq;
 using Moq;
 using MediatR;
 //
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationRoles;
-using NSG.NetIncident4.Core.Application.Infrastructure;
-using System.Linq;
-using Microsoft.Data.Sqlite;
+using System.Text;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
     // NSG.Integration.Helpers.UnitTestFixture
     [TestFixture]
-    public class ApplicationRoleCommands_UnitTests : UnitTestFixture
+    public class ApplicationRoleCommands_UnitTests
     {
         //
-        static Mock<IMediator> _mockMediator = null;
+        Mock<IMediator> _mockMediator = null;
+        Mock<IRoleStore<ApplicationRole>> _roleStoreMock = null;
+        //
         static CancellationToken _cancelToken = CancellationToken.None; 
         string _testName;
         //
         public ApplicationRoleCommands_UnitTests()
         {
-            Console.WriteLine("ApplicationRoleCommands_UnitTests");
+            _testName = "ApplicationRoleCommands_UnitTests";
+            Console.WriteLine($"{_testName} ...");
         }
         //
         [SetUp]
@@ -38,17 +39,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             Console.WriteLine("Setup");
             //
-            Fixture_UnitTestSetup();
-            //
             _mockMediator = new Mock<IMediator>();
             //
-            DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
-            _seeder.Seed().Wait();
-            foreach( ApplicationRole _u in db_context.Roles)
-            {
-                Console.Write(_u.Name + ", ");
-            }
-            Console.WriteLine("");
         }
         //
         // You will need to check that the indexes work with you test data.
@@ -58,7 +50,19 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             _testName = "ApplicationRoleCreateCommand_Test";
             Console.WriteLine($"{_testName} ...");
-            ApplicationRoleCreateCommandHandler _handler = new ApplicationRoleCreateCommandHandler(roleManager, _mockMediator.Object);
+            _roleStoreMock = new Mock<IRoleStore<ApplicationRole>>();
+            // var _duplicate = await _roleManager.FindByIdAsync(request.Id);
+            ApplicationRole? _role = null;
+            var _findResult = _roleStoreMock
+                .Setup(r => r.FindByIdAsync(It.IsAny<string>(), _cancelToken))
+                .Returns(Task.FromResult<ApplicationRole>(_role));
+            // var _roleresult = await _roleManager.CreateAsync(_entity);
+            Mock<RoleManager<ApplicationRole>> _roleManagerMock =
+                MockHelpers.GetMockRoleManager(_roleStoreMock.Object);
+            var _createResult = _roleManagerMock
+                .Setup(r => r.CreateAsync(It.IsAny<ApplicationRole>()))
+                .Returns(Task.FromResult(IdentityResult.Success));
+            ApplicationRoleCreateCommandHandler _handler = new ApplicationRoleCreateCommandHandler(_roleManagerMock.Object, _mockMediator.Object);
             ApplicationRoleCreateCommand _create = new ApplicationRoleCreateCommand()
             {
                 Id = "Id",
@@ -74,11 +78,27 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             _testName = "ApplicationRoleUpdateCommand_Test";
             Console.WriteLine($"{_testName} ...");
-            ApplicationRoleUpdateCommandHandler _handler = new ApplicationRoleUpdateCommandHandler(roleManager, _mockMediator.Object);
-            ApplicationRoleUpdateCommand _update = new ApplicationRoleUpdateCommand()
+            _roleStoreMock = new Mock<IRoleStore<ApplicationRole>>();
+            ApplicationRole _entity = new ApplicationRole()
             {
                 Id = "pub",
                 Name = "Name"
+            };
+            // await _roleManager.UpdateAsync(_entity);
+            var _updateResult = _roleStoreMock
+                .Setup(r => r.UpdateAsync(It.IsAny<ApplicationRole>(), _cancelToken))
+                .Returns(Task.FromResult(IdentityResult.Success));
+            Mock<RoleManager<ApplicationRole>> _roleManagerMock =
+                MockHelpers.GetMockRoleManager(_roleStoreMock.Object);
+            // Setup the Roles property to return a list of roles
+            var _roles = new List<ApplicationRole>() { _entity, new ApplicationRole { Id = "Test", Name = "User" } }
+                    .AsQueryable().BuildMock();
+            _roleManagerMock.Setup(x => x.Roles).Returns(_roles);
+            ApplicationRoleUpdateCommandHandler _handler = new ApplicationRoleUpdateCommandHandler(_roleManagerMock.Object, _mockMediator.Object);
+            ApplicationRoleUpdateCommand _update = new ApplicationRoleUpdateCommand()
+            {
+                Id = _entity.Id,
+                Name = _entity.Name
             };
             Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
             int _count = _updateResults.Result;
@@ -90,23 +110,30 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             _testName = "ApplicationRoleDeleteCommand_Test";
             Console.WriteLine($"{_testName} ...");
-            // Add a row to be deleted.
-            ApplicationRole _create = new ApplicationRole()
+            _roleStoreMock = new Mock<IRoleStore<ApplicationRole>>();
+            ApplicationRole _entity = new ApplicationRole()
             {
-                Id = "Id",
+                Id = "tst",
                 Name = "Name"
             };
-            db_context.Roles.Add(_create);
-            db_context.SaveChanges();
-            //
-            // Now delete what was just created ...
-            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(roleManager, _mockMediator.Object);
+            // await _roleManager.UpdateAsync(_entity);
+            var _updateResult = _roleStoreMock
+                .Setup(r => r.DeleteAsync(It.IsAny<ApplicationRole>(), _cancelToken))
+                .Returns(Task.FromResult(IdentityResult.Success));
+            Mock<RoleManager<ApplicationRole>> _roleManagerMock =
+                MockHelpers.GetMockRoleManager(_roleStoreMock.Object);
+            // Setup the Roles property to return a list of roles
+            var _roles = new List<ApplicationRole>() { _entity, new ApplicationRole { Id = "Test", Name = "User" } }
+                    .AsQueryable().BuildMock();
+            _roleManagerMock.Setup(x => x.Roles).Returns(_roles);
+            // Now delete what the entity ...
+            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(_roleManagerMock.Object, _mockMediator.Object);
             ApplicationRoleDeleteCommand _delete = new ApplicationRoleDeleteCommand()
             {
-                Id = _create.Id,
+                Id = _entity.Id,
             };
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
-            int _count = _deleteResults.Result;
+            int? _count = _deleteResults.Result;
             Assert.AreEqual(1, _count);
         }
         //
@@ -115,11 +142,28 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             _testName = "ApplicationRoleDeleteCommand_ActiveUsersException_Test";
             Console.WriteLine($"{_testName} ...");
-            //
-            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(roleManager, _mockMediator.Object);
+            _roleStoreMock = new Mock<IRoleStore<ApplicationRole>>();
+            ApplicationRole _entity = new ApplicationRole()
+            {
+                Id = "tst",
+                Name = "Name",
+                UserRoles = new List<ApplicationUserRole>() { new ApplicationUserRole() }
+            };
+            // await _roleManager.UpdateAsync(_entity);
+            var _updateResult = _roleStoreMock
+                .Setup(r => r.DeleteAsync(It.IsAny<ApplicationRole>(), _cancelToken))
+                .Returns(Task.FromResult(IdentityResult.Success));
+            Mock<RoleManager<ApplicationRole>> _roleManagerMock =
+                MockHelpers.GetMockRoleManager(_roleStoreMock.Object);
+            // Setup the Roles property to return a list of roles
+            var _roles = new List<ApplicationRole>() { _entity, new ApplicationRole { Id = "Test", Name = "User" } }
+                    .AsQueryable().BuildMock();
+            _roleManagerMock.Setup(x => x.Roles).Returns(_roles);
+            // Now delete what the entity ...
+            ApplicationRoleDeleteCommandHandler _handler = new ApplicationRoleDeleteCommandHandler(_roleManagerMock.Object, _mockMediator.Object);
             ApplicationRoleDeleteCommand _delete = new ApplicationRoleDeleteCommand()
             {
-                Id = "adm"
+                Id = _entity.Id,
             };
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
             Console.WriteLine(_deleteResults.Status);
@@ -134,7 +178,15 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             _testName = "ApplicationRoleDetailQuery_Test";
             Console.WriteLine($"{_testName} ...");
-            ApplicationRoleDetailQueryHandler _handler = new ApplicationRoleDetailQueryHandler(roleManager);
+            _roleStoreMock = new Mock<IRoleStore<ApplicationRole>>();
+            // var _entity = await _roleManager.FindByIdAsync(request.Id);
+            ApplicationRole? _entity = new ApplicationRole() { Id = "pub", Name = "Public" };
+            Mock<RoleManager<ApplicationRole>> _roleManagerMock = MockHelpers.GetMockRoleManager(_roleStoreMock.Object);
+            var _findResult = _roleManagerMock
+                .Setup(r => r.FindByIdAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult<ApplicationRole>(_entity));
+            ApplicationRoleDetailQueryHandler _handler =
+                new ApplicationRoleDetailQueryHandler(_roleManagerMock.Object);
             ApplicationRoleDetailQueryHandler.DetailQuery _detailQuery =
                 new ApplicationRoleDetailQueryHandler.DetailQuery();
             _detailQuery.Id = "pub";
@@ -148,7 +200,17 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             _testName = "ApplicationRoleListQuery_Test";
             Console.WriteLine($"{_testName} ...");
-            ApplicationRoleListQueryHandler _handler = new ApplicationRoleListQueryHandler(roleManager);
+            var _roles = new List<ApplicationRole>() {
+                    new ApplicationRole() { Id = "pub", Name = "Public" },
+                    new ApplicationRole() { Id = "usr", Name = "User" },
+                    new ApplicationRole() { Id = "adm", Name = "Admin" },
+                    new ApplicationRole() { Id = "cadm", Name = "CompanyAdmin" }
+            }.AsQueryable().BuildMock();
+            _roleStoreMock = new Mock<IRoleStore<ApplicationRole>>();
+            Mock<RoleManager<ApplicationRole>> _roleManagerMock = MockHelpers.GetMockRoleManager(_roleStoreMock.Object);
+            // Setup the Roles property to return a list of roles
+            _roleManagerMock.Setup(x => x.Roles).Returns(_roles);
+            ApplicationRoleListQueryHandler _handler = new ApplicationRoleListQueryHandler(_roleManagerMock.Object);
             ApplicationRoleListQueryHandler.ListQuery _listQuery =
                 new ApplicationRoleListQueryHandler.ListQuery();
             Task<ApplicationRoleListQueryHandler.ViewModel> _viewModelResults =

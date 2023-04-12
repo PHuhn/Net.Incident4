@@ -8,7 +8,7 @@ using NSG.Integration.Helpers;
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
     [TestFixture]
-    public class Commands_Etc_UnitTest : UnitTestFixture
+    public class Commands_Etc_UnitTest
     {
         [SetUp]
         public void Setup()

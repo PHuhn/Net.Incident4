@@ -23,6 +23,7 @@ using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
+using System.Configuration;
 //
 namespace NSG.Integration.Helpers
 {
@@ -92,6 +93,26 @@ namespace NSG.Integration.Helpers
                 throw new Exception("UnitTestFixture.Fixture_UnitTestSetup: failed to create managers.");
             }
         }
+        public void Fixture_MockSetup()
+        {
+            db_context = null;
+            userManager = null;
+            roleManager = null;
+            // Build service colection to create identity UserManager and RoleManager. 
+            ServiceCollection services = new ServiceCollection();
+            NSG_Helpers.AddLoggingService(services);
+            // Add ASP.NET Core Identity database in memory.
+            Mock<ApplicationDbContext> _contextMock = MockHelpers.GetApplicationDbContextMock();
+            var _databaseName = _contextMock.Object.Database.ToString(); // I stuffed the name here
+            var _optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: _databaseName);
+            // Get UserManager and RoleManager.
+            Console.WriteLine("Fixture_UnitTestSetup: creating managers ...");
+            Mock<UserManager<ApplicationUser>> _userManager = MockHelpers.GetMockUserManager<ApplicationUser>();
+            Mock<RoleManager<ApplicationRole>> _roleManger = MockHelpers.GetMockRoleManager<ApplicationRole>();
+            userManager = _userManager.Object;
+            roleManager = _roleManger.Object;
+        }
         //
         /// <summary>
         /// Setup for testing controllers
@@ -155,13 +176,14 @@ namespace NSG.Integration.Helpers
             return (IOptions<T>)Options.Create<T>(
                     configuration.GetSection(settingTag).Get<T>());
         }
-        public void SetupConfiguration(string appSettings = "appsettings.json")
+        public IConfiguration SetupConfiguration(string appSettings = "appsettings.json")
         {
             configuration = new ConfigurationBuilder()
                 // .AddEnvironmentVariables()
                 .AddJsonFile(appSettings, optional: true, reloadOnChange: false)
                 .AddUserSecrets<Program>(true)
                 .Build();
+            return configuration;
         }
         //
         /// <summary>

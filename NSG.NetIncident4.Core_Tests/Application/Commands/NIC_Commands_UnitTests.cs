@@ -10,18 +10,26 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+//
+using MockQueryable.Moq;
 using Moq;
 using MediatR;
 //
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Application.Commands.NICs;
+using NSG.PrimeNG.LazyLoading;
+using NSG.NetIncident4.Core.Persistence;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
     [TestFixture]
-    public class NIC_Commands_UnitTests : UnitTestFixture
+    public class NIC_Commands_UnitTests
     {
+        //
+        static CancellationToken _cancelToken = CancellationToken.None;
+        static Mock<IMediator> _mediatorMock = null;
+        static Mock<ApplicationDbContext> _contextMock = null;
         //
         public NIC_Commands_UnitTests()
         {
@@ -32,22 +40,21 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         public void Setup()
         {
             Console.WriteLine("Setup");
-            //
-            Fixture_UnitTestSetup();
-            //
-            DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
-            _seeder.Seed().Wait();
-            foreach( NIC _n in db_context.NICs)
-            {
-                Console.Write(_n.NIC_Id + ", ");
-            }
-            Console.WriteLine("");
         }
         //
         [Test]
         public void NICCreateCommand_Test()
         {
-            NICCreateCommandHandler _handler = new NICCreateCommandHandler(db_context);
+            // given
+            var _mockDbSet = NSG_Helpers.nicsFakeData.BuildMock().BuildMockDbSet();
+            _ = _mockDbSet.DbSetAddAsync<NIC>();
+            _contextMock = MockHelpers.GetDbContextMock();
+            _contextMock.Setup(x => x.NICs).Returns(_mockDbSet.Object);
+            var _saveResult = _contextMock
+                .Setup(r => r.SaveChangesAsync(_cancelToken))
+                .Returns(Task.FromResult(1));
+            // when
+            NICCreateCommandHandler _handler = new NICCreateCommandHandler(_contextMock.Object);
             NICCreateCommand _create = new NICCreateCommand()
             {
                 NIC_Id = "NIC_Id",
@@ -64,7 +71,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         [Test]
         public void NICUpdateCommand_Test()
         {
-            NICUpdateCommandHandler _handler = new NICUpdateCommandHandler(db_context);
+            NICUpdateCommandHandler _handler = new NICUpdateCommandHandler(_contextMock.Object);
             NICUpdateCommand _update = new NICUpdateCommand()
             {
                 NIC_Id = "other",
@@ -81,27 +88,21 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         [Test]
         public void NICDeleteCommand_Test()
         {
-            // Add a row to be deleted.
-            NIC _create = new NIC()
-            {
-                NIC_Id = "DEL ME",
-                NICDescription = "NICDescription",
-                NICAbuseEmailAddress = "NICAbuseEmailAddress",
-                NICRestService = "NICRestService",
-                NICWebSite = "NICWebSite",
-            };
-            db_context.NICs.Add(_create);
-            db_context.SaveChanges();
-            //
-            // IMediator mediator
-            Mock<IMediator> _mockMediator = new Mock<IMediator>();
-            // Now delete what was just created ...
-            NICDeleteCommandHandler _handler = new NICDeleteCommandHandler(db_context, _mockMediator.Object);
+            // given
+            Console.WriteLine("NICDeleteCommand_Test ...");
+            string _nicId = "other";
+            NIC? _return = NSG_Helpers.nicsFakeData.Find(n => n.NIC_Id == _nicId);
+            var _mockDbSet = new List<NIC>() { _return }.BuildMock().BuildMockDbSet();
+            _contextMock = MockHelpers.GetDbContextMock();
+            _contextMock.Setup(x => x.NICs).Returns(_mockDbSet.Object);
+            _mediatorMock = new Mock<IMediator>();
+            // when
+            NICDeleteCommandHandler _handler = new NICDeleteCommandHandler(_contextMock.Object, _mediatorMock.Object);
             NICDeleteCommand _delete = new NICDeleteCommand()
             {
-                NIC_Id = _create.NIC_Id,
+                NIC_Id = _nicId,
             };
-            Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
+            Task<int> _deleteResults = _handler.Handle(_delete, _cancelToken);
             int _count = _deleteResults.Result;
             Assert.AreEqual(1, _count);
         }
@@ -109,19 +110,35 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         [Test]
         public async Task NICDetailQuery_Test()
         {
-            NICDetailQueryHandler _handler = new NICDetailQueryHandler(db_context);
+            // given
+            Console.WriteLine("NICDetailQuery_Test ...");
+            string _nicId = "unknown";
+            NIC? _return = NSG_Helpers.nicsFakeData.Find(n => n.NIC_Id == _nicId);
+            var _mockDbSet = new List<NIC>() { _return }.BuildMock().BuildMockDbSet();
+            _contextMock = MockHelpers.GetDbContextMock();
+            _contextMock.Setup(x => x.NICs).Returns(_mockDbSet.Object);
+            _mediatorMock = new Mock<IMediator>();
+            // when
+            NICDetailQueryHandler _handler = new NICDetailQueryHandler(_contextMock.Object);
             NICDetailQueryHandler.DetailQuery _detailQuery =
                 new NICDetailQueryHandler.DetailQuery();
-            _detailQuery.NIC_Id = "unknown";
+            _detailQuery.NIC_Id = _nicId;
             NICDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
-            Assert.AreEqual("unknown", _detail.NIC_Id);
+            // then
+            Assert.AreEqual(_nicId, _detail.NIC_Id);
         }
         //
         [Test]
         public void NICListQuery_Test()
         {
-            NICListQueryHandler _handler = new NICListQueryHandler(db_context);
+            // given
+            Console.WriteLine("NICListQuery_Test ...");
+            var _mockDbSet = NSG_Helpers.nicsFakeData.BuildMock().BuildMockDbSet();
+            _contextMock = MockHelpers.GetDbContextMock();
+            _contextMock.Setup(x => x.NICs).Returns(_mockDbSet.Object);
+            // when
+            NICListQueryHandler _handler = new NICListQueryHandler(_contextMock.Object);
             NICListQueryHandler.ListQuery _listQuery =
                 new NICListQueryHandler.ListQuery();
             Task<NICListQueryHandler.ViewModel> _viewModelResults =

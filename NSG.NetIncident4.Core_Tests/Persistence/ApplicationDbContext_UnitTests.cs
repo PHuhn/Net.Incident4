@@ -1,17 +1,13 @@
 using NUnit.Framework;
 using System;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 //
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 //
 namespace NSG.NetIncident4.Core_Tests.Persistence
 {
@@ -239,15 +235,16 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
         [Test]
         public async Task ApplicationDbContext_DuplicateUpdateServer_Test()
         {
-            string expected = "DbUpdateException: Problem updating entity: Server. Duplicate Short: TestSrv1 and/or Name: Test Server5. ";
+            string expected = "DbUpdateException: Problem updating entity: Server. Duplicate Short: TestSrv1 and/or Name: Test Server3. ";
             await SeedData.SeedCompany(db_context);
             Console.WriteLine("ApplicationDbContext_DuplicateCreateServer_Test");
-            Server _new = new Server();
-            foreach (int _idx in new int[] { 1, 2, 3, 4, 5 })
+            Server _lastNew = new Server();
+            foreach (int _idx in new int[] { 1, 2, 3})
             {
-                _new = new Server()
+                Server _new = new Server()
                 {
-                    CompanyId = 1,
+                    // ServerId <- IDENTITY(1,1) primary key
+                    CompanyId = 1,  // <- foreign key
                     ServerShortName = $"TestSrv{_idx}",
                     ServerName = $"Test Server{_idx}",
                     ServerDescription = $"Test Server{_idx}",
@@ -261,7 +258,17 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
                     TimeZone_DST = "",
                 };
                 db_context.Add(_new);
-                db_context.SaveChanges();
+                try
+                {
+                    db_context.SaveChanges();
+                    Console.WriteLine($"New Server: {_new.ServerId}, {_new.ServerShortName}, {_new.ServerName}, Company: {_new.CompanyId} ");
+                    _lastNew = _new;
+                }
+                catch (Exception _ex)
+                {
+                    Console.WriteLine(_ex.GetBaseException().ToString());
+                    Assert.Fail(_ex.Message);
+                }
             }
             // create duplicate
             try
@@ -270,9 +277,10 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
                 {
                     Console.WriteLine($"{_srv.ServerId}, {_srv.ServerShortName}, {_srv.ServerName}");
                 }
-                _new.ServerShortName = $"TestSrv1";
+                _lastNew.ServerId = 0;
+                _lastNew.ServerShortName = $"TestSrv1";
                 // _new.ServerName = $"Test Server1";
-                db_context.Add(_new);
+                db_context.Add(_lastNew);
                 db_context.SaveChanges();
             }
             catch (DbUpdateException upExc)
@@ -282,7 +290,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
                 Assert.AreEqual(expected, actual);
                 return;
             }
-            Assert.Fail();
+            Assert.Fail("Duplicate exception failed");
             //
         }
         //
@@ -367,10 +375,10 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
         [Test]
         public async Task ApplicationDbContext_DuplicateCreateEmailTemplate_Test()
         {
+            Console.WriteLine("ApplicationDbContext_DuplicateCreateEmailTemplate_Test");
             string expected = "DbUpdateException: Problem updating entity: EmailTemplate. Duplicate Company: NSG-1 and IncidentType: DIR-7. ";
             await SeedData.SeedCompany(db_context);
             await SeedData.SeedIncidentType(db_context, false);
-            Console.WriteLine("ApplicationDbContext_DuplicateNIC_Test");
             // 1 Unk/2 Multiple/3 SQL/4 PHP/5 XSS/6 VS/7 DIR/8 DoS
             EmailTemplate _new = new EmailTemplate()
             {
@@ -389,12 +397,17 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 Console.WriteLine($"{_it.IncidentTypeId} {_it.IncidentTypeShortDesc}");
             }
-            db_context.Add(_new);
+            Console.WriteLine(_new);
+            db_context.EmailTemplates.Add(_new);
             db_context.SaveChanges();
+            foreach (EmailTemplate _et in db_context.EmailTemplates)
+            {
+                Console.WriteLine($" {_et.CompanyId} {_et.IncidentTypeId}");
+            }
             // create duplicate
             try
             {
-                db_context.Add(_new);
+                db_context.EmailTemplates.Add(_new);
                 db_context.SaveChanges();
             }
             catch (DbUpdateException upExc)

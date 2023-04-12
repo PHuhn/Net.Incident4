@@ -6,3 +6,28 @@ Install-Package Microsoft.EntityFrameworkCore.Sqlite -Version 5.0.12
 Install-Package Microsoft.AspNetCore.TestHost -Version 5.0.12
 
 Install-Package Microsoft.SyndicationFeed.ReaderWriter -Version 1.0.2
+
+
+Application
+ Install-Package Microsoft.AspNetCore.Authentication.JwtBearer -Version 6.0.14
+ Install-Package Microsoft.AspNetCore.Authentication.OpenIdConnect -Version 6.0.14
+ Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -Version 6.0.14
+ Install-Package Microsoft.AspNetCore.Identity.UI -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.Relational -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.Tools -Version 6.0.14
+
+
+UnitTest
+ Install-Package Microsoft.AspNetCore.Authentication.JwtBearer -Version 6.0.14
+ Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -Version 6.0.14
+ Install-Package Microsoft.AspNetCore.Identity.UI -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.InMemory -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.Sqlite -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.Relational -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 6.0.14
+ Install-Package Microsoft.EntityFrameworkCore.Tools -Version 6.0.14
+ Install-Package Microsoft.AspNetCore.TestHost -Version 6.0.14
+ Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design -Version 6.0.12
+ Install-Package Microsoft.Extensions.Logging -Version 6.0.0
+ Install-Package MockQueryable.EntityFrameworkCore -version 6.0.1

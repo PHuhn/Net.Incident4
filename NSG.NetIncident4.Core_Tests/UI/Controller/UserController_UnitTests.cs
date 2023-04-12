@@ -8,6 +8,8 @@ using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+//
+using MockQueryable.Moq;
 using MediatR;
 using Moq;
 //
@@ -17,6 +19,9 @@ using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.UI.Controllers;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.NetIncident4.Core.UI.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using NSG.NetIncident4.Core.Domain.Entities;
+using NSG.NetIncident4.Core.Persistence;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Controller
 {
@@ -30,8 +35,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         public void Setup()
         {
             Fixture_UnitTestSetup();
-            DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
-            _seeder.Seed().Wait();
+            //DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
+            //_seeder.Seed().Wait();
         }
         //
         [Test]
@@ -84,7 +89,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         {
             // given
             Mock<IMediator> mockMediator = new Mock<IMediator>();
-            UserController sut = new UserController(userManager, mockMediator.Object);
+            Mock<UserManager<ApplicationUser>> _userManager = MockHelpers.GetMockUserManager<ApplicationUser>();
+            var _mockDbSetUsers = NSG_Helpers.usersFakeData.BuildMock().BuildMockDbSet();
+            _userManager.Setup(m => m.Users).Returns(_mockDbSetUsers.Object);
+            UserController sut = new UserController(_userManager.Object, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("Phil", "admin", "/Log/", controllerHeaders);
             // when
             ActionResult<List<Forecast>> result = await sut.AccuWeather();

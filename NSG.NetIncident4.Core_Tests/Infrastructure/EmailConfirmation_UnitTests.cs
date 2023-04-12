@@ -2,41 +2,56 @@
 // File: EmailConfirmation_UnitTests.cs
 using NUnit.Framework;
 using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Net.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Routing;
 //
+using MediatR;
+using MockQueryable.Moq;
 using Moq;
+//
 using NSG.Integration.Helpers;
+using NSG.NetIncident4.Core;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
-using NSG.NetIncident4.Core.UI.Controllers;
 using NSG.NetIncident4.Core.Domain.Entities;
+using NSG.NetIncident4.Core.UI.Controllers;
 //
 namespace NSG.NetIncident4.Core_Tests.Infrastructure
 {
+    /*
+    ** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    **
+    ** This test requires some ability to send emails.
+    ** I use fake-smtp-server, which is a nodejs application.
+    ** The project does have a 'fake-smtp.bat', that invokes
+    ** the globally installed node package.
+    **
+    ** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    */
     [TestFixture]
-    public class EmailConfirmation_UnitTests : TestServerFixture
+    public class EmailConfirmation_UnitTests
     {
         //
         public IConfiguration Configuration { get; set;  }
-        Mock<IEmailSender> _emailSender = null;
+        private Mock<IEmailSender> _emailSender;
+        private Mock<UserManager<ApplicationUser>> _userManager;
+        private Mock<HttpRequest> _request;
+        private HttpContext _httpContext;
+        private Mock<IUrlHelper> _urlHelperMock;
+        private HttpClient _httpClient;
+        private string _callBackUrl = "http://localhost:8080";
+        private ApplicationUser _user = NSG_Helpers.user2;
         //
         public EmailConfirmation_UnitTests()
         {
-            //string _appSettings = "appsettings.json";
-            //if (_appSettings != "")
-            //    if (!File.Exists(_appSettings))
-            //        throw new FileNotFoundException($"Settings file: {_appSettings} not found.");
-            //Configuration = new ConfigurationBuilder()
-            //    .AddJsonFile(_appSettings, optional: true, reloadOnChange: false)
-            //    .Build();
+            Console.WriteLine("EmailConfirmation_UnitTests c-tor ...");
+            var webAppFactory = new WebApplicationFactory<Program>();
+            _httpClient = webAppFactory.CreateDefaultClient();
             //
         }
         //
@@ -44,124 +59,116 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         public void MySetup()
         {
             Console.WriteLine("Setup");
-            //
-            // Fixture_ControllerTestSetup();
-            //
             _emailSender = new Mock<IEmailSender>();
+            // user manager
+            _userManager = MockHelpers.GetMockUserManager<ApplicationUser>();
+            var _mockDbSetUsers = NSG_Helpers.usersFakeData.BuildMock().BuildMockDbSet();
+            _userManager.Setup(m => m.Users).Returns(_mockDbSetUsers.Object);
+            _ = _userManager
+                .Setup(r => r.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>()))
+                .Returns(Task.FromResult("aaaa00-0000-111111-2222-333333"));
+            // request
+            _request = new Mock<HttpRequest>();
+            _request.Setup(x => x.Scheme).Returns("localhost:8080");
+            _request.Setup(x => x.Host).Returns(HostString.FromUriComponent("http://localhost:8080"));
+            _request.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Authenticate"));
+            // http context
+            _httpContext = Mock.Of<HttpContext>(_ =>
+                _.Request == _request.Object
+            );
+            // url helper
+            _urlHelperMock = new Mock<IUrlHelper>(MockBehavior.Strict);
+            // action is not an extension method (some 'action's are an extension method)
+            _ = _urlHelperMock.Setup(x => x.Action(It.IsAny<UrlActionContext>()))
+                .Returns(_callBackUrl);
         }
         //
         [Test()]
         public async Task Home_Page_Test()
         {
-            // https://stackoverflow.com/questions/30358322/integration-testing-asp-net-web-api-2-using-httpserver-httpclient-no-httpcontex
+            Console.WriteLine("Home_Page_Test ...");
             // given / when
-            var response = await client.GetAsync("/");
+            var response = await _httpClient.GetAsync("/");
+            // then
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            // then
-            Assert.AreEqual("Net-Incident Web API Services", responseString);
+            Assert.IsTrue(responseString.Contains("Net-Incident"));
+            Assert.IsTrue(responseString.Contains("Administration and Web API Services"));
         }
         //
         [Test()]
-        public async Task EmailConfirmation_Page_Test()
+        public async Task About_Page_Test()
         {
-            // Act
-            var response = await client.GetAsync("/");
+            Console.WriteLine("About_Page_Test ...");
+            // given / when
+            var response = await _httpClient.GetAsync("/Home/About");
+            // then
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            // Assert
-            Assert.AreEqual("Net-Incident Web API Services", responseString);
-            //var formData = new Dictionary<string, string>
-            //{
-            //    {"Email", "author@any.net"},
-            //};
-            //HttpRequestMessage postRequest = new HttpRequestMessage(HttpMethod.Post, "Account/ResendEmailConfirmation")
-            //{
-            //    Content = new FormUrlEncodedContent(formData)
-            //};
-            //var response = await client.SendAsync(postRequest);
-            //response.EnsureSuccessStatusCode();
-            //var responseString = await response.Content.ReadAsStringAsync();
-            //// Additional asserts could go here 
-            //var testPage = await client.GetAsync("/Account/ResendEmailConfirmation");
-            //Console.WriteLine(testPage);
-            //EmailTestPageModel _testConfirmation = new EmailTestPageModel(userManager, _emailSender.Object);
-            // when
-            // IActionResult _results = await _testConfirmation.OnPostAsync();
-            // then
-            // Assert.AreEqual(_results, "https://localhost/Account/ConfirmEmail");
+            Assert.IsTrue(responseString.Contains("Network Incident Backend"));
         }
         //
-        //[Test()]
-        //public async Task EmailConfirmation_Controller_Test()
-        //{
-        //    // given
-        //    Controller _testConfirmation = new EmailTestController();
-        //    _testConfirmation.ControllerContext.HttpContext = Fixture_HttpContext(NSG_Helpers.User_Name2, "User", "/Register/", controllerHeaders);
-        //    _testConfirmation.Url = Fixture_CreateUrlHelper("https://localhost:44378/Account/ConfirmEmail/");
-        //    IEmailConfirmation confirmation = new EmailConfirmation(_testConfirmation);
-        //    var _user = await userManager.FindByNameAsync(NSG_Helpers.User_Name2);
-        //    // when
-        //    string callBackUrl = await confirmation.EmailConfirmationAsync(userManager, _emailSender.Object, _user);
-        //    // then
-        //    Assert.AreEqual("https://localhost/Account/ConfirmEmail", callBackUrl);
-        //}
-        ////
-        //[Test()]
-        //public async Task EmailConfirmation_ApiController_Test()
-        //{
-        //    // given
-        //    ControllerBase _testConfirmation = new EmailTestApiController();
-        //    _testConfirmation.ControllerContext.HttpContext = Fixture_HttpContext(NSG_Helpers.User_Name2, "User", "/Register/", controllerHeaders);
-        //    IEmailConfirmation confirmation = new EmailConfirmation(_testConfirmation);
-        //    var _user = await userManager.FindByNameAsync(NSG_Helpers.User_Name2);
-        //    // when
-        //    string callBackUrl = await confirmation.EmailConfirmationAsync(userManager, _emailSender.Object, _user);
-        //    // then
-        //    Assert.AreEqual("https://localhost/Account/ConfirmEmail", callBackUrl);
-        //}
+        [Test]
+        public async Task EmailConfirmationAsync_Controller_Test()
+        {
+            // given
+            var _controllerContext = new ControllerContext()
+            {
+                HttpContext = _httpContext,
+            };
+            ControllerBase _controller = new BaseController((new Mock<IMediator>()).Object)
+            {
+                ControllerContext = _controllerContext,
+                Url = _urlHelperMock.Object,
+            };
+            IEmailConfirmation sut = new EmailConfirmation(_controller, _userManager.Object, _emailSender.Object);
+            // when
+            string _emailBody = await sut.EmailConfirmationAsync(_user);
+            // then
+            Assert.AreEqual(_emailBody, $"Please confirm your account: {_user.UserName} by <a href='{_callBackUrl}'>clicking here</a>.");
+        }
+        //
+        [Test()]
+        public async Task EmailConfirmationAsync_Page_Test()
+        {
+            // given
+            Console.WriteLine("EmailConfirmation_Page_Test ...");
+            var response = await _httpClient.GetAsync("/Account/ConfirmEmail?userId=TestUser&code=aaaa");
+            // response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            // Assert
+            Assert.AreEqual("Unable to load user with ID 'TestUser'.", responseString);
+            var _actionContext = new ActionContext(_httpContext, new Microsoft.AspNetCore.Routing.RouteData(), new PageActionDescriptor());
+            var _sut = new EmailTestPageModel(_userManager.Object, _emailSender.Object, _user)
+            {
+                PageContext = new PageContext(_actionContext),
+                Url = _urlHelperMock.Object,
+            };
+            var _emailBody = await _sut.OnPostAsync();
+            // then
+            Assert.AreEqual(_emailBody, $"Please confirm your account: author by <a href='http://localhost:8080'>clicking here</a>.");
+        }
         //
     }
     //
-    [Route("/EmailTestPage")]
+    [Microsoft.AspNetCore.Components.Route("/EmailTestPage")]
     public class EmailTestPageModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
-        public EmailTestPageModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        private readonly ApplicationUser _user;
+        public EmailTestPageModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ApplicationUser user) : base()
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _user = user;
         }
         //
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<string> OnPostAsync()
         {
-            IEmailConfirmation confirmation = new EmailConfirmation(this);
-            var _user = await _userManager.FindByNameAsync(NSG_Helpers.User_Name2);
-            if (_user == null)
-            {
-                ModelState.AddModelError(string.Empty, $"User not found: {NSG_Helpers.User_Name2}");
-                return Page();
-            }
-            string callBackUrl = await confirmation.EmailConfirmationAsync(_userManager, _emailSender, _user);
-            ModelState.AddModelError(string.Empty, "Verification email sent.");
-            return Page( );
-        }
-    }
-    //
-    public class EmailTestController : Controller
-    {
-        public EmailTestController()
-        {
-        }
-        //
-    }
-    //
-    [ApiController]
-    public class EmailTestApiController : ControllerBase
-    {
-        public EmailTestApiController()
-        {
+            IEmailConfirmation confirmation = new EmailConfirmation(this, _userManager, _emailSender);
+            string body = await confirmation.EmailConfirmationAsync(_user);
+            return body;
         }
     }
     //

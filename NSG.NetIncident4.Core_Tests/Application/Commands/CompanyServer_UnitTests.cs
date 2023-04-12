@@ -16,15 +16,19 @@ using MediatR;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Application.Commands.CompanyServers;
 using NSG.NetIncident4.Core.Application.Infrastructure;
+using MockQueryable.Moq;
+using NSG.NetIncident4.Core.Domain.Entities;
+using NSG.NetIncident4.Core.Persistence;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
     [TestFixture]
-    public class CompanyServer_UnitTests : UnitTestFixture
+    public class CompanyServer_UnitTests
     {
         //
-        Mock<IMediator> _mockGetCompaniesMediator = null;
         static CancellationToken _cancelToken = CancellationToken.None;
+        static Mock<IMediator> _mediatorMock = null;
+        static Mock<ApplicationDbContext> _contextMock = null;
         //
         public void ClassInitialize()
         {
@@ -36,40 +40,56 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
         {
             Console.WriteLine("Setup");
             //
-            Fixture_UnitTestSetup();
-            // set up mock to get list of permissible list of companies
             GetUserCompanyListQueryHandler.ViewModel _retViewModel =
-                new GetUserCompanyListQueryHandler.ViewModel() { CompanyList = new List<int>() { 1 } };
-            _mockGetCompaniesMediator = new Mock<IMediator>();
-            _mockGetCompaniesMediator.Setup(x => x.Send(
+                new GetUserCompanyListQueryHandler.ViewModel() { CompanyList = new List<int>() { 1, 2, 3, 4 } };
+            _mediatorMock = new Mock<IMediator>();
+            _mediatorMock.Setup(x => x.Send(
                 It.IsAny<GetUserCompanyListQueryHandler.ListQuery>(), _cancelToken))
                 .Returns(Task.FromResult(_retViewModel));
             //
-            DatabaseSeeder _seeder = new DatabaseSeeder(db_context, userManager, roleManager);
-            _seeder.Seed().Wait();
         }
         //
         [Test]
         public void CompanyServerDetailQuery_Test()
         {
-            CompanyServerDetailQueryHandler _handler = new CompanyServerDetailQueryHandler(db_context, _mockGetCompaniesMediator.Object);
-            CompanyServerDetailQueryHandler.DetailQuery _detailQuery =
-                new CompanyServerDetailQueryHandler.DetailQuery() { CompanyId = 1 };
-            _detailQuery.CompanyId = 1;
-            Task<CompanyServerDetailQuery> _detailResults =
-                _handler.Handle(_detailQuery, CancellationToken.None);
-            CompanyServerDetailQuery _detail = _detailResults.Result;
-            Assert.AreEqual(1, _detail.CompanyId);
+            // given
+            Console.WriteLine("IncidentTypeDetailQuery_Test ...");
+            int _companyId = 1;
+            Company? _return = NSG_Helpers.companiesFakeData.Find(e => e.CompanyId == _companyId);
+            if (_return != null)
+            {
+                var _mockDbSetSrvrs = new List<Server>() { NSG_Helpers.server1 }.BuildMock().BuildMockDbSet();
+                var _mockDbSet = new List<Company>() { _return }.BuildMock().BuildMockDbSet();
+                _contextMock = MockHelpers.GetDbContextMock();
+                _contextMock.Setup(x => x.Companies).Returns(_mockDbSet.Object);
+                _contextMock.Setup(x => x.Servers).Returns(_mockDbSetSrvrs.Object);
+                // when
+                CompanyServerDetailQueryHandler _handler = new CompanyServerDetailQueryHandler(_contextMock.Object, _mediatorMock.Object);
+                CompanyServerDetailQueryHandler.DetailQuery _detailQuery =
+                    new CompanyServerDetailQueryHandler.DetailQuery() { CompanyId = 1 };
+                _detailQuery.CompanyId = _companyId;
+                Task<CompanyServerDetailQuery> _detailResults =
+                    _handler.Handle(_detailQuery, _cancelToken);
+                CompanyServerDetailQuery _detail = _detailResults.Result;
+                Assert.AreEqual(_detail.CompanyId, _companyId);
+            }
         }
         //
         [Test]
         public void CompanyServerListQuery_Test()
         {
-            CompanyServerListQueryHandler _handler = new CompanyServerListQueryHandler(db_context, _mockGetCompaniesMediator.Object);
+            // given
+            Console.WriteLine("CompanyServerListQuery_Test");
+            var _mockDbSet = NSG_Helpers.companiesFakeData.BuildMock().BuildMockDbSet();
+            _contextMock = MockHelpers.GetDbContextMock();
+            _contextMock.Setup(x => x.Companies).Returns(_mockDbSet.Object);
+            // when
+            CompanyServerListQueryHandler _handler = new CompanyServerListQueryHandler(_contextMock.Object, _mediatorMock.Object);
             CompanyServerListQueryHandler.ListQuery _listQuery =
                 new CompanyServerListQueryHandler.ListQuery();
             Task<CompanyServerListQueryHandler.ViewModel> _viewModelResults =
-                _handler.Handle(_listQuery, CancellationToken.None);
+                _handler.Handle(_listQuery, _cancelToken);
+            // then
             IList<CompanyServerListQuery> _list = _viewModelResults.Result.CompaniesList;
             Assert.IsTrue(_list.Count == 1 || _list.Count == 2);
         }
