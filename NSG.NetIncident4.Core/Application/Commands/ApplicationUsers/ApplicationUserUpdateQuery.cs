@@ -30,6 +30,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public string Id { get; set; }
 		public string UserName { get; set; }
 		public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
 		public string PhoneNumber { get; set; }
         public bool PhoneNumberConfirmed { get; set; }
         public int CompanyId { get; set; }
@@ -50,6 +51,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
             Id = "00000000-0000-1000-8000-000000000000";
             UserName = "";
             Email = "";
+            EmailConfirmed = false;
             PhoneNumber = "";
             PhoneNumberConfirmed = false;
             CompanyId = 0;
@@ -284,7 +286,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				Id = entity.Id,
 				UserName = entity.UserName,
 				Email = entity.Email,
-				PhoneNumber = entity.PhoneNumber,
+                EmailConfirmed = entity.EmailConfirmed,
+                PhoneNumber = entity.PhoneNumber,
                 PhoneNumberConfirmed = entity.PhoneNumberConfirmed,
                 CompanyId = entity.CompanyId,
 				FirstName = entity.FirstName,

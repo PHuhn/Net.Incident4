@@ -39,6 +39,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public string FullName { get; set; }
 		public string LastName { get; set; }
 		public string UserNicName { get; set; }
+        public bool UserLockedOut { get; set; }
         //
         public List<string> RoleList { get; set; }
         public List<ApplicationUserServerListQuery> ServerList { get; set; }
@@ -56,7 +57,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 			FullName = "";
 			LastName = "";
 			UserNicName = "";
-			// UserLockedOut = false;
+			UserLockedOut = false;
 			// ResetUserLockedOut = false;
 			//
 			RoleList = new List<string>();
@@ -257,7 +258,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				FullName = entity.FullName,
 				LastName = entity.LastName,
 				UserNicName = entity.UserNicName,
-			};
+                UserLockedOut = (entity.LockoutEnd == null ? false :
+                                (entity.LockoutEnd > DateTime.Now ? true : false)),
+            };
 		}
 	}
 }

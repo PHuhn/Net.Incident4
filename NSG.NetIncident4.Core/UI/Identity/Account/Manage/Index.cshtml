@@ -19,16 +19,34 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Role"></label>
-                <input asp-for="Role" class="form-control" disabled />
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" placeholder="First" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="CompanyName"></label>
-                <input asp-for="CompanyName" class="form-control" disabled />
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" placeholder="Last" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.UserNicName"></label>
+                <input asp-for="Input.UserNicName" class="form-control" placeholder="Nic" />
+                <span asp-validation-for="Input.UserNicName" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
@@ -42,32 +60,14 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control" placeholder="First" />
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                <label asp-for="CompanyName"></label>
+                <input asp-for="CompanyName" class="form-control" disabled />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Input.LastName"></label>
-                <input asp-for="Input.LastName" class="form-control" placeholder="Last" />
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="Input.UserNicName"></label>
-                <input asp-for="Input.UserNicName" class="form-control" placeholder="Nic" />
-                <span asp-validation-for="Input.UserNicName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                <label asp-for="Role"></label>
+                <input asp-for="Role" class="form-control" disabled />
             </div>
         </div>
     </div>

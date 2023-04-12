@@ -24,7 +24,7 @@
         <input id="Id" name="Id" type="hidden" value="@(Model.Id)" />
         <input type="hidden" asp-for="UserName" />
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6">
                 <div class="row">
                     <label class="col-md-4 nsg-label" for="UserName">
                         User Name:
@@ -33,6 +33,62 @@
                         @Html.DisplayFor(model => model.UserName)
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4 nsg-label" for="FirstName">
+                        First Name:
+                    </label>
+                    <div class="col-md-8">
+                        <input asp-for="FirstName" class="form-control" maxlength="100" style="width: 100%;" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4 nsg-label" for="LastName">
+                        Last Name:
+                    </label>
+                    <div class="col-md-8">
+                        <input asp-for="LastName" class="form-control" maxlength="100" style="width: 100%;" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4 nsg-label" for="FullName">
+                        Full Name:
+                    </label>
+                    <div class="col-md-8">
+                        <input asp-for="FullName" class="form-control" maxlength="100" style="width: 100%;" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4 nsg-label" for="UserNicName">
+                        Nic Name:
+                    </label>
+                    <div class="col-md-8">
+                        <input asp-for="UserNicName" class="form-control" maxlength="16" style="width: 200px;" />
+                        <span asp-validation-for="UserNicName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
                 <div class="row">
                     <label class="col-md-4 nsg-label" for="Email">
                         Email:
@@ -42,6 +98,20 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4 nsg-label" for="EmailConfirmed">
+                        Email Confirmed:
+                    </label>
+                    <div class="col-md-8">
+                        <input type="checkbox" asp-for="EmailConfirmed" disabled />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
                 <div class="row">
                     <label class="col-md-4 nsg-label" for="PhoneNumber">
                         Phone #:
@@ -51,15 +121,21 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="row">
                     <label class="col-md-4 nsg-label" for="PhoneNumberConfirmed">
                         Phone # Confirmed:
                     </label>
                     <div class="col-md-8">
-                        <input type="checkbox" asp-for="PhoneNumberConfirmed"/>
+                        <input type="checkbox" asp-for="PhoneNumberConfirmed" />
                         <span asp-validation-for="PhoneNumberConfirmed" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
                 <div class="row">
                     <label class="col-md-4 nsg-label" for="CompanyId">Company:</label>
                     <div class="col-md-8">
@@ -68,47 +144,10 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-6">
+            <div class="col-md-6">
                 <div class="row">
-                    <label class="col-md-3 nsg-label" for="FirstName">
-                        First Name:
-                    </label>
+                    <label class="col-md-4 nsg-label" for="UserLockedOut">Locked-out:</label>
                     <div class="col-md-8">
-                        <input asp-for="FirstName" class="form-control" maxlength="100" style="width: 100%;" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-3 nsg-label" for="LastName">
-                        Last Name:
-                    </label>
-                    <div class="col-md-8">
-                        <input asp-for="LastName" class="form-control" maxlength="100" style="width: 100%;" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-3 nsg-label" for="FullName">
-                        Full Name:
-                    </label>
-                    <div class="col-md-8">
-                        <input asp-for="FullName" class="form-control" maxlength="100" style="width: 100%;" />
-                        <span asp-validation-for="FullName" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-3 nsg-label" for="UserNicName">
-                        Nic Name:
-                    </label>
-                    <div class="col-md-8">
-                        <input asp-for="UserNicName" class="form-control" maxlength="16" style="width: 200px;" />
-                        <span asp-validation-for="UserNicName" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-3 nsg-label" for="UserLockedOut">Locked-out:</label>
-                    <div class="col-md-9">
                         <div style='float: left;'>
                             <input type="checkbox" name="UserLockedOut" value="@Model.UserLockedOut" checked="@Model.UserLockedOut" class="checkbox-inline" disabled />
                             <input id="ResetUserLockedOut" asp-for="ResetUserLockedOut" type="text" value="@Model.ResetUserLockedOut" hidden />
@@ -118,13 +157,16 @@
                                 &nbsp;
                                 <input type="button" value="Reset" class="btn btn-primary" onclick="var rst = document.getElementById('ResetUserLockedOut'); rst.value=true;" />
                             </div>
-                            <div style='float: left;'> &nbsp; &nbsp; Need to save the reset.</div>
+                            <div style='float: left;'> &nbsp; Need to save the reset.</div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <hr />
-
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <div class="form-group row">
                     <label class="col-md-2 nsg-label" for="SelectedRoles">Roles:</label>

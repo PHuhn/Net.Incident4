@@ -77,6 +77,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
                 _.Request == _request.Object
             );
             // url helper
+            // https://stackoverflow.com/questions/42212066/net-core-url-action-mock-how-to
             _urlHelperMock = new Mock<IUrlHelper>(MockBehavior.Strict);
             // action is not an extension method (some 'action's are an extension method)
             _ = _urlHelperMock.Setup(x => x.Action(It.IsAny<UrlActionContext>()))
