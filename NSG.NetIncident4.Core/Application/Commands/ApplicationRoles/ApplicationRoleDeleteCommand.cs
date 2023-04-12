@@ -44,7 +44,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
         /// <summary>
         ///  The constructor for the inner handler class, to delete the ApplicationRole entity.
         /// </summary>
-        /// <param name="context">The database interface context.</param>
+        /// <param name="roleManager">Identity role manager.</param>
+        /// <param name="mediator">mediator send.</param>
         public ApplicationRoleDeleteCommandHandler(RoleManager<ApplicationRole> roleManager, IMediator mediator)
 		{
             _roleManager = roleManager;
@@ -69,12 +70,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationRoles
 			ApplicationRole? _entity = await _roleManager.Roles
 				.Include(u => u.UserRoles).ThenInclude(ur => ur.User)
 				.FirstOrDefaultAsync(r => r.Id == request.Id, cancellationToken: cancellationToken);
-			if (_entity == null)
+            Console.WriteLine(_entity);
+            if (_entity == null)
 			{
 				throw new ApplicationRoleDeleteCommandKeyNotFoundException(request.Id);
 			}
-			// require user to delete all servers before deleting company.
-			if (_entity.UserRoles.Count > 0)
+            // require user to delete all servers before deleting company.
+            Console.WriteLine(_entity.UserRoles);
+            if (_entity.UserRoles.Count > 0)
 			{
 				throw new ApplicationRoleDeleteCommandActiveUsersException(
                     string.Format("ApplicationUser count: {0}", _entity.UserRoles.Count));

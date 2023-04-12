@@ -104,7 +104,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 			};
 			try
             {
-				_context.Logs.Add(_entity);
+				await _context.Logs.AddAsync(_entity, cancellationToken);
 				await _context.SaveChangesAsync(cancellationToken);
 			}
 			catch (Exception _ex)

@@ -28,17 +28,17 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
             _logger = logger;
         }
 
-        public bool HasAuthenticator { get; set; }
+        public bool HasAuthenticator { get; set; } = false;
 
-        public int RecoveryCodesLeft { get; set; }
+        public int RecoveryCodesLeft { get; set; } = 0;
 
         [BindProperty]
-        public bool Is2faEnabled { get; set; }
+        public bool Is2faEnabled { get; set; } = false;
 
-        public bool IsMachineRemembered { get; set; }
+        public bool IsMachineRemembered { get; set; } = false;
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = String.Empty;
 
         public async Task<IActionResult> OnGet()
         {

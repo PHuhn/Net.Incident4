@@ -25,9 +25,7 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 				.HasColumnName("NormalizedName")
 				.HasColumnType("nvarchar");
 			builder.Property(a => a.ConcurrencyStamp)
-				.HasMaxLength(1073741823)
-				.HasColumnName("ConcurrencyStamp")
-				.HasColumnType("nvarchar");
+				.HasColumnName("ConcurrencyStamp");
 			// indexes
 			builder.HasIndex(a => a.NormalizedName)
 				.IsUnique()

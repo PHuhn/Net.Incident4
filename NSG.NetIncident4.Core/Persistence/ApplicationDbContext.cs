@@ -26,7 +26,10 @@ namespace NSG.NetIncident4.Core.Persistence
         //
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+                .HasKey(a => new { a.LoginProvider, a.ProviderKey });
+            //
+            base.OnModelCreating(modelBuilder);
             //
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             //
@@ -458,31 +461,33 @@ namespace NSG.NetIncident4.Core.Persistence
         /*
         ** support
         */
-        public DbSet<LogData> Logs { get; set; } = default!;
+        public virtual DbSet<LogData> Logs { get; set; } = default!;
         //
-        public DbSet<Company> Companies { get; set; } = default!;
+        public virtual DbSet<LogData> Audits { get; set; } = default!;
         //
-        public DbSet<Server> Servers { get; set; } = default!;
+        public virtual DbSet<Company> Companies { get; set; } = default!;
         //
-        public DbSet<ApplicationUserServer> UserServers { get; set; } = default!;
+        public virtual DbSet<Server> Servers { get; set; } = default!;
+        //
+        public virtual DbSet<ApplicationUserServer> UserServers { get; set; } = default!;
         // types
-        public DbSet<IncidentType> IncidentTypes { get; set; } = default!;
+        public virtual DbSet<IncidentType> IncidentTypes { get; set; } = default!;
         //
-        public DbSet<NIC> NICs { get; set; } = default!;
+        public virtual DbSet<NIC> NICs { get; set; } = default!;
         //
-        public DbSet<NoteType> NoteTypes { get; set; } = default!;
+        public virtual DbSet<NoteType> NoteTypes { get; set; } = default!;
         //
-        public DbSet<EmailTemplate> EmailTemplates { get; set; } = default!;
+        public virtual DbSet<EmailTemplate> EmailTemplates { get; set; } = default!;
         /*
         ** incidents
         */
-        public DbSet<NetworkLog> NetworkLogs { get; set; } = default!;
+        public virtual DbSet<NetworkLog> NetworkLogs { get; set; } = default!;
         //
-        public DbSet<Incident> Incidents { get; set; } = default!;
+        public virtual DbSet<Incident> Incidents { get; set; } = default!;
         //
-        public DbSet<IncidentNote> IncidentNotes { get; set; } = default!;
+        public virtual DbSet<IncidentNote> IncidentNotes { get; set; } = default!;
         //
-        public DbSet<IncidentIncidentNote> IncidentIncidentNotes { get; set; } = default!;
+        public virtual DbSet<IncidentIncidentNote> IncidentIncidentNotes { get; set; } = default!;
         //
     } // ApplicationDbContext
 } // namespace

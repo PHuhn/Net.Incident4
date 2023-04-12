@@ -31,8 +31,9 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         {
             IncidentId = 0;
             IncidentNoteId = 0;
+            Incident = new Incident();
+            IncidentNote = new IncidentNote();
         }
-
-    }
+}
 }
 // ---------------------------------------------------------------------------

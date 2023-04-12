@@ -62,57 +62,57 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// The incident id #.  Created by DB during the log load.
         /// </summary>
-        public long IncidentId { get; set; }
+        public long IncidentId { get; set; } = 0;
         //
         /// <summary>
         /// The server id # from the incident log load.
         /// </summary>
-        public int ServerId { get; set; }
+        public int ServerId { get; set; } = 0;
         //
         /// <summary>
         /// The IP Address from the incident log.
         /// </summary>
-        public string IPAddress { get; set; }
+        public string IPAddress { get; set; } = String.Empty;
         //
         /// <summary>
         /// The Network Information Center for IP Address.  Most likely from WHOIS
         /// </summary>
-        public string NIC { get; set; }
+        public string NIC { get; set; } = String.Empty;
         //
         /// <summary>
         /// The network name for the ISP.  Most likely from WHOIS
         /// </summary>
-        public string NetworkName { get; set; }
+        public string NetworkName { get; set; } = String.Empty;
         //
         /// <summary>
         /// The abuse email address for the ISP.  Most likely from WHOIS
         /// </summary>
-        public string AbuseEmailAddress { get; set; }
+        public string AbuseEmailAddress { get; set; } = String.Empty;
         //
         /// <summary>
         /// the ISP's incident #
         /// </summary>
-        public string ISPTicketNumber { get; set; }
+        public string ISPTicketNumber { get; set; } = String.Empty;
         //
         /// <summary>
         /// the incident is mailed
         /// </summary>
-        public bool Mailed { get; set; }
+        public bool Mailed { get; set; } = false;
         //
         /// <summary>
         /// the incident is closed
         /// </summary>
-        public bool Closed { get; set; }
+        public bool Closed { get; set; } = false;
         //
         /// <summary>
         /// If checked then special, i.e. get back to it
         /// </summary>
-        public bool Special { get; set; }
+        public bool Special { get; set; } = false;
         //
         /// <summary>
         /// Random notes for this incident
         /// </summary>
-        public string Notes { get; set; }
+        public string Notes { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column CreatedDate
@@ -122,7 +122,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For pseudo column, for change tracking
         /// </summary>
-        public bool IsChanged { get; set; }
+        public bool IsChanged { get; set; } = false;
         //
         /// <summary>
         /// Create a 'to string'.
@@ -178,7 +178,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For column NetworkLogId
         /// </summary>
-        public long NetworkLogId { get; set; }
+        public long NetworkLogId { get; set; } = 0;
         //
         /// <summary>
         /// For column CompanyId
@@ -193,7 +193,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For column IPAddress
         /// </summary>
-        public string IPAddress { get; set; }
+        public string IPAddress { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column NetworkLogDate
@@ -203,7 +203,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For column Logs
         /// </summary>
-        public string Log { get; set; }
+        public string Log { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeId
@@ -213,17 +213,17 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For column IncidentTypeShortDesc in IncidentType
         /// </summary>
-        public string IncidentTypeShortDesc { get; set; }
+        public string IncidentTypeShortDesc { get; set; } = String.Empty;
         //
         /// <summary>
         /// For pseudo column, for grid selection
         /// </summary>
-        public bool Selected { get; set; }
+        public bool Selected { get; set; } = false;
         //
         /// <summary>
         /// For pseudo column, for change tracking
         /// </summary>
-        public bool IsChanged { get; set; }
+        public bool IsChanged { get; set; } = false;
         //
         /// <summary>
         /// Create a 'to string'.
@@ -266,17 +266,17 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For column NotesTypeId
         /// </summary>
-        public int NoteTypeId { get; set; }
+        public int NoteTypeId { get; set; } = 0;
         //
         /// <summary>
         /// For column NoteTypeShortDesc from NoteType
         /// </summary>
-        public string NoteTypeShortDesc { get; set; }
+        public string NoteTypeShortDesc { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column Notes
         /// </summary>
-        public string Note { get; set; }
+        public string Note { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column CreatedDate
@@ -286,7 +286,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For pseudo column, for change tracking
         /// </summary>
-        public bool IsChanged { get; set; }
+        public bool IsChanged { get; set; } = false;
         //
         /// <summary>
         /// Create a 'to string'.
@@ -316,52 +316,52 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For column IncidentTypeId
         /// </summary>
-        public int IncidentTypeId { get; set; }
+        public int IncidentTypeId { get; set; } = 0;
         //
         /// <summary>
         /// For column IncidentTypeShortDesc
         /// </summary>
-        public string IncidentTypeShortDesc { get; set; }
+        public string IncidentTypeShortDesc { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeDesc
         /// </summary>
-        public string IncidentTypeDesc { get; set; }
+        public string IncidentTypeDesc { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeFromServer
         /// </summary>
-        public bool IncidentTypeFromServer { get; set; }
+        public bool IncidentTypeFromServer { get; set; } = false;
         //
         /// <summary>
         /// For column IncidentTypeSubjectLine
         /// </summary>
-        public string IncidentTypeSubjectLine { get; set; }
+        public string IncidentTypeSubjectLine { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeEmailTemplate
         /// </summary>
-        public string IncidentTypeEmailTemplate { get; set; }
+        public string IncidentTypeEmailTemplate { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeTimeTemplate
         /// </summary>
-        public string IncidentTypeTimeTemplate { get; set; }
+        public string IncidentTypeTimeTemplate { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeThanksTemplate
         /// </summary>
-        public string IncidentTypeThanksTemplate { get; set; }
+        public string IncidentTypeThanksTemplate { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeLogTemplate
         /// </summary>
-        public string IncidentTypeLogTemplate { get; set; }
+        public string IncidentTypeLogTemplate { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column IncidentTypeTemplate
         /// </summary>
-        public string IncidentTypeTemplate { get; set; }
+        public string IncidentTypeTemplate { get; set; } = String.Empty;
         //
         /// <summary>
         /// Create a 'to string'.

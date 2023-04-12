@@ -34,7 +34,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 			NoteTypeDesc = "";
 			NoteTypeClientScript = "";
         }
-	}
+		public NoteTypeCreateCommand(int noteTypeId, string noteTypeShortDesc, string noteTypeDesc, string noteTypeClientScript )
+        {
+            NoteTypeId = noteTypeId;
+            NoteTypeShortDesc = noteTypeShortDesc;
+            NoteTypeDesc = noteTypeDesc;
+            NoteTypeClientScript = noteTypeClientScript;
+        }
+    }
     //
     /// <summary>
     /// 'NoteType' create command handler.
@@ -77,7 +84,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
                 NoteTypeDesc = request.NoteTypeDesc,
                 NoteTypeClientScript = request.NoteTypeClientScript.ToLower()
             };
-			_context.NoteTypes.Add(_entity);
+			await _context.NoteTypes.AddAsync(_entity, cancellationToken);
             try
             {
 				await _context.SaveChangesAsync(cancellationToken);

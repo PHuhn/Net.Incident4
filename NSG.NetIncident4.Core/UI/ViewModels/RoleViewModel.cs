@@ -11,10 +11,10 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
     {
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Id")]
-        public string Id { get; set; }
+        public string Id { get; set; } = String.Empty;
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Role Name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = String.Empty;
     }
 }
 //

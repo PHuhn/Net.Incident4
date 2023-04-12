@@ -9,7 +9,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel : PageModel
     {
-        public string RequestId { get; set; }
+        public string RequestId { get; set; } = String.Empty;
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 

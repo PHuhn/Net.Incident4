@@ -11,7 +11,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         [Required]
         [MaxLength(256)]
         [Display(Name = "User Name")]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = String.Empty;
         //
     }
     //

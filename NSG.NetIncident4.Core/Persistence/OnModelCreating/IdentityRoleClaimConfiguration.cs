@@ -22,14 +22,14 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 				.HasMaxLength(450)
 				.HasColumnName("RoleId")
 				.HasColumnType("nvarchar");
-			builder.Property(a => a.ClaimType)
-				.HasMaxLength(1073741823)
-				.HasColumnName("ClaimType")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.ClaimValue)
-				.HasMaxLength(1073741823)
-				.HasColumnName("ClaimValue")
-				.HasColumnType("nvarchar");
+			//builder.Property(a => a.ClaimType)
+			//  .HasMaxLength(1073741823)
+			//	.HasColumnName("ClaimType")
+			//	.HasColumnType("nvarchar");
+			//builder.Property(a => a.ClaimValue)
+			//  .HasMaxLength(1073741823)
+			//	.HasColumnName("ClaimValue")
+			//	.HasColumnType("nvarchar");
 			// indexes
 			builder.HasIndex(a => a.RoleId)
 				.HasDatabaseName("IX_AspNetRoleClaims_RoleId");

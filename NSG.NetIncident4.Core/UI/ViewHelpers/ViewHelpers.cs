@@ -9,6 +9,8 @@ using Microsoft.SyndicationFeed;
 using Microsoft.SyndicationFeed.Rss;
 //
 using NSG.NetIncident4.Core.UI.ViewModels;
+using System.Threading.Tasks;
+using System.Linq;
 //
 namespace NSG.NetIncident4.Core.UI.ViewHelpers
 {

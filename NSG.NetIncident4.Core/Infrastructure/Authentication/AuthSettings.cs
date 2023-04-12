@@ -11,11 +11,11 @@ namespace NSG.NetIncident4.Core.Infrastructure.Authentication
         /// <summary>
         /// Private jwt secret, read from appsettings.json file
         /// </summary>
-        public string JwtSecret { get; set; }
-        public string JwtIssuer { get; set; }
-        public string JwtAudience { get; set; }
-        public int JwtExpirationHours { get; set; }
-        public bool JwtRequireHttps { get; set; }
+        public string JwtSecret { get; set; } = String.Empty;
+        public string JwtIssuer { get; set; } = String.Empty;
+        public string JwtAudience { get; set; } = String.Empty;
+        public int JwtExpirationHours { get; set; } = 1;
+        public bool JwtRequireHttps { get; set; } = true;
         //
         /// <summary>
         /// cookie settings for MVC app.
@@ -26,7 +26,7 @@ namespace NSG.NetIncident4.Core.Infrastructure.Authentication
         /// <summary>
         /// allow the augular SPA access to web API.
         /// </summary>
-        public string CorsAllowOrigins { get; set; }
+        public string CorsAllowOrigins { get; set; } = String.Empty;
         //
     }
 }

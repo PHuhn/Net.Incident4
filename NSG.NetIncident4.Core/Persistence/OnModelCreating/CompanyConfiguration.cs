@@ -16,48 +16,46 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 		public void Configure(EntityTypeBuilder<Company> builder)
 		{
 			builder.ToTable("Companies");
-			// propteries
-			builder.HasKey(c => c.CompanyId);
-			builder.Property(c => c.CompanyShortName)
-				.IsRequired()
-				.HasMaxLength(12)
-				.HasColumnName("CompanyShortName")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.CompanyName)
-				.IsRequired()
-				.HasMaxLength(80)
-				.HasColumnName("CompanyName")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.Address)
-				.HasMaxLength(80)
-				.HasColumnName("Address")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.City)
-				.HasMaxLength(50)
-				.HasColumnName("City")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.State)
-				.HasMaxLength(4)
-				.HasColumnName("State")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.PostalCode)
-				.HasMaxLength(15)
-				.HasColumnName("PostalCode")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.Country)
-				.HasMaxLength(50)
-				.HasColumnName("Country")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.PhoneNumber)
-				.HasMaxLength(50)
-				.HasColumnName("PhoneNumber")
-				.HasColumnType("nvarchar");
-			builder.Property(c => c.Notes)
-				.HasMaxLength(1073741823)
-				.HasColumnName("Notes")
-				.HasColumnType("nvarchar");
-			// indexes
-			builder.HasIndex(c => c.CompanyShortName)
+            // propteries
+            builder.HasKey(c => c.CompanyId);
+            builder.Property(c => c.CompanyShortName)
+                .IsRequired()
+                .HasMaxLength(12)
+                .HasColumnType("nvarchar")
+                .HasColumnName("CompanyShortName");
+            builder.Property(c => c.CompanyName)
+                .IsRequired()
+                .HasMaxLength(80)
+                .HasColumnType("nvarchar")
+                .HasColumnName("CompanyName");
+            builder.Property(c => c.Address)
+                .HasMaxLength(80)
+                .HasColumnType("nvarchar")
+                .HasColumnName("Address");
+            builder.Property(c => c.City)
+                .HasMaxLength(50)
+                .HasColumnType("nvarchar")
+                .HasColumnName("City");
+            builder.Property(c => c.State)
+                .HasMaxLength(4)
+                .HasColumnType("nvarchar")
+                .HasColumnName("State");
+            builder.Property(c => c.PostalCode)
+                .HasMaxLength(15)
+                .HasColumnType("nvarchar")
+                .HasColumnName("PostalCode");
+            builder.Property(c => c.Country)
+                .HasMaxLength(50)
+                .HasColumnType("nvarchar")
+                .HasColumnName("Country");
+            builder.Property(c => c.PhoneNumber)
+                .HasMaxLength(50)
+                .HasColumnType("nvarchar")
+                .HasColumnName("PhoneNumber");
+            builder.Property(c => c.Notes)
+                .HasColumnName("Notes");
+            // indexes
+            builder.HasIndex(c => c.CompanyShortName)
 				.IsUnique()
 				.HasDatabaseName("Idx_Companies_ShortName");
 			// relationships

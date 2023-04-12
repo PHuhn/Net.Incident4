@@ -10,8 +10,8 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
 {
     public class CompanyEmailTemplatesIndexViewModel
     {
-        public List<SelectListItem> CompanySelect { get; set; }
-        public List<CompanyEmailTemplateListQuery> CompanyEmailTemplates { get; set; }
-        public List<IncidentTypeListQuery> IncidentTypes { get; set; }
+        public List<SelectListItem> CompanySelect { get; set; } = new List<SelectListItem>();
+        public List<CompanyEmailTemplateListQuery> CompanyEmailTemplates { get; set; } = new List<CompanyEmailTemplateListQuery>();
+        public List<IncidentTypeListQuery> IncidentTypes { get; set; } = new List<IncidentTypeListQuery>();
     }
 }

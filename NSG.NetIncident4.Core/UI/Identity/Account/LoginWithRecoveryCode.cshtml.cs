@@ -27,7 +27,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public string ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; } = String.Empty;
 
         public class InputModel
         {
@@ -35,7 +35,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Recovery Code")]
-            public string RecoveryCode { get; set; }
+            public string RecoveryCode { get; set; } = String.Empty;
         }
 
         public async Task<IActionResult> OnGetAsync(string? returnUrl = null)

@@ -36,7 +36,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             this.Id = id;
         }
         //
-        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
+        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; } = new List<ApplicationUserRole>();
         //
     }
     //

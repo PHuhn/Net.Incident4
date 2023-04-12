@@ -55,7 +55,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
             {
                 ServerId = entity.ServerId,
                 CompanyId = entity.CompanyId,
-                CompanyName = entity.Company.CompanyName,
+                CompanyName = entity.Company != null ? entity.Company.CompanyName : "-unk-",
                 ServerShortName = entity.ServerShortName,
                 ServerName = entity.ServerName,
                 ServerDescription = entity.ServerDescription,

@@ -46,12 +46,27 @@ Packages:
 		Override all, select DB Context.
 
 Create db:
+	https://weblog.west-wind.com/posts/2016/jan/13/resetting-entity-framework-migrations-to-a-clean-slate
+	Issue with MS's implementation of SQLite in an update of migration...
+	*	Remove the _MigrationHistory table from the Database
+	*	Remove the individual migration files in your project's Migrations folder
+	*	Add-migration Initial in PMC
+	*	Comment out the code inside of the Up method in the Initial Migration
+	*	Update-database in PMC (does nothing but creates Migration Entry)
+	*	Remove comments in the Initial method
+
 	add-migration Initial
 	update-database
 	Add-Migration "Update-2021-11-27-11-30"
 	Update-Database
 
+	Add-Migration "Update-2023-02-24-11-52"
+	Update-Database
 
+	on 2023-02-25 ...
+	Add-Migration Initial -verbose
+	Update-Database -verbose
+	Remove-Migration -verbose
 
 ==============================================================================
 ==============================================================================
@@ -212,6 +227,98 @@ SOLUTION:
 			Now I get NET::ERR_CERT_AUTHORITY_INVALID (in IIS Manager it said,
 			the certificate was not trusted,
 			is said to install it into Trusted Root Certificates)
+
+PROBLEM:
+ 	 ApplicationDbContext_DuplicateCreateCompany_Test
+   	   Source: ApplicationDbContext_UnitTests.cs line 122
+		Microsoft.Data.Sqlite.SqliteException : SQLite Error 1: 'AUTOINCREMENT is only allowed on an INTEGER PRIMARY KEY'.
+	fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+		  Failed executing DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+		  CREATE TABLE "IncidentNote" (
+			  "IncidentNoteId" bigint NOT NULL CONSTRAINT "PK_IncidentNote" PRIMARY KEY AUTOINCREMENT,
+			  ...
+		  );
+
+SOLUTION:
+	Change the entity as follows:
+		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Required(ErrorMessage = "IncidentNoteId is required.")]
+		public long IncidentNoteId { get; set; }
+
+		info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+			Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+		CREATE TABLE "IncidentNote" (
+			"IncidentNoteId" INTEGER NOT NULL CONSTRAINT "PK_IncidentNote" PRIMARY KEY AUTOINCREMENT,
+			"NoteTypeId" int NOT NULL,
+			"Note" TEXT NOT NULL,
+			"CreatedDate" datetime2 NOT NULL,
+			CONSTRAINT "FK_IncidentNote_NoteType_NoteTypeId" FOREIGN KEY ("NoteTypeId") REFERENCES "NoteType" ("NoteTypeId") ON DELETE RESTRICT
+		);
+
+	Change the EntityTypeBuilder to not use
+		item.HasKey(i => i.IncidentNoteId);
+		//item.Property(i => i.IncidentNoteId)
+		//    .IsRequired()
+		//    .HasColumnName("IncidentNoteId")
+		//    .HasColumnType("bigint");
+
+
+PROBLEM:
+	Date:	2023-03-02
+	Failed executing DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+	CREATE TABLE [AspNetRoleClaims] (
+		[Id] int NOT NULL IDENTITY,
+		[RoleId] nvarchar(450) NOT NULL,
+		[ClaimType] nvarchar(1073741823) NULL,
+		[ClaimValue] nvarchar(1073741823) NULL,
+		CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id])
+	);
+	Error Number:131,State:2,Class:15
+	The size (1073741823) given to the column 'ClaimType' exceeds the maximum allowed for any data type (8000).
+
+SOLUTION:
+	Date:	2023-03-02
+	Changed from:
+		public void Configure(EntityTypeBuilder<IdentityRoleClaim<string>> builder)
+		{
+			builder.ToTable("AspNetRoleClaims");
+			// propteries
+			builder.HasKey(a => a.Id);
+			builder.Property(a => a.RoleId)
+				.IsRequired()
+				.HasMaxLength(450)
+				.HasColumnName("RoleId")
+				.HasColumnType("nvarchar");
+			builder.Property(a => a.ClaimType)
+				.HasMaxLength(1073741823)
+				.HasColumnName("ClaimType")
+				.HasColumnType("nvarchar");
+			builder.Property(a => a.ClaimValue)
+				.HasMaxLength(1073741823)
+				.HasColumnName("ClaimValue")
+				.HasColumnType("nvarchar");
+			// indexes
+			builder.HasIndex(a => a.RoleId)
+				.HasDatabaseName("IX_AspNetRoleClaims_RoleId");
+			// relationships
+		} // Configure
+	Changed to:
+		public void Configure(EntityTypeBuilder<IdentityRoleClaim<string>> builder)
+		{
+			builder.ToTable("AspNetRoleClaims");
+			// propteries
+			builder.HasKey(a => a.Id);
+			builder.Property(a => a.RoleId)
+				.IsRequired()
+				.HasMaxLength(450)
+				.HasColumnName("RoleId")
+				.HasColumnType("nvarchar");
+			// indexes
+			builder.HasIndex(a => a.RoleId)
+				.HasDatabaseName("IX_AspNetRoleClaims_RoleId");
+			// relationships
+		} // Configure
+
 
 PROBLEM:
 

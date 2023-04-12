@@ -37,6 +37,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
         public IncidentTypeDetailByShortDescQuery()
         {
             IncidentTypeId = 0;
+            IncidentTypeShortDesc = "";
+            IncidentTypeDesc = "";
             IncidentTypeSubjectLine = "";
             IncidentTypeEmailTemplate = "";
             IncidentTypeTimeTemplate = "";
@@ -103,7 +105,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
         /// </summary>
         public class DetailQuery : IRequest<IncidentTypeDetailByShortDescQuery>
         {
-            public string IncidentTypeShortDesc { get; set; }
+            public string IncidentTypeShortDesc { get; set; } = String.Empty;
         }
         //
         /// <summary>

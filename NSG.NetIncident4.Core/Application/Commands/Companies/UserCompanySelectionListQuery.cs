@@ -81,7 +81,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Companies
         /// </summary>
         public class ViewModel
         {
-            public List<SelectListItem> CompanyList { get; set; }
+            public List<SelectListItem> CompanyList { get; set; } = new List<SelectListItem>();
             //
             public ViewModel()
             {

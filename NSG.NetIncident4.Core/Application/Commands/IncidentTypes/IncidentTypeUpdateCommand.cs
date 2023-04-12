@@ -37,15 +37,17 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
 		public IncidentTypeUpdateCommand()
 		{
 			IncidentTypeId = 0;
-			IncidentTypeSubjectLine = "";
+			IncidentTypeShortDesc = "";
+			IncidentTypeDesc = "";
+            IncidentTypeSubjectLine = "";
 			IncidentTypeEmailTemplate = "";
 			IncidentTypeTimeTemplate = "";
 			IncidentTypeThanksTemplate = "";
 			IncidentTypeLogTemplate = "";
 			IncidentTypeTemplate = "";
 			IncidentTypeFromServer = false;
-		}
-	}
+        }
+    }
 	//
 	/// <summary>
 	/// 'IncidentType' update command handler.

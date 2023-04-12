@@ -62,24 +62,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 				// Call the FluentValidationErrors extension method.
 				throw new DetailQueryValidationException(_results.FluentValidationErrors());
 			}
-			var _entity = await GetEntityByKey(request.NoteTypeId);
-			if (_entity == null)
+			var _entity = await _context.NoteTypes.FindAsync(request.NoteTypeId);
+            if (_entity == null)
 			{
 				throw new DetailQueryKeyNotFoundException(request.NoteTypeId);
 			}
 			//
 			// Return the detail query model.
 			return _entity.ToNoteTypeDetailQuery();
-		}
-		//
-		/// <summary>
-		/// Get an entity record via the primary key.
-		/// </summary>
-		/// <param name="noteTypeId">int key</param>
-		/// <returns>Returns a NoteType entity record.</returns>
-		private Task<NoteType> GetEntityByKey(int noteTypeId)
-		{
-			return _context.NoteTypes.SingleOrDefaultAsync(r => r.NoteTypeId == noteTypeId);
 		}
 		//
 		/// <summary>

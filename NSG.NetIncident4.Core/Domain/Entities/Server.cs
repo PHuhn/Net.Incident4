@@ -52,7 +52,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         [DataType(DataType.DateTime)]
         public DateTime? DST_End { get; set; }      // value used for report to ISP
         //
-        public virtual Company Company { get; set; }
+        public virtual Company? Company { get; set; }
         //
         public virtual ICollection<ApplicationUserServer> UserServers { get; }
             = new List<ApplicationUserServer>();
@@ -76,6 +76,8 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             TimeZone = "";
             DST = false;
             TimeZone_DST = "";
+            //
+            // Company = new Company();
             //
         }
         //

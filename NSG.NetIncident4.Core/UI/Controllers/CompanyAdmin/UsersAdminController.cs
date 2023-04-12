@@ -15,6 +15,7 @@ using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
@@ -105,7 +106,8 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
                     {
                         if(user.EmailConfirmed == false)
                         {
-                            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                            IEmailConfirmation _confirmation = new EmailConfirmation(this, _userManager, _emailSender);
+                            await _confirmation.EmailConfirmationAsync(user);
                         }
                         return RedirectToAction("Details", new { id = user.UserName });
                     }

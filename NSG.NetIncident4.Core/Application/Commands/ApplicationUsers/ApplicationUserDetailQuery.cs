@@ -139,7 +139,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
             {
                 _detail.ServerList.Add(new ApplicationUserServerListQuery()
                     {
-                        CompanyShortName = _userSrv.Server.Company.CompanyShortName,
+                        CompanyShortName = _userSrv.Server.Company != null ? _userSrv.Server.Company.CompanyShortName : Extensions.unknown,
                         ServerShortName = _userSrv.Server.ServerShortName
                     });
             }
@@ -232,6 +232,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
     /// </summary>
     public static partial class Extensions
 	{
+		public static string unknown = "-unk-";
 		//
 		/// <summary>
 		/// Extension method that translates from ApplicationUser to ApplicationUserDetailQuery.
@@ -249,8 +250,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				PhoneNumber = entity.PhoneNumber,
 				PhoneNumberConfirmed = entity.PhoneNumberConfirmed,
 				CompanyId = entity.CompanyId,
-                CompanyShortName = entity.Company.CompanyShortName,
-                CompanyName = entity.Company.CompanyName,
+                CompanyShortName = entity.Company != null ? entity.Company.CompanyShortName : unknown,
+                CompanyName = entity.Company != null ? entity.Company.CompanyName : unknown,
                 CreateDate = entity.CreateDate,
 				FirstName = entity.FirstName,
 				FullName = entity.FullName,

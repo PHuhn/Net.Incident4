@@ -24,10 +24,10 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
         }
 
         [TempData]
-        public string[] RecoveryCodes { get; set; }
+        public string[] RecoveryCodes { get; set; } = new string[0];
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = String.Empty;
 
         public async Task<IActionResult> OnGetAsync()
         {

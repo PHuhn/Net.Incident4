@@ -10,11 +10,11 @@ namespace NSG.NetIncident4.Core.Domain.Entities
     public class ApplicationUserServer
     {
         [Required]
-        public string Id { get; set; }
+        public string Id { get; set; } = String.Empty;
         public virtual ApplicationUser User { get; set; }
         //
         [Required]
-        public int ServerId { get; set; }
+        public int ServerId { get; set; } = 0;
         public virtual Server Server { get; set; }
     }
 }

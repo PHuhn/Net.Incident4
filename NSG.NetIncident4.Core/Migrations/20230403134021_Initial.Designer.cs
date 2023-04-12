@@ -6,27 +6,31 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NSG.NetIncident4.Core.Persistence;
-//
+
+#nullable disable
+
 namespace NSG.NetIncident4.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211129204806_Initial")]
+    [Migration("20230403134021_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.12")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -36,21 +40,25 @@ namespace NSG.NetIncident4.Core.Migrations
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("RoleId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("IX_AspNetRoleClaims_RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -60,22 +68,27 @@ namespace NSG.NetIncident4.Core.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_AspNetUserClaims_UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -88,7 +101,7 @@ namespace NSG.NetIncident4.Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -97,51 +110,40 @@ namespace NSG.NetIncident4.Core.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUserServer", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id", "ServerId");
-
-                    b.HasIndex("ServerId");
-
-                    b.ToTable("ApplicationUserApplicationServer");
-                });
-
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationRole", b =>
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("Name");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("NormalizedName");
 
                     b.HasKey("Id");
 
@@ -150,10 +152,10 @@ namespace NSG.NetIncident4.Core.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", b =>
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(450)
@@ -163,14 +165,16 @@ namespace NSG.NetIncident4.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CompanyId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreateDate");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -182,17 +186,20 @@ namespace NSG.NetIncident4.Core.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("FirstName");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("FullName");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("LastName");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -230,11 +237,17 @@ namespace NSG.NetIncident4.Core.Migrations
                     b.Property<string>("UserNicName")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(16)")
+                        .HasColumnName("UserNicName");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyId")
+                        .HasDatabaseName("IX_AspNetUsers_CompanyId");
+
+                    b.HasIndex("FullName")
+                        .IsUnique()
+                        .HasDatabaseName("Idx_AspNetUsers_FullName");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -244,67 +257,164 @@ namespace NSG.NetIncident4.Core.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUserRole", b =>
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUserRole", b =>
                 {
                     b.Property<string>("UserId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("IX_AspNetUserRoles_RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUserServer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id", "ServerId");
+
+                    b.HasIndex("ServerId")
+                        .HasDatabaseName("IX_ApplicationUserApplicationServer_ServerId");
+
+                    b.ToTable("ApplicationUserApplicationServer", (string)null);
+                });
+
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Audit", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("Id")
+                        .HasAnnotation("Sqlite:Autoincrement", false);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("After")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)")
+                        .HasColumnName("After");
+
+                    b.Property<string>("Before")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)")
+                        .HasColumnName("Before");
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ChangeDate");
+
+                    b.Property<string>("Keys")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)")
+                        .HasColumnName("Keys");
+
+                    b.Property<string>("Program")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("Program");
+
+                    b.Property<string>("TableName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("TableName");
+
+                    b.Property<string>("UpdateType")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("char(1)")
+                        .HasColumnName("UpdateType");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("UserName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Audit", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Company", b =>
                 {
                     b.Property<int>("CompanyId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyId"), 1L, 1);
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("Address");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("City");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("CompanyName");
 
                     b.Property<string>("CompanyShortName")
                         .IsRequired()
                         .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasColumnType("nvarchar(12)")
+                        .HasColumnName("CompanyShortName");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Country");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Notes");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("PhoneNumber");
 
                     b.Property<string>("PostalCode")
+                        .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(15)")
+                        .HasColumnName("PostalCode");
 
                     b.Property<string>("State")
+                        .IsRequired()
                         .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                        .HasColumnType("nvarchar(4)")
+                        .HasColumnName("State");
 
                     b.HasKey("CompanyId");
 
@@ -312,7 +422,7 @@ namespace NSG.NetIncident4.Core.Migrations
                         .IsUnique()
                         .HasDatabaseName("Idx_Companies_ShortName");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.EmailTemplate", b =>
@@ -326,41 +436,49 @@ namespace NSG.NetIncident4.Core.Migrations
                     b.Property<string>("EmailBody")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("EmailBody");
 
                     b.Property<bool>("FromServer")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("FromServer");
 
                     b.Property<string>("LogTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("LogTemplate");
 
                     b.Property<string>("SubjectLine")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("SubjectLine");
 
                     b.Property<string>("Template")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Template");
 
                     b.Property<string>("ThanksTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ThanksTemplate");
 
                     b.Property<string>("TimeTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("TimeTemplate");
 
                     b.HasKey("CompanyId", "IncidentTypeId");
 
-                    b.HasIndex("IncidentTypeId");
+                    b.HasIndex("IncidentTypeId")
+                        .HasDatabaseName("IX_EmailTemplates_IncidentTypeId");
 
-                    b.ToTable("EmailTemplates");
+                    b.ToTable("EmailTemplates", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Incident", b =>
@@ -368,56 +486,76 @@ namespace NSG.NetIncident4.Core.Migrations
                     b.Property<long>("IncidentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("IncidentId")
+                        .HasAnnotation("Sqlite:Autoincrement", false);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IncidentId"), 1L, 1);
 
                     b.Property<string>("AbuseEmailAddress")
+                        .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("AbuseEmailAddress");
 
                     b.Property<bool>("Closed")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Closed");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
 
                     b.Property<string>("IPAddress")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("IPAddress");
 
                     b.Property<string>("ISPTicketNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("ISPTicketNumber");
 
                     b.Property<bool>("Mailed")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Mailed");
 
                     b.Property<string>("NIC_Id")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(16)")
+                        .HasColumnName("NIC_Id");
 
                     b.Property<string>("NetworkName")
+                        .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("NetworkName");
 
                     b.Property<string>("Notes")
+                        .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Notes");
 
                     b.Property<int>("ServerId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ServerId");
 
                     b.Property<bool>("Special")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Special");
 
                     b.HasKey("IncidentId");
 
-                    b.HasIndex("NIC_Id");
+                    b.HasIndex("NIC_Id")
+                        .HasDatabaseName("IX_Incident_NIC_Id");
 
-                    b.HasIndex("ServerId");
+                    b.HasIndex("ServerId")
+                        .HasDatabaseName("IX_Incident_ServerId");
 
-                    b.ToTable("Incident");
+                    b.ToTable("Incident", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.IncidentIncidentNote", b =>
@@ -430,9 +568,10 @@ namespace NSG.NetIncident4.Core.Migrations
 
                     b.HasKey("IncidentId", "IncidentNoteId");
 
-                    b.HasIndex("IncidentNoteId");
+                    b.HasIndex("IncidentNoteId")
+                        .HasDatabaseName("IX_IncidentIncidentNotes_IncidentNoteId");
 
-                    b.ToTable("IncidentIncidentNotes");
+                    b.ToTable("IncidentIncidentNotes", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.IncidentNote", b =>
@@ -440,24 +579,31 @@ namespace NSG.NetIncident4.Core.Migrations
                     b.Property<long>("IncidentNoteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("IncidentNoteId")
+                        .HasAnnotation("Sqlite:Autoincrement", false);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IncidentNoteId"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
 
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Note");
 
                     b.Property<int>("NoteTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("NoteTypeId");
 
                     b.HasKey("IncidentNoteId");
 
-                    b.HasIndex("NoteTypeId");
+                    b.HasIndex("NoteTypeId")
+                        .HasDatabaseName("IX_IncidentNote_NoteTypeId");
 
-                    b.ToTable("IncidentNote");
+                    b.ToTable("IncidentNote", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.IncidentType", b =>
@@ -465,50 +611,62 @@ namespace NSG.NetIncident4.Core.Migrations
                     b.Property<int>("IncidentTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("IncidentTypeId")
+                        .HasAnnotation("Sqlite:Autoincrement", false);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IncidentTypeId"), 1L, 1);
 
                     b.Property<string>("IncidentTypeDesc")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("IncidentTypeDesc");
 
                     b.Property<string>("IncidentTypeEmailTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("IncidentTypeEmailTemplate");
 
                     b.Property<bool>("IncidentTypeFromServer")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("IncidentTypeFromServer");
 
                     b.Property<string>("IncidentTypeLogTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("IncidentTypeLogTemplate");
 
                     b.Property<string>("IncidentTypeShortDesc")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("nvarchar(8)")
+                        .HasColumnName("IncidentTypeShortDesc");
 
                     b.Property<string>("IncidentTypeSubjectLine")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("IncidentTypeSubjectLine");
 
                     b.Property<string>("IncidentTypeTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("IncidentTypeTemplate");
 
                     b.Property<string>("IncidentTypeThanksTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("IncidentTypeThanksTemplate");
 
                     b.Property<string>("IncidentTypeTimeTemplate")
                         .IsRequired()
                         .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("IncidentTypeTimeTemplate");
 
                     b.HasKey("IncidentTypeId");
 
@@ -516,54 +674,116 @@ namespace NSG.NetIncident4.Core.Migrations
                         .IsUnique()
                         .HasDatabaseName("Idx_IncidentType_ShortDesc");
 
-                    b.ToTable("IncidentType");
+                    b.ToTable("IncidentType", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.LogData", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Application")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("Application");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date");
 
                     b.Property<string>("Exception")
+                        .IsRequired()
                         .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
+                        .HasColumnType("nvarchar(4000)")
+                        .HasColumnName("Exception");
 
                     b.Property<string>("Level")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("nvarchar(8)")
+                        .HasColumnName("Level");
 
                     b.Property<byte>("LogLevel")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("tinyint")
+                        .HasColumnName("LogLevel");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
+                        .HasColumnType("nvarchar(4000)")
+                        .HasColumnName("Message");
 
                     b.Property<string>("Method")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Method");
 
                     b.Property<string>("UserAccount")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("UserAccount");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Log");
+                    b.ToTable("Log", (string)null);
+                });
+
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.NetworkLog", b =>
+                {
+                    b.Property<long>("NetworkLogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("NetworkLogId")
+                        .HasAnnotation("Sqlite:Autoincrement", false);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("NetworkLogId"), 1L, 1);
+
+                    b.Property<string>("IPAddress")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("IPAddress");
+
+                    b.Property<long?>("IncidentId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("IncidentId");
+
+                    b.Property<int>("IncidentTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("IncidentTypeId");
+
+                    b.Property<string>("Log")
+                        .IsRequired()
+                        .HasMaxLength(1073741823)
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Log");
+
+                    b.Property<DateTime>("NetworkLogDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("NetworkLogDate");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int")
+                        .HasColumnName("ServerId");
+
+                    b.HasKey("NetworkLogId");
+
+                    b.HasIndex("IncidentId")
+                        .HasDatabaseName("IX_NetworkLog_IncidentId");
+
+                    b.HasIndex("IncidentTypeId")
+                        .HasDatabaseName("IX_NetworkLog_IncidentTypeId");
+
+                    b.HasIndex("ServerId")
+                        .HasDatabaseName("IX_NetworkLog_ServerId");
+
+                    b.ToTable("NetworkLog", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.NIC", b =>
@@ -573,87 +793,59 @@ namespace NSG.NetIncident4.Core.Migrations
                         .HasColumnType("nvarchar(16)");
 
                     b.Property<string>("NICAbuseEmailAddress")
+                        .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("NICAbuseEmailAddress");
 
                     b.Property<string>("NICDescription")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("NICDescription");
 
                     b.Property<string>("NICRestService")
+                        .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("NICRestService");
 
                     b.Property<string>("NICWebSite")
+                        .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("NICWebSite");
 
                     b.HasKey("NIC_Id");
 
-                    b.ToTable("NIC");
-                });
-
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.NetworkLog", b =>
-                {
-                    b.Property<long>("NetworkLogId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("IPAddress")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<long?>("IncidentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("IncidentTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Log")
-                        .IsRequired()
-                        .HasMaxLength(1073741823)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("NetworkLogDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("NetworkLogId");
-
-                    b.HasIndex("IncidentId");
-
-                    b.HasIndex("IncidentTypeId");
-
-                    b.HasIndex("ServerId");
-
-                    b.ToTable("NetworkLog");
+                    b.ToTable("NIC", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.NoteType", b =>
                 {
                     b.Property<int>("NoteTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NoteTypeId"), 1L, 1);
 
                     b.Property<string>("NoteTypeClientScript")
+                        .IsRequired()
                         .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasColumnType("nvarchar(12)")
+                        .HasColumnName("NoteTypeClientScript");
 
                     b.Property<string>("NoteTypeDesc")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("NoteTypeDesc");
 
                     b.Property<string>("NoteTypeShortDesc")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("nvarchar(8)")
+                        .HasColumnName("NoteTypeShortDesc");
 
                     b.HasKey("NoteTypeId");
 
@@ -661,91 +853,108 @@ namespace NSG.NetIncident4.Core.Migrations
                         .IsUnique()
                         .HasDatabaseName("Idx_NoteType_ShortDesc");
 
-                    b.ToTable("NoteType");
+                    b.ToTable("NoteType", (string)null);
                 });
 
             modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Server", b =>
                 {
                     b.Property<int>("ServerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServerId"), 1L, 1);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int")
+                        .HasColumnName("CompanyId");
+
                     b.Property<bool>("DST")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("DST");
 
                     b.Property<DateTime?>("DST_End")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DST_End");
 
                     b.Property<DateTime?>("DST_Start")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DST_Start");
 
                     b.Property<string>("FromEmailAddress")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("FromEmailAddress");
 
                     b.Property<string>("FromName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("FromName");
 
                     b.Property<string>("FromNicName")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(16)")
+                        .HasColumnName("FromNicName");
 
                     b.Property<string>("ServerDescription")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("ServerDescription");
 
                     b.Property<string>("ServerLocation")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("ServerLocation");
 
                     b.Property<string>("ServerName")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("ServerName");
 
                     b.Property<string>("ServerShortName")
                         .IsRequired()
                         .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasColumnType("nvarchar(12)")
+                        .HasColumnName("ServerShortName");
 
                     b.Property<string>("TimeZone")
                         .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(16)")
+                        .HasColumnName("TimeZone");
 
                     b.Property<string>("TimeZone_DST")
+                        .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(16)")
+                        .HasColumnName("TimeZone_DST");
 
                     b.Property<string>("WebSite")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("WebSite");
 
                     b.HasKey("ServerId");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyId")
+                        .HasDatabaseName("IX_Servers_CompanyId");
 
                     b.HasIndex("ServerShortName")
                         .IsUnique()
                         .HasDatabaseName("Idx_AspNetServers_ShortName");
 
-                    b.ToTable("Servers");
+                    b.ToTable("Servers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationRole", null)
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -754,7 +963,7 @@ namespace NSG.NetIncident4.Core.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", null)
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -763,67 +972,74 @@ namespace NSG.NetIncident4.Core.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", null)
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AspNetUserLogins_AspNetUsers_UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", null)
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AspNetUserTokens_AspNetUsers_UserId");
                 });
 
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUserServer", b =>
-                {
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", "User")
-                        .WithMany("UserServers")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Server", "Server")
-                        .WithMany("UserServers")
-                        .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Server");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", b =>
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", b =>
                 {
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Company", "Company")
                         .WithMany("Users")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_AspNetUsers_Companies_CompanyId");
 
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUserRole", b =>
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUserRole", b =>
                 {
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationRole", "Role")
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.ApplicationRole", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AspNetUserRoles_AspNetRoles_RoleId");
 
-                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", "User")
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AspNetUserRoles_AspNetUsers_UserId");
 
                     b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUserServer", b =>
+                {
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("UserServers")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ApplicationUserApplicationServer_AspNetUsers_Id");
+
+                    b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Server", "Server")
+                        .WithMany("UserServers")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ApplicationUserApplicationServer_Servers_ServerId");
+
+                    b.Navigation("Server");
 
                     b.Navigation("User");
                 });
@@ -834,13 +1050,15 @@ namespace NSG.NetIncident4.Core.Migrations
                         .WithMany("EmailTemplates")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_EmailTemplates_Companies_CompanyId");
 
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.IncidentType", "IncidentType")
                         .WithMany("EmailTemplates")
                         .HasForeignKey("IncidentTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_EmailTemplates_IncidentType_IncidentTypeId");
 
                     b.Navigation("Company");
 
@@ -853,13 +1071,15 @@ namespace NSG.NetIncident4.Core.Migrations
                         .WithMany("Incidents")
                         .HasForeignKey("NIC_Id")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Incident_NIC_NIC_Id");
 
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Server", "Server")
                         .WithMany("Incidents")
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Incident_Servers_ServerId");
 
                     b.Navigation("NIC");
 
@@ -871,14 +1091,16 @@ namespace NSG.NetIncident4.Core.Migrations
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Incident", "Incident")
                         .WithMany("IncidentIncidentNotes")
                         .HasForeignKey("IncidentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_IncidentIncidentNotes_Incident_IncidentId");
 
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.IncidentNote", "IncidentNote")
                         .WithMany("IncidentIncidentNotes")
                         .HasForeignKey("IncidentNoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_IncidentIncidentNotes_IncidentNote_IncidentNoteId");
 
                     b.Navigation("Incident");
 
@@ -891,7 +1113,8 @@ namespace NSG.NetIncident4.Core.Migrations
                         .WithMany("IncidentNotes")
                         .HasForeignKey("NoteTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_IncidentNote_NoteType_NoteTypeId");
 
                     b.Navigation("NoteType");
                 });
@@ -900,19 +1123,23 @@ namespace NSG.NetIncident4.Core.Migrations
                 {
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Incident", "Incident")
                         .WithMany("NetworkLogs")
-                        .HasForeignKey("IncidentId");
+                        .HasForeignKey("IncidentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_NetworkLog_Incident_IncidentId");
 
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.IncidentType", "IncidentType")
                         .WithMany("NetworkLogs")
                         .HasForeignKey("IncidentTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_NetworkLog_IncidentType_IncidentTypeId");
 
                     b.HasOne("NSG.NetIncident4.Core.Domain.Entities.Server", "Server")
                         .WithMany("NetworkLogs")
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_NetworkLog_Servers_ServerId");
 
                     b.Navigation("Incident");
 
@@ -927,17 +1154,18 @@ namespace NSG.NetIncident4.Core.Migrations
                         .WithMany("Servers")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Servers_Companies_CompanyId");
 
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationRole", b =>
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationRole", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.Authentication.ApplicationUser", b =>
+            modelBuilder.Entity("NSG.NetIncident4.Core.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("Logins");
 

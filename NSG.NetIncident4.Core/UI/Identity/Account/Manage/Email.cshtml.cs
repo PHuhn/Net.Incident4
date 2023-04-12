@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 
 namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
 {
@@ -31,14 +32,14 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
             _emailSender = emailSender;
         }
 
-        public string Username { get; set; }
+        public string Username { get; set; } = String.Empty;
 
-        public string Email { get; set; }
+        public string Email { get; set; } = String.Empty;
 
-        public bool IsEmailConfirmed { get; set; }
+        public bool IsEmailConfirmed { get; set; } = false;
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = String.Empty;
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -48,7 +49,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
             [Required]
             [EmailAddress]
             [Display(Name = "New email")]
-            public string NewEmail { get; set; }
+            public string NewEmail { get; set; } = String.Empty;
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -101,12 +102,18 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
                     pageHandler: null,
                     values: new { userId = userId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(
-                    Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                if (!string.IsNullOrEmpty(callbackUrl))
+                {
+                    await _emailSender.SendEmailAsync(
+                        Input.NewEmail,
+                        "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                }
+                else
+                {
+                    StatusMessage = "Failed to change email. Could not create call-back URL.";
+                }
                 return RedirectToPage();
             }
 
@@ -128,7 +135,8 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
                 return Page();
             }
 
-            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+            IEmailConfirmation _confirmation = new EmailConfirmation(this, _userManager, _emailSender);
+            await _confirmation.EmailConfirmationAsync(user);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();

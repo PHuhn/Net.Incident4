@@ -24,7 +24,7 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
         }
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = String.Empty;
 
         public async Task<IActionResult> OnGet()
         {

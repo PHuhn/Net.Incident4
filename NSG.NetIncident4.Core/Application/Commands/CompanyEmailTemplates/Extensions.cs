@@ -16,6 +16,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
     /// </summary>
     public static partial class Extensions
     {
+        static string unknown = "-unk-";
         //
         /// <summary>
         /// Create a 'to string' for IncidentType entity.
@@ -47,11 +48,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
             return new CompanyEmailTemplateDetailQuery
             {
                 CompanyId = entity.CompanyId,
-                CompanyShortName = entity.Company.CompanyShortName,
-                CompanyName = entity.Company.CompanyName,
+                CompanyShortName = entity.Company != null ? entity.Company.CompanyShortName : unknown,
+                CompanyName = entity.Company != null ? entity.Company.CompanyName : unknown,
                 IncidentTypeId = entity.IncidentTypeId,
-                IncidentTypeShortDesc = entity.IncidentType.IncidentTypeShortDesc,
-                IncidentTypeDesc = entity.IncidentType.IncidentTypeDesc,
+                IncidentTypeShortDesc = entity.IncidentType != null ? entity.IncidentType.IncidentTypeShortDesc : unknown,
+                IncidentTypeDesc = entity.IncidentType != null ? entity.IncidentType.IncidentTypeDesc : unknown,
                 SubjectLine = entity.SubjectLine,
                 EmailBody = entity.EmailBody,
                 TimeTemplate = entity.TimeTemplate,
@@ -73,8 +74,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
             {
                 CompanyId = entity.CompanyId,
                 IncidentTypeId = entity.IncidentTypeId,
-                IncidentTypeShortDesc = entity.IncidentType.IncidentTypeShortDesc,
-                IncidentTypeDesc = entity.IncidentType.IncidentTypeDesc,
+                IncidentTypeShortDesc = entity.IncidentType != null ? entity.IncidentType.IncidentTypeShortDesc : unknown,
+                IncidentTypeDesc = entity.IncidentType != null ? entity.IncidentType.IncidentTypeDesc : unknown,
                 SubjectLine = entity.SubjectLine,
                 EmailBody = entity.EmailBody,
                 //TimeTemplate = entity.TimeTemplate,
@@ -116,7 +117,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
             return new SelectListItem
             {
                 Value = entity.IncidentTypeId.ToString(),
-                Text = entity.IncidentType.IncidentTypeDesc + "(" + entity.IncidentTypeId.ToString() + "-" + entity.IncidentType.IncidentTypeShortDesc + ")"
+                Text = entity.IncidentType != null ?
+                    entity.IncidentType.IncidentTypeDesc + "(" + entity.IncidentTypeId.ToString() + "-" + entity.IncidentType.IncidentTypeShortDesc + ")" : unknown
             };
         }
         //

@@ -1,4 +1,6 @@
-﻿namespace NSG.NetIncident4.Core.UI.ViewModels
+﻿using System;
+
+namespace NSG.NetIncident4.Core.UI.ViewModels
 {
     public class News
     {

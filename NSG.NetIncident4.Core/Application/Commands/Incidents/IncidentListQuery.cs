@@ -237,7 +237,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// </summary>
         public class ListQuery : IRequest<ViewModel>
 		{
-            public string JsonString { get; set; }
+            public string JsonString { get; set; } = String.Empty;
         }
         //
         /// <summary>

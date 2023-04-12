@@ -60,19 +60,19 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyServers
     /// </summary>
     public class ServerDetailQuery
     {
-        public int ServerId { get; set; }
-        public int CompanyId { get; set; }
-        public string ServerShortName { get; set; }
-        public string ServerName { get; set; }
-        public string ServerDescription { get; set; }
-        public string WebSite { get; set; }
-        public string ServerLocation { get; set; }
-        public string FromName { get; set; }
-        public string FromNicName { get; set; }
-        public string FromEmailAddress { get; set; }
-        public string TimeZone { get; set; }
-        public bool DST { get; set; }
-        public string TimeZone_DST { get; set; }
+        public int ServerId { get; set; } = 0;
+        public int CompanyId { get; set; } = 0;
+        public string ServerShortName { get; set; } = String.Empty;
+        public string ServerName { get; set; } = String.Empty;
+        public string ServerDescription { get; set; } = String.Empty;
+        public string WebSite { get; set; } = String.Empty;
+        public string ServerLocation { get; set; } = String.Empty;
+        public string FromName { get; set; } = String.Empty;
+        public string FromNicName { get; set; } = String.Empty;
+        public string FromEmailAddress { get; set; } = String.Empty;
+        public string TimeZone { get; set; } = String.Empty;
+        public bool DST { get; set; } = false;
+        public string TimeZone_DST { get; set; } = String.Empty;
         public DateTime? DST_Start { get; set; }
         public DateTime? DST_End { get; set; }
     }

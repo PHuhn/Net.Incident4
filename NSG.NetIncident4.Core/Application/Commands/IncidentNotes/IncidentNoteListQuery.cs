@@ -27,8 +27,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentNotes
 		[System.ComponentModel.DataAnnotations.Key]
 		public long IncidentNoteId { get; set; }
 		public int NoteTypeId { get; set; }
-		public string Note { get; set; }
-		public DateTime CreatedDate { get; set; }
+		public string Note { get; set; } = String.Empty;
+        public DateTime CreatedDate { get; set; }
 	}
 	//
 	/// <summary>
@@ -75,7 +75,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentNotes
 		/// </summary>
 		public class ViewModel
 		{
-			public IList<IncidentNoteListQuery> IncidentNotesList { get; set; }
+			public IList<IncidentNoteListQuery> IncidentNotesList { get; set; } = new List<IncidentNoteListQuery>();
 		}
 		//
 		/// <summary>

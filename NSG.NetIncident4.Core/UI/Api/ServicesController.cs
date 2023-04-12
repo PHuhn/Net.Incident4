@@ -28,8 +28,8 @@ namespace NSG.NetIncident4.Core.UI.Api
         /// <summary>
         /// This class maps to the appsettings.json 'ServicesSettings' JSON class.
         /// </summary>
-        protected readonly ServicesSettings _servicesSettings = null;
-        protected readonly ILogger<ServicesController> _logger = null;
+        protected readonly ServicesSettings _servicesSettings;
+        protected readonly ILogger<ServicesController> _logger;
         //
         /// <summary>
         /// Constructor

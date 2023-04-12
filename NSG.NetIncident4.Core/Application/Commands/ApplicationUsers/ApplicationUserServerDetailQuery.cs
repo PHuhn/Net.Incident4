@@ -161,20 +161,14 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
     public class ApplicationUserServerDetailQueryHandler : IRequestHandler<ApplicationUserServerDetailQueryHandler.DetailQuery, ApplicationUserServerDetailQuery>
 	{
         private UserManager<ApplicationUser> _userManager;
-        private ApplicationDbContext _context;
-        // private IMediator Mediator;
-        // <param name="mediator">MediatR dependency injector.</param>
         //
         /// <summary>
         ///  The constructor for the inner handler class, to detail the ApplicationUser entity.
         /// </summary>
         /// <param name="userManager">The identity interface for users.</param>
-        public ApplicationUserServerDetailQueryHandler(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public ApplicationUserServerDetailQueryHandler(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _context = context;
-            // , IMediator mediator
-            // Mediator = mediator;
         }
         //
         /// <summary>
@@ -185,7 +179,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         /// <returns>Returns the row count.</returns>
         public async Task<ApplicationUserServerDetailQuery> Handle(DetailQuery request, CancellationToken cancellationToken)
 		{
-			Validator _validator = new Validator();
+            Validator _validator = new Validator();
 			ValidationResult _results = _validator.Validate(request);
 			if (!_results.IsValid)
 			{
@@ -198,7 +192,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserServers).ThenInclude(us => us.Server).ThenInclude(s => s.Company)
                 .FirstOrDefaultAsync(r => r.UserName == request.UserName);
-			if (_entity == null)
+            if (_entity == null)
 			{
 				throw new ApplicationUserServerDetailQueryKeyNotFoundException(request.UserName);
 			}

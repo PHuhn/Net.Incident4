@@ -10,7 +10,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         //
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = String.Empty;
         //
     }
     //

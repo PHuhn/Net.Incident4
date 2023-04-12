@@ -38,6 +38,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
 		public IncidentTypeListQuery()
 		{
 			IncidentTypeId = 0;
+			IncidentTypeShortDesc = "";
+			IncidentTypeDesc = "";
 			IncidentTypeSubjectLine = "";
 			IncidentTypeEmailTemplate = "";
 			IncidentTypeTimeTemplate = "";
@@ -92,8 +94,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
 		/// </summary>
 		public class ViewModel
 		{
-			public IList<IncidentTypeListQuery> IncidentTypesList { get; set; }
-		}
+			public IList<IncidentTypeListQuery> IncidentTypesList { get; set; } = new List<IncidentTypeListQuery>();
+
+        }
 		//
 		/// <summary>
 		/// Get IncidentType list query class (the primary key).

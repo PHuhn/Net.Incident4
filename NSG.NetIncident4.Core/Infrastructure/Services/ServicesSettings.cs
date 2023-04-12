@@ -17,22 +17,22 @@ namespace NSG.NetIncident4.Core.Infrastructure.Services
         /// <summary>
         /// Default folder to execute the ping command
         /// </summary>
-        public string PingDir { get; set; }
+        public string PingDir { get; set; } = String.Empty;
         //
         /// <summary>
         /// The ping command to execute, string.Format , IP address is the 0 arg
         /// </summary>
-        public string PingCmd { get; set; }
+        public string PingCmd { get; set; } = String.Empty;
         //
         /// <summary>
         /// Default folder to execute the whois command
         /// </summary>
-        public string WhoisDir { get; set; }
+        public string WhoisDir { get; set; } = String.Empty;
         //
         /// <summary>
         /// The whois command to execute, string.Format , IP address is the 0 arg
         /// </summary>
-        public string WhoisCmd { get; set; }
+        public string WhoisCmd { get; set; } = String.Empty;
         //
     }
     //

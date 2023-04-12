@@ -1,6 +1,6 @@
 ﻿//
 // ---------------------------------------------------------------------------
-// NICs.
+// NetworkLog.
 //
 using System;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public virtual IncidentType IncidentType { get; set; }
         public virtual Server Server { get; set; }
         // Incident is an optional nullable relationship
-        public virtual Incident? Incident { get; set; }
+        public virtual Incident Incident { get; set; }
         //
         /// <summary>
         /// Parameterless constructor
@@ -48,8 +48,10 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             NetworkLogDate = DateTime.Now;
             Log = "";
             IncidentTypeId = 0;
-            // IncidentType IncidentType
-            // Server Server
+            //
+            IncidentType = new IncidentType();
+            Server = new Server();
+            Incident = new Incident();
         }
     }
 }

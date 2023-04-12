@@ -2,6 +2,9 @@
 using System.Text.RegularExpressions;
 using System.ServiceModel.Syndication;
 using System.Globalization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 //
 namespace NSG.NetIncident4.Core.UI.ViewModels
 {

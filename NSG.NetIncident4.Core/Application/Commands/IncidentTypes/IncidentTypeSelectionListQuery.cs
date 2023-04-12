@@ -63,7 +63,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
         /// </summary>
         public class ViewModel
         {
-            public List<SelectListItem> IncidentTypesList { get; set; }
+            public List<SelectListItem> IncidentTypesList { get; set; } = new List<SelectListItem>();
         }
         //
         /// <summary>

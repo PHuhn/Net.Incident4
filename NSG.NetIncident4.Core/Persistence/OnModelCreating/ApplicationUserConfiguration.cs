@@ -49,61 +49,6 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 				.IsRequired()
 				.HasColumnName("CreateDate")
 				.HasColumnType("datetime2");
-			builder.Property(a => a.UserName)
-				.HasMaxLength(256)
-				.HasColumnName("UserName")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.NormalizedUserName)
-				.HasMaxLength(256)
-				.HasColumnName("NormalizedUserName")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.Email)
-				.HasMaxLength(256)
-				.HasColumnName("Email")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.NormalizedEmail)
-				.HasMaxLength(256)
-				.HasColumnName("NormalizedEmail")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.EmailConfirmed)
-				.IsRequired()
-				.HasColumnName("EmailConfirmed")
-				.HasColumnType("bit");
-			builder.Property(a => a.PasswordHash)
-				.HasMaxLength(1073741823)
-				.HasColumnName("PasswordHash")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.SecurityStamp)
-				.HasMaxLength(1073741823)
-				.HasColumnName("SecurityStamp")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.ConcurrencyStamp)
-				.HasMaxLength(1073741823)
-				.HasColumnName("ConcurrencyStamp")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.PhoneNumber)
-				.HasMaxLength(1073741823)
-				.HasColumnName("PhoneNumber")
-				.HasColumnType("nvarchar");
-			builder.Property(a => a.PhoneNumberConfirmed)
-				.IsRequired()
-				.HasColumnName("PhoneNumberConfirmed")
-				.HasColumnType("bit");
-			builder.Property(a => a.TwoFactorEnabled)
-				.IsRequired()
-				.HasColumnName("TwoFactorEnabled")
-				.HasColumnType("bit");
-			builder.Property(a => a.LockoutEnd)
-				.HasColumnName("LockoutEnd")
-				.HasColumnType("datetimeoffset");
-			builder.Property(a => a.LockoutEnabled)
-				.IsRequired()
-				.HasColumnName("LockoutEnabled")
-				.HasColumnType("bit");
-			builder.Property(a => a.AccessFailedCount)
-				.IsRequired()
-				.HasColumnName("AccessFailedCount")
-				.HasColumnType("int");
 			// indexes
 			builder.HasIndex(a => a.NormalizedEmail)
 				.HasDatabaseName("EmailIndex");

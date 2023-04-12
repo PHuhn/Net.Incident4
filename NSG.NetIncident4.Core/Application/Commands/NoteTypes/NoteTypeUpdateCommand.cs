@@ -22,12 +22,12 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 	/// </summary>
 	public class NoteTypeUpdateCommand : IRequest<int>
 	{
-        [System.ComponentModel.DataAnnotations.Key]
-		public int NoteTypeId { get; set; }
-		public string NoteTypeShortDesc { get; set; }
-		public string NoteTypeDesc { get; set; }
-		[System.ComponentModel.DataAnnotations.DisplayFormat(ConvertEmptyStringToNull = false)]
-		public string NoteTypeClientScript { get; set; }
+		[System.ComponentModel.DataAnnotations.Key]
+		public int NoteTypeId { get; set; } = 0;
+		public string NoteTypeShortDesc { get; set; } = string.Empty;
+        public string NoteTypeDesc { get; set; } = string.Empty;
+        [System.ComponentModel.DataAnnotations.DisplayFormat(ConvertEmptyStringToNull = false)]
+		public string NoteTypeClientScript { get; set; } = string.Empty;
     }
     //
     /// <summary>
@@ -62,9 +62,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 				// Call the FluentValidationErrors extension method.
 				throw new UpdateCommandValidationException(_results.FluentValidationErrors());
 			}
-			var _entity = await _context.NoteTypes
-				.SingleOrDefaultAsync(r => r.NoteTypeId == request.NoteTypeId, cancellationToken);
-			if (_entity == null)
+            var _entity = await _context.NoteTypes
+				.FindAsync(request.NoteTypeId, cancellationToken);
+            if (_entity == null)
 			{
 				throw new UpdateCommandKeyNotFoundException(request.NoteTypeId);
 			}

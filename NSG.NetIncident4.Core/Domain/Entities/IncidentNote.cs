@@ -28,12 +28,12 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public string Note { get; set; }
         public DateTime CreatedDate { get; set; }
         //
-        public virtual NoteType NoteType { get; set; }
+        public virtual NoteType? NoteType { get; set; }
         public virtual ICollection<IncidentIncidentNote> IncidentIncidentNotes { get; }
             = new List<IncidentIncidentNote>();
         //
         /// <summary>
-        /// Create a 'to string'.
+        /// No-parameter constructor
         /// </summary>
         public IncidentNote()
         {

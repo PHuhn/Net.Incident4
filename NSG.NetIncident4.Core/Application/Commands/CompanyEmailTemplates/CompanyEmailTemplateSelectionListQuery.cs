@@ -65,7 +65,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyEmailTemplates
 		/// </summary>
 		public class ViewModel
 		{
-			public List<SelectListItem> EmailTemplatesList { get; set; }
+			public List<SelectListItem> EmailTemplatesList { get; set; } = new List<SelectListItem>();
 		}
 		//
 		/// <summary>

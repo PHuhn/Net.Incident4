@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 
 namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
 {
@@ -200,7 +201,8 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             //
-            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+            IEmailConfirmation _confirmation = new EmailConfirmation(this, _userManager, _emailSender);
+            await _confirmation.EmailConfirmationAsync(user);
             StatusMessage = "Verification email sent. Please check your email.";
             await _signInManager.SignOutAsync();
             return LocalRedirect("/home");

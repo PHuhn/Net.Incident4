@@ -21,9 +21,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentNotes
 	/// </summary>
 	public class IncidentNoteCreateCommand : IRequest<IncidentNote>
 	{
-		public int NoteTypeId { get; set; }
-		public string Note { get; set; }
-	}
+		public int NoteTypeId { get; set; } = 0;
+		public string Note { get; set; } = String.Empty;
+    }
 	//
 	/// <summary>
 	/// 'IncidentNote' create command handler.
@@ -60,11 +60,12 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentNotes
 			// Move from create command class to entity class.
 			var _entity = new IncidentNote
 			{
+				IncidentNoteId = 0,
 				NoteTypeId = request.NoteTypeId,
 				Note = request.Note,
 				CreatedDate = DateTime.Now
 			};
-			_context.IncidentNotes.Add(_entity);
+			await _context.IncidentNotes.AddAsync(_entity, cancellationToken);
             try
             {
 				await _context.SaveChangesAsync(cancellationToken);

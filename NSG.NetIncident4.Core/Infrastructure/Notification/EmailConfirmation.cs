@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
+using static System.Net.WebRequestMethods;
 //
 namespace NSG.NetIncident4.Core.Infrastructure.Notification
 {
@@ -19,21 +20,32 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
     {
         //
         object _context;
-        PageModel _page = null;
-        ControllerBase _api = null;
-        Controller _controller = null;
+        PageModel? _page;
+        ControllerBase? _api;
+        Controller? _controller;
+        UserManager<ApplicationUser> _userManager;
+        IEmailSender _emailSender;
         //
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">called from 'this', ie page, controller or api</param>
-        public EmailConfirmation(object context)
+        /// <param name="userManager"></param>
+        /// <param name="emailSender"></param>
+        public EmailConfirmation(object context, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             if(context == null) throw new ArgumentNullException("context");
+            if (userManager == null) throw new ArgumentNullException("UserManager");
+            if (emailSender == null) throw new ArgumentNullException("EmailSender");
             _context = context;
-            _page = _context as PageModel;
-            _api = _context as ControllerBase;
-            _controller = _context as Controller;
+            if(_context != null)
+            {
+                _page = _context as PageModel;
+                _api = _context as ControllerBase;
+                _controller = _context as Controller;
+            }
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
         //
         /// <summary>
@@ -42,56 +54,51 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
         /// changed.  Additionally and unauthenticated razor page if the user
         /// wishes to have the notification resent.
         /// </summary>
-        /// <param name="userManager"></param>
-        /// <param name="emailSender"></param>
         /// <param name="user">an application user</param>
         /// <returns></returns>
-        public async Task<string> EmailConfirmationAsync(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ApplicationUser user)
+        public async Task<string> EmailConfirmationAsync(ApplicationUser user)
         {
             string callbackUrl = "";
-            if ( user != null && userManager != null && emailSender != null)
+            var userId = user.Id;
+            var email = user.Email;
+            var userName = user.UserName;
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            if (_page != null)
             {
-                var userId = user.Id;
-                var email = user.Email;
-                var userName = user.UserName;
-                var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                if (_page != null)
-                {
-                    // Identity page
-                    var prot = _page.Request.Scheme;
-                    callbackUrl = _page.Url.Page("/Account/ConfirmEmail", pageHandler: null,
-                        values: new { userId = userId, code = code },
-                        protocol: _page.Request.Scheme);
-                }
-                else
-                {
-                    if (_api != null)
-                    {
-                        callbackUrl = _api.Url.Action("ConfirmEmail", "Account",
-                            new { userId = userId, code = code }, _api.Request.Scheme);
-                    }
-                    else
-                    {
-                        if (_controller != null)
-                        {
-                            callbackUrl = _controller.Url.Action("ConfirmEmail", "Account",
-                                new { userId = userId, code = code }, _controller.Request.Scheme);
-                        }
-                        else
-                        {
-                            throw new Exception($"EmailConfirmationAsync: invalid content (page/controller/api).");
-                        }
-                    }
-                }
-                await emailSender.SendEmailAsync(email, "Confirm your email",
-                    $"Please confirm your account: {userName} by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                // Identity page
+                //  Request.Host: localhost:9114
+                //  Request.Path: /Account/ResendEmailConfirmation
+                //  Request.Scheme: https
+                //  Routes: page - /Account/ResendEmailConfirmation
+                //  Protocol: HTTP/2
+                // callbackUrl = _page.Url.Page("/Account/ConfirmEmail", null,
+                callbackUrl = _page.Url.Action("ConfirmEmail", "Account",
+                    new { userId = userId, code = code }, _page.Request.Scheme);
             }
             else
             {
-                throw new Exception($"EmailConfirmationAsync: invalid parameter user.");
+                if (_api != null)
+                {
+                    callbackUrl = _api.Url.Action("ConfirmEmail", "Account",
+                        new { userId = userId, code = code }, _api.Request.Scheme);
+                }
+                else
+                {
+                    if (_controller != null)
+                    {
+                        callbackUrl = _controller.Url.Action("ConfirmEmail", "Account",
+                            new { userId = userId, code = code }, _controller.Request.Scheme);
+                    }
+                    else
+                    {
+                        throw new Exception($"EmailConfirmationAsync: invalid content (page/controller/api).");
+                    }
+                }
             }
-            return callbackUrl;
+            string _emailBody = $"Please confirm your account: {userName} by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
+            await _emailSender.SendEmailAsync(email, "Confirm your email", _emailBody);
+            return _emailBody;
         }
     }
 }

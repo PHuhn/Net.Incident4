@@ -36,6 +36,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentTypes
 		public IncidentTypeCreateCommand()
 		{
 			IncidentTypeId = 0;
+			IncidentTypeShortDesc = "";
+			IncidentTypeDesc = "";
 			IncidentTypeSubjectLine = "";
 			IncidentTypeEmailTemplate = "";
 			IncidentTypeTimeTemplate = "";

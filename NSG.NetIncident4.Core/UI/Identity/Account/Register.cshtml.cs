@@ -21,6 +21,7 @@ using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 
 namespace NSG.NetIncident4.Core.UI.Identity.Account
 {
@@ -189,7 +190,8 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation($"{Input.UserName} account created with a password.");
-                        await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                        IEmailConfirmation _confirmation = new EmailConfirmation(this, _userManager, _emailSender);
+                        await _confirmation.EmailConfirmationAsync(user);
                         //
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {

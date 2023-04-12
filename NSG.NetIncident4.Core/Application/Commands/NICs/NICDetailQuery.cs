@@ -24,12 +24,12 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 	public class NICDetailQuery
 	{
 		[System.ComponentModel.DataAnnotations.Key]
-		public string NIC_Id { get; set; }
-		public string NICDescription { get; set; }
-		public string? NICAbuseEmailAddress { get; set; }
-		public string? NICRestService { get; set; }
-		public string? NICWebSite { get; set; }
-	}
+		public string NIC_Id { get; set; } = String.Empty;
+        public string NICDescription { get; set; } = String.Empty;
+        public string? NICAbuseEmailAddress { get; set; } = String.Empty;
+        public string? NICRestService { get; set; } = String.Empty;
+        public string? NICWebSite { get; set; } = String.Empty;
+    }
 	//
 	/// <summary>
 	/// 'NIC' detail query handler.
@@ -87,8 +87,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 		/// </summary>
 		public class DetailQuery : IRequest<NICDetailQuery>
 		{
-			public string NIC_Id { get; set; }
-		}
+			public string NIC_Id { get; set; } = String.Empty;
+        }
 		//
 		/// <summary>
 		/// FluentValidation of the 'NICDetailQuery' class.

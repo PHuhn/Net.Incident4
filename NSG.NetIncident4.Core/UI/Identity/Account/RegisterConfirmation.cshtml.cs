@@ -22,11 +22,11 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
             _sender = sender;
         }
 
-        public string Email { get; set; }
+        public string Email { get; set; } = String.Empty;
 
-        public bool DisplayConfirmAccountLink { get; set; }
+        public bool DisplayConfirmAccountLink { get; set; } = true;
 
-        public string EmailConfirmationUrl { get; set; }
+        public string EmailConfirmationUrl { get; set; } = String.Empty;
 
         public async Task<IActionResult> OnGetAsync(string email, string? returnUrl = null)
         {

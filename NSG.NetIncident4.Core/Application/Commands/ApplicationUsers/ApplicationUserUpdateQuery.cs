@@ -81,8 +81,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
     public class Servers
     {
         public int ServerId { get; set; }
-        public string CompanyShortName { get; set; }
-        public string ServerShortName { get; set; }
+        public string CompanyShortName { get; set; } = String.Empty;
+        public string ServerShortName { get; set; } = String.Empty;
     }
     //
     /// <summary>
@@ -211,7 +211,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
         /// </summary>
         public class EditQuery : IRequest<ApplicationUserUpdateQuery>
 		{
-			public string UserName { get; set; }
+			public string UserName { get; set; } = String.Empty;
 		}
 		//
 		/// <summary>

@@ -117,6 +117,10 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
         // GET: IncidentTypesEmailTemplate/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
             return View(await Mediator.Send(new IncidentTypeDetailQueryHandler.DetailQuery() { IncidentTypeId = id.Value }));
         }
 
@@ -159,6 +163,10 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
         // GET: IncidentTypesEmailTemplate/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if( id == null)
+            {
+                return NotFound();
+            }
             return View(await Mediator.Send(new IncidentTypeDetailQueryHandler.DetailQuery() { IncidentTypeId = id.Value }));
         }
 

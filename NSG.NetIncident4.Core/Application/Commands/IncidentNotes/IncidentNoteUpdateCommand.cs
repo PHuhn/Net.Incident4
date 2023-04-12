@@ -25,7 +25,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentNotes
 	{
 		public long IncidentNoteId { get; set; }
 		public int NoteTypeId { get; set; }
-		public string Note { get; set; }
+		public string Note { get; set; } = String.Empty;
 		public DateTime CreatedDate { get; set; }
 	}
 	//

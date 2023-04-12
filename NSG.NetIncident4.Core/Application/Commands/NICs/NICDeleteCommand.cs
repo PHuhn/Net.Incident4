@@ -26,8 +26,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 	/// </summary>
 	public class NICDeleteCommand : IRequest<int>
 	{
-		public string NIC_Id { get; set; }
-	}
+		public string NIC_Id { get; set; } = String.Empty;
+    }
 	//
 	/// <summary>
 	/// 'NIC' delete command handler.

@@ -17,12 +17,12 @@ namespace NSG.NetIncident4.Core.Infrastructure.Common
         /// <summary>
         /// Name of the current application
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = String.Empty;
         //
         /// <summary>
         /// Phone number for the current application
         /// </summary>
-        public string Phone { get; set; }
+        public string Phone { get; set; } = String.Empty;
         //
     }
     //

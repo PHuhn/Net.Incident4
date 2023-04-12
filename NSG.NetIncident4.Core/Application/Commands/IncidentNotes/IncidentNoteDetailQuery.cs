@@ -24,10 +24,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.IncidentNotes
 	public class IncidentNoteDetailQuery
 	{
 		[System.ComponentModel.DataAnnotations.Key]
-		public long IncidentNoteId { get; set; }
-		public int NoteTypeId { get; set; }
-		public string Note { get; set; }
-		public DateTime CreatedDate { get; set; }
+		public long IncidentNoteId { get; set; } = 0;
+		public int NoteTypeId { get; set; } = 0;
+		public string Note { get; set; } = String.Empty;
+        public DateTime CreatedDate { get; set; }
 	}
 	//
 	/// <summary>

@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace NSG.NetIncident4.Core.Migrations
 {
     public partial class Initial : Migration
@@ -22,6 +24,26 @@ namespace NSG.NetIncident4.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Audit",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Program = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    TableName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    UpdateType = table.Column<string>(type: "char(1)", maxLength: 1, nullable: false),
+                    Keys = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Before = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    After = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Audit", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Companies",
                 columns: table => new
                 {
@@ -29,12 +51,12 @@ namespace NSG.NetIncident4.Core.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompanyShortName = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
-                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    State = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -76,7 +98,7 @@ namespace NSG.NetIncident4.Core.Migrations
                     Level = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     UserAccount = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Message = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
-                    Exception = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true)
+                    Exception = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,9 +111,9 @@ namespace NSG.NetIncident4.Core.Migrations
                 {
                     NIC_Id = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
                     NICDescription = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    NICAbuseEmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    NICRestService = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    NICWebSite = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    NICAbuseEmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NICRestService = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    NICWebSite = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,7 +128,7 @@ namespace NSG.NetIncident4.Core.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NoteTypeShortDesc = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     NoteTypeDesc = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NoteTypeClientScript = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: true)
+                    NoteTypeClientScript = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,7 +141,7 @@ namespace NSG.NetIncident4.Core.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -188,7 +210,7 @@ namespace NSG.NetIncident4.Core.Migrations
                     FromEmailAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     TimeZone = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
                     DST = table.Column<bool>(type: "bit", nullable: false),
-                    TimeZone_DST = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: true),
+                    TimeZone_DST = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
                     DST_Start = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DST_End = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -261,7 +283,7 @@ namespace NSG.NetIncident4.Core.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -280,8 +302,8 @@ namespace NSG.NetIncident4.Core.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -293,15 +315,15 @@ namespace NSG.NetIncident4.Core.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -311,13 +333,13 @@ namespace NSG.NetIncident4.Core.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -325,8 +347,8 @@ namespace NSG.NetIncident4.Core.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -337,7 +359,7 @@ namespace NSG.NetIncident4.Core.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -355,13 +377,13 @@ namespace NSG.NetIncident4.Core.Migrations
                         column: x => x.Id,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ApplicationUserApplicationServer_Servers_ServerId",
                         column: x => x.ServerId,
                         principalTable: "Servers",
                         principalColumn: "ServerId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -373,13 +395,13 @@ namespace NSG.NetIncident4.Core.Migrations
                     ServerId = table.Column<int>(type: "int", nullable: false),
                     IPAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     NIC_Id = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    NetworkName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    AbuseEmailAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    ISPTicketNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    NetworkName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    AbuseEmailAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ISPTicketNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Mailed = table.Column<bool>(type: "bit", nullable: false),
                     Closed = table.Column<bool>(type: "bit", nullable: false),
                     Special = table.Column<bool>(type: "bit", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 1073741823, nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 1073741823, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -414,13 +436,13 @@ namespace NSG.NetIncident4.Core.Migrations
                         column: x => x.IncidentId,
                         principalTable: "Incident",
                         principalColumn: "IncidentId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_IncidentIncidentNotes_IncidentNote_IncidentNoteId",
                         column: x => x.IncidentNoteId,
                         principalTable: "IncidentNote",
                         principalColumn: "IncidentNoteId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -495,6 +517,12 @@ namespace NSG.NetIncident4.Core.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "Idx_AspNetUsers_FullName",
+                table: "AspNetUsers",
+                column: "FullName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_CompanyId",
@@ -597,6 +625,9 @@ namespace NSG.NetIncident4.Core.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Audit");
 
             migrationBuilder.DropTable(
                 name: "EmailTemplates");

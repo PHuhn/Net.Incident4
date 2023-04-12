@@ -90,7 +90,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Companies
                 PhoneNumber = request.PhoneNumber,
                 Notes = request.Notes,
             };
-            _context.Companies.Add(_entity);
+            await _context.Companies.AddAsync(_entity, cancellationToken);
+            // _context.Companies.Add(_entity);
             try
             {
                 await _context.SaveChangesAsync(cancellationToken);

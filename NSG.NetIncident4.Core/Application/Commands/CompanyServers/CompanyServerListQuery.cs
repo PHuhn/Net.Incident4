@@ -42,8 +42,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyServers
     //
     public class ServerListQuery
     {
-        public int ServerId { get; set; }
-        public string ServerShortName { get; set; }
+        public int ServerId { get; set; } = 0;
+        public string ServerShortName { get; set; } = String.Empty;
     }
     //
     /// <summary>
@@ -97,7 +97,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.CompanyServers
         /// </summary>
         public class ViewModel
         {
-            public IList<CompanyServerListQuery> CompaniesList { get; set; }
+            public IList<CompanyServerListQuery> CompaniesList { get; set; } = new List<CompanyServerListQuery>();
         }
         //
         /// <summary>

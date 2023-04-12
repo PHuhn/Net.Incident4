@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 //
 namespace NSG.NetIncident4.Core.Domain.Entities
 {
@@ -42,7 +41,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public static async Task<int> SeedCompany(ApplicationDbContext context)
         {
             int _companyId = 1;
-            Company _company = null;
+            Company? _company = null;
             try
             {
                 _company = context.Companies.Where(c => c.CompanyShortName == "NSG").FirstOrDefault();
@@ -82,7 +81,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             int _serverId = 1;
             try
             {
-                Server _server = null;
+                Server _server;
                 _server = context.Servers.Where(s => s.ServerShortName == "NSG Memb").FirstOrDefault();
                 if (_server == null)
                 {

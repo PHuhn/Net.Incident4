@@ -24,10 +24,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 	public class NoteTypeListQuery
 	{
 		[System.ComponentModel.DataAnnotations.Key]
-		public int NoteTypeId { get; set; }
-		public string NoteTypeShortDesc { get; set; }
-		public string NoteTypeDesc { get; set; }
-        public string NoteTypeClientScript { get; set; }
+		public int NoteTypeId { get; set; } = 0;
+		public string NoteTypeShortDesc { get; set; } = String.Empty;
+		public string NoteTypeDesc { get; set; } = String.Empty;
+		public string NoteTypeClientScript { get; set; } = String.Empty;
     }
     //
     /// <summary>
@@ -74,8 +74,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.NoteTypes
 		/// </summary>
 		public class ViewModel
 		{
-			public IList<NoteTypeListQuery> NoteTypesList { get; set; }
-		}
+			public IList<NoteTypeListQuery> NoteTypesList { get; set; } = new List<NoteTypeListQuery>();
+        }
 		//
 		/// <summary>
 		/// Get NoteType list query class (the primary key).

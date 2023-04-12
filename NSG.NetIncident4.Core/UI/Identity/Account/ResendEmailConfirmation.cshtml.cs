@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using NSG.NetIncident4.Core.Domain.Entities;
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
 //
 namespace NSG.NetIncident4.Core.UI.Identity.Account
@@ -60,9 +61,12 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                 ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
                 return Page();
             }
-            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
-
+            IEmailConfirmation _confirmation = new EmailConfirmation(this, _userManager, _emailSender);
+            await _confirmation.EmailConfirmationAsync(user);
+            //
+            var _action = this.Url.Action("Confirm", "Account", new { id = 1 }, this.Request.Scheme);
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+            ModelState.AddModelError(string.Empty, $"Action: {_action}");
             return Page();
         }
     }

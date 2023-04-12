@@ -4,6 +4,7 @@
 //
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 //
 namespace NSG.NetIncident4.Core.Domain.Entities
 {
@@ -33,8 +34,8 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         [Required(ErrorMessage = "FromServer is required.")]
         public bool FromServer { get; set; }
         //
-        public Company Company { get; set; }
-        public IncidentType IncidentType { get; set; }
+        public Company? Company { get; set;  }
+        public IncidentType? IncidentType { get; set; }
         //
         /// <summary>
         /// Parameterless constructor
@@ -50,6 +51,26 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             LogTemplate = "";
             Template = "";
             FromServer = false;
+        }
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public override string ToString()
+        {
+            //
+            StringBuilder _return = new StringBuilder("record:[");
+            _return.AppendFormat("CompanyId: {0}, ", CompanyId.ToString());
+            _return.AppendFormat("IncidentTypeId: {0}, ", IncidentTypeId.ToString());
+            _return.AppendFormat("SubjectLine: {0}, ", SubjectLine);
+            _return.AppendFormat("EmailBody: {0}, ", EmailBody);
+            _return.AppendFormat("TimeTemplate: {0}, ", TimeTemplate);
+            _return.AppendFormat("ThanksTemplate: {0}, ", ThanksTemplate);
+            _return.AppendFormat("LogTemplate: {0}, ", LogTemplate);
+            _return.AppendFormat("Template: {0}, ", Template);
+            _return.AppendFormat("FromServer: {0}, ", FromServer.ToString());
+            _return.AppendFormat("]");
+            return _return.ToString();
         }
     }
 }

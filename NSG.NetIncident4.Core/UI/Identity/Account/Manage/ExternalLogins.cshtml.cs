@@ -23,14 +23,14 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account.Manage
             _signInManager = signInManager;
         }
 
-        public IList<UserLoginInfo> CurrentLogins { get; set; }
+        public IList<UserLoginInfo> CurrentLogins { get; set; } = new List<UserLoginInfo>();
 
-        public IList<AuthenticationScheme> OtherLogins { get; set; }
+        public IList<AuthenticationScheme> OtherLogins { get; set; } = new List<AuthenticationScheme>();
 
-        public bool ShowRemoveButton { get; set; }
+        public bool ShowRemoveButton { get; set; } = false;
 
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = String.Empty;
 
         public async Task<IActionResult> OnGetAsync()
         {

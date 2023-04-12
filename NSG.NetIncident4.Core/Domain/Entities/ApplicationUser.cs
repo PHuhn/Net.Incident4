@@ -33,9 +33,9 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         public DateTime CreateDate { get; set; }
         //
         [ForeignKey("CompanyId")]
-        public virtual Company Company { get; set; }
+        public virtual Company? Company { get; set; }
         //
-        public virtual ICollection<ApplicationUserServer> UserServers { get; }
+        public virtual ICollection<ApplicationUserServer> UserServers { get; set; }
             = new List<ApplicationUserServer>();
         //
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
@@ -54,6 +54,7 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             UserNicName = "";
             CompanyId = 0;
             CreateDate = DateTime.Now;
+            Company = null;
             Logins = new List<IdentityUserLogin<string>>();
             Tokens = new List<IdentityUserToken<string>>();
         }

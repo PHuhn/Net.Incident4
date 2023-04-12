@@ -103,9 +103,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 		/// </summary>
 		public class DetailQuery : IRequest<NetworkIncidentDetailQuery>
 		{
-			public int ServerId { get; set; }
+			public int ServerId { get; set; } = 0;
 			//
-			public string UserName { get; set; }
+			public string UserName { get; set; } = String.Empty;
 		}
 		//
 		/// <summary>

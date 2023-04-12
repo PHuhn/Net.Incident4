@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using NSG.NetIncident4.Core.Domain.Entities;
+using System.Collections.Generic;
 //
 namespace NSG.NetIncident4.Core.Persistence
 {
@@ -92,15 +93,18 @@ namespace NSG.NetIncident4.Core.Persistence
                 //
                 try
                 {
-                    IReadOnlyList<IProperty> _keyProps = _item.Metadata.FindPrimaryKey().Properties;
-                    if (_keyProps != null)
+                    if(_item.Metadata.FindPrimaryKey() != null)
                     {
-                        int _keyCount = _keyProps.Count();
-                        for (int i = 0; i < _keyCount; i++)
+                        IReadOnlyList<IProperty> _keyProps = _item.Metadata.FindPrimaryKey().Properties;
+                        if (_keyProps != null)
                         {
-                            _keyName = _keyProps[i].Name.ToString();
-                            _keyValue = _keyProps[i].GetGetter().GetClrValue(_entity).ToString();
-                            _key += _keyName + ":" + _keyValue + (i == _keyCount - 1 ? "" : "|");
+                            int _keyCount = _keyProps.Count();
+                            for (int i = 0; i < _keyCount; i++)
+                            {
+                                _keyName = _keyProps[i].Name.ToString();
+                                _keyValue = _keyProps[i].GetGetter().GetClrValue(_entity).ToString();
+                                _key += _keyName + ":" + _keyValue + (i == _keyCount - 1 ? "" : "|");
+                            }
                         }
                     }
                 }

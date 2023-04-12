@@ -14,60 +14,58 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 		public void Configure(EntityTypeBuilder<Incident> builder)
 		{
 			builder.ToTable("Incident");
-			// propteries
-			builder.HasKey(i => i.IncidentId);
-			builder.Property(i => i.IncidentId)
-				.IsRequired()
-				.HasColumnName("IncidentId")
-				.HasColumnType("bigint");
-			builder.Property(i => i.ServerId)
-				.IsRequired()
-				.HasColumnName("ServerId")
-				.HasColumnType("int");
-			builder.Property(i => i.IPAddress)
-				.IsRequired()
-				.HasMaxLength(50)
-				.HasColumnName("IPAddress")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.NIC_Id)
-				.IsRequired()
-				.HasMaxLength(16)
-				.HasColumnName("NIC_Id")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.NetworkName)
-				.HasMaxLength(255)
-				.HasColumnName("NetworkName")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.AbuseEmailAddress)
-				.HasMaxLength(255)
-				.HasColumnName("AbuseEmailAddress")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.ISPTicketNumber)
-				.HasMaxLength(50)
-				.HasColumnName("ISPTicketNumber")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.Mailed)
-				.IsRequired()
-				.HasColumnName("Mailed")
-				.HasColumnType("bit");
-			builder.Property(i => i.Closed)
-				.IsRequired()
-				.HasColumnName("Closed")
-				.HasColumnType("bit");
-			builder.Property(i => i.Special)
-				.IsRequired()
-				.HasColumnName("Special")
-				.HasColumnType("bit");
-			builder.Property(i => i.Notes)
-				.HasMaxLength(1073741823)
-				.HasColumnName("Notes")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.CreatedDate)
-				.IsRequired()
-				.HasColumnName("CreatedDate")
-				.HasColumnType("datetime2");
-			// indexes
-			builder.HasIndex(i => i.NIC_Id)
+            // propteries
+            builder.HasKey(i => i.IncidentId);
+            builder.Property(i => i.IncidentId)
+                .IsRequired()
+                .HasAnnotation("Sqlite:Autoincrement", false)
+                .HasColumnName("IncidentId");
+            builder.Property(i => i.ServerId)
+                .IsRequired()
+                .HasColumnType("int")
+                .HasColumnName("ServerId");
+            builder.Property(i => i.IPAddress)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnType("nvarchar")
+                .HasColumnName("IPAddress");
+            builder.Property(i => i.NIC_Id)
+                .IsRequired()
+                .HasMaxLength(16)
+                .HasColumnType("nvarchar")
+                .HasColumnName("NIC_Id");
+            builder.Property(i => i.NetworkName)
+                .HasMaxLength(255)
+                .HasColumnType("nvarchar")
+                .HasColumnName("NetworkName");
+            builder.Property(i => i.AbuseEmailAddress)
+                .HasMaxLength(255)
+                .HasColumnType("nvarchar")
+                .HasColumnName("AbuseEmailAddress");
+            builder.Property(i => i.ISPTicketNumber)
+                .HasMaxLength(50)
+                .HasColumnType("nvarchar")
+                .HasColumnName("ISPTicketNumber");
+            builder.Property(i => i.Mailed)
+                .IsRequired()
+                .HasColumnType("bit")
+                .HasColumnName("Mailed");
+            builder.Property(i => i.Closed)
+                .IsRequired()
+                .HasColumnType("bit")
+                .HasColumnName("Closed");
+            builder.Property(i => i.Special)
+                .IsRequired()
+                .HasColumnType("bit")
+                .HasColumnName("Special");
+            builder.Property(i => i.Notes)
+                .HasColumnName("Notes");
+            builder.Property(i => i.CreatedDate)
+                .IsRequired()
+                .HasColumnType("datetime2")
+                .HasColumnName("CreatedDate");
+            // indexes
+            builder.HasIndex(i => i.NIC_Id)
 				.HasDatabaseName("IX_Incident_NIC_Id");
 			builder.HasIndex(i => i.ServerId)
 				.HasDatabaseName("IX_Incident_ServerId");

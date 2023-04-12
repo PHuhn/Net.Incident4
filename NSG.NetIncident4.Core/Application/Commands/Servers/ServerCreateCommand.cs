@@ -117,7 +117,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Servers
 				DST_Start = request.DST_Start,
 				DST_End = request.DST_End,
 			};
-			_context.Servers.Add(_entity);
+			await _context.Servers.AddAsync(_entity, cancellationToken);
             try
             {
 				await _context.SaveChangesAsync(cancellationToken);

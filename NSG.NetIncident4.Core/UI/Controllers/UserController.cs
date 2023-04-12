@@ -12,6 +12,8 @@ using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.PrimeNG.LazyLoading;
 using NSG.NetIncident4.Core.UI.ViewModels;
 using NSG.NetIncident4.Core.Domain.Entities;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers
 {

@@ -16,54 +16,46 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 		public void Configure(EntityTypeBuilder<IncidentType> builder)
 		{
 			builder.ToTable("IncidentType");
-			// propteries
-			builder.HasKey(i => i.IncidentTypeId);
-			builder.Property(i => i.IncidentTypeShortDesc)
-				.IsRequired()
-				.HasMaxLength(8)
-				.HasColumnName("IncidentTypeShortDesc")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.IncidentTypeDesc)
-				.IsRequired()
-				.HasMaxLength(50)
-				.HasColumnName("IncidentTypeDesc")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.IncidentTypeFromServer)
-				.IsRequired()
-				.HasColumnName("IncidentTypeFromServer")
-				.HasColumnType("bit");
-			builder.Property(i => i.IncidentTypeSubjectLine)
-				.IsRequired()
-				.HasMaxLength(1073741823)
-				.HasColumnName("IncidentTypeSubjectLine")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.IncidentTypeEmailTemplate)
-				.IsRequired()
-				.HasMaxLength(1073741823)
-				.HasColumnName("IncidentTypeEmailTemplate")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.IncidentTypeTimeTemplate)
-				.IsRequired()
-				.HasMaxLength(1073741823)
-				.HasColumnName("IncidentTypeTimeTemplate")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.IncidentTypeThanksTemplate)
-				.IsRequired()
-				.HasMaxLength(1073741823)
-				.HasColumnName("IncidentTypeThanksTemplate")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.IncidentTypeLogTemplate)
-				.IsRequired()
-				.HasMaxLength(1073741823)
-				.HasColumnName("IncidentTypeLogTemplate")
-				.HasColumnType("nvarchar");
-			builder.Property(i => i.IncidentTypeTemplate)
-				.IsRequired()
-				.HasMaxLength(1073741823)
-				.HasColumnName("IncidentTypeTemplate")
-				.HasColumnType("nvarchar");
-			// indexes
-			builder.HasIndex(i => i.IncidentTypeShortDesc)
+            // propteries
+            builder.HasKey(i => i.IncidentTypeId);
+            builder.Property(i => i.IncidentTypeId)
+                .IsRequired()
+                .HasAnnotation("Sqlite:Autoincrement", false)
+                .HasColumnName("IncidentTypeId");
+            builder.Property(i => i.IncidentTypeShortDesc)
+                .IsRequired()
+                .HasMaxLength(8)
+                .HasColumnType("nvarchar")
+                .HasColumnName("IncidentTypeShortDesc");
+            builder.Property(i => i.IncidentTypeDesc)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnType("nvarchar")
+                .HasColumnName("IncidentTypeDesc");
+            builder.Property(i => i.IncidentTypeFromServer)
+                .IsRequired()
+                .HasColumnType("bit")
+                .HasColumnName("IncidentTypeFromServer");
+            builder.Property(i => i.IncidentTypeSubjectLine)
+                .IsRequired()
+                .HasColumnName("IncidentTypeSubjectLine");
+            builder.Property(i => i.IncidentTypeEmailTemplate)
+                .IsRequired()
+                .HasColumnName("IncidentTypeEmailTemplate");
+            builder.Property(i => i.IncidentTypeTimeTemplate)
+                .IsRequired()
+                .HasColumnName("IncidentTypeTimeTemplate");
+            builder.Property(i => i.IncidentTypeThanksTemplate)
+                .IsRequired()
+                .HasColumnName("IncidentTypeThanksTemplate");
+            builder.Property(i => i.IncidentTypeLogTemplate)
+                .IsRequired()
+                .HasColumnName("IncidentTypeLogTemplate");
+            builder.Property(i => i.IncidentTypeTemplate)
+                .IsRequired()
+                .HasColumnName("IncidentTypeTemplate");
+            // indexes
+            builder.HasIndex(i => i.IncidentTypeShortDesc)
 				.IsUnique()
 				.HasDatabaseName("Idx_IncidentType_ShortDesc");
 			// relationships

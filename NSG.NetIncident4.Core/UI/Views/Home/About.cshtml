@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "About";
     ViewBag.applicationName = "NSG Application";
-    if (Model == null || string.IsNullOrEmpty(Model.Copyright))
+    if (Model == null)
     {
         ViewBag.product = "-Unknown-";
         ViewBag.companyName = "Northern Software Group";

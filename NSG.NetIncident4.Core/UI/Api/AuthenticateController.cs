@@ -1,23 +1,18 @@
 ﻿// ===========================================================================
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity.UI.Services;
 //
 using NSG.NetIncident4.Core.UI.ApiModels;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
-using Microsoft.Extensions.Logging;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 //
 namespace NSG.NetIncident4.Core.UI.Api
 {
@@ -48,7 +43,12 @@ namespace NSG.NetIncident4.Core.UI.Api
                 {
                     var userRoles = await userManager.GetRolesAsync(user);
                     //
-                    if( userRoles != null && userRoles.Count == 0 )
+                    if( userRoles == null )
+                    {
+                        ModelState.AddModelError("", $"{model.Username} requires a user role.");
+                        return Unauthorized();
+                    }
+                    if (userRoles.Count == 0)
                     {
                         ModelState.AddModelError("", $"{model.Username} requires a user role.");
                         return Unauthorized();
@@ -132,13 +132,18 @@ namespace NSG.NetIncident4.Core.UI.Api
                 CreateDate = DateTime.Now,
             };
             //
-            var result = await userManager.CreateAsync(user, model.Password);
+            IdentityResult result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                string error = (result.Errors.FirstOrDefault()).Description;
+                string error = "Unknown error";
+                if( result.Errors != null)
+                {
+                    error = (result.Errors.FirstOrDefault()).Description;
+                }
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = $"User creation failed! {error}" });
             }
-            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, userManager, _emailSender, user);
+            IEmailConfirmation _confirmation = new EmailConfirmation(this, userManager, _emailSender);
+            await _confirmation.EmailConfirmationAsync(user);
 
             return Ok(new Response { Status = "Success", Message = "Account created, must confirm your email!" });
         }

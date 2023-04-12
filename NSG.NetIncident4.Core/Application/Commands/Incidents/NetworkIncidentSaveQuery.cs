@@ -14,15 +14,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         //
         public NetworkIncidentData incident { get; set; }
         //
-        public List<IncidentNoteData> incidentNotes { get; set; }
-        public List<IncidentNoteData> deletedNotes { get; set; }
+        public List<IncidentNoteData> incidentNotes { get; set; } = new List<IncidentNoteData>();
+        public List<IncidentNoteData> deletedNotes { get; set; } = new List<IncidentNoteData>();
         //
-        public List<NetworkLogData> networkLogs { get; set; }
-        public List<NetworkLogData> deletedLogs { get; set; }
+        public List<NetworkLogData> networkLogs { get; set; } = new List<NetworkLogData>();
+        public List<NetworkLogData> deletedLogs { get; set; } = new List<NetworkLogData>();
         //
         public UserServerData user { get; set; }
         //
-        public string message { get; set; }
+        public string message { get; set; } = String.Empty;
         //
     }
     //
@@ -98,77 +98,77 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         /// <summary>
         /// For column Id
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column UserName
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column FirstName
         /// </summary>
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column LastName
         /// </summary>
-        public string LastName { get; set; }
+        public string LastName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column FullName
         /// </summary>
-        public string FullName { get; set; }
+        public string FullName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column UserNicName
         /// </summary>
-        public string UserNicName { get; set; }
+        public string UserNicName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column Email
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column EmailConfirmed
         /// </summary>
-        public bool EmailConfirmed { get; set; }
+        public bool EmailConfirmed { get; set; } = false;
         //
         /// <summary>
         /// For column PhoneNumber
         /// </summary>
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column PhoneNumberConfirmed
         /// </summary>
-        public bool PhoneNumberConfirmed { get; set; }
+        public bool PhoneNumberConfirmed { get; set; } = false;
         //
         /// <summary>
         /// For column CompanyId
         /// </summary>
-        public int CompanyId { get; set; }
+        public int CompanyId { get; set; }  = 0;
         //
         /// <summary>
         /// For collection of ServerShortName
         /// </summary>
-        public SelectItem[] ServerShortNames { get; set; }
+        public SelectItem[] ServerShortNames { get; set; } = new SelectItem[0];
         //
         /// <summary>
         /// For collection of ServerShortName
         /// </summary>
-        public string ServerShortName { get; set; }
+        public string ServerShortName { get; set; } = String.Empty;
         //
         /// <summary>
         /// The currently selected server
         /// </summary>
-        public ServerData Server { get; set; }
+        public ServerData? Server { get; set; }
         //
         /// <summary>
         /// For collection of roles
         /// </summary>
-        public string[] Roles { get; set; }
+        public string[] Roles { get; set; } = new string[0];
         //
         /// <summary>
         /// Create a 'to string'.
@@ -215,7 +215,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         [Range(1, int.MaxValue, ErrorMessage = "'Company Id' must ba a value greater than 0")]
         public int CompanyId { get; set; }
         //
-        public string CompanyName { get; set; }
+        public string CompanyName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column ServerShortName
@@ -223,67 +223,67 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         [Required(ErrorMessage = "'Server Short Name' is required."),
             MinLength(6, ErrorMessage = "'Server Short Name' must be 6 or up to 12 characters."),
             MaxLength(12, ErrorMessage = "'Server Short Name' must be 12 or less characters.")]
-        public string ServerShortName { get; set; }
+        public string ServerShortName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column ServerName
         /// </summary>
         [Required(ErrorMessage = "'Server Name' is required."), MaxLength(80, ErrorMessage = "'Server Name' must be 80 or less characters.")]
-        public string ServerName { get; set; }
+        public string ServerName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column ServerDescription
         /// </summary>
         [Required(ErrorMessage = "'Server Description' is required."), MaxLength(255, ErrorMessage = "'Server Description' must be 255 or less characters.")]
-        public string ServerDescription { get; set; }
+        public string ServerDescription { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column ServerLocation
         /// </summary>
         [Required(ErrorMessage = "'Device' is required."), MaxLength(255, ErrorMessage = "'Device' must be 255 or less characters.")]
-        public string WebSite { get; set; }
+        public string WebSite { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column ServerLocation
         /// </summary>
         [Required(ErrorMessage = "'Server Location' is required."), MaxLength(255, ErrorMessage = "'Server Location' must be 255 or less characters.")]
-        public string ServerLocation { get; set; }
+        public string ServerLocation { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column FromName
         /// </summary>
         [Required(ErrorMessage = "'From Name' is required."), MaxLength(255, ErrorMessage = "'From Name' must be 255 or less characters.")]
-        public string FromName { get; set; }
+        public string FromName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column FromNicName
         /// </summary>
         [Required(ErrorMessage = "'From Nic Name' is required."), MaxLength(16, ErrorMessage = "'From Nic Name' must be 16 or less characters.")]
-        public string FromNicName { get; set; }
+        public string FromNicName { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column FromEmailAddress
         /// </summary>
         [Required(ErrorMessage = "'From Email Address' is required."), MaxLength(255, ErrorMessage = "'From Email Address' must be 255 or less characters.")]
-        public string FromEmailAddress { get; set; }
+        public string FromEmailAddress { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column TimeZone
         /// </summary>
         [Required(ErrorMessage = "'Time-Zone' is required."), MaxLength(16, ErrorMessage = "'Time-Zone' must be 16 or less characters.")]
-        public string TimeZone { get; set; }
+        public string TimeZone { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column DST
         /// </summary>
         [Required(ErrorMessage = "'DST' is required.")]
-        public bool DST { get; set; }
+        public bool DST { get; set; } = false;
         //
         /// <summary>
         /// For column TimeZone_DST
         /// </summary>
         [MaxLength(16, ErrorMessage = "'Time-Zone DST' must be 16 or less characters.")]
-        public string TimeZone_DST { get; set; }
+        public string TimeZone_DST { get; set; } = String.Empty;
         //
         /// <summary>
         /// For column DST_Start

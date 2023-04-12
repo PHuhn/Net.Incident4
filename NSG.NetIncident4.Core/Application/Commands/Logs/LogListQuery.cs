@@ -25,11 +25,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 	public class LogListQuery
 	{
 		public DateTime Date { get; set; }
-		public string Application { get; set; }
-		public string Method { get; set; }
-		public string Level { get; set; }
-		public string Message { get; set; }
-		public string Exception { get; set; }
+		public string Application { get; set; } = String.Empty;
+        public string Method { get; set; } = String.Empty;
+        public string Level { get; set; } = String.Empty;
+        public string Message { get; set; } = String.Empty;
+        public string Exception { get; set; } = String.Empty;
 	}
 	//
 	/// <summary>
@@ -82,8 +82,9 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 		/// </summary>
 		public class ViewModel
 		{
-			public IList<LogListQuery> LogsList { get; set; }
-			public long TotalRecords { get; set; }
+			public IList<LogListQuery> LogsList { get; set; } = new List<LogListQuery>();
+
+			public long TotalRecords { get; set; } = 0;
 		}
 		//
 		/// <summary>
@@ -91,8 +92,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.Logs
 		/// </summary>
 		public class ListQuery : IRequest<ViewModel>
 		{
-            public string UserAccount { get; set; }
-			public LazyLoadEvent2 lazyLoadEvent { get; set; }
+            public string UserAccount { get; set; } = String.Empty;
+            public LazyLoadEvent2 lazyLoadEvent { get; set; }
 		}
 		//
 		/// <summary>

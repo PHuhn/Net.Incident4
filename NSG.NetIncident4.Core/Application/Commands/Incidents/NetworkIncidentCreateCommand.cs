@@ -75,7 +75,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             System.Diagnostics.Debug.WriteLine(_userNameIP);
             // Move from create command class to entity class.
             Incident _entity = CreateIncidentFromRequest(request.SaveQuery);
-            _context.Incidents.Add(_entity);
+            await _context.Incidents.AddAsync(_entity, cancellationToken);
             //
             try
             {

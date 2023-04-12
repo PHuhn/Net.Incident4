@@ -40,11 +40,16 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
         // GET: CompanyEmailTemplates
         public async Task<IActionResult> Index(int? companyId)
         {
-            UserCompanySelectionListQueryHandler.ViewModel _companyResults =
-                await Mediator.Send(new UserCompanySelectionListQueryHandler.ListQuery() { UserName = this.User.Identity.Name });
-            if( companyId.HasValue == false)
+            string _userName = "";
+            if (this.User.Identity != null && this.User.Identity.Name != null)
             {
-                string _companyIdValue = _companyResults.CompanyList.Where(_cmp => _cmp.Selected == true).FirstOrDefault().Value;
+                _userName = this.User.Identity.Name;
+            }
+            UserCompanySelectionListQueryHandler.ViewModel _companyResults =
+                await Mediator.Send(new UserCompanySelectionListQueryHandler.ListQuery() { UserName = _userName });
+            if (companyId.HasValue == false)
+            {
+                string _companyIdValue = _companyResults.CompanyList.FirstOrDefault(_cmp => _cmp.Selected == true).Value;
                 if (!string.IsNullOrEmpty(_companyIdValue))
                     companyId = Convert.ToInt32(_companyIdValue);
                 else
@@ -52,7 +57,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
             }
             else
             {
-                foreach( var _sl in _companyResults.CompanyList)
+                foreach (var _sl in _companyResults.CompanyList)
                 {
                     _sl.Selected = (_sl.Value == companyId.ToString() ? true : false);
                 }
@@ -137,8 +142,13 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
         /// <returns></returns>
         private async Task<CompanyEmailTemplatesCreateViewModel> CreateNewCreateViewModel(int companyId)
         {
+            string _userName = "";
+            if(this.User.Identity != null && this.User.Identity.Name != null)
+            {
+                _userName = this.User.Identity.Name;
+            }
             UserCompanySelectionListQueryHandler.ViewModel _companyResults =
-                await Mediator.Send(new UserCompanySelectionListQueryHandler.ListQuery() { UserName = this.User.Identity.Name });
+                await Mediator.Send(new UserCompanySelectionListQueryHandler.ListQuery() { UserName = _userName });
             IncidentTypeSelectionListQueryHandler.ViewModel _incidentTypeResults =
                 await Mediator.Send(new IncidentTypeSelectionListQueryHandler.ListQuery());
             CompanyEmailTemplateSelectionListQueryHandler.ViewModel _companyEmailTemplatesResults =

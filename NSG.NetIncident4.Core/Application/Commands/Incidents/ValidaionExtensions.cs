@@ -47,11 +47,18 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         public static bool IsValidLazyLoadEventString(string jsonString)
         {
             bool _ret = true;
-            try
+            if( !String.IsNullOrWhiteSpace(jsonString))
             {
-                LazyLoadEvent result = JsonConvert.DeserializeObject<LazyLoadEvent>(jsonString);
+                try
+                {
+                    LazyLoadEvent result = JsonConvert.DeserializeObject<LazyLoadEvent>(jsonString);
+                }
+                catch
+                {
+                    _ret = false;
+                }
             }
-            catch
+            else
             {
                 _ret = false;
             }

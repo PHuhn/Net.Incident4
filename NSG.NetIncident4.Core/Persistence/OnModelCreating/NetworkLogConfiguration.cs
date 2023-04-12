@@ -14,35 +14,37 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 		public void Configure(EntityTypeBuilder<NetworkLog> builder)
 		{
 			builder.ToTable("NetworkLog");
-			// propteries
-			builder.HasKey(n => n.NetworkLogId);
-			builder.Property(n => n.ServerId)
-				.IsRequired()
-				.HasColumnName("ServerId")
-				.HasColumnType("int");
-			builder.Property(n => n.IncidentId)
-				.HasColumnName("IncidentId")
-				.HasColumnType("bigint");
-			builder.Property(n => n.IPAddress)
-				.IsRequired()
-				.HasMaxLength(50)
-				.HasColumnName("IPAddress")
-				.HasColumnType("nvarchar");
-			builder.Property(n => n.NetworkLogDate)
-				.IsRequired()
-				.HasColumnName("NetworkLogDate")
-				.HasColumnType("datetime2");
-			builder.Property(n => n.Log)
-				.IsRequired()
-				.HasMaxLength(1073741823)
-				.HasColumnName("Log")
-				.HasColumnType("nvarchar");
-			builder.Property(n => n.IncidentTypeId)
-				.IsRequired()
-				.HasColumnName("IncidentTypeId")
-				.HasColumnType("int");
-			// indexes
-			builder.HasIndex(n => n.IncidentId)
+            // propteries
+            builder.HasKey(n => n.NetworkLogId);
+            builder.Property(i => i.NetworkLogId)
+                .IsRequired()
+                .HasAnnotation("Sqlite:Autoincrement", false)
+                .HasColumnName("NetworkLogId");
+            builder.Property(n => n.ServerId)
+                .IsRequired()
+                .HasColumnType("int")
+                .HasColumnName("ServerId");
+            builder.Property(n => n.IncidentId)
+                .HasColumnType("bigint")
+                .HasColumnName("IncidentId");
+            builder.Property(n => n.IPAddress)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnType("nvarchar")
+                .HasColumnName("IPAddress");
+            builder.Property(n => n.NetworkLogDate)
+                .IsRequired()
+                .HasColumnType("datetime2")
+                .HasColumnName("NetworkLogDate");
+            builder.Property(n => n.Log)
+                .IsRequired()
+                .HasColumnName("Log");
+            builder.Property(n => n.IncidentTypeId)
+                .IsRequired()
+                .HasColumnType("int")
+                .HasColumnName("IncidentTypeId");
+            // indexes
+            builder.HasIndex(n => n.IncidentId)
 				.HasDatabaseName("IX_NetworkLog_IncidentId");
 			builder.HasIndex(n => n.IncidentTypeId)
 				.HasDatabaseName("IX_NetworkLog_IncidentTypeId");

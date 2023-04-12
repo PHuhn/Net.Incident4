@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NSG.NetIncident4.Core.Domain.Entities;
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
 
@@ -221,7 +222,8 @@ namespace NSG.NetIncident4.Core.UI.Identity.Account
                         {
                             _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                            await ViewHelpers.ViewHelpers.EmailConfirmationAsync(this, _userManager, _emailSender, user);
+                            IEmailConfirmation _confirmation = new EmailConfirmation(this, _userManager, _emailSender);
+                            await _confirmation.EmailConfirmationAsync(user);
 
                             // If account confirmation is required, we need to show the link if we don't have a real email sender
                             if (_userManager.Options.SignIn.RequireConfirmedAccount)

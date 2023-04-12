@@ -15,10 +15,10 @@ namespace NSG.NetIncident4.Core.Persistence.OnModelCreating
 			builder.ToTable("AspNetUserTokens");
 			// propteries
 			builder.HasKey(a => new { a.UserId, a.LoginProvider, a.Name });
-			builder.Property(a => a.Value)
-				.HasMaxLength(1073741823)
-				.HasColumnName("Value")
-				.HasColumnType("nvarchar");
+			//builder.Property(a => a.Value)
+			//  .HasMaxLength(1073741823)
+			//	.HasColumnName("Value")
+			//	.HasColumnType("nvarchar");
 			// relationships
 			//builder.HasOne(ft => ft.User)
 			//	.WithMany(ut => ut.IdentityUserTokens<string>)
