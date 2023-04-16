@@ -20,6 +20,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using NSG.Integration.Helpers;
 using System.Text;
+using NSG.NetIncident4.Core.UI.ViewModels;
 // using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests
@@ -50,6 +51,34 @@ namespace NSG.NetIncident4.Core_Tests
             //_context.Companies.Add(_company1);
             //Console.WriteLine(_context);
         }
+        //
+        [Test]
+        public void AlertMessageNumberFormat_Test()
+        {
+            Console.WriteLine("NumberFormat_Test");
+            int _n1 = 0;
+            string _n1Str = _n1.ToString("d3");
+            Console.WriteLine(_n1Str);
+            Assert.AreEqual(_n1Str, "000");
+            int _n2 = 301;
+            string _n2Str = _n2.ToString("d3");
+            Console.WriteLine(_n2Str);
+            Assert.AreEqual(_n2Str, "301");
+            List<AlertMessage> Alerts = new List<AlertMessage>()
+            {
+                new AlertMessage( "001", "Warn", "Message 001"),
+                new AlertMessage( "ABC", "Error", "Message ABC")
+            };
+            string _id = (Alerts.Count + 1).ToString( "d3" );
+            Alerts.Add(new AlertMessage(_id, "Info", "Message " + _id));
+            Console.WriteLine(_id);
+            Assert.AreEqual(_id, "003");
+            foreach( AlertMessage _alert in Alerts)
+            {
+                Console.WriteLine(_alert.ToString());
+            }
+        }
+        //
         [Test]
         public async Task TestingCreate_Test()
         {

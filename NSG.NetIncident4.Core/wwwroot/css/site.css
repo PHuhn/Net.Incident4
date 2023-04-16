@@ -78,7 +78,7 @@ dt, label {
     padding-right: 5px;
 }
 /* .validation-summary-errors */
-.nsg-msg-alerts {
+.nsg-msg-alerts, .validation-summary-errors {
     width: 300px;
     min-height: 35px;
     margin: 2px 0 0 0;

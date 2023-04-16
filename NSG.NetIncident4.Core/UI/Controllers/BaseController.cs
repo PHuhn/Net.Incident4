@@ -47,6 +47,11 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         //  Success
         //  Information
         //  AddAlertMessage
+        //  AddAlertMessage
+        //  Base_AddErrors(Exception except)
+        //  Base_AddErrors(ValidationResult modelState)
+        //  Base_AddErrors(IdentityResult modelState)
+        //  Base_AddErrors(ModelStateDictionary modelState)
         //
         #region "alert message"
         //
@@ -93,7 +98,23 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         /// <param name="message">a message</param>
         private void AddAlertMessage( AlertLevel alertLevel, string message )
         {
-            Alerts.Add(new AlertMessage(alertLevel.ToString().ToLower(), message));
+            string _id = (Alerts.Count + 1).ToString("d3");
+            Alerts.Add(new AlertMessage(_id, alertLevel.ToString().ToLower(), message));
+        }
+        //
+        /// <summary>
+        /// do it in one place
+        /// </summary>
+        /// <param name="id">string value, can be an identifier</param>
+        /// <param name="alertLevel">level of the message</param>
+        /// <param name="message">a message</param>
+        private void AddAlertMessage(string id, AlertLevel alertLevel, string message)
+        {
+            if( id == String.Empty)
+            {
+                id = (Alerts.Count + 1).ToString("d3");
+            }
+            Alerts.Add(new AlertMessage(id, alertLevel.ToString().ToLower(), message));
         }
         //
         #endregion // alert message
@@ -117,7 +138,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers
             if (!modelState.IsValid)
                 foreach (var _failure in modelState.Errors)
                 {
-                    this.AddAlertMessage(AlertLevel.Error, 
+                    this.AddAlertMessage(_failure.PropertyName, AlertLevel.Error, 
                         string.Format("{0}: {1}\n", _failure.PropertyName, _failure.ErrorMessage));
                 }
         }

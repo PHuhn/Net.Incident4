@@ -157,7 +157,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
                                 var _details = content.Fields.Where(f => f.Name == "encoded").Select(f => f.Value).FirstOrDefault();
                                 _feed.Add(new News(_title, (_link != null ? _link : ""),
                                     (_description != null ? _description : ""), (_details != null ? _details : ""),
-                                    (_published != null ? _published : new DateTime(1980, 1, 1)), (_creator != null ? _creator : "")));
+                                    _published, (_creator != null ? _creator : "")));
                                 cnt++;
                             }
                         }
