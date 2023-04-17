@@ -1,20 +1,12 @@
+// ===========================================================================
+// File: UsersAdminController_UnitTests.cs
 using NUnit.Framework;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 //
-using System.Security.Principal;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+//
 using MediatR;
 using Moq;
 //
@@ -29,12 +21,17 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
     public class UsersAdminController_UnitTests : UnitTestFixture
     {
         //
-        private readonly IEmailSender emailSender = null;
-        public string userName = "AdminUser";
-        private ApplicationUser adminUser = null;
-        private ApplicationUserDetailQuery applicationUser1 = null;
-        private ApplicationUserDetailQuery applicationUser2 = null;
-        private ApplicationUserListQuery applicationListUser1 = null;
+        private IEmailSender emailSender;
+        private string userName = "AdminUser";
+        private ApplicationUser adminUser;
+        private ApplicationUserDetailQuery applicationUser1;
+        private ApplicationUserDetailQuery applicationUser2;
+        private ApplicationUserListQuery applicationListUser1;
+        /*
+        ** UsersAdminController_UnitTests
+        ** Setup
+        */
+        #region "constructor"
         //
         public UsersAdminController_UnitTests()
         {
@@ -100,6 +97,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
         {
         }
         //
+        #endregion // constructor
+        /*
+        ** Index_AuthorizeAttribute_Test
+        */
+        #region "authorized"
+        //
         [Test]
         public void Index_AuthorizeAttribute_Test()
         {
@@ -113,6 +116,13 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             Assert.IsNotNull(attribute, "No AuthorizeAttribute found on UsersAdminController");
             Assert.AreEqual(attribute.NamedArguments[0].TypedValue.Value, "CompanyAdminRole");
         }
+        //
+        #endregion // authorized
+        /*
+        ** Index_Test
+        ** Details_Test
+        */
+        #region "queries"
         //
         [Test]
         public async Task Index_Test()
@@ -166,6 +176,15 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             Assert.IsNotNull(model);
             Assert.AreEqual(mediatorReturn.Id, model.Id);
         }
+        //
+        #endregion // queries
+        /*
+        ** Edit_Get_Test
+        ** Edit_Save_Test
+        ** Delete_Get_Test
+        ** DeleteConfirmed_Test
+        */
+        #region "commands"
         //
         [Test]
         public async Task Edit_Get_Test()
@@ -273,6 +292,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             Assert.AreEqual(viewResult.ActionName, "Index");
             Assert.AreEqual(UsersAdminController.Alerts.Count, 0);
         }
+        //
+        #endregion // commands
         //
     }
 }

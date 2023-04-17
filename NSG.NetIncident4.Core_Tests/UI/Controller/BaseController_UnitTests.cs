@@ -1,18 +1,11 @@
+// ===========================================================================
+// File: BaseController_UnitTests.cs
 using NUnit.Framework;
 using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.ComponentModel.DataAnnotations;
 //
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 //
-using MockQueryable.Moq;
 using MediatR;
 using Moq;
 using FluentValidation.Results;
@@ -20,9 +13,6 @@ using FluentValidation.Results;
 using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.UI.Controllers;
 using NSG.NetIncident4.Core.UI.ViewModels;
-using FluentValidation.AspNetCore;
-using System.Data;
-using System.IO;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Controller
 {
@@ -35,19 +25,19 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         [SetUp]
         public void Setup()
         {
-            // Fixture_UnitTestSetup();
         }
-        //  Error
-        //  Warning
-        //  Success
-        //  Information
-        //  AddAlertMessage
-        //  AddAlertMessage
-        //  Base_AddErrors(Exception except)
-        //  Base_AddErrors(ValidationResult modelState)
-        //  Base_AddErrors(IdentityResult modelState)
-        //  Base_AddErrors(ModelStateDictionary modelState)
-        //
+        /*
+        **  Error
+        **  Warning
+        **  Success
+        **  Information
+        **  AddAlertMessage
+        **  AddAlertMessage
+        **  Base_AddErrors(Exception except)
+        **  Base_AddErrors(ValidationResult modelState)
+        **  Base_AddErrors(IdentityResult modelState)
+        **  Base_AddErrors(ModelStateDictionary modelState)
+        */
         #region "alert message"
         //
         [Test]
@@ -153,11 +143,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             string _propName = "SomeField";
             string _message = "Some add errors validation result message";
             BaseController sut = new BaseController(mockMediator.Object);
-            FluentValidation.Results.ValidationResult _modelState = 
-                new FluentValidation.Results.ValidationResult(
-                    new List<ValidationFailure>()
-                        { new ValidationFailure(_propName, _message) }
-                    );
+            ValidationResult _modelState = new ValidationResult(
+                new List<ValidationFailure>()
+                    { new ValidationFailure(_propName, _message) }
+                );
             BaseController.Alerts.Clear();
             // when
             sut.Base_AddErrors(_modelState);
@@ -214,6 +203,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
         }
         //
         #endregion // alert message
+        /*
+        ** BaseController_GetUserAccount_Auth_Test
+        ** BaseController_GetUserAccount_UnAuth_Test
+        */
+        #region "get user name"
         //
         [Test]
         public void BaseController_GetUserAccount_Auth_Test()
@@ -243,6 +237,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             Assert.AreEqual(_userName, "- Not Authenticated -");
         }
         //
+        #endregion // get user name
+        //
     }
 }
-//
+// ===========================================================================
