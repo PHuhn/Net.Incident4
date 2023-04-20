@@ -100,23 +100,23 @@ nsg-alerts-msg-ul {
 }
 /* Info */
 .nsg-msg-info {
-    color: dodgerblue;
-    background-color: white;
+    color: rgb(52, 89, 230);
+    font-weight: bold;
 }
 /* Success */
 .nsg-msg-success {
     color: forestgreen;
-    background-color: white;
+    font-weight: bold;
 }
 /* Warning */
 .nsg-msg-warn {
     color: darkorange;
-    background-color: white;
+    font-weight: bold;
 }
 /* Error/Danger */
 .nsg-msg-error, .nsg-msg-danger {
     color: red;
-    background-color: white;
+    font-weight: bold;
 }
 
 .nsg-td-label {
