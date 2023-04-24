@@ -4,8 +4,8 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 //
 import { ConfirmationService } from 'primeng/api';
 //
-import { AlertsService } from '../../global/alerts/alerts.service';
-import { ConsoleLogService } from '../../global/console-log/console-log.service';
+import { AlertsService } from '../alerts/alerts.service';
+import { ConsoleLogService } from '../console-log/console-log.service';
 //
 import { BaseCompService } from './base-comp.service';
 //

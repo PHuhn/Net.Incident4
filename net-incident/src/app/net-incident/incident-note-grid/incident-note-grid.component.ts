@@ -8,8 +8,8 @@ import { ConfirmationService } from 'primeng/api';
 //
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { AlertsService } from '../../global/alerts/alerts.service';
-import { BaseCompService } from '../../common/base-comp/base-comp.service';
-import { BaseComponent } from '../../common/base-comp/base-comp.component';
+import { BaseCompService } from '../../global/base-comp/base-comp.service';
+import { BaseComponent } from '../../global/base-comp/base-comp.component';
 import { IIncident, Incident } from '../incident';
 import { IIncidentNote, IncidentNote } from '../incident-note';
 import { NetworkIncident } from '../network-incident';

@@ -11,7 +11,7 @@ import { NetworkIncident } from '../network-incident';
 import { NetworkIncidentSave } from '../network-incident-save';
 import { IIncident, Incident } from '../incident';
 import { INetworkLog, NetworkLog } from '../network-log';
-import { BaseSrvcService } from '../../common/base-srvc/base-srvc.service';
+import { BaseSrvcService } from '../../global/base-srvc/base-srvc.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Injectable( { providedIn: 'root' } )

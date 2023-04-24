@@ -14,7 +14,7 @@ import { Dropdown, DropdownModule } from 'primeng/dropdown';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { Header, Footer, ConfirmationService, SelectItem } from 'primeng/api';
 //
-import { BaseCompService } from '../../common/base-comp/base-comp.service';
+import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { Alerts } from '../../global/alerts/alerts';
 import { AlertLevel } from '../../global/alerts/alert-level.enum';

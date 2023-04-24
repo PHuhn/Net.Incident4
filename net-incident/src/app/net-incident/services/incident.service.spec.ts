@@ -14,7 +14,7 @@ import { Message } from '../../global/alerts/message';
 // import { AlertsService } from '../../global/alerts/alerts.service';
 import { IncidentService } from './incident.service';
 import { IIncident, Incident } from '../incident';
-import { ILazyResults } from '../../common/base-srvc/ibase-srvc';
+import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
 //
 describe('IncidentService', () => {
 	let sut: IncidentService;

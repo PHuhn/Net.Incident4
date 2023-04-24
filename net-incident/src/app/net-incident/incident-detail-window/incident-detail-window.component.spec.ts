@@ -14,7 +14,7 @@ import { Dropdown, DropdownModule } from 'primeng/dropdown';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 //
-import { BaseCompService } from '../../common/base-comp/base-comp.service';
+import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { Message } from '../../global/alerts/message';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';

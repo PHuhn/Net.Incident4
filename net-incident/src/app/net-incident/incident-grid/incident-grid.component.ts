@@ -9,11 +9,11 @@ import { SelectItem } from 'primeng/api';
 import { FilterMetadata } from 'primeng/api';
 import { LazyLoadEvent } from 'primeng/api';
 //
-import { ILazyResults } from '../../common/base-srvc/ibase-srvc';
+import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
-import { BaseCompService } from '../../common/base-comp/base-comp.service';
-import { BaseComponent } from '../../common/base-comp/base-comp.component';
+import { BaseCompService } from '../../global/base-comp/base-comp.service';
+import { BaseComponent } from '../../global/base-comp/base-comp.component';
 import { DetailWindowInput } from '../DetailWindowInput';
 import { IUser, User } from '../user';
 import { UserService } from '../services/user.service';

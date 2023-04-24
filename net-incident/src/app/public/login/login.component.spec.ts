@@ -19,7 +19,7 @@ import { User } from '../../net-incident/user';
 import { UserService } from '../../net-incident/services/user.service';
 import { AuthService } from '../../net-incident/services/auth.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
-import { BaseCompService } from '../../common/base-comp/base-comp.service';
+import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { LoginComponent } from './login.component';
 import { ServerSelectionWindowComponent } from '../../net-incident/server-selection-window/server-selection-window.component';
 //

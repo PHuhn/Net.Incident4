@@ -20,7 +20,7 @@ import { AlertsService } from '../../global/alerts/alerts.service';
 import { TruncatePipe } from '../../global/truncate.pipe';
 import { ServicesService } from '../services/services.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
-import { BaseCompService } from '../../common/base-comp/base-comp.service';
+import { BaseCompService } from '../../global/base-comp/base-comp.service';
 //
 import { SelectItemExtra } from '../../global/select-item-class';
 import { IUser, User } from '../user';

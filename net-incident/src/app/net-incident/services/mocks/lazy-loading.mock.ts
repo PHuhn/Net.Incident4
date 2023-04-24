@@ -2,7 +2,7 @@
 // file: LazyLoading.mock
 import { LazyLoadEvent, FilterMetadata } from 'primeng/api';
 //
-import { ILazyResults } from '../../../common/base-srvc/ibase-srvc';
+import { ILazyResults } from '../../../global/base-srvc/ibase-srvc';
 //
 export class LazyLoadingMock {
 	//

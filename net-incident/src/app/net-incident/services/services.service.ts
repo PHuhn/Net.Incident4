@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 //
 import { environment } from '../../../environments/environment';
-import { BaseSrvcService } from '../../common/base-srvc/base-srvc.service';
+import { BaseSrvcService } from '../../global/base-srvc/base-srvc.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Injectable( { providedIn: 'root' } )

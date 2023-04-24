@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 //
 import { ConfirmationService, Confirmation } from 'primeng/api';
 //
-import { AlertsService } from '../../global/alerts/alerts.service';
-import { ConsoleLogService } from '../../global/console-log/console-log.service';
+import { AlertsService } from '../alerts/alerts.service';
+import { ConsoleLogService } from '../console-log/console-log.service';
 import { BaseCompService } from './base-comp.service';
 import { BaseComponent } from './base-comp.component';
 //

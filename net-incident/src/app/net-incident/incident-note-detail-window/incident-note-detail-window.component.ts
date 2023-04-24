@@ -12,8 +12,8 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { Message } from '../../global/alerts/message';
 import { ServicesService } from '../services/services.service';
-import { BaseCompService } from '../../common/base-comp/base-comp.service';
-import { BaseComponent } from '../../common/base-comp/base-comp.component';
+import { BaseCompService } from '../../global/base-comp/base-comp.service';
+import { BaseComponent } from '../../global/base-comp/base-comp.component';
 import { IIncidentNote, IncidentNote } from '../incident-note';
 import { NetworkIncident } from '../network-incident';
 import { AbuseEmailReport } from '../abuse-email-report';

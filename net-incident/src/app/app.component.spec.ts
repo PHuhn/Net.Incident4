@@ -18,7 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { APP_COMPONENTS } from './APP.COMPONENTS';
 import { APP_PROVIDERS } from './APP.PROVIDERS';
 import { APP_MODULE_PRIMENG } from './APP.MODULE-PRIMENG';
-import { BaseCompService } from './common/base-comp/base-comp.service';
+import { BaseCompService } from './global/base-comp/base-comp.service';
 import { AlertsService } from './global/alerts/alerts.service';
 import { AuthService } from './net-incident/services/auth.service';
 import { AlertsComponent } from './global/alerts/alerts.component';

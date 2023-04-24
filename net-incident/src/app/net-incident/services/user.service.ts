@@ -11,7 +11,7 @@ import { catchError } from 'rxjs/operators';
 import { Message } from '../../global/alerts/message';
 import { IUser, User } from '../user';
 import { environment } from '../../../environments/environment';
-import { BaseSrvcService } from '../../common/base-srvc/base-srvc.service';
+import { BaseSrvcService } from '../../global/base-srvc/base-srvc.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 //

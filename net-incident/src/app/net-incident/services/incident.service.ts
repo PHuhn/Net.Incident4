@@ -13,8 +13,8 @@ import { environment } from '../../../environments/environment';
 import { Message } from '../../global/alerts/message';
 import { IIncident, Incident } from '../incident';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
-import { BaseSrvcService } from '../../common/base-srvc/base-srvc.service';
-import { ILazyResults } from '../../common/base-srvc/ibase-srvc';
+import { BaseSrvcService } from '../../global/base-srvc/base-srvc.service';
+import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
 //
 @Injectable( { providedIn: 'root' } )
 export class IncidentService extends BaseSrvcService {
