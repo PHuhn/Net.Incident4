@@ -59,10 +59,6 @@ export interface IBaseSrvc {
 	*/
 	getModelAll<T>( ): Observable<T[] | never>;
 	/**
-	** Read (get) lazy loading page of models using primeng
-	*/
-	getModelLazy<T>( event: LazyLoadEvent ): Observable<ILazyResults | never>;
-	/**
 	** Read (get) some models.
 	** @param param needs to be an object much like the compound key in getModelById
 	*/

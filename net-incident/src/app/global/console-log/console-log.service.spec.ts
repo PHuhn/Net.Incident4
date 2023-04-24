@@ -115,16 +115,21 @@ describe( 'ConsoleLogService', ( ) => {
 	});
 	//
 	it( 'messages: should return the whole list of messages ...', ( ) => {
-		sut.Error( 'Error message' );
-		sut.Warning( 'Warning message' );
-		sut.Information( 'Entering' );
-		sut.Information( 'Information message' );
-		sut.Information( 'Exiting' );
+		sut.Information( '1' );
+		sut.Information( '2' );
+		sut.Information( '3' );
+		sut.Information( '4' );
+		sut.Information( '5' );
+		sut.Information( '6' );
+		sut.Information( '7' );
+		sut.Information( '8' );
+		sut.Information( '9' );
+		sut.Information( '10' );
 		sut.Error( 'Last message' );
 		const msgs: string[] = sut.messages;
 		console.warn( msgs );
 		expect( msgs ).toEqual( 
-			['Error: Last message', 'Info: Exiting','Info: Information message','Info: Entering','Warning: Warning message'] );
+			['Error: Last message', 'Info: 10','Info: 9','Info: 8','Info: 7','Info: 6','Info: 5','Info: 4','Info: 3','Info: 2'] );
 	});
 	//
 });

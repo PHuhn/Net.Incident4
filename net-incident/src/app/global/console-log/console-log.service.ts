@@ -16,9 +16,9 @@ export class ConsoleLogService {
 		this._logLevel = newValue;
 	}
 	//
-	private maxMsgNbr: number = 4;
+	private maxMsgNbr: number = 9;
 	private lastMsgNbr: number = this.maxMsgNbr;
-	private msgs: string[] = ['', '', '', '', ''];
+	private msgs: string[] = ['', '', '', '', '', '', '', '', '', ''];
 	get lastMessage(): string {
 		return this.msgs[this.lastMsgNbr];
 	}

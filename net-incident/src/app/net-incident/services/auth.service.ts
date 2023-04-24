@@ -36,9 +36,6 @@ export class AuthService extends BaseSrvcService {
 		const body = {"Username": userName, "Password": password };
 		this._console.Information(
 			`${this.codeName}.authenticate: ${this.url} username=${userName}` );
-		const options = { headers: new HttpHeaders().set( 'Content-Type', 'application/json' ) };
-		// call to login service
-		// this.postJsonBody<IAuthResponse>( body ).subscribe
 		return this.postJsonBody<IAuthResponse>( body )
 			.pipe( tap( ( authResponse: IAuthResponse ) => {
 				const len = authResponse.token.length;

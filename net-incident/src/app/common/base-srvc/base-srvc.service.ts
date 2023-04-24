@@ -47,17 +47,6 @@ export class BaseSrvcService extends BaseSrvc implements IBaseSrvc {
 			.pipe( catchError( this.baseSrvcErrorHandler.bind( this ) ) );
 	}
 	/**
-	** Read (get) lazy loading page of models.
-	** post (get) passing body with JSON options.  Can be used
-	** with PrimeNG's lazy load table and with authenication
-	** @param body 
-	** @returns T
-	*/
-	getModelLazy<T>( event: LazyLoadEvent ): Observable<T | never> {
-		// {"first":0,"rows":3,"filters":{"ServerId":{"value":1,"matchMode":"equals"}}}
-		return this.postJsonBody<T>( event );
-	}
-	/**
 	** post (get) passing body with JSON options.  Can be used with
 	** 1) PrimeNG's lazy load table
 	** 2) authenication
@@ -69,7 +58,7 @@ export class BaseSrvcService extends BaseSrvc implements IBaseSrvc {
 		const headerJSON = new HttpHeaders().set('content-type', 'application/json' as const);
 		const options = { headers: headerJSON };
 		this._console.Information(
-			`${this.codeName}.get${this.baseClassName}Lazy: ${urlPath}` );
+			`${this.codeName}.postJsonBody: ${urlPath}` );
 		return this._http.post<T>( urlPath, body, options )
 			.pipe( catchError( this.baseSrvcErrorHandler.bind(this) ) );
 	}
