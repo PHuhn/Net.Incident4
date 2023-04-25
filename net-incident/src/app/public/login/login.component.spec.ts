@@ -95,10 +95,15 @@ describe('LoginComponent', () => {
 		sut.model.UserName = 'Xyz';
 		sut.model.Password = '';
 		sut.model.ServerShortName = 'XyzServer';
-		alertService.getAlerts().subscribe( (msg: Alerts) => {
-			expect( msg ).toBeTruthy( );
-			expect( msg.level ).toBe( AlertLevel.Error );
-		}, error =>	console.error( error ) );
+		const subscription = alertService.getAlerts().subscribe({
+			next: (msg: Alerts) => {
+				expect( msg ).toBeTruthy( );
+				expect( msg.level ).toBe( AlertLevel.Error );
+			},
+			error: (error) => {
+				fail( 'loginUser, failed: ' + error );
+			}
+		});
 		const ret: number = sut.loginUser();
 		expect( ret ).toBe( -1 );
 		//
@@ -163,6 +168,47 @@ describe('LoginComponent', () => {
 			expect( user ).toBe( emptyUser );
 		} );
 		sut.getUserServer( sut.model.UserName, sut.model.ServerShortName );
+		//
+	} ) );
+	//
+	it('getUserServer should get login user no short name...', fakeAsync( ( ) => {
+		// given
+		const _srvrs = [ {value: 'XYZ Server', label: 'XYZ Server'} ];
+		sut.displayServersWindow = false;
+		sut.model.UserName = 'Xyz';
+		sut.model.ServerShortName = '';
+		const emptyUser: User = new User(
+			'','','','','','','',false,'',false,0,_srvrs,'',undefined, []);
+		emptyUser.ServerShortName = sut.model.ServerShortName;
+		userServiceSpy.getModelById.and.returnValue(of( emptyUser ));
+		// when
+		sut.getUserServer( sut.model.UserName, sut.model.ServerShortName );
+		// then
+		expect( sut.displayServersWindow ).toEqual( true );
+		expect( sut.selectItemsWindow ).toEqual( _srvrs );
+	} ) );
+	//
+	it('getUserServer should handle get user error  ...', fakeAsync( ( ) => {
+		// given
+		const errMsg: string = 'Fake Service error';
+		const response: HttpErrorResponse = new HttpErrorResponse({
+			error: {}, status: 500, url: 'http://localhost', statusText: errMsg });
+		userServiceSpy.getModelById.and.returnValue( throwError( ( ) => response ) );
+		const subscription = alertService.getAlerts().subscribe({
+			next: (msg: Alerts) => {
+				console.warn( 'getUserServer should handle get user error' );
+				expect( msg.level ).toBe( AlertLevel.Error );
+			},
+			error: (error) => {
+				fail( 'loginUser, failed: ' + error );
+			},
+			complete: () => { }
+		});
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.getUserServer( sut.model.UserName, sut.model.ServerShortName );
+		// then
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
 		//
 	} ) );
 	//

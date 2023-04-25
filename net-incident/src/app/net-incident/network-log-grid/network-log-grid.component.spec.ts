@@ -107,9 +107,8 @@ describe('NetworkLogGridComponent', () => {
 	//
 	it('should be created ...', fakeAsync( () => {
 		sut.networkIncident = createNetworkIncident( );
-		sut.ngAfterContentInit( );
-		tickFakeWait( 1000 );
-		tickFakeWait( 1000 );
+		tickFakeWait( 10 );
+		tickFakeWait( 400 );
 		//
 		console.log(
 			'===================================\n' +
@@ -117,10 +116,26 @@ describe('NetworkLogGridComponent', () => {
 		expect( sut ).toBeTruthy();
 	} ) );
 	//
+	// fit('ngAfterContentInit: should fail (exceed count) ...', fakeAsync(() => {
+	// 	// given
+	// 	console.warn( 'ngAfterContentInit: should fail (exceed count)' );
+	// 	sut.networkIncident = createNetworkIncident( );
+	// 	sut.networkIncident.networkLogs = [ ];
+	// 	// when
+	// 	sut.ngAfterContentInit( );
+	// 	// then
+	// 	tickFakeWait( 10 );
+	// 	tickFakeWait( 200 );
+	// 	tickFakeWait( 200 );
+	// 	expect( true ).toEqual( false );
+	// 	//
+	// }));
+	//
 	it('default data should have all columns ...', fakeAsync( () => {
 		sut.networkIncident = createNetworkIncident( );
-		tickFakeWait( 1000 );
-		tickFakeWait( 1000 );
+		tickFakeWait( 10 );
+		tickFakeWait( 200 );
+		tickFakeWait( 200 );
 		//
 		const numCols: number = 7;
 		const netLogBodyCols = fixture.debugElement.queryAll(By.css(
@@ -130,8 +145,9 @@ describe('NetworkLogGridComponent', () => {
 	//
 	it('default data should have all rows ...', fakeAsync( () => {
 		sut.networkIncident = createNetworkIncident( );
-		tickFakeWait( 1000 );
-		tickFakeWait( 1000 );
+		tickFakeWait( 10 );
+		tickFakeWait( 200 );
+		tickFakeWait( 200 );
 		//
 		const numRows: number = mockDatum.length;
 		const netLogBodyRows = fixture.debugElement.queryAll(By.css(
@@ -147,8 +163,9 @@ describe('NetworkLogGridComponent', () => {
 		sut.networkIncident = testNetInc;
 		sut.dt.globalFilterFields = ['IPAddress'];
 		sut.ngAfterContentInit( );
-		tickFakeWait( 1000 );
-		tickFakeWait( 1000 );
+		tickFakeWait( 10 );
+		tickFakeWait( 200 );
+		tickFakeWait( 200 );
 		const loop = [1,2,3,4];
 		loop.forEach( i => {
 			if ( sut.disabled === undefined ) {
@@ -161,6 +178,19 @@ describe('NetworkLogGridComponent', () => {
 			'#netLogTable > div > div > table > tbody > tr:nth-child(1) > td' ));
 		expect( netLogBodyCols.length ).toBe( numCols );
 	}));
+	//
+	it('setTableFilter: should filter log rows ...', fakeAsync( () => {
+		// given
+		const ipAddr = mockDatum[1].IPAddress;
+		sut.networkIncident = createNetworkIncident( );
+		tickFakeWait( 10 );
+		tickFakeWait( 400 );
+		// when
+		const ret = sut.setTableFilter( ipAddr );
+		// then
+		tickFakeWait( 1000 );
+		expect( ret ).toEqual( true );
+	} ) );
 	//
 	it('incident should have only selected rows ...', fakeAsync( () => {
 		const testNetInc: INetworkIncident= createNetworkIncident( );
@@ -239,27 +269,34 @@ describe('NetworkLogGridComponent', () => {
 	it('afterViewInit: should fail ...', fakeAsync(() => {
 		// given
 		sut.networkIncident = null;
-		// console.warn( 'deleteItemClicked: should delete row when event called and OK is clicked...' );
 		// when
 		const ret: boolean = sut.afterViewInit( false );
 		// then
 		expect( ret ).toEqual( false );
 		//
 	}));
-	//
-	// it('ngAfterContentInit: should fail (exceed count) ...', fakeAsync(() => {
-	// 	// given
-	// 	sut.networkIncident = createNetworkIncident( );
-	// 	// when
-	// 	sut.ngAfterContentInit( );
-	// 	// then
-	// 	expect( true ).toEqual( false );
-	// 	//
-	// }));
+	/*
+	** viewInitIPAddress( ): string
+	*/
+	it('viewInitIPAddress: should emit change ...', fakeAsync(() => {
+		// given
+		console.warn( 'viewInitIPAddress: should emit change' );
+		const _ipAddr = mockDatum[1].IPAddress;
+		sut.networkIncident = createNetworkIncident( );
+		sut.networkIncident.networkLogs[2].Selected = true;
+		tickFakeWait( 10 );
+		tickFakeWait( 400 );
+		sut.networkIncident.incident.IPAddress = _ipAddr;
+		// when
+		const ret: string = sut.viewInitIPAddress( );
+		// then
+		expect( ret ).toEqual( sut.selectedLogs[0].IPAddress );
+		//
+	}));
 	/*
 	** deleteItem( delId: number ): boolean
 	*/
-	it('should delete row from in memory networkLogs and move to deletedLogs ...', fakeAsync( () => {
+	it('deleteItem: should delete row from in memory networkLogs and move to deletedLogs ...', fakeAsync( () => {
 		sut.networkIncident = createNetworkIncident( );
 		sut.ngAfterContentInit( );
 		tickFakeWait( 1 );
@@ -274,6 +311,22 @@ describe('NetworkLogGridComponent', () => {
 		expect( sut.networkIncident.deletedLogs.length ).toBe( 1 );
 		expect( sut.networkIncident.networkLogs.length ).toBe( mockDatum.length - 1 );
 		expect( sut.networkIncident.deletedLogs[0].NetworkLogId ).toBe( delId );
+	}));
+	//
+	it('deleteItem: should delete row shold fail ...', fakeAsync( () => {
+		// given
+		sut.networkIncident = createNetworkIncident( );
+		sut.ngAfterContentInit( );
+		tickFakeWait( 1 );
+		tickFakeWait( 2000 );
+		expect( sut.networkIncident.deletedLogs.length ).toBe( 0 );
+		expect( sut.networkIncident.networkLogs.length ).toBe( mockDatum.length );
+		spyOn( alertService, 'setWhereWhatWarning' );
+		// when
+		sut.deleteItem( 9999999 );
+		tickFakeWait( 1 );
+		// then
+		expect( alertService.setWhereWhatWarning ).toHaveBeenCalled( );
 	}));
 	/*
 	** deleteItemClicked( item: Incident ) :boolean

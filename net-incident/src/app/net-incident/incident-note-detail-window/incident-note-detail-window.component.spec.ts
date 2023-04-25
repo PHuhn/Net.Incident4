@@ -325,7 +325,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		const id: number = 1;
 		const resp: HttpErrorResponse = new HttpErrorResponse({
 			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
-		servicesServiceSpy.getWhoIs.and.returnValue( throwError( resp ));
+		servicesServiceSpy.getWhoIs.and.returnValue( throwError( ( ) => resp ) );
 		spyOn( alertService, 'setWhereWhatError' );
 		// when
 		sut.performIncidentType(id, 'whois');

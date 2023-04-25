@@ -79,6 +79,11 @@ describe('ServerSelectionWindowComponent', () => {
 		windowCleanup( );
 	} ) );
 	//
+	it('@Input should get back the input values ...', fakeAsync( () => {
+		expect(sut.selectItems).toEqual(mockData);
+		windowCleanup( );
+	} ) );
+	//
 	it('should launch window when display window set ...', fakeAsync( () => {
 		const titleVar = fixture.debugElement.query(By.css(
 			'#serverSelectionWindow' )).nativeElement;
