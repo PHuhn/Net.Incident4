@@ -250,19 +250,6 @@ describe('NetworkLogGridComponent', () => {
 			numRowsSelector ));
 		expect( netLogBodyRows.length ).toBe( numRows );
 	}));
-	// ngOnChanges(changes: SimpleChanges): void
-	// it('ngOnChanges: ...', fakeAsync( () => {
-	// 	// given
-	// 	const changes: SimpleChanges = { 'networkIncident': new SimpleChange('', '', true) };
-	// 	sut.networkIncident = createNetworkIncident( );
-	// 	tickFakeWait( 10 );
-	// 	tickFakeWait( 5000 );
-	// 	console.warn( ' here')
-	// 	// when
-	// 	sut.ngOnChanges( changes );
-	// 	//
-	// 	tickFakeWait( 350 );
-	// } ) );
 	/*
 	** afterViewInit( complete: boolean ): boolean
 	*/

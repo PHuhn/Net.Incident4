@@ -19,6 +19,19 @@ describe('Security', () => {
 		expect( sut ).toBeTruthy();
 	});
 	//
+	it('should get User property ...', ( ) => {
+		const _user: User = { ... user };
+		_user.Roles = [];
+		const sut: Security = new Security( _user );
+		expect( sut.getUser() ).toEqual( _user );
+	});
+	//
+	it('should be invalid if User is undefined ...', ( ) => {
+		const _user: any = undefined;
+		const sut: Security = new Security( _user );
+		expect( sut.isValidIncidentGrid( ) ).toBe( false );
+	});
+	//
 	it('with role User should allow all ...', ( ) => {
 		user.Roles = ['User'];
 		const sut: Security = new Security( user );

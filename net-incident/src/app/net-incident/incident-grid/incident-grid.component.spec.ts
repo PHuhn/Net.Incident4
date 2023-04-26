@@ -160,9 +160,14 @@ describe( 'IncidentGridComponent', ( ) => {
 		tickFakeWait( 1000 );
 	} ) );
 	//
-	function newPage( ): ILazyResults {
-		const event: LazyLoadEvent = {'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,
+	function createEvent( page: number, size: number): LazyLoadEvent {
+		const event: LazyLoadEvent = {'first':page, 'rows':size, 'sortField':'IncidentId','sortOrder':-1,
 			'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null};
+		return event;
+	}
+	//
+	function newPage( ): ILazyResults {
+		const event: LazyLoadEvent = createEvent( 0, 5);
 		const page: ILazyResults =
 				lazyLoading.LazyLoading( [ ... mockDatum ], event );
 		return page;
@@ -214,6 +219,26 @@ describe( 'IncidentGridComponent', ( ) => {
 			'IncidentGridComponent should create ...' );
 		expect( sut ).toBeTruthy( );
 	} ) );
+	/*
+	** loadIncidentsLazy( event: LazyLoadEvent )
+	*/
+	it('loadIncidentsLazy: should handle service error ...', fakeAsync(() => {
+		// given
+		// console.warn( 'onClose: should refresh grid ...' );
+		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
+		incidentServiceSpy.postJsonBody.and.returnValue( throwError( ( ) => response ) );
+		const event: LazyLoadEvent = createEvent( 1, 5);
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.loadIncidentsLazy( event );
+		// then
+		tickFakeWait( 1 ); // wait 1 second task to get done
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
+		expect( sut.loading ).toEqual( false)
+		// cleanup
+		windowCleanup( );
+		//
+	}));
 	//
 	// getIncidents( ) : Observable<IIncident[]>
 	//
@@ -245,7 +270,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		sut.getUserServer( sut.user.UserName, serverShortName );
 		// then
 		tickFakeWait(1000); // wait 1 second task to get done
-		tickFakeWait(1000); // wait 1 second task to get done
+		// tickFakeWait(1000); // wait 1 second task to get done
 		//
 		expect( sut.user.ServerShortName ).toEqual( serverShortName );
 		// reset values
@@ -255,6 +280,40 @@ describe( 'IncidentGridComponent', ( ) => {
 		sut.user.ServerShortName = serverShortName;
 		//
 	} ) );
+	//
+	it('getUserServer select if short name not set ...', fakeAsync( ( ) => {
+		// given
+		// console.warn( `getUserServer select a different server, loading: ${sut.loading}` );
+		let serverShortName = selectItemsWindow[1].label;
+		// setup response to _user.getUserServer service call
+		const user2 = { ... user };
+		user2.Server.ServerName = 'Server 2';
+		user2.Server.ServerShortName = serverShortName;
+		user2.ServerShortName = '';
+		userServiceSpy.getModelById.and.returnValue(of( user2 ));
+		tickFakeWait(10); // wait 1 second task to get done
+		// when
+		sut.getUserServer( sut.user.UserName, serverShortName );
+		// then
+		tickFakeWait(1000); // wait 1 second task to get done
+		// tickFakeWait(1000); // wait 1 second task to get done
+		//
+		expect( sut.user.ServerShortName ).toEqual( 'srv 1' );
+		expect( consoleService.lastMessage ).toEqual( 'Info: Server-Selection-Component.displayWin setter: win: true' );
+		//
+	} ) );
+	//
+	it('getUserServer: should fail when service throws an error ...', fakeAsync( ( ) => {
+		// given
+		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
+		userServiceSpy.getModelById.and.returnValue(throwError( ( ) => response ));
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.getUserServer( sut.user.UserName, '' );
+		// then
+		tickFakeWait( 1 );
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
+	}));
 	/*
 	** onServerSelected( event: any )
 	** test of getUserServer, succeed
@@ -376,24 +435,18 @@ describe( 'IncidentGridComponent', ( ) => {
 	/*
 	** deleteItem( ) :boolean
 	*/
-	it( 'deleteItem: should handle an error ...', fakeAsync( () => {
+	it( 'deleteItem: should handle a service error ...', fakeAsync( () => {
 		// given
 		// console.warn( 'deleteItem: should handle an error ...' );
 		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
-		incidentServiceSpy.deleteModel.and.returnValue(of( response ));
+		incidentServiceSpy.deleteModel.and.returnValue( throwError( ( ) => response ) );
 		const incident: Incident = pageData.results[ 1 ].Clone();
 		const id = incident.IncidentId;
-		const subscription = alertService.getAlerts().subscribe({
-			next: (alertMsg: Alerts) => {
-				// then
-				expect( alertMsg ).toBeTruthy( );
-			},
-			error: (error) => {
-				fail( 'delete error, failed: ' + error );
-			},
-		});
+		spyOn( alertService, 'setWhereWhatError' );
 		// when
 		sut.deleteItem( id );
+		// then
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
 		//
 	}));
 	/*
@@ -430,6 +483,17 @@ describe( 'IncidentGridComponent', ( ) => {
 		sut.deleteItemClicked( incident );
 		tickFakeWait( 1 );
 		expect( alertService.setWhereWhatWarning ).toHaveBeenCalled( );
+	}));
+	//
+	it('deleteItemClicked: should fail when security manager undefined ...', fakeAsync( ( ) => {
+		// given
+		const incident: Incident = pageData.results[ 1 ].Clone();
+		AppComponent.securityManager = undefined;
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.deleteItemClicked( incident );
+		tickFakeWait( 1 );
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
 	}));
 	/*
 	** closeWin( saved: boolean )
