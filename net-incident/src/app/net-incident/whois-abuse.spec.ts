@@ -253,6 +253,20 @@ network:Updated:20150331
 		// console.log( `17.142.171.7: ${sut.nic}` );
 		expect( sut.nic ).toEqual( 'arin.net' );
 	});
+	/*
+	** ProcessTw( nic: string, raw: string )
+	*/
+	it('ProcessTw: should fail ...', ( ) => {
+		sut.ProcessTw( `twnic.net`, `\noops\n` );
+		expect( sut.abuse ).toEqual( '' );
+	});
+	/*
+	** ProcessParsed( nic: string, parsed: any[] )
+	*/
+	it('ProcessParsed: should fail ...', ( ) => {
+		sut.ProcessParsed( `ripe.net`, [] );
+		expect( sut.abuse ).toEqual( '' );
+	});
 	//
 });
 // ===========================================================================

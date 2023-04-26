@@ -183,9 +183,21 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		windowCleanup( );
 	} ) );
 	//
-	// Call updateItem directly with the default data.
-	//
-	it('should update class when updateItem called ...', fakeAsync( ( ) => {
+	it( 'incidentnote: should get the input data ...', fakeAsync( ( ) => {
+		// given
+		sut.incidentnote = { ... testWindowIncidentNoteInput };
+		tickFakeWait( 10 );
+		// when
+		const _input: IIncidentNoteWindowInput = sut.incidentnote;
+		// then
+		expect( _input ).toEqual( testWindowIncidentNoteInput );
+		windowCleanup( );
+	} ) );
+	/*
+	** updateItem( ): void
+	** Call updateItem directly with the default data.
+	*/
+	it('updateItem: should update class when updateItem called ...', fakeAsync( ( ) => {
 		// given
 		sut.incidentnote = { ... testWindowIncidentNoteInput };
 		tickFakeWait( 10 );
@@ -199,6 +211,21 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		sut.updateItem( );
 		// then
 		tick( 10 );
+		windowCleanup( );
+		//
+	} ) );
+	//
+	it('updateItem: should fail when id not found ...', fakeAsync( ( ) => {
+		// given
+		sut.incidentnote = { ... testWindowIncidentNoteInput };
+		sut.model.IncidentNoteId = 99;
+		spyOn( alertService, 'setWhereWhatWarning' );
+		tickFakeWait( 1 );
+		// when
+		sut.updateItem( );
+		// then
+		tick( 10 );
+		expect( alertService.setWhereWhatWarning ).toHaveBeenCalled( );
 		windowCleanup( );
 		//
 	} ) );
@@ -245,16 +272,18 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		windowCleanup( );
 		//
 	} ) );
-	//
-	// Simulate a button clicked, by calling event method
-	//
-	it('should update class when save button clicked ...', fakeAsync(() => {
+	/*
+	** windowClose(saved: boolean)
+	** Simulate a button clicked, by calling event method
+	*/
+	it('windowClose: should update class when save button clicked ...', fakeAsync(() => {
 		// given
 		const response = new HttpResponse( { status: 204, statusText: 'OK' } );
 		incidentnoteServiceSpy.validate.and.returnValue(of( [] ));
 		incidentnoteServiceSpy.updateIncidentNote.and.returnValue(of( response ));
 		sut.incidentnote = { ... testWindowIncidentNoteInput };
 		tickFakeWait( 10 );
+		spyOn( sut.emitCloseWin, 'emit' );
 		sut.emitCloseWin.subscribe( ( saved: boolean ) => {
 			// then
 			expect( saved ).toBe( true );
@@ -262,7 +291,27 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		} );
 		// when
 		sut.windowClose( true );
+		// then
 		tickFakeWait( 10 );
+		expect( sut.emitCloseWin.emit ).toHaveBeenCalledWith( true );
+	} ) );
+	//
+	it('windowClose: should create class when save button clicked ...', fakeAsync(() => {
+		// given
+		const response = new HttpResponse( { status: 204, statusText: 'OK' } );
+		incidentnoteServiceSpy.validate.and.returnValue(of( [] ));
+		incidentnoteServiceSpy.updateIncidentNote.and.returnValue(of( response ));
+		const _input = { ... testWindowIncidentNoteInput };
+		_input.model = new IncidentNote(0, 4, 'gen','-', new Date(), true);
+		sut.incidentnote = _input;
+		spyOn( sut.emitCloseWin, 'emit' );
+		tickFakeWait( 10 );
+		console.error( sut.add );
+		// when
+		sut.windowClose( true );
+		// then
+		tickFakeWait( 10 );
+		expect( sut.emitCloseWin.emit ).toHaveBeenCalledWith( true );
 		//
 	} ) );
 	//
@@ -280,9 +329,10 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		windowCleanup( );
 		//
 	} ) );
-	//
-	// (change)='onTypeIdDropdownChanged( $event )'
-	//
+	/*
+	** onTypeIdDropdownChanged( selected: number )
+	** (change)='onTypeIdDropdownChanged( $event )'
+	*/
 	it('onTypeIdChanged: call the onChange event ...', fakeAsync(() => {
 		// given
 		sut.incidentnote = { ... testWindowIncidentNoteInput };
@@ -296,7 +346,24 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		//
 	} ) );
 	//
-	// (change)='onTypeIdDropdownChanged( $event )'
+	it('onTypeIdChanged: call the onChange event ...', fakeAsync(() => {
+		// given
+		sut.incidentnote = { ... testWindowIncidentNoteInput };
+		sut.add = true;
+		tickFakeWait( 10 );
+		const id: number = 1;
+		const resp: string = `Pinging USA.NET [${ipAddr}] with 32 bytes of data:`;
+		servicesServiceSpy.getPing.and.returnValue(of( resp ));
+		// when
+		sut.onTypeIdDropdownChanged(id);
+		// then
+		expect( sut.model.NoteTypeId ).toEqual( id );
+		expect( sut.model.Note ).toEqual( resp );
+		windowCleanup( );
+		//
+	} ) );
+	//
+	// performIncidentType( id: number, noteScript: string ): void
 	//
 	it('performIncidentType: call the onChange event ...', fakeAsync(() => {
 		// given
@@ -395,15 +462,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		tickFakeWait( 10 );
 		const resp: HttpErrorResponse = new HttpErrorResponse({
 			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
-		servicesServiceSpy.getPing.and.returnValue( throwError( resp ) );
-		alertService.getAlerts().subscribe( (msg: Alerts) => {
-			expect( msg ).toBeTruthy( );
-			expect( msg.level ).toBe( AlertLevel.Error );
-			windowCleanup( );
-		}, error =>	{
-			console.error( error );
-			expect( 1 ).toEqual( 0 );
-		});
+		servicesServiceSpy.getPing.and.returnValue( throwError( ( ) => resp ) );
 		spyOn( alertService, 'setWhereWhatError' );
 		// when
 		sut.getPing();
@@ -447,21 +506,20 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		windowCleanup( );
 		//
 	} ) );
-	//
-	// validate, check against a common set of validation rules.
-	//
-	it('validate should fail and display alert warnings ...', fakeAsync( ( ) => {
+	/*
+	** validate( ): boolean
+	** validate, check against a common set of validation rules.
+	*/
+	it('validate: should fail and display alert warnings ...', fakeAsync( ( ) => {
 		//
 		sut.model = emptyData;
 		sut.add = true;
-		alertService.getAlerts().subscribe( (msg: Alerts) => {
-			expect( msg ).toBeTruthy( );
-			expect( msg.level ).toBe( AlertLevel.Warning );
-		}, error =>	{
-			console.error( error );
-			expect( 1 ).toEqual( 0 );
-		});
-		sut.validate();
+		spyOn( alertService, 'warningSet' );
+		// when
+		const ret = sut.validate();
+		// then
+		expect( ret ).toEqual( false );
+		expect( alertService.warningSet ).toHaveBeenCalled( );
 		sut.windowClose( false );
 		//
 	} ) );
@@ -480,7 +538,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 	it( 'validateNote: should handle a validation Incident Note Id required error...', ( ) => {
 		// given
 		// IncidentNoteId, NoteTypeId, NoteTypeShortDesc, Note, CreatedDate, IsChanged
-			const incidentnoteidBad: any = undefined;
+		const incidentnoteidBad: any = undefined;
 		const model: IIncidentNote = new IncidentNote(
 			5, 5, 'i 5', '-note-', new Date( '2000-01-01T00:00:00' ), false );
 		model.IncidentNoteId = incidentnoteidBad;

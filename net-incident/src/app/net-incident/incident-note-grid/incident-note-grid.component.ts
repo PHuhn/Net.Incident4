@@ -88,10 +88,6 @@ export class IncidentNoteGridComponent extends BaseComponent implements AfterVie
 		this.id = this.windowIncidentNoteInput.model.IncidentNoteId;
 		this._console.Information( `${this.codeName}.addItemClicked: Add item clicked` );
 	}
-	//
-	emptyIncidentNote( ): IIncidentNote {
-		return IncidentNote.empty( );
-	}
 	/**
 	** Edit button clicked, launch edit detail window.
 	*/

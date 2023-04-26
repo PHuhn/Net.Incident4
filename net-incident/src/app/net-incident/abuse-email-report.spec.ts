@@ -14,7 +14,7 @@ import { SelectItemClass } from '../global/select-item-class';
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { IAbuseEmailReport, AbuseEmailReport } from './abuse-email-report';
 //
-fdescribe('AbuseEmailReport', () => {
+describe('AbuseEmailReport', () => {
 	//
 	let sut: AbuseEmailReport;
 	const startDate: Date = new Date('2018-03-11T02:00:00');
@@ -111,7 +111,6 @@ fdescribe('AbuseEmailReport', () => {
 	//
 	it('validate (IsValid) bad Incident Id ...', ( ) => {
 		// given
-		console.warn('validate (IsValid) bad Incident Id');
 		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
 		_netIncBad.networkLogs = logSqlData;
 		_netIncBad.incident.IncidentId = 0;
@@ -120,7 +119,6 @@ fdescribe('AbuseEmailReport', () => {
 		// when
 		const actual: boolean = sut.IsValid();
 		// then
-		console.warn( sut.errMsgs );
 		expect( actual ).toBeFalsy();
 		expect( sut.errMsgs.length ).toEqual( 1 );
 	});
@@ -156,17 +154,14 @@ fdescribe('AbuseEmailReport', () => {
 	//
 	it('validate (IsValid) bad IP Address ...', ( ) => {
 		// given
-		console.warn('validate (IsValid) bad IP Address ...');
 		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
 		_netIncBad.networkLogs = logSqlData;
 		_netIncBad.incident.IPAddress = '';
-		console.error( _netIncBad );
 		sut = new AbuseEmailReport( _netIncBad );
 		expect( sut ).toBeTruthy();
 		// when
 		const actual: boolean = sut.IsValid();
 		// then
-		console.warn( sut.errMsgs );
 		expect( actual ).toBeFalsy();
 		expect( sut.errMsgs.length ).toEqual( 1 );
 	});
@@ -331,6 +326,33 @@ fdescribe('AbuseEmailReport', () => {
 		expect( valid ).toBeTruthy();
 		const actual: string = sut.ComposeEmail( );
 		expect( actual ).toContain( ipAddr );
+	});
+	//
+	it('ComposeEmail: should fail if template issue ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.typeEmailTemplates = [];
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: string = sut.ComposeEmail();
+		// then
+		expect( actual ).toEqual( `Email Template error: not found.` );
+	});
+	//
+	it('ComposeEmail: should fail if IsValid ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.incident.IPAddress = '';
+		_netIncBad.incident.AbuseEmailAddress = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: string = sut.ComposeEmail();
+		// then
+		expect( actual ).toEqual( `From Incident, 'Email Address' is required.;  From Incident, 'IP Address' is required.` );
 		console.log(
 			'End of abuse-email-report.spec\n' +
 			'=================================' );

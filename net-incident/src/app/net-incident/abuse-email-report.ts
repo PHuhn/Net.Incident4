@@ -154,7 +154,7 @@ export class AbuseEmailReport implements IAbuseEmailReport {
 	public ComposeEmail( ): string {
 		// is the data valid, if not return
 		if( !this.IsValid( ) ) {
-			return this.errMsgs.join( ';  ' );
+			return this.errMsgs.map(em => em.message).join(';  ');
 		}
 		const template: IncidentType | undefined = this.GetTemplate( );
 		if( template === undefined ) {

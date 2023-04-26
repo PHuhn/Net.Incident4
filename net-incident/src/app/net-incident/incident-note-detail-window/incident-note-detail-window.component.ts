@@ -220,7 +220,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	/**
 	** Check against a common set of validation rules.
 	*/
-	validate( ) {
+	validate( ): boolean {
 		const errMsgs: Message[] = this.validateNote( this.model, this.add );
 		//
 		if( errMsgs.length > 0 ) {
