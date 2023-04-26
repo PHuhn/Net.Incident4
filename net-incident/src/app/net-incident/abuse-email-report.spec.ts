@@ -14,7 +14,7 @@ import { SelectItemClass } from '../global/select-item-class';
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { IAbuseEmailReport, AbuseEmailReport } from './abuse-email-report';
 //
-describe('AbuseEmailReport', () => {
+fdescribe('AbuseEmailReport', () => {
 	//
 	let sut: AbuseEmailReport;
 	const startDate: Date = new Date('2018-03-11T02:00:00');
@@ -31,7 +31,7 @@ describe('AbuseEmailReport', () => {
 	);
 	//
 	const userMock = new User('e0-04','Head','Head','Admin','Head Admin','U','UN4@yahoo.com',
-		true,'734-555-1212', true,1, [new SelectItemClass('srv 1','Server 1')],'srv 1',serverMock, ['admin']);
+		true,'734-555-1212', true,1, [new SelectItemClass('srv 1','Server 1')],'srv 1', undefined, ['admin']);
 	//
 	const inc: Incident = new Incident( 4,1,ipAddr,'arin.net','PSG169',
 		'dandy@psg.com','',false,false,false,'',standardDate );
@@ -61,16 +61,22 @@ describe('AbuseEmailReport', () => {
 	// At least one 'Network Log' needs to be selected
 	const logBadData = [ new NetworkLog( 6,1,4,ipAddr,standardDate,'Log 1',3, 'SQL', false ) ];
 	//
-	const netInc = new NetworkIncident();
+	let netInc = new NetworkIncident();
 	//
 	beforeEach(() => {
-		netInc.incident = inc;
-		netInc.deletedLogs = [];
-		netInc.deletedNotes = [];
-		netInc.incidentNotes = [];
-		netInc.typeEmailTemplates = incidentTypes;
-		netInc.user = userMock;
+		netInc = initializeNetworkIncident( new NetworkIncident() );
 	});
+	//
+	function initializeNetworkIncident( ni: NetworkIncident ): NetworkIncident {
+		ni.incident = inc.Clone( );
+		ni.deletedLogs = [];
+		ni.deletedNotes = [];
+		ni.incidentNotes = [];
+		ni.typeEmailTemplates = incidentTypes;
+		ni.user = { ... userMock };
+		ni.user.Server = { ... serverMock };
+		return ni;
+	};
 	//
 	it('should create ...', ( ) => {
 		console.log(
@@ -87,7 +93,7 @@ describe('AbuseEmailReport', () => {
 		expect( sut ).toBeTruthy();
 		const actual: boolean = sut.IsValid();
 		if ( sut.errMsgs.length > 0 ) {
-			console.log( sut.errMsgs[0] );
+			console.error( sut.errMsgs );
 		}
 		expect( actual ).toBeTruthy();
 		expect( sut.errMsgs.length ).toEqual( 0 );
@@ -98,9 +104,195 @@ describe('AbuseEmailReport', () => {
 		sut = new AbuseEmailReport( netInc );
 		expect( sut ).toBeTruthy();
 		const actual: boolean = sut.IsValid();
-		if ( sut.errMsgs.length > 0 ) {
-			console.log( sut.errMsgs[0] );
-		}
+		console.log( sut.errMsgs );
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad Incident Id ...', ( ) => {
+		// given
+		console.warn('validate (IsValid) bad Incident Id');
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.incident.IncidentId = 0;
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		console.warn( sut.errMsgs );
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad Server Id ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.incident.ServerId = 0;
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad Abuse Email ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = [ ... logSqlData];
+		_netIncBad.incident.AbuseEmailAddress = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		console.warn( sut.errMsgs );
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad IP Address ...', ( ) => {
+		// given
+		console.warn('validate (IsValid) bad IP Address ...');
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.incident.IPAddress = '';
+		console.error( _netIncBad );
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		console.warn( sut.errMsgs );
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	// from user
+	it('validate (IsValid) bad user name ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.UserName = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad user nic name ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.UserNicName = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad user email ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.Email = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	// from server
+	it('validate (IsValid) bad server name ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.Server.ServerName = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad server website ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.Server.WebSite = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad server location ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.Server.ServerLocation = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad server from name ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.Server.FromName = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad server from nic name ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.Server.FromNicName = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
+		expect( actual ).toBeFalsy();
+		expect( sut.errMsgs.length ).toEqual( 1 );
+	});
+	//
+	it('validate (IsValid) bad server from email ...', ( ) => {
+		// given
+		const _netIncBad = initializeNetworkIncident( new NetworkIncident );
+		_netIncBad.networkLogs = logSqlData;
+		_netIncBad.user.Server.FromEmailAddress = '';
+		sut = new AbuseEmailReport( _netIncBad );
+		expect( sut ).toBeTruthy();
+		// when
+		const actual: boolean = sut.IsValid();
+		// then
 		expect( actual ).toBeFalsy();
 		expect( sut.errMsgs.length ).toEqual( 1 );
 	});
@@ -128,7 +320,6 @@ describe('AbuseEmailReport', () => {
 		const valid: boolean = sut.IsValid();
 		expect( valid ).toBeTruthy();
 		const actual: string = sut.ComposeEmail( );
-		// console.log( actual );
 		expect( actual ).toContain( ipAddr );
 	});
 	//
@@ -139,7 +330,6 @@ describe('AbuseEmailReport', () => {
 		const valid: boolean = sut.IsValid();
 		expect( valid ).toBeTruthy();
 		const actual: string = sut.ComposeEmail( );
-		 console.log( actual );
 		expect( actual ).toContain( ipAddr );
 		console.log(
 			'End of abuse-email-report.spec\n' +
