@@ -21,6 +21,7 @@ import { APP_MODULE_PRIMENG } from './APP.MODULE-PRIMENG';
 import { BaseCompService } from './global/base-comp/base-comp.service';
 import { AlertsService } from './global/alerts/alerts.service';
 import { AuthService } from './net-incident/services/auth.service';
+import { User } from './net-incident/user';
 import { AlertsComponent } from './global/alerts/alerts.component';
 import { HeaderComponent } from './public/header/header.component';
 import { FormsModule } from '@angular/forms';
@@ -127,6 +128,19 @@ describe('AppComponent', () => {
 		// then
 		expect( AppComponent.securityManager ).toBeDefined( );
 		expect( sut.authenticated ).toEqual( true );
+	});
+	//
+	it('onAuthenticated: should not authenticate, without roles ...', () => {
+		// given
+		const _user = new User(
+			'e0fcb3e8-252a-4311-b782-7e094f0737aa', 'Phil', 'Phillip', 'Huhn',
+			'Phil Huhn', 'Phil', 'PhilHuhn@yahoo.com', true, '734-545-5845', true,
+			1, [], '', undefined, []
+		);
+		// when
+		sut.onAuthenticated( _user );
+		// then
+		expect( sut.authenticated ).toEqual( false );
 	});
 	//
 });
