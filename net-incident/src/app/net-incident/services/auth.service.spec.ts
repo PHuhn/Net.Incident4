@@ -109,16 +109,22 @@ describe('AuthService', () => {
 		const response: AuthResponse = new AuthResponse(
 			token, new Date(expiresAt).toISOString()
 		);
-		sut.authenticate( userName, 'asdfdsaf' ).subscribe( ( tokenData: AuthResponse ) => {
-			//
-			expect( tokenData.token ).toEqual( token );
-			const expire: number = sut.getExpiration( );
-			const accessToken: string | null = localStorage.getItem( 'access_token' );
-			expect( expire ).toEqual( expiresAt );
-			expect( accessToken ).toEqual( token );
-			unsetLocalStorage( );
-			//
-		}, error => expect( error ).toBeFalsy( ) );
+		sut.authenticate( userName, 'asdfdsaf' ).subscribe({
+			next: ( tokenData: AuthResponse ) => {
+				//
+				expect( tokenData.token ).toEqual( token );
+				const expire: number = sut.getExpiration( );
+				const accessToken: string | null = localStorage.getItem( 'access_token' );
+				expect( expire ).toEqual( expiresAt );
+				expect( accessToken ).toEqual( token );
+				unsetLocalStorage( );
+				//
+			},
+			error: (error) => {
+				expect( error ).toBeFalsy( );
+			},
+			complete: () => { }
+		});
 		const request = backend.expectOne( `${url}/` );
 		expect( request.request.method ).toBe( 'POST' );
 		request.flush( response );
@@ -133,15 +139,20 @@ describe('AuthService', () => {
 			token, ''
 		);
 		const errMsg = `Error: ${sut.codeName}.authenticate: Invalid token returned.`;
-		sut.authenticate( 'badUserName', 'asdfdsaf' ).subscribe( ( tokenData: AuthResponse ) => {
-			//
-			console.log( JSON.stringify( tokenData ) );
-			unsetLocalStorage( );
-			fail( 'Bad user name should fail.' );
-			//
-		}, error => {
-			expect( String( error ) ).toEqual( errMsg );
-		} );
+		sut.authenticate( 'badUserName', 'asdfdsaf' ).subscribe({
+			next: ( tokenData: AuthResponse ) => {
+				//
+				console.log( JSON.stringify( tokenData ) );
+				unsetLocalStorage( );
+				fail( 'Bad user name should fail.' );
+				//
+			},
+			error: (error) => {
+				expect( String( error ) ).toEqual( errMsg );
+			},
+			complete: () => { }
+		});
+
 		const request = backend.expectOne( `${url}/` );
 		expect( request.request.method ).toBe( 'POST' );
 		request.flush( response );

@@ -183,13 +183,17 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	getPing( ): void {
 		this._console.Debug( `${this.codeName}.getPing: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
 		this.model.Note = 'This may take 10 seconds...';
-		this.httpSubscription = this._services.getPing( this.networkIncident.incident.IPAddress ).subscribe(( pingData: string ) => {
-			this.model.Note = ( pingData !== '' ? pingData :
+		this.httpSubscription = this._services.getPing( this.networkIncident.incident.IPAddress ).subscribe({
+			next: ( pingData: string ) => {
+				this.model.Note = ( pingData !== '' ? pingData :
 				`-no data for ${this.networkIncident.incident.IPAddress}-` );
-		}, ( error ) => {
-			this._console.Information( `${this.codeName}.getPing: Exiting, error: ${error}` );
-			this._alerts.setWhereWhatError( 'Note detail: getPing',
-				'Services-Service failed.', error || 'Server error');
+			},
+			error: (error) => {
+				this._console.Information( `${this.codeName}.getPing: Exiting, error: ${error}` );
+				this._alerts.setWhereWhatError( 'Note detail: getPing',
+					'Services-Service failed.', error || 'Server error');
+			},
+			complete: () => { }
 		});
 	}
 	/**
@@ -197,12 +201,17 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	*/
 	getWhoIs( ): void {
 		this._console.Debug( `${this.codeName}.getWhoIs: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
-		this.httpSubscription = this._services.getWhoIs( this.networkIncident.incident.IPAddress ).subscribe(( whoisData: string ) => {
-			this.model.Note = ( whoisData !== '' ? whoisData :
+		this.httpSubscription = this._services.getWhoIs( this.networkIncident.incident.IPAddress ).subscribe({
+			next: ( whoisData: string ) => {
+				this.model.Note = ( whoisData !== '' ? whoisData :
 				`-no data for ${this.networkIncident.incident.IPAddress}-` );
-		}, ( error ) =>
-			this._alerts.setWhereWhatError( 'Note detail: getWhoIs',
-				'Services-Service failed.', error || 'Server error'));
+			},
+			error: (error) => {
+				this._alerts.setWhereWhatError( 'Note detail: getWhoIs',
+					'Services-Service failed.', error || 'Server error');
+			},
+			complete: () => { }
+		});
 	}
 	/**
 	** Compose e-mail message for this IP-address

@@ -120,10 +120,16 @@ describe('LoginComponent', () => {
 		const mockErrorResponse: HttpErrorResponse = new HttpErrorResponse({
 			error: {}, status: 500, url: 'http://localhost', statusText: errMsg });
 		authServiceSpy.authenticate.and.returnValue(throwError( mockErrorResponse ));
-		alertService.getAlerts().subscribe( (msg: Alerts) => {
-			expect( msg ).toBeTruthy( );
-			expect( msg.level ).toBe( AlertLevel.Error );
-		}, error =>	console.error( error ) );
+		alertService.getAlerts( ).subscribe({
+			next: ( msg: Alerts ) => {
+				expect( msg ).toBeTruthy( );
+				expect( msg.level ).toBe( AlertLevel.Error );
+			},
+			error: (error) => {
+				console.error( error );
+			},
+			complete: () => { }
+		});
 		const ret: number = sut.loginUser();
 		tickFakeWait( 10 );
 		expect( ret ).toBe( 0 );

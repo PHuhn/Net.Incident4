@@ -77,23 +77,43 @@ export class LoginComponent extends BaseComponent implements OnInit {
 			this._alerts.setAlerts( AlertLevel.Error, errMsgs );
 			return -1;
 		}
-		this._auth.authenticate( this.model.UserName, this.model.Password )
-			.subscribe( ( authData: IAuthResponse ) => {
-			// token_type: string;
-			// expires_in: string;
-			this._console.Information(
-				`${this.codeName}.authUser: authenticated: ${this.model.UserName} ${authData.expiration}, token: ${authData.token.substring(0,6)}...` );
-			this.getUserServer( this.model.UserName, this.model.ServerShortName );
-			return 1;
-			//
-		},
-		error => {
-			this._console.Error(
-				`${this.codeName}.authUser: authenticate: ${this.model.UserName} ${JSON.stringify(error)}` );
-			const errMsg = (error.error.title === undefined ? error.message : error.error.title );
-			this.baseErrorHandler(
-				this.codeName, `User not found: ${this.model.UserName}`, errMsg );
-			return -2;
+		// this._auth.authenticate( this.model.UserName, this.model.Password )
+		// 	.subscribe( ( authData: IAuthResponse ) => {
+		// 	// token_type: string;
+		// 	// expires_in: string;
+		// 	this._console.Information(
+		// 		`${this.codeName}.authUser: authenticated: ${this.model.UserName} ${authData.expiration}, token: ${authData.token.substring(0,6)}...` );
+		// 	this.getUserServer( this.model.UserName, this.model.ServerShortName );
+		// 	return 1;
+		// 	//
+		// },
+		// error => {
+		// 	this._console.Error(
+		// 		`${this.codeName}.authUser: authenticate: ${this.model.UserName} ${JSON.stringify(error)}` );
+		// 	const errMsg = (error.error.title === undefined ? error.message : error.error.title );
+		// 	this.baseErrorHandler(
+		// 		this.codeName, `User not found: ${this.model.UserName}`, errMsg );
+		// 	return -2;
+		// });
+		this._auth.authenticate( this.model.UserName, this.model.Password ).subscribe({
+			next: ( authData: IAuthResponse ) => {
+				// token_type: string;
+				// expires_in: string;
+				this._console.Information(
+					`${this.codeName}.authUser: authenticated: ${this.model.UserName} ${authData.expiration}, token: ${authData.token.substring(0,6)}...` );
+				this.getUserServer( this.model.UserName, this.model.ServerShortName );
+				return 1;
+				//
+			},
+			error: (error) => {
+				this._console.Error(
+					`${this.codeName}.authUser: authenticate: ${this.model.UserName} ${JSON.stringify(error)}` );
+				const errMsg = (error.error.title === undefined ? error.message : error.error.title );
+				this.baseErrorHandler(
+					this.codeName, `User not found: ${this.model.UserName}`, errMsg );
+				return -2;
+			},
+			complete: () => { }
 		});
 		return 0;
 		//
