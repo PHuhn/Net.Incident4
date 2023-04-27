@@ -479,6 +479,29 @@ describe('NetworkIncidentService', () => {
 		expect( ret.length ).toEqual( 1 );
 		expect( ret[0].message.indexOf( 'not found' ) !== -1 ).toBe( true );
 	} );
+	/*
+	** validateNetworkLogs( errMsgs: Message[], model: INetworkLog[] ): void
+	*/
+	it( 'validateNetworkLogs: should require a network log record ...', ( ) => {
+		// given
+		const _errMsgs: Message[] = [];
+		const _netLog: INetworkLog = new NetworkLog(22, 6, null, '192.168', new Date(), 'log data', 3, 'SQL', false );
+		// when
+		const _cnt = sut.validateNetworkLogs( _errMsgs, [_netLog] );
+		// then
+		expect( _cnt ).toEqual( 0 );
+		expect( _errMsgs.length ).toEqual( 1 );
+	} );
+	//
+	it( 'validateNetworkLogs: should be happy with selected record ...', ( ) => {
+		// given
+		const _errMsgs: Message[] = [];
+		const _netLog: INetworkLog = new NetworkLog(22, 6, null, '192.168', new Date(), 'log data', 3, 'SQL', true );
+		// when
+		const _cnt = sut.validateNetworkLogs( _errMsgs, [_netLog] );
+		// then
+		expect( _cnt ).toEqual( 1 );
+	} );
 	//
 });
 // ===========================================================================

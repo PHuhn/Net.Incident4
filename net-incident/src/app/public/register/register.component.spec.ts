@@ -52,5 +52,15 @@ describe('RegisterComponent', () => {
 			'RegisterComponent: should create ...' );
 		expect( sut ).toBeTruthy();
 	});
+	//
+	it('registerUser: should warn user ...', () => {
+		// given
+		spyOn( alertService, 'setWhereWhatWarning' );
+		// when
+		sut.registerUser( );
+		// then
+		expect( alertService.setWhereWhatWarning ).toHaveBeenCalled( );
+	});
+	//
 });
 // ===========================================================================

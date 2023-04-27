@@ -118,13 +118,14 @@ export class NetworkIncidentService extends BaseSrvcService {
 	/**
 	** Class validation rules.
 	*/
-	validateNetworkLogs( errMsgs: Message[], model: INetworkLog[] ): void {
+	validateNetworkLogs( errMsgs: Message[], model: INetworkLog[] ): number {
 		//
 		const cnt: number = model.reduce( (count, el) => {
 			return count + (el.Selected === true ? 1 : 0); }, 0 );
 		if( cnt === 0 ) {
 			errMsgs.push( new Message( 'NetworkLog-1', `'Network Log' at least one needs to be selected.` ) );
 		}
+		return cnt;
 		//
 	}
 	//

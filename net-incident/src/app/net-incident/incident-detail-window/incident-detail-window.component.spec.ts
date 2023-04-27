@@ -179,6 +179,15 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		expect( sut ).toBeTruthy( );
 		windowCleanup( );
 	} ) );
+	// get detailWindowInput(): DetailWindowInput { return this.detailWindow; }
+	it( 'detailWindowInput: should return input property ...', fakeAsync( ( ) => {
+		// given / when
+		const _detailWindowInput: DetailWindowInput = sut.detailWindowInput;
+		// then
+		expect( _detailWindowInput.user ).toEqual( user );
+		expect( _detailWindowInput.incident ).toEqual( mockData );
+		windowCleanup( );
+	} ) );
 	//
 	// Verify data is transmitted to model via @input statement
 	//
@@ -296,6 +305,25 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		//
 	} ) );
 	//
+	it('ipChanged: should save whois record if lookup could not extract IP address ...', fakeAsync( ( ) => {
+		// given
+		const whoisResponse: string =
+			`[Querying whois.net]\r\n[whois.net]\r\n\r\n#\r\nNot found\r\n#`;
+		const testData: Incident = mockData.Clone();
+		const noteCount: number = sut.networkIncident.incidentNotes.length
+		sut.networkIncident = newNetworkIncident( testData );
+		servicesServiceSpy.getWhoIs.and.returnValue( of( whoisResponse ) );
+		// when
+		sut.ipChanged( '17.142.171.7' );
+		// then
+		tickFakeWait( 1 );
+		expect( sut.networkIncident.incident.NIC ).toEqual( 'other' );
+		expect( sut.networkIncident.incidentNotes.length ).toEqual( noteCount + 1 );
+		windowCleanup( );	// window launched in beforeEach
+		tickFakeWait( 1000 );
+		//
+	} ) );
+	//
 	it('ipChanged: should fail if invalid ip address ...', fakeAsync( ( ) => {
 		// given
 		sut.networkIncident = undefined;
@@ -305,6 +333,24 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		// then
 		expect( alertService.warningSet ).toHaveBeenCalled( );
 		windowCleanup( );	// window launched in beforeEach
+		//
+	} ) );
+	//
+	it('ipChanged: should handle http whois error ...', fakeAsync( ( ) => {
+		// given
+		const testData: Incident = mockData.Clone();
+		sut.networkIncident = newNetworkIncident( testData );
+		const resp: HttpErrorResponse = new HttpErrorResponse({
+			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
+		servicesServiceSpy.getWhoIs.and.returnValue( throwError( ( ) => resp ) );
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.ipChanged( '17.142.171.7' );
+		// then
+		tickFakeWait( 10 );
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
+		windowCleanup( );	// window launched in beforeEach
+		tickFakeWait( 1000 );
 		//
 	} ) );
 	/*
