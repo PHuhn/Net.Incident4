@@ -35,6 +35,7 @@ import { IncidentDetailWindowComponent } from './incident-detail-window.componen
 import { NetworkLogGridComponent } from '../network-log-grid/network-log-grid.component';
 import { IncidentNoteGridComponent } from '../incident-note-grid/incident-note-grid.component';
 import { IncidentNoteDetailWindowComponent } from '../incident-note-detail-window/incident-note-detail-window.component';
+import { IncidentNote } from '../incident-note';
 //
 describe( 'IncidentDetailWindowComponent', ( ) => {
 	let sut: IncidentDetailWindowComponent;
@@ -133,8 +134,11 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		sut.detailWindowInput = detailWindow;
 		sut.displayWin = true;
 		//
-		tickFakeWait( 500 );
-		tickFakeWait( 300 );
+		tickFakeWait( 200 );
+		tickFakeWait( 200 );
+		tickFakeWait( 200 );
+		tickFakeWait( 200 );
+		tickFakeWait( 1 );
 	} ) );
 	//
 	function newNetworkIncident( incident: Incident ): NetworkIncident {
@@ -353,6 +357,24 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		tickFakeWait( 1000 );
 		//
 	} ) );
+	//
+	it('ipChanged: should handle no whois data ...', fakeAsync( ( ) => {
+		// given
+		const testData: Incident = mockData.Clone();
+		sut.networkIncident = newNetworkIncident( testData );
+		const resp: HttpErrorResponse = new HttpErrorResponse({
+			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
+		servicesServiceSpy.getWhoIs.and.returnValue( of( '' ) );
+		spyOn( alertService, 'setWhereWhatError' );
+		// when
+		sut.ipChanged( '17.142.171.7' );
+		// then
+		tickFakeWait( 10 );
+		expect( alertService.setWhereWhatError ).toHaveBeenCalled( );
+		windowCleanup( );	// window launched in beforeEach
+		tickFakeWait( 1000 );
+		//
+	} ) );
 	/*
 	** newNoteId(): number
 	*/
@@ -362,6 +384,18 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		// then
 		expect( ret ).toEqual( -2 );
 		windowCleanup( );	// window launched in beforeEach
+		//
+	} ) );
+	//
+	it('newNoteId: should create new negative id again ...', fakeAsync( ( ) => {
+		// given
+		sut.networkIncident.incidentNotes.push( new IncidentNote( -2, 1, 'ping', 'ping', new Date(), true ) );
+		// when
+		const ret: number = sut.newNoteId( );
+		// then
+		expect( ret ).toEqual( -3 );
+		windowCleanup( );	// window launched in beforeEach
+		sut.networkIncident.incidentNotes = [];
 		//
 	} ) );
 	/*

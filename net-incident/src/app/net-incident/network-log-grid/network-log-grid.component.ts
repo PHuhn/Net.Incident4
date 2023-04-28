@@ -118,18 +118,21 @@ export class NetworkLogGridComponent extends BaseComponent implements AfterConte
 		// Observable.interval( 100 ).takeWhile( val => cnt < 4 ).subscribe( val => {
 		this.contentInitTimer = setTimeout( ( ) => {
 			this._console.Information( `${this.codeName}.ngAfterContentInit:` );
-			if( this.afterViewInit( true ) === false ) {
-				let cnt: number = 0;
-				this.intervalSubscription =
-					interval( 100 ).pipe(takeWhile(val => cnt < 3)).subscribe(val => {
+			let cnt: number = 0;
+			let ret: boolean = false;
+			this.intervalSubscription =
+				interval( 100 ).pipe(takeWhile(val => cnt < 4)).subscribe(val => {
 					cnt++;
 					this._console.Information( `${this.codeName}.ngAfterContentInit: ${val}.` );
-					if( this.afterViewInit( cnt === 3 ) === true ) {
-						cnt = 3; // terminate the loop
+					ret = this.afterViewInit( true );
+					if( ret === true ) {
+						cnt = 4; // terminate the loop
 					}
 				});
-			} else {
-				this._console.Information( `${this.codeName}.ngAfterContentInit: afterInit configured.` );
+			if( ret === false ) {
+				this._console.Warning( `${this.codeName}.ngAfterContentInit: failed to configure.` );
+				this._alerts.setWhereWhatWarning(
+					`${this.codeName}: ngAfterContentInit`, 'failed to configure');
 			}
 		}, 0 );
 	}

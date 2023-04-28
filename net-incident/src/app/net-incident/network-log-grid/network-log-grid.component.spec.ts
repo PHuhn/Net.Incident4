@@ -192,6 +192,20 @@ describe('NetworkLogGridComponent', () => {
 		expect( ret ).toEqual( true );
 	} ) );
 	//
+	it('setTableFilter: should not filter if view problems ...', fakeAsync( () => {
+		// given
+		const ipAddr = mockDatum[1].IPAddress;
+		sut.networkIncident = createNetworkIncident( );
+		sut.dt = undefined;
+		tickFakeWait( 10 );
+		tickFakeWait( 400 );
+		// when
+		const ret = sut.setTableFilter( ipAddr );
+		// then
+		tickFakeWait( 1000 );
+		expect( ret ).toEqual( false );
+	} ) );
+	//
 	it('incident should have only selected rows ...', fakeAsync( () => {
 		const testNetInc: INetworkIncident= createNetworkIncident( );
 		testNetInc.networkLogs[4].Selected = true;
@@ -333,7 +347,7 @@ describe('NetworkLogGridComponent', () => {
 		// then
 		expect( ret ).toEqual( false );
 		tickFakeWait( 10 );
-		tickFakeWait( 300 );
+		tickFakeWait( 900 );
 		expect( sut.networkIncident.networkLogs.length ).toBe( expected );
 		//
 	}));
