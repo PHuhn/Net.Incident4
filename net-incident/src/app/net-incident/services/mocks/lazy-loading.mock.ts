@@ -15,7 +15,7 @@ export class LazyLoadingMock {
 	*/
 	LazyLoading<T>( datasource: T[], event: LazyLoadEvent ): ILazyResults {
 		//
-		const results: ILazyResults = { results: datasource, totalRecords: datasource.length, loadEvent: JSON.stringify( event ), message: ''};
+		const results: ILazyResults = { results: datasource, totalRecords: datasource ? datasource.length : 0, loadEvent: JSON.stringify( event ), message: ''};
 		if ( datasource && datasource.length ) {
 			let filtered: T[] = datasource.slice( 0 );
 			if( event.filters ) {
@@ -33,6 +33,7 @@ export class LazyLoadingMock {
 			results.results = filtered;
 			return results;
 		}
+		results.results = [];
 		results.message = 'no source data';
 		console.error( `${this.codeName}.lazyLoading: ${results.message}.` );
 		return results;

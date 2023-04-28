@@ -18,15 +18,15 @@ describe('LazyLoadingMock', () => {
 	];
 	/*
 	** export interface LazyLoadEvent {
-	** 	first?: number;
-	** 	rows?: number;
-	** 	sortField?: string;
-	** 	sortOrder?: number;
-	** 	multiSortMeta?: SortMeta[];
+	** 	first?: number,
+	** 	rows?: number,
+	** 	sortField?: string,
+	** 	sortOrder?: number,
+	** 	multiSortMeta?: SortMeta[],
 	** 	filters?: {
-	** 		[s: string]: FilterMetadata;
-	** 	};
-	** 	globalFilter?: any;
+	** 		[s: string]: FilterMetadata,
+	** 	},
+	** 	globalFilter?: any,
 	** }
 	*/
 	const mockEvent: LazyLoadEvent = {
@@ -151,6 +151,19 @@ describe('LazyLoadingMock', () => {
 		// then
 		expect( ret.length ).toEqual( 5 );
 	});
+	//
+	it(`LazyFilters: should handle 'and' ...`, () => {
+		// given
+		const event: any = { ... mockEvent };
+		event.filters = {
+			'id': [{ value: 1, matchMode: 'gt' }],
+			'name': [ { value: 'f', matchMode: 'startswith', operator: 'and' } ]
+		};
+		// when
+		const ret = lazyLoading.LazyFilters( [ ... mockDatum ], event );
+		// then
+		expect( ret.length ).toEqual( 2 );
+	});
 	/*
 	** LazySkipTake( data: any[], event: LazyLoadEvent ): any[]
 	*/
@@ -234,6 +247,28 @@ describe('LazyLoadingMock', () => {
 		expect( ret.results[2].name ).toEqual( 'three' );
 		expect( ret.results[3].name ).toEqual( 'four' );
 		expect( ret.results[4].name ).toEqual( 'five' );
+	});
+	//
+	it('LazyLoading: should return message if undefined datasource ...', () => {
+		// given
+		const event: any = { ... mockEvent };
+		// when
+		const ret = lazyLoading.LazyLoading( undefined, event );
+		// then
+		expect( ret.results.length ).toEqual( 0 );
+		expect( ret.totalRecords ).toEqual( 0 );
+		expect( ret.message ).toEqual( 'no source data' );
+	});
+	//
+	it('LazyLoading: should return message if empty datasource ...', () => {
+		// given
+		const event: any = { ... mockEvent };
+		// when
+		const ret = lazyLoading.LazyLoading( [], event );
+		// then
+		expect( ret.results.length ).toEqual( 0 );
+		expect( ret.totalRecords ).toEqual( 0 );
+		expect( ret.message ).toEqual( 'no source data' );
 	});
 	//
 });
