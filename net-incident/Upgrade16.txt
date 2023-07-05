@@ -1,0 +1,632 @@
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>GetEslintVer
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular-eslint/builder@latest @angular-eslint/eslint-plugin@latest @angular-eslint/eslint-plugin-template@latest @angular-eslint/schematics@latest @angular-eslint/template-parser@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-eslint/schematics@16.0.3
+npm WARN Found: @angular/cli@15.2.5
+npm WARN node_modules/@angular/cli
+npm WARN   dev @angular/cli@"^15.2.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/cli@">= 16.0.0 < 17.0.0" from @angular-eslint/schematics@16.0.3
+npm WARN node_modules/@angular-eslint/schematics
+npm WARN   dev @angular-eslint/schematics@"16.0.3" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/cli@16.1.3
+npm WARN node_modules/@angular/cli
+npm WARN   peer @angular/cli@">= 16.0.0 < 17.0.0" from @angular-eslint/schematics@16.0.3
+npm WARN   node_modules/@angular-eslint/schematics
+npm WARN     dev @angular-eslint/schematics@"16.0.3" from the root project
+
+added 66 packages, removed 6 packages, changed 33 packages, and audited 1098 packages in 2m
+
+160 packages are looking for funding
+  run `npm fund` for details
+
+29 vulnerabilities (28 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm notice
+npm notice New major version of npm available! 8.14.0 -> 9.7.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v9.7.2
+npm notice Run npm install -g npm@9.7.2 to update!
+npm notice
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>ng lint > l1.txt
+Lint errors found in the listed files.
+
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>notepad l1.txt
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>GetJasmineVer
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @types/jasmine@latest jasmine-core@latest karma@latest karma-chrome-launcher@latest karma-coverage@latest karma-jasmine@latest karma-jasmine-html-reporter@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-eslint/schematics@16.0.3
+npm WARN Found: @angular/cli@15.2.5
+npm WARN node_modules/@angular/cli
+npm WARN   dev @angular/cli@"^15.2.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/cli@">= 16.0.0 < 17.0.0" from @angular-eslint/schematics@16.0.3
+npm WARN node_modules/@angular-eslint/schematics
+npm WARN   dev @angular-eslint/schematics@"^16.0.3" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/cli@16.1.3
+npm WARN node_modules/@angular/cli
+npm WARN   peer @angular/cli@">= 16.0.0 < 17.0.0" from @angular-eslint/schematics@16.0.3
+npm WARN   node_modules/@angular-eslint/schematics
+npm WARN     dev @angular-eslint/schematics@"^16.0.3" from the root project
+
+added 1 package, changed 6 packages, and audited 1099 packages in 6s
+
+160 packages are looking for funding
+  run `npm fund` for details
+
+29 vulnerabilities (28 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>GetAngularVer
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>rem @angular-devkit/build-angular@latest
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular/core@latest @angular/cli@latest @angular/common@latest @angular/compiler@latest @angular/compiler-cli@latest @angular/forms@latest @angular/platform-browser@latest @angular/animations@latest @angular/platform-browser-dynamic@latest @angular/router@latest @angular/cdk@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/animations@15.2.6
+npm WARN node_modules/@angular/animations
+npm WARN   peerOptional @angular/animations@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN   node_modules/@angular/platform-browser
+npm WARN     peer @angular/platform-browser@"15.2.6" from @angular/forms@15.2.6
+npm WARN     node_modules/@angular/forms
+npm WARN     3 more (@angular/platform-browser-dynamic, @angular/router, the root project)
+npm WARN   1 more (the root project)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peerOptional @angular/animations@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN node_modules/@angular/platform-browser
+npm WARN   peer @angular/platform-browser@"15.2.6" from @angular/forms@15.2.6
+npm WARN   node_modules/@angular/forms
+npm WARN   3 more (@angular/platform-browser-dynamic, @angular/router, the root project)
+npm WARN
+npm WARN Conflicting peer dependency: @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"16.1.3" from @angular/animations@16.1.3
+npm WARN   node_modules/@angular/animations
+npm WARN     peerOptional @angular/animations@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN     node_modules/@angular/platform-browser
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/common@15.2.6
+npm WARN node_modules/@angular/common
+npm WARN   peer @angular/common@"^15.0.0 || ^16.0.0" from @angular/cdk@15.2.6
+npm WARN   node_modules/@angular/cdk
+npm WARN     dev @angular/cdk@"16.1.3" from the root project
+npm WARN   6 more (@angular/forms, @angular/platform-browser, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/common@"15.2.6" from @angular/forms@15.2.6
+npm WARN node_modules/@angular/forms
+npm WARN   peer @angular/forms@"^15.2.1" from primeng@15.3.0
+npm WARN   node_modules/primeng
+npm WARN   1 more (the root project)
+npm WARN
+npm WARN Conflicting peer dependency: @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"16.1.3" from @angular/common@16.1.3
+npm WARN   node_modules/@angular/common
+npm WARN     peer @angular/common@"15.2.6" from @angular/forms@15.2.6
+npm WARN     node_modules/@angular/forms
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/common@15.2.6
+npm WARN node_modules/@angular/common
+npm WARN   peer @angular/common@"^15.0.0 || ^16.0.0" from @angular/cdk@15.2.6
+npm WARN   node_modules/@angular/cdk
+npm WARN     dev @angular/cdk@"16.1.3" from the root project
+npm WARN   6 more (@angular/forms, @angular/platform-browser, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/common@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN node_modules/@angular/platform-browser
+npm WARN   peer @angular/platform-browser@"15.2.6" from @angular/forms@15.2.6
+npm WARN   node_modules/@angular/forms
+npm WARN   3 more (@angular/platform-browser-dynamic, @angular/router, the root project)
+npm WARN
+npm WARN Conflicting peer dependency: @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"16.1.3" from @angular/common@16.1.3
+npm WARN   node_modules/@angular/common
+npm WARN     peer @angular/common@"15.2.6" from @angular/forms@15.2.6
+npm WARN     node_modules/@angular/forms
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/common@15.2.6
+npm WARN node_modules/@angular/common
+npm WARN   peer @angular/common@"^15.0.0 || ^16.0.0" from @angular/cdk@15.2.6
+npm WARN   node_modules/@angular/cdk
+npm WARN     dev @angular/cdk@"16.1.3" from the root project
+npm WARN   6 more (@angular/forms, @angular/platform-browser, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/common@"^15.2.1" from primeng@15.3.0
+npm WARN node_modules/primeng
+npm WARN   dev primeng@"^15.3.0" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"16.1.3" from @angular/common@16.1.3
+npm WARN   node_modules/@angular/common
+npm WARN     peer @angular/common@"15.2.6" from @angular/forms@15.2.6
+npm WARN     node_modules/@angular/forms
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/compiler@15.2.6
+npm WARN node_modules/@angular/compiler
+npm WARN   peer @angular/compiler@"15.2.6" from @angular/compiler-cli@15.2.6
+npm WARN   node_modules/@angular/compiler-cli
+npm WARN     peer @angular/compiler-cli@"^15.0.0" from @angular-devkit/build-angular@15.2.5
+npm WARN     node_modules/@angular-devkit/build-angular
+npm WARN     2 more (@ngtools/webpack, the root project)
+npm WARN   2 more (@angular/platform-browser-dynamic, the root project)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/compiler@"15.2.6" from @angular/compiler-cli@15.2.6
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^15.0.0" from @angular-devkit/build-angular@15.2.5
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN   2 more (@ngtools/webpack, the root project)
+npm WARN
+npm WARN Conflicting peer dependency: @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   peerOptional @angular/core@"16.1.3" from @angular/compiler@16.1.3
+npm WARN   node_modules/@angular/compiler
+npm WARN     peer @angular/compiler@"15.2.6" from @angular/compiler-cli@15.2.6
+npm WARN     node_modules/@angular/compiler-cli
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/compiler-cli@15.2.6
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^15.0.0" from @angular-devkit/build-angular@15.2.5
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^15.1.5" from the root project
+npm WARN   2 more (@ngtools/webpack, the root project)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/compiler-cli@"^15.0.0" from @angular-devkit/build-angular@15.2.5
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"^15.1.5" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/core@15.2.6
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"15.2.6" from @angular/animations@15.2.6
+npm WARN   node_modules/@angular/animations
+npm WARN     peerOptional @angular/animations@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN     node_modules/@angular/platform-browser
+npm WARN     1 more (the root project)
+npm WARN   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/core@"15.2.6" from @angular/forms@15.2.6
+npm WARN node_modules/@angular/forms
+npm WARN   peer @angular/forms@"^15.2.1" from primeng@15.3.0
+npm WARN   node_modules/primeng
+npm WARN   1 more (the root project)
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/core@15.2.6
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"15.2.6" from @angular/animations@15.2.6
+npm WARN   node_modules/@angular/animations
+npm WARN     peerOptional @angular/animations@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN     node_modules/@angular/platform-browser
+npm WARN     1 more (the root project)
+npm WARN   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/core@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN node_modules/@angular/platform-browser
+npm WARN   peer @angular/platform-browser@"15.2.6" from @angular/forms@15.2.6
+npm WARN   node_modules/@angular/forms
+npm WARN   3 more (@angular/platform-browser-dynamic, @angular/router, the root project)
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/core@15.2.6
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"15.2.6" from @angular/animations@15.2.6
+npm WARN   node_modules/@angular/animations
+npm WARN     peerOptional @angular/animations@"15.2.6" from @angular/platform-browser@15.2.6
+npm WARN     node_modules/@angular/platform-browser
+npm WARN     1 more (the root project)
+npm WARN   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/core@"^15.2.1" from primeng@15.3.0
+npm WARN node_modules/primeng
+npm WARN   dev primeng@"^15.3.0" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@15.4.1.8
+npm WARN Found: @angular/forms@15.2.6
+npm WARN node_modules/@angular/forms
+npm WARN   peer @angular/forms@"^15.2.1" from primeng@15.3.0
+npm WARN   node_modules/primeng
+npm WARN     dev primeng@"^15.3.0" from the root project
+npm WARN   1 more (the root project)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/forms@"^15.2.1" from primeng@15.3.0
+npm WARN node_modules/primeng
+npm WARN   dev primeng@"^15.3.0" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/platform-browser@16.1.3
+npm WARN node_modules/@angular/platform-browser
+npm WARN   peer @angular/platform-browser@"16.1.3" from @angular/forms@16.1.3
+npm WARN   node_modules/@angular/forms
+npm WARN     peer @angular/forms@"^15.2.1" from primeng@15.3.0
+npm WARN     node_modules/primeng
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular/core@16.1.3
+npm WARN Found: zone.js@0.11.8
+npm WARN node_modules/zone.js
+npm WARN   peer zone.js@"^0.10.2 || ^0.11.0 || ^0.12.0" from primeng@15.3.0
+npm WARN   node_modules/primeng
+npm WARN     dev primeng@"^15.3.0" from the root project
+npm WARN   1 more (the root project)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer zone.js@"~0.13.0" from @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   dev @angular/core@"16.1.3" from the root project
+npm WARN   8 more (@angular/animations, @angular/cdk, @angular/common, ...)
+npm WARN
+npm WARN Conflicting peer dependency: zone.js@0.13.1
+npm WARN node_modules/zone.js
+npm WARN   peer zone.js@"~0.13.0" from @angular/core@16.1.3
+npm WARN   node_modules/@angular/core
+npm WARN     dev @angular/core@"16.1.3" from the root project
+npm WARN     8 more (@angular/animations, @angular/cdk, @angular/common, ...)
+
+added 44 packages, removed 28 packages, changed 66 packages, and audited 1115 packages in 2m
+
+169 packages are looking for funding
+  run `npm fund` for details
+
+27 vulnerabilities (26 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>ng update @angular/cli @angular/core
+Error: Repository is not clean. Please commit or stash any changes before updating.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>GetPrimeNGVer
+'GetPrimeNGVer' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>GetPrimeVer
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng@latest primeicons@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-devkit/build-angular@15.2.5
+npm WARN Found: @angular/compiler-cli@16.1.3
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   dev @angular/compiler-cli@"^16.1.3" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/compiler-cli@"^15.0.0" from @angular-devkit/build-angular@15.2.5
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"^15.1.5" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/compiler-cli@15.2.9
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^15.0.0" from @angular-devkit/build-angular@15.2.5
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^15.1.5" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular/core@16.1.3
+npm WARN Found: zone.js@0.11.8
+npm WARN node_modules/zone.js
+npm WARN   dev zone.js@"^0.11.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer zone.js@"~0.13.0" from @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"16.1.3" from @angular/animations@16.1.3
+npm WARN   node_modules/@angular/animations
+npm WARN   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm WARN
+npm WARN Conflicting peer dependency: zone.js@0.13.1
+npm WARN node_modules/zone.js
+npm WARN   peer zone.js@"~0.13.0" from @angular/core@16.1.3
+npm WARN   node_modules/@angular/core
+npm WARN     peer @angular/core@"16.1.3" from @angular/animations@16.1.3
+npm WARN     node_modules/@angular/animations
+npm WARN     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: primeng@16.0.2
+npm WARN Found: zone.js@0.11.8
+npm WARN node_modules/zone.js
+npm WARN   dev zone.js@"^0.11.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer zone.js@"~0.13.0" from primeng@16.0.2
+npm WARN node_modules/primeng
+npm WARN   dev primeng@"16.0.2" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: zone.js@0.13.1
+npm WARN node_modules/zone.js
+npm WARN   peer zone.js@"~0.13.0" from primeng@16.0.2
+npm WARN   node_modules/primeng
+npm WARN     dev primeng@"16.0.2" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @ngtools/webpack@15.2.5
+npm WARN Found: @angular/compiler-cli@16.1.3
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   dev @angular/compiler-cli@"^16.1.3" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/compiler-cli@"^15.0.0" from @ngtools/webpack@15.2.5
+npm WARN node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN   @ngtools/webpack@"15.2.5" from @angular-devkit/build-angular@15.2.5
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN
+npm WARN Conflicting peer dependency: @angular/compiler-cli@15.2.9
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^15.0.0" from @ngtools/webpack@15.2.5
+npm WARN   node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN     @ngtools/webpack@"15.2.5" from @angular-devkit/build-angular@15.2.5
+npm WARN     node_modules/@angular-devkit/build-angular
+
+changed 1 package, and audited 1115 packages in 35s
+
+169 packages are looking for funding
+  run `npm fund` for details
+
+27 vulnerabilities (26 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular-devkit/build-angular@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular/core@16.1.3
+npm WARN Found: zone.js@0.11.8
+npm WARN node_modules/zone.js
+npm WARN   dev zone.js@"^0.11.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer zone.js@"~0.13.0" from @angular/core@16.1.3
+npm WARN node_modules/@angular/core
+npm WARN   peer @angular/core@"16.1.3" from @angular/animations@16.1.3
+npm WARN   node_modules/@angular/animations
+npm WARN   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm WARN
+npm WARN Conflicting peer dependency: zone.js@0.13.1
+npm WARN node_modules/zone.js
+npm WARN   peer zone.js@"~0.13.0" from @angular/core@16.1.3
+npm WARN   node_modules/@angular/core
+npm WARN     peer @angular/core@"16.1.3" from @angular/animations@16.1.3
+npm WARN     node_modules/@angular/animations
+npm WARN     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: primeng@16.0.2
+npm WARN Found: zone.js@0.11.8
+npm WARN node_modules/zone.js
+npm WARN   dev zone.js@"^0.11.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer zone.js@"~0.13.0" from primeng@16.0.2
+npm WARN node_modules/primeng
+npm WARN   dev primeng@"^16.0.2" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: zone.js@0.13.1
+npm WARN node_modules/zone.js
+npm WARN   peer zone.js@"~0.13.0" from primeng@16.0.2
+npm WARN   node_modules/primeng
+npm WARN     dev primeng@"^16.0.2" from the root project
+
+added 40 packages, removed 51 packages, changed 133 packages, and audited 1104 packages in 2m
+
+170 packages are looking for funding
+  run `npm fund` for details
+
+28 vulnerabilities (27 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev zone.js@latest --force
+npm WARN using --force Recommended protections disabled.
+
+changed 1 package, and audited 1104 packages in 7s
+
+170 packages are looking for funding
+  run `npm fund` for details
+
+28 vulnerabilities (27 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm audit fix
+
+removed 6 packages, changed 3 packages, and audited 1098 packages in 8s
+
+170 packages are looking for funding
+  run `npm fund` for details
+
+# npm audit report
+
+semver  <7.5.2
+Severity: moderate
+semver vulnerable to Regular Expression Denial of Service - https://github.com/advisories/GHSA-c2qf-rxjj-qqgw
+fix available via `npm audit fix --force`
+Will install @angular-devkit/build-angular@0.802.2, which is a breaking change
+node_modules/@babel/core/node_modules/semver
+node_modules/@babel/helper-define-polyfill-provider/node_modules/semver
+node_modules/@babel/plugin-transform-runtime/node_modules/semver
+node_modules/@babel/preset-env/node_modules/semver
+node_modules/@nx/devkit/node_modules/semver
+node_modules/babel-plugin-polyfill-corejs2/node_modules/semver
+node_modules/istanbul-lib-instrument/node_modules/semver
+node_modules/less/node_modules/semver
+node_modules/make-dir/node_modules/semver
+node_modules/nx/node_modules/semver
+  @babel/core  <=7.22.5
+  Depends on vulnerable versions of semver
+  node_modules/@babel/core
+    @angular-devkit/build-angular  0.6.6 || >=0.803.0-next.0
+    Depends on vulnerable versions of @angular/compiler-cli
+    Depends on vulnerable versions of @babel/core
+    Depends on vulnerable versions of @babel/plugin-transform-runtime
+    Depends on vulnerable versions of @babel/preset-env
+    Depends on vulnerable versions of @ngtools/webpack
+    Depends on vulnerable versions of babel-loader
+    Depends on vulnerable versions of babel-plugin-istanbul
+    Depends on vulnerable versions of less
+    node_modules/@angular-devkit/build-angular
+    @angular/compiler-cli  >=15.1.0-next.0
+    Depends on vulnerable versions of @babel/core
+    node_modules/@angular/compiler-cli
+      @ngtools/webpack  >=16.0.0-next.0
+      Depends on vulnerable versions of @angular/compiler-cli
+      node_modules/@ngtools/webpack
+  @babel/helper-define-polyfill-provider  *
+  Depends on vulnerable versions of semver
+  node_modules/@babel/helper-define-polyfill-provider
+    babel-plugin-polyfill-corejs3  >=0.0.1
+    Depends on vulnerable versions of @babel/helper-define-polyfill-provider
+    node_modules/babel-plugin-polyfill-corejs3
+    babel-plugin-polyfill-regenerator  >=0.0.1
+    Depends on vulnerable versions of @babel/helper-define-polyfill-provider
+    node_modules/babel-plugin-polyfill-regenerator
+  @babel/plugin-transform-runtime  >=7.1.0
+  Depends on vulnerable versions of babel-plugin-polyfill-corejs2
+  Depends on vulnerable versions of babel-plugin-polyfill-corejs3
+  Depends on vulnerable versions of babel-plugin-polyfill-regenerator
+  Depends on vulnerable versions of semver
+  node_modules/@babel/plugin-transform-runtime
+  @babel/preset-env  *
+  Depends on vulnerable versions of babel-plugin-polyfill-corejs2
+  Depends on vulnerable versions of babel-plugin-polyfill-corejs3
+  Depends on vulnerable versions of babel-plugin-polyfill-regenerator
+  Depends on vulnerable versions of semver
+  node_modules/@babel/preset-env
+  @nx/devkit  <=16.4.0-beta.16
+  Depends on vulnerable versions of @nrwl/devkit
+  Depends on vulnerable versions of semver
+  node_modules/@nx/devkit
+    @angular-eslint/builder  14.0.2-alpha.0 - 14.1.2-alpha.0 || >=15.2.2-alpha.0
+    Depends on vulnerable versions of @nx/devkit
+    Depends on vulnerable versions of nx
+    node_modules/@angular-eslint/builder
+    @angular-eslint/schematics  >=15.2.2-alpha.0
+    Depends on vulnerable versions of @nx/devkit
+    Depends on vulnerable versions of nx
+    node_modules/@angular-eslint/schematics
+    @nrwl/devkit  16.0.0-beta.0 - 16.4.0-beta.16
+    Depends on vulnerable versions of @nx/devkit
+    node_modules/@nrwl/devkit
+  babel-plugin-polyfill-corejs2  >=0.0.1
+  Depends on vulnerable versions of @babel/helper-define-polyfill-provider
+  Depends on vulnerable versions of semver
+  node_modules/babel-plugin-polyfill-corejs2
+  istanbul-lib-instrument  >=1.2.0
+  Depends on vulnerable versions of semver
+  node_modules/istanbul-lib-instrument
+    babel-plugin-istanbul  >=3.1.0-candidate.0
+    Depends on vulnerable versions of istanbul-lib-instrument
+    node_modules/babel-plugin-istanbul
+    karma-coverage  >=2.0.0
+    Depends on vulnerable versions of istanbul-lib-instrument
+    Depends on vulnerable versions of istanbul-lib-report
+    Depends on vulnerable versions of istanbul-reports
+    node_modules/karma-coverage
+  make-dir  2.0.0 - 3.1.0
+  Depends on vulnerable versions of semver
+  node_modules/less/node_modules/make-dir
+  node_modules/make-dir
+    find-cache-dir  2.1.0 - 3.3.2
+    Depends on vulnerable versions of make-dir
+    node_modules/find-cache-dir
+      babel-loader  >=8.1.0
+      Depends on vulnerable versions of find-cache-dir
+      node_modules/babel-loader
+    istanbul-lib-report  >=2.0.5
+    Depends on vulnerable versions of make-dir
+    node_modules/istanbul-lib-report
+      istanbul-reports  >=3.0.0-alpha.0
+      Depends on vulnerable versions of istanbul-lib-report
+      node_modules/istanbul-reports
+    less  >=3.11.2
+    Depends on vulnerable versions of make-dir
+    node_modules/less
+  nx  13.9.0-beta.0 - 16.4.0-beta.16
+  Depends on vulnerable versions of @nrwl/tao
+  Depends on vulnerable versions of semver
+  node_modules/nx
+    @nrwl/tao  13.9.0-beta.0 - 16.4.0-beta.16
+    Depends on vulnerable versions of nx
+    node_modules/@nrwl/tao
+
+26 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+
+  +----------------------------------------+
+  | * network-log-grid: ngAfterContentInit |
+  | * failed to configure                  |
+  +----------------------------------------+

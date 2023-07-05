@@ -21,6 +21,7 @@ import { INetworkLog, NetworkLog } from '../network-log';
 import { NetworkLogGridComponent } from './network-log-grid.component';
 import { TruncatePipe } from '../../global/truncate.pipe';
 import { ServerSelectionWindowComponent } from '../../net-incident/server-selection-window/server-selection-window.component';
+import { User } from '../user';
 //
 describe('NetworkLogGridComponent', () => {
 	let sut: NetworkLogGridComponent;
@@ -90,7 +91,8 @@ describe('NetworkLogGridComponent', () => {
 		netInc.networkLogs = [ ... mockDatum ];
 		netInc.networkLogs.forEach( el => el.Selected = false );
 		netInc.typeEmailTemplates = [];
-		netInc.user = undefined;
+		netInc.user = User.empty();
+		netInc.user.Id = '1234-ABCD-0987'
 		netInc.noteTypes = undefined;
 		return netInc;
 	}
@@ -115,22 +117,14 @@ describe('NetworkLogGridComponent', () => {
 			'NetworkLogGridComponent should create ...' );
 		expect( sut ).toBeTruthy();
 	} ) );
-	//
-	// fit('ngAfterContentInit: should fail (exceed count) ...', fakeAsync(() => {
-	// 	// given
-	// 	console.warn( 'ngAfterContentInit: should fail (exceed count)' );
-	// 	sut.networkIncident = createNetworkIncident( );
-	// 	sut.networkIncident.networkLogs = [ ];
-	// 	// when
-	// 	sut.ngAfterContentInit( );
-	// 	// then
-	// 	tickFakeWait( 10 );
-	// 	tickFakeWait( 200 );
-	// 	tickFakeWait( 200 );
-	// 	expect( true ).toEqual( false );
-	// 	//
-	// }));
-	//
+	/*
+	** Initial columns displayed
+	**   IP Address		Date   Type  Log
+	** > 17.56.48.13	05/07  DoS   [DoS attack: RST Sca...
+	** or:
+	**   IP Address		Date   Type  Log	
+	** > 54.183.209.144	11/28  VS    Fake log 4, Fake log...  Del
+	*/
 	it('default data should have all columns ...', fakeAsync( () => {
 		sut.networkIncident = createNetworkIncident( );
 		tickFakeWait( 10 );
@@ -138,11 +132,14 @@ describe('NetworkLogGridComponent', () => {
 		tickFakeWait( 200 );
 		//
 		const numCols: number = 7;
+		console.log( sut.networkIncident.incident);
 		const netLogBodyCols = fixture.debugElement.queryAll(By.css(
 			'#netLogTable > div > div > table > tbody > tr:nth-child(1) > td' ));
 		expect( netLogBodyCols.length ).toBe( numCols );
 	} ) );
-	//
+	/*
+	** Initial rows displayed
+	*/
 	it('default data should have all rows ...', fakeAsync( () => {
 		sut.networkIncident = createNetworkIncident( );
 		tickFakeWait( 10 );

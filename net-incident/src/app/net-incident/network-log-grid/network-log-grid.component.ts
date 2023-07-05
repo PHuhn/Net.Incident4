@@ -106,6 +106,10 @@ export class NetworkLogGridComponent extends BaseComponent implements AfterConte
 	// After the view is initialized, this will be available.
 	//
 	ngAfterContentInit() {
+		if( this.networkIncident.user.Id === '' ) {
+			this._console.Information( `${this.codeName}.ngAfterContentInit: skipping...` );
+			return;
+		}
 		this._console.Information( `${this.codeName}.ngAfterContentInit: entering...` );
 		if( this.networkIncident.incident.IPAddress !== '' ) {
 			this.setTableFilter( this.networkIncident.incident.IPAddress );
@@ -117,24 +121,30 @@ export class NetworkLogGridComponent extends BaseComponent implements AfterConte
 		// retry every 10th of a second, last time pass true
 		// Observable.interval( 100 ).takeWhile( val => cnt < 4 ).subscribe( val => {
 		this.contentInitTimer = setTimeout( ( ) => {
-			this._console.Information( `${this.codeName}.ngAfterContentInit:` );
-			let cnt: number = 0;
+			this._console.Information( `${this.codeName}.ngAfterContentInit: inside setTimeout` );
+			let cnt: number = 1;
 			let ret: boolean = false;
-			this.intervalSubscription =
-				interval( 100 ).pipe(takeWhile(val => cnt < 4)).subscribe(val => {
-					cnt++;
-					this._console.Information( `${this.codeName}.ngAfterContentInit: ${val}.` );
-					ret = this.afterViewInit( true );
-					if( ret === true ) {
-						cnt = 4; // terminate the loop
-					}
-				});
+			ret = this.afterViewInit( true );	// first call
 			if( ret === false ) {
-				this._console.Warning( `${this.codeName}.ngAfterContentInit: failed to configure.` );
+				this.intervalSubscription =
+					interval( 100 ).pipe(takeWhile(val => cnt < 4)).subscribe(val => {
+						cnt++;
+						this._console.Information( `${this.codeName}.ngAfterContentInit: cnt: ${cnt}, val: ${val}.` );
+						ret = this.afterViewInit( true );
+						if( ret === true ) {
+							cnt = 4; // terminate the loop
+						}
+					});
+				this.intervalSubscription.unsubscribe( );
+			}
+			if( ret === false ) {
+				const errmsg = 'failed to configure';
+				this._console.Warning( `${this.codeName}.ngAfterContentInit: ${errmsg}, cnt: ${cnt}.` );
 				this._alerts.setWhereWhatWarning(
-					`${this.codeName}: ngAfterContentInit`, 'failed to configure');
+					`${this.codeName}: ngAfterContentInit`, errmsg);
 			}
 		}, 0 );
+		//
 	}
 	//
 	afterViewInit( complete: boolean ): boolean {
