@@ -4,13 +4,13 @@ import { environment } from '../../../environments/environment';
 import { ConsoleLogService } from './console-log.service';
 import { LogLevel } from './log-level.enum';
 //
-describe( 'ConsoleLogService', ( ) => {
+fdescribe( 'ConsoleLogService', ( ) => {
 	let sut: ConsoleLogService;
 	//
 	beforeEach(( ) => {
 		TestBed.configureTestingModule({});
 		sut = TestBed.inject(ConsoleLogService);
-		sut.logLevel = LogLevel.Verbose;
+		sut.logLevel = LogLevel.Debug;
 	});
 	//
 	it( 'should be created', ( ) => {
@@ -68,7 +68,9 @@ describe( 'ConsoleLogService', ( ) => {
 	});
 	//
 	it( 'Verbose should create Verbose message ...', ( ) => {
-		// given / when
+		// given
+		sut.logLevel = LogLevel.Verbose;
+		// when
 		const _ret = sut.Verbose( 'Verbose message' );
 		// then
 		expect( _ret ).toEqual( 'Verbose: Verbose message' );
@@ -101,6 +103,15 @@ describe( 'ConsoleLogService', ( ) => {
 	it( 'should not get LogLevel string value ...', ( ) => {
 		const _ret = sut.getEnumKeyByEnumValue( LogLevel, 99 );
 		expect( _ret ).toEqual( '--' );
+	});
+	/*
+	** trace
+	*/
+	it( 'should get trace string value ...', ( ) => {
+		// given / when
+		const _ret = sut.Trace( 'Trace message' );
+		// then
+		expect( _ret ).toEqual( 'Trace: Trace message' );
 	});
 	/*
 	** Circular messages

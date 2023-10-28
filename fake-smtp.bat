@@ -11,7 +11,9 @@
 @REM   -m, --max [NUMBER]     Max number of e-mails to keep (Default is 10)
 @REM   -a, --auth [String]    Authentication details in USERNAME:PASSWORD format
 @REM Ports of 25, 465 or 587 (unencryped/SSL/TSL)
-fake-smtp-server --smtp-port 25 --http-port 8888 --max 10
+@CLS
+@ECHO Use port # 9888
+fake-smtp-server --smtp-port 25 --http-port 9888 --max 10
 @REM
 @REM You can filter emails with the following parameters:
 @REM	from: filter sender
@@ -20,7 +22,7 @@ fake-smtp-server --smtp-port 25 --http-port 8888 --max 10
 @REM	until: filter email date
 @REM Example:
 @REM
-@REM	GET http://localhost:8888/api/emails?from=joe@example.com&to=bob@example.com&since=2017-09-18T12:00:00Z&until=2017-09-19T00:00:00Z
+@REM	GET http://localhost:9888/api/emails?from=joe@example.com&to=bob@example.com&since=2017-09-18T12:00:00Z&until=2017-09-19T00:00:00Z
 @REM Removing all received email
 @REM To remove all emails without restarting the server:
-@REM	DELETE http://localhost:8888/api/emails
+@REM	DELETE http://localhost:9888/api/emails

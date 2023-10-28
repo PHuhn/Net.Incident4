@@ -1829,6 +1829,7 @@ Done:
 	V14.4.0.7 - Updated to Angular 14.2.7 and audit fix
 	V15.4.1.0 - base-srvc.service, generic http calls
 	V15.4.1.2 - new circular message queue feature in console-log
+	V16.4.1.9 - More colorizing ConsoleLogServce, updated Angular version to 16.2.11
 
 To Do's:
 	V
