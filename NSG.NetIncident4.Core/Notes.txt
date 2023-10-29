@@ -321,6 +321,58 @@ SOLUTION:
 
 
 PROBLEM:
+	Upgrade to .Net 7	(2023-10-28)
+
+SOLUTION:
+	Updated Visual Studio in Visual Studio Installer
+	In the project ...
+        <TargetFramework>net7.0</TargetFramework>
+	...
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.13" />
+	</ItemGroup>
+
+	Install-package Microsoft.AspNetCore.Authentication.JwtBearer -version 7.0.13
+	Install-package Microsoft.AspNetCore.Authentication.OpenIdConnect -version 7.0.13
+	Install-package Microsoft.AspNetCore.Identity.EntityFrameworkCore -version 7.0.13
+	Install-package Microsoft.AspNetCore.Identity.UI -version 7.0.13
+	Install-package Microsoft.EntityFrameworkCore.Relational -version 7.0.13
+	Install-package Microsoft.EntityFrameworkCore.SqlServer -version 7.0.13
+	Install-package Microsoft.EntityFrameworkCore.Tools -version 7.0.13
+	Install-package Microsoft.VisualStudio.Web.CodeGeneration.Design -version 7.0.11
+	Install-package Microsoft.AspNetCore.TestHost -version 7.0.13
+	Install-package Microsoft.AspNetCore.Authentication.Google -version 7.0.13
+	Install-package Microsoft.AspNetCore.Authentication.MicrosoftAccount -version 7.0.13
+	In test:
+	Install-package Microsoft.EntityFrameworkCore.InMemory -version 7.0.13
+	Install-package Microsoft.EntityFrameworkCore.SqLite -version 7.0.13
+	Install-package Microsoft.Extensions.Logging -version 7.0.0
+
+========
+PROBLEM:
+	Win32Exception: The certificate chain was issued by an authority that is not trusted.
+	Unknown location
+	SqlException: A connection was successfully established with the server, but then an error occurred during the login process. (provider: SSL Provider, error: 0 - The certificate chain was issued by an authority that is not trusted.)
+	Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, bool breakConnection, Action<Action> wrapCloseInAction)
+
+SOLUTION:
+	Add Encrypt=False to the connectionString
+
+========
+PROBLEM:
 
 
 SOLUTION:

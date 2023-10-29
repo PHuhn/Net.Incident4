@@ -1,0 +1,32 @@
+﻿@using NSG.NetIncident4.Core.UI.ViewModels
+@model List<AlertMessage>
+@if (Model.Any())
+{
+    int _count = Model.Count;
+    bool _alertsExist = false;
+    AlertMessage[] _alerts = new AlertMessage[_count];
+    if (Model.Count > 0)
+    {
+        _alertsExist = true;
+        Model.CopyTo(_alerts);
+        Model.Clear();
+    }
+    if (_alertsExist)
+    {
+        <div id="nsg-alerts" class="nsg-msg-alerts" onclick="closeAlerts()">
+            <ul id="nsg-alerts-ul" class="nsg-msg-alerts-ul">
+                @foreach (AlertMessage msg in _alerts)
+                {
+                    <li class="@("nsg-msg-" + msg.Level)">
+                        @msg.Message
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}
+<script>
+    function closeAlerts() {
+        window.parent.document.getElementById("nsg-alerts").style.display = "none";
+    }
+</script>

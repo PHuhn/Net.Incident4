@@ -223,7 +223,8 @@ nsg-alerts-msg-ul {
 .nsg-jumbotron {
     padding: 2rem 1rem;
     margin-bottom: 2rem;
-    background-color: #e9ecef;
+    background-color: var(--bs-gray-300);
+    border-radius: 5px;
 }
 
 @media (min-width: 576px) {
@@ -231,3 +232,4 @@ nsg-alerts-msg-ul {
         padding: 4rem 2rem;
     }
 }
+/* End of site.css */

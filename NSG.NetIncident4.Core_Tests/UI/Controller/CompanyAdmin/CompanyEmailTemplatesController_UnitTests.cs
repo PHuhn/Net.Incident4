@@ -267,6 +267,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Note type create was not sent.");
             CompanyEmailTemplatesController sut = new CompanyEmailTemplatesController(mockMediator.Object);
+            CompanyEmailTemplatesController.Alerts = new List<AlertMessage>();
             sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyEmailTemplates/", controllerHeaders);
             // when
             var actual = await sut.Create(mediatorParam);
@@ -322,6 +323,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyEmailTemplate edit was not sent.");
             CompanyEmailTemplatesController sut = new CompanyEmailTemplatesController(mockMediator.Object);
+            CompanyEmailTemplatesController.Alerts = new List<AlertMessage>();
             sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyEmailTemplates/", controllerHeaders);
             // when
             var actual = await sut.Edit(mediatorParam);
@@ -374,6 +376,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyEmailTemplate delete was not sent.");
             CompanyEmailTemplatesController sut = new CompanyEmailTemplatesController(mockMediator.Object);
+            CompanyEmailTemplatesController.Alerts = new List<AlertMessage>();
             sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyEmailTemplates/", controllerHeaders);
             // when
             var actual = await sut.DeleteConfirmed(mediatorParam.CompanyId, mediatorParam.IncidentTypeId);

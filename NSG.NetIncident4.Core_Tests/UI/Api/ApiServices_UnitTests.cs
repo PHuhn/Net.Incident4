@@ -10,6 +10,15 @@ using MediatR;
 using NSG.NetIncident4.Core.UI.Api;
 using NSG.NetIncident4.Core.Infrastructure.Services;
 using NSG.Integration.Helpers;
+using Castle.Components.DictionaryAdapter;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.VisualBasic;
+using NSG.NetIncident4.Core.Domain.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Net.WebRequestMethods;
+using System.IO.Pipelines;
+using System.Runtime.Intrinsics.X86;
+using System.Linq;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Api
 {
@@ -79,7 +88,57 @@ Pinging 1.9.149.170 with 32 bytes of data:";
             Console.WriteLine(_ping.Value);
             return _ping.Value;
         }
-        //
+        /*
+        [Querying whois.arin.net]
+        [Redirected to whois.ripe.net]
+        [Querying whois.ripe.net]
+        [whois.ripe.net]
+        % This is the RIPE Database query service.
+        % The objects are in RPSL format.
+        %
+        % The RIPE Database is subject to Terms and Conditions.
+        % See https://apps.db.ripe.net/docs/HTML-Terms-And-Conditions
+
+        % Note: this output has been filtered.
+        %       To receive output for a database update, use the "-B" flag.
+
+        % Information related to '46.161.62.0 - 46.161.62.255'
+
+        % Abuse contact for '46.161.62.0 - 46.161.62.255' is 'abusemail@depo40.ru'
+
+        inetnum:        46.161.62.0 - 46.161.62.255
+        netname:        FineTransitUA
+        country:        UA
+        admin-c:        NA5995-RIPE
+        tech-c:         NA5995-RIPE
+        status:         ASSIGNED PA
+        mnt-by:         FTN-MNT
+        mnt-routes:     MNT-PINSUPPORT
+        mnt-by:         MNT-PINSUPPORT
+        created:        2022-02-11T08:22:26Z
+        last-modified:  2023-02-14T05:43:13Z
+        source:         RIPE
+
+        role:           QualityNetwork_NOC
+        address:        Estonia, Tallinn, Harju county, pst 5/309B
+        phone:          +3726682671
+        nic-hdl:        NA5995-RIPE
+        mnt-by:         FTN-MNT
+        created:        2018-07-04T17:00:53Z
+                last-modified:  2020-12-22T14:07:12Z
+        source:         RIPE # Filtered
+
+        % Information related to '46.161.62.0/24AS26548'
+
+        route:          46.161.62.0/24
+        origin:         AS26548
+        mnt-by:         MNT-PINSUPPORT
+        created:        2023-01-26T04:43:10Z
+        last-modified:  2023-01-26T04:43:10Z
+        source:         RIPE
+
+        % This query was served by the RIPE Database Query Service version 1.108 (BUSA)
+        */
         [Test]
         public void ApiServicesController_WhoIs46_161_Test()
         {
@@ -87,12 +146,151 @@ Pinging 1.9.149.170 with 32 bytes of data:";
             string ip = "46.161.62.245";
             ActionResult<string> _whois = sut.WhoIs(ip);
             string _actual = _whois.Value;
-            Console.WriteLine(ip);
+            Console.WriteLine($"Query ip: {ip}");
             Console.WriteLine(_actual);
             Assert.IsTrue(_actual.Contains(
                 "Abuse contact for '46.161.62.0 - 46.161.62.255' is 'abusemail@depo40.ru'") == true);
         }
-        //
+        /*
+        [Querying whois.arin.net]
+        [whois.arin.net]
+
+        #
+        # ARIN WHOIS data and services are subject to the Terms of Use
+        # available at: https://www.arin.net/resources/registry/whois/tou/
+        #
+        # If you see inaccuracies in the results, please report at
+        # https://www.arin.net/resources/registry/whois/inaccuracy_reporting/
+        #
+        # Copyright 1997-2023, American Registry for Internet Numbers, Ltd.
+        #
+
+        #
+        # Query terms are ambiguous.  The query is assumed to be:
+        #     "n 174.79.60.55"
+        #
+        # Use "?" to get help.
+        #
+
+        Cox Communications Inc. CXA (NET-174-64-0-0-1) 174.64.0.0 - 174.79.255.255
+        Cox Communications NETBLK-PH-CBS-174-79-32-0 (NET-174-79-32-0-1) 174.79.32.0 - 174.79.63.255
+
+        #
+        # ARIN WHOIS data and services are subject to the Terms of Use
+        # available at: https://www.arin.net/resources/registry/whois/tou/
+        #
+        # If you see inaccuracies in the results, please report at
+        # https://www.arin.net/resources/registry/whois/inaccuracy_reporting/
+        #
+        # Copyright 1997-2023, American Registry for Internet Numbers, Ltd.
+        #
+        */
+        // Then link query returns the following:
+        /*
+        [Querying whois.arin.net]
+        [whois.arin.net]
+    
+        #
+        # ARIN WHOIS data and services are subject to the Terms of Use
+        # available at: https://www.arin.net/resources/registry/whois/tou/
+        #
+        # If you see inaccuracies in the results, please report at
+        # https://www.arin.net/resources/registry/whois/inaccuracy_reporting/
+        #
+        # Copyright 1997-2023, American Registry for Internet Numbers, Ltd.
+        #
+    
+    
+        #
+        # Query terms are ambiguous.  The query is assumed to be:
+        #     "n ! NET-174-64-0-0-1"
+        #
+        # Use "?" to get help.
+        #
+    
+        NetRange:       174.64.0.0 - 174.79.255.255
+        CIDR:           174.64.0.0/12
+        NetName:        CXA
+        NetHandle:      NET-174-64-0-0-1
+        Parent:         NET174 (NET-174-0-0-0-0)
+        NetType:        Direct Allocation
+        OriginAS:       
+        Organization:   Cox Communications Inc. (CXA)
+        RegDate:        2009-02-19
+        Updated:        2012-03-02
+        Ref:            https://rdap.arin.net/registry/ip/174.64.0.0
+    
+    
+    
+        OrgName:        Cox Communications Inc.
+        OrgId:          CXA
+        Address:        1400 Lake Hearn Dr.
+        City:           Atlanta
+        StateProv:      GA
+        PostalCode:     30319
+        Country:        US
+        RegDate:        
+        Updated:        2023-02-14
+        Comment:        For legal requests/assistance please use the
+    
+        Comment:        following contact information:
+    
+        Comment:        Cox Subpoena Info: https://www.cox.com/aboutus/policies/law-enforcement-and-subpoenas-information.html
+        Ref:            https://rdap.arin.net/registry/entity/CXA
+    
+    
+        OrgTechHandle: RUIZC31-ARIN
+        OrgTechName:   Ruiz, Carlos 
+        OrgTechPhone:  +1-480-318-5430 
+        OrgTechEmail:  carlos.ruiz1@cox.com
+        OrgTechRef:    https://rdap.arin.net/registry/entity/RUIZC31-ARIN
+    
+        OrgRoutingHandle: GARCI1592-ARIN
+        OrgRoutingName:   Garcia, Jacob 
+        OrgRoutingPhone:  +1-404-269-4416 
+        OrgRoutingEmail:  jacob.garcia@cox.com
+        OrgRoutingRef:    https://rdap.arin.net/registry/entity/GARCI1592-ARIN
+    
+        OrgTechHandle: MEROL3-ARIN
+        OrgTechName:   Merola, Cari 
+        OrgTechPhone:  +1-404-269-4416 
+        OrgTechEmail:  cari.merola@cox.com
+        OrgTechRef:    https://rdap.arin.net/registry/entity/MEROL3-ARIN
+    
+        OrgTechHandle: BERUB3-ARIN
+        OrgTechName:   Berube, Tori 
+        OrgTechPhone:  +1-404-269-4416 
+        OrgTechEmail:  tori.berube@cox.com
+        OrgTechRef:    https://rdap.arin.net/registry/entity/BERUB3-ARIN
+    
+        OrgTechHandle: GARCI1592-ARIN
+        OrgTechName:   Garcia, Jacob 
+        OrgTechPhone:  +1-404-269-4416 
+        OrgTechEmail:  jacob.garcia@cox.com
+        OrgTechRef:    https://rdap.arin.net/registry/entity/GARCI1592-ARIN
+    
+        OrgTechHandle: GOODW243-ARIN
+        OrgTechName:   Goodwin, Mark 
+        OrgTechPhone:  +1-404-269-8267 
+        OrgTechEmail:  mark.goodwin@cox.com
+        OrgTechRef:    https://rdap.arin.net/registry/entity/GOODW243-ARIN
+    
+        OrgAbuseHandle: IC146-ARIN
+        OrgAbuseName:   Cox Communications Inc
+        OrgAbusePhone:  +1-866-272-5111 
+        OrgAbuseEmail:  abuse@cox.com
+        OrgAbuseRef:    https://rdap.arin.net/registry/entity/IC146-ARIN
+    
+        #
+        # ARIN WHOIS data and services are subject to the Terms of Use
+        # available at: https://www.arin.net/resources/registry/whois/tou/
+        #
+        # If you see inaccuracies in the results, please report at
+        # https://www.arin.net/resources/registry/whois/inaccuracy_reporting/
+        #
+        # Copyright 1997-2023, American Registry for Internet Numbers, Ltd.
+        #
+        */
         [Test]
         public void ApiServicesController_WhoIs174_79_Test()
         {
@@ -101,11 +299,11 @@ Pinging 1.9.149.170 with 32 bytes of data:";
             ActionResult<string> _whois = sut.WhoIs(ip);
             Console.WriteLine(_whois.Result);
             string _actual = _whois.Value;
-            Console.WriteLine(ip);
+            Console.WriteLine($"Query ip: {ip}");
             Console.WriteLine(_actual);
             Assert.IsTrue(_actual.Contains(ip.Substring(0, 6)) == true);
             Assert.IsTrue(_actual.Contains(
-                "OrgAbuseEmail:  abuse@cox.net"));
+                "OrgAbuseEmail:  abuse@cox.com"));
         }
         //
         // WhoIs Tests

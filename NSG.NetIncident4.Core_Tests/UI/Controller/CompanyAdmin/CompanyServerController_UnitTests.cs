@@ -21,6 +21,7 @@ using NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin;
 using NSG.NetIncident4.Core.Application.Commands.Companies;
 using NSG.NetIncident4.Core.Application.Commands.CompanyServers;
 using NSG.NetIncident4.Core.Application.Commands.Servers;
+using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
 {
@@ -161,6 +162,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("Company create was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
+            CompanyServerController.Alerts = new List<AlertMessage>();
             sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.CompanyCreate(mediatorParam);
@@ -233,6 +235,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .ReturnsAsync(mediatorReturn)
                 .Verifiable("CompanyServer edit was not sent.");
             CompanyServerController sut = new CompanyServerController(mockMediator.Object);
+            CompanyServerController.Alerts = new List<AlertMessage>();
             sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/CompanyServer/", controllerHeaders);
             // when
             var actual = await sut.CompanyEdit(mediatorParam);
