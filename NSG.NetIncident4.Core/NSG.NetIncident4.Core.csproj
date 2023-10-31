@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
         <!-- Version <core>.<major>.<minor>.<build> -->
-        <Version>7.4.2.10</Version>
+        <Version>7.4.2.11</Version>
         <Copyright>Copyright © 2023</Copyright>
         <Company>Phillip N. Huhn, DBA Northern Software Group</Company>
         <Authors>Phil Huhn (NSG)</Authors>
@@ -71,6 +71,10 @@
     <ProjectReference Include="..\..\..\Ng\NSG.MimeKit\NSG.MimeKit.Extensions\NSG.MimeKit.Extensions.csproj" />
     <ProjectReference Include="..\..\..\Ng\NSG.MimeKit\NSG.MimeKit.SendGrid.Extensions\NSG.MimeKit.SendGrid.Extensions.csproj" />
     <ProjectReference Include="..\..\..\Ng\NSG.PrimeNG\NSG.PrimeNG.LazyLoading\NSG.PrimeNG.LazyLoading.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
 
   <Target Name="CreateLogsFolder" AfterTargets="Publish">

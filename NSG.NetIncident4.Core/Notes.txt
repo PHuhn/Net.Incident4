@@ -373,6 +373,14 @@ SOLUTION:
 
 ========
 PROBLEM:
+	Main menu _Layout.chtml dropdown items not working.
+
+SOLUTION:
+	Changed data-toggle= to data-bs-toggle= for main menu anchor tags
+	V7.4.2.11
+
+========
+PROBLEM:
 
 
 SOLUTION:
