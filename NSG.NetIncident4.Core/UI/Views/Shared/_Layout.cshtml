@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Net-Incident</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -24,7 +24,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item dropdown" data-bs-theme="bark">
+                        <li class="nav-item dropdown">
                             <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="helpDropdown">
                                 Help
                             </a>
@@ -42,7 +42,7 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item dropdown" data-bs-theme="bark">
+                            <li class="nav-item dropdown">
                                 <a class="nav-link text-dark dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     User
                                 </a>
@@ -57,7 +57,7 @@
                             </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin"))
                             {
-                                <li class="nav-item dropdown" data-bs-theme="bark">
+                                <li class="nav-item dropdown">
                                     <a class="nav-link text-dark dropdown-toggle" href="#" id="companyDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Company / Admin
                                     </a>
@@ -70,7 +70,7 @@
                             }
                             @if (User.IsInRole("Admin"))
                             {
-                                <li class="nav-item dropdown" data-bs-theme="bark">
+                                <li class="nav-item dropdown">
                                     <a class="nav-link text-dark dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Application / Admin
                                     </a>

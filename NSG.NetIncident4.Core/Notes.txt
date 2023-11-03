@@ -381,6 +381,14 @@ SOLUTION:
 
 ========
 PROBLEM:
+	Support 'light' and 'dark' themes.
+
+SOLUTION:
+	Got updated Cosmo theme from boot-watch
+	V7.4.2.12
+
+========
+PROBLEM:
 
 
 SOLUTION:
