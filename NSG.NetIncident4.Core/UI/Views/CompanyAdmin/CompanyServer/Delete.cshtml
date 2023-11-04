@@ -31,9 +31,9 @@
         {
             foreach (var srv in Model.ServerList)
             {
-                <div class="card">
-                    <div class="card-header" id="@string.Format("heading-delete-{0}", srv.ServerId)">
-                        <button class="btn btn-link collapsed row" data-toggle="collapse" data-target="@string.Format("#collapse-delete-{0}", srv.ServerId)" aria-expanded="false" aria-controls="@string.Format("collapse-delete-{0}", srv.ServerId)">
+                <div class="card accordion-item">
+                    <div class="card-header accordion-header" id="@string.Format("heading-delete-{0}", srv.ServerId)">
+                        <button class="btn btn-link accordion-button collapsed row" data-bs-toggle="collapse" data-bs-target="@string.Format("#collapse-delete-{0}", srv.ServerId)" aria-expanded="false" aria-controls="@string.Format("collapse-delete-{0}", srv.ServerId)">
                             <div class="mb-0 nsg-bold">
                                 Server Delete:
                                 @Html.DisplayFor(model => srv.ServerShortName)
@@ -42,8 +42,8 @@
                             </div>
                         </button>
                     </div>
-                    <div id="@string.Format("collapse-delete-{0}", srv.ServerId)" class="collapse" aria-labelledby="@string.Format("heading-delete-{0}", srv.ServerId)" data-parent="#delete-accordion">
-                        <div class="card-body">
+                    <div id="@string.Format("collapse-delete-{0}", srv.ServerId)" class="accordion-collapse collapse" aria-labelledby="@string.Format("heading-delete-{0}", srv.ServerId)" data-parent="#delete-accordion">
+                        <div class="card-body accordion-body">
                             <form asp-controller="CompanyServer" asp-action="ServerDelete" asp-route-companyId="@(srv.CompanyId)" asp-route-serverId="@(srv.ServerId)" method="post">
                                 <div class="form-actions no-color">
                                     <div class="nsg-float-left text-left">&nbsp;</div>

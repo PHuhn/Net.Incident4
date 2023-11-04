@@ -136,16 +136,16 @@
     </div>
 </form>
 <div id="edit-accordion">
-    <div class="card">
-        <div class="card-header" id="heading-add-server">
-            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-add-server" aria-expanded="false" aria-controls="collapse-add-server">
+    <div class="card accordion-item">
+        <div class="card-header accordion-header" id="heading-add-server">
+            <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-add-server" aria-expanded="false" aria-controls="collapse-add-server">
                 <div class="row nsg-bold">
                     Add Server
                 </div>
             </button>
         </div>
-        <div id="collapse-add-server" class="collapse" aria-labelledby="heading-add-server" data-parent="#edit-accordion">
-            <div class="card-body">
+        <div id="collapse-add-server" class="accordion-collapse collapse" aria-labelledby="heading-add-server" data-parent="#edit-accordion">
+            <div class="card-body accordion-body">
                 @await Html.PartialAsync("ServerCreatePartial", createServer)
             </div>
         </div>
@@ -156,9 +156,9 @@
         {
             foreach (var srv in Model.ServerList)
             {
-                <div class="card">
-                    <div class="card-header al" id="@string.Format("heading-server-{0}", srv.ServerId)">
-                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="@string.Format("#collapse-server-{0}", srv.ServerId)" aria-expanded="false" aria-controls="@string.Format("collapse-server-{0}", srv.ServerId)">
+                <div class="card accordion-item">
+                    <div class="card-header accordion-header" id="@string.Format("heading-server-{0}", srv.ServerId)">
+                        <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@string.Format("#collapse-server-{0}", srv.ServerId)" aria-expanded="false" aria-controls="@string.Format("collapse-server-{0}", srv.ServerId)">
                             <div class="row nsg-bold">
                                 Server Edit:
                                 @Html.DisplayFor(model => srv.ServerShortName)
@@ -167,8 +167,8 @@
                             </div>
                         </button>
                     </div>
-                    <div id="@string.Format("collapse-server-{0}", srv.ServerId)" class="collapse" aria-labelledby="@string.Format("heading-server-{0}", srv.ServerId)" data-parent="#edit-accordion">
-                        <div class="card-body">
+                    <div id="@string.Format("collapse-server-{0}", srv.ServerId)" class="accordion-collapse collapse" aria-labelledby="@string.Format("heading-server-{0}", srv.ServerId)" data-parent="#edit-accordion">
+                        <div class="card-body accordion-body">
                             @await Html.PartialAsync("ServerEditPartial", srv)
                         </div>
                     </div>
@@ -176,16 +176,16 @@
             }
         }
     }
-    <div class="card">
-        <div class="card-header" id="heading-template-variable-help">
-            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-template-variable-help" aria-expanded="false" aria-controls="collapse-template-variable-help">
+    <div class="card accordion-item">
+        <div class="card-header accordion-header" id="heading-template-variable-help">
+            <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-template-variable-help" aria-expanded="false" aria-controls="collapse-template-variable-help">
                 <div class="row nsg-bold">
                     E-Mail Template Variable List
                 </div>
             </button>
         </div>
-        <div id="collapse-template-variable-help" class="collapse" aria-labelledby="heading-template-variable-help" data-parent="#edit-accordion">
-            <div class="card-body">
+        <div id="collapse-template-variable-help" class="accordion-collapse collapse" aria-labelledby="heading-template-variable-help" data-parent="#edit-accordion">
+            <div class="card-body accordion-body">
                 @await Html.PartialAsync("../Shared/EmailTemplateHelpPartial")
             </div>
         </div>

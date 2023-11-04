@@ -389,8 +389,18 @@ SOLUTION:
 
 ========
 PROBLEM:
+	The 1-to-many links not expanding the detail data.
+
+SOLUTION:
+	Changed data-toggle= to data-bs-toggle= and data-target= to data-bs-target=
+	Fixes the problem, but one can also add the follow classes:
+	accordion-item, accordion-header, accordion-button, accordion-collapse, accordion-body
+
+========
+PROBLEM:
 
 
 SOLUTION:
+
 
 

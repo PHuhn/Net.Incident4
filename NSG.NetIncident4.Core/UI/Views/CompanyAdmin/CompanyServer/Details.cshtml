@@ -26,9 +26,9 @@
         {
             foreach (var srv in Model.ServerList)
             {
-                <div class="card">
-                    <div class="card-header" id="@string.Format("heading-{0}", srv.ServerId)">
-                        <button class="btn btn-link collapsed row" data-toggle="collapse" data-target="@string.Format("#collapse-{0}", srv.ServerId)" aria-expanded="false" aria-controls="@string.Format("collapse-{0}", srv.ServerId)">
+                <div class="card accordion-item">
+                    <div class="card-header accordion-header" id="@string.Format("heading-{0}", srv.ServerId)">
+                        <button class="btn btn-link accordion-button collapsed row" data-bs-toggle="collapse" data-bs-target="@string.Format("#collapse-{0}", srv.ServerId)" aria-expanded="false" aria-controls="@string.Format("collapse-{0}", srv.ServerId)">
                             <div class="mb-0 nsg-bold">
                                 Server Detail:
                                 @Html.DisplayFor(model => srv.ServerShortName)
@@ -37,8 +37,8 @@
                             </div>
                         </button>
                     </div>
-                    <div id="@string.Format("collapse-{0}", srv.ServerId)" class="collapse" aria-labelledby="@string.Format("heading-{0}", srv.ServerId)" data-parent="#detail-accordion">
-                        <div class="card-body">
+                    <div id="@string.Format("collapse-{0}", srv.ServerId)" class="accordion-collapse collapse" aria-labelledby="@string.Format("heading-{0}", srv.ServerId)" data-parent="#detail-accordion">
+                        <div class="card-body accordion-body">
                             @await Html.PartialAsync("ServerDetailPartial", srv)
                         </div>
                     </div>

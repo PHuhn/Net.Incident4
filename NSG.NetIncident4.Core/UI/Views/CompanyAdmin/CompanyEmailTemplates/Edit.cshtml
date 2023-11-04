@@ -24,16 +24,16 @@
             <div style="clear: both;"></div>
         </div>
         <div id="edit-accordion">
-            <div class="card">
-                <div class="card-header" id="heading-template-variable-help">
-                    <div class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-template-variable-help" aria-expanded="false" aria-controls="collapse-template-variable-help">
+            <div class="card accordion-item">
+                <div class="card-header accordion-header" id="heading-template-variable-help">
+                    <div class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-template-variable-help" aria-expanded="false" aria-controls="collapse-template-variable-help">
                         <div class="row nsg-bold">
                             E-Mail Template Variable List
                         </div>
                     </div>
                 </div>
-                <div id="collapse-template-variable-help" class="collapse" aria-labelledby="heading-template-variable-help" data-parent="#edit-accordion">
-                    <div class="card-body">
+                <div id="collapse-template-variable-help" class="accordion-collapse collapse" aria-labelledby="heading-template-variable-help" data-parent="#edit-accordion">
+                    <div class="card-body accordion-body">
                         @await Html.PartialAsync("../Shared/EmailTemplateHelpPartial")
                     </div>
                 </div>

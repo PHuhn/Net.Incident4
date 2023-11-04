@@ -59,7 +59,7 @@
         <article class='border-primary mb-3' style='width: 100%;'>
             <h4><a href='@item.Link' target='_blank'>@item.Title</a></h4>
             <div>By: <span>@item.Creator</span>, published: <span>@item.Published</span></div>
-            <a href='#' data-toggle='popover' title='Details' data-content='@(item.Details)'>
+            <a href='#' data-bs-toggle='popover' title='Details' data-content='@(item.Details)'>
                 @item.Description
             </a>
         </article>
@@ -82,7 +82,7 @@
         }
         //
         $(document).ready(function () {
-            $('[data-toggle="popover"]').popover({ html: true, container: 'body', trigger: 'hover' });
+            $('[data-bs-toggle="popover"]').popover({ html: true, container: 'body', trigger: 'hover' });
         });
     </script>
 }
