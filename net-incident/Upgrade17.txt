@@ -172,3 +172,62 @@ To address all issues, run:
 Run `npm audit` for details.
 
 C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev typescript@5.2.2
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@16.4.1.9
+npm WARN Found: typescript@5.3.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@16.2.0
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^16.2.0" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.8
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"^16.2.8" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@16.4.1.9
+npm WARN Found: typescript@5.3.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@16.2.0
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^16.2.0" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular/compiler-cli@16.2.11
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN   2 more (@ngtools/webpack, the root project)
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@16.4.1.9
+npm WARN Found: typescript@5.3.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@16.2.0
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^16.2.0" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular/compiler-cli@16.2.11
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN   2 more (@ngtools/webpack, the root project)
+npm WARN ERESOLVE overriding peer dependency
+
+changed 1 package, and audited 1130 packages in 10s
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
