@@ -103,5 +103,25 @@ function nsg_isDST(dt) {
 	let jul = new Date(yr, 6, 1).getTimezoneOffset();
 	return Math.max(jan, jul) !== dt.getTimezoneOffset();
 }
+/**
+** Toggle light and dark themes 
+*/
+(function () {
+    'use strict';
+    function toggleThemeMenu() {
+        let themeMenu = document.querySelector('#theme-menu');
+
+        if (!themeMenu) return;
+
+        document.querySelectorAll('[data-bs-theme-value]').forEach(value => {
+			value.addEventListener('click', () => {
+                const theme = value.getAttribute('data-bs-theme-value');
+				console.warn(`toggleThemeMenu clicked: ${theme}`);
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            });
+        });
+    }
+	toggleThemeMenu();
+})();
 //
 // ===========================================================================
