@@ -12,7 +12,7 @@ export const environment = {
   base_Url: 'https://localhost:9114/api/',
   defaultUserAccount: 'Phil',
   defaultUserServer: 'nsg memb',
-  logLevel: 3,
+  logLevel: 4,
   BadAbuseEmailAddresses: [ 'hostmaster@nic.ad.jp', 'abuse@ripe.net' ],
   NetSolutionsNIC: [ 'amanah.com', 'cogentco.com', 'corp.tn.contina.com', 'gin.ntt.net',
 		'hostwinds.com', 'krypt.com', 'micfo.com', 'quadranet.com', 'securedservers.com',

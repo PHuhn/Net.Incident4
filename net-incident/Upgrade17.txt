@@ -1,0 +1,174 @@
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install -D typescript
+
+changed 1 package, and audited 1129 packages in 35s
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+npm notice
+npm notice New major version of npm available! 9.8.1 -> 10.2.4
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v10.2.4
+npm notice Run npm install -g npm@10.2.4 to update!
+npm notice
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install -g npm@10.2.4
+
+removed 33 packages, and changed 77 packages in 26s
+
+28 packages are looking for funding
+  run `npm fund` for details
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>code .
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+[main 2023-12-01T17:32:35.962Z] update#setState idle
+[main 2023-12-01T17:32:37.767Z] WSL is not installed, so could not detect WSL profiles
+[main 2023-12-01T17:33:05.973Z] update#setState checking for updates
+[main 2023-12-01T17:33:05.984Z] update#setState downloading
+[main 2023-12-01T17:33:05.989Z] update#setState downloaded
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev typescript@5.3.2
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@16.4.1.9
+npm WARN Found: typescript@4.9.5
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^16.2.8" from the root project
+npm WARN   13 more (@angular-eslint/builder, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.8
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"^16.2.8" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@16.4.1.9
+npm WARN Found: typescript@4.9.5
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^16.2.8" from the root project
+npm WARN   13 more (@angular-eslint/builder, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular/compiler-cli@16.2.11
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN   2 more (@ngtools/webpack, the root project)
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: net-incident@16.4.1.9
+npm WARN Found: typescript@4.9.5
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^16.2.8" from the root project
+npm WARN   13 more (@angular-eslint/builder, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular/compiler-cli@16.2.11
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN   2 more (@ngtools/webpack, the root project)
+[23956:1201/123437.865:ERROR:gpu_init.cc(523)] Passthrough is not supported, GL is disabled, ANGLE is
+npm WARN ERESOLVE overriding peer dependency
+
+added 1 package, removed 1 package, changed 1 package, and audited 1129 packages in 12s
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev zone@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-devkit/build-angular@16.2.8
+npm WARN Found: typescript@5.3.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@16.2.0
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^16.2.0" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.8
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"^16.2.8" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: typescript@5.1.6
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^16.2.8" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular/compiler-cli@16.2.11
+npm WARN Found: typescript@5.3.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@16.2.0
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^16.2.0" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular/compiler-cli@16.2.11
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN   2 more (@ngtools/webpack, the root project)
+npm WARN
+npm WARN Conflicting peer dependency: typescript@5.1.6
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @angular/compiler-cli@16.2.11
+npm WARN   node_modules/@angular/compiler-cli
+npm WARN     peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.8
+npm WARN     node_modules/@angular-devkit/build-angular
+npm WARN     2 more (@ngtools/webpack, the root project)
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @ngtools/webpack@16.2.8
+npm WARN Found: typescript@5.3.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@16.2.0
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^16.2.0" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @ngtools/webpack@16.2.8
+npm WARN node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN   @ngtools/webpack@"16.2.8" from @angular-devkit/build-angular@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN
+npm WARN Conflicting peer dependency: typescript@5.1.6
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @ngtools/webpack@16.2.8
+npm WARN   node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN     @ngtools/webpack@"16.2.8" from @angular-devkit/build-angular@16.2.8
+npm WARN     node_modules/@angular-devkit/build-angular
+
+added 1 package, and audited 1130 packages in 1m
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
