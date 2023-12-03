@@ -8,6 +8,7 @@
     "strict": false,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -18,11 +19,11 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
+    "useDefineForClassFields": false,
     "lib": [
-      "es2018",
+      "ES2022",
       "dom"
-    ],
-    "useDefineForClassFields": false
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "net-incident:build:production"
+              "buildTarget": "net-incident:build:production"
             },
             "development": {
-              "browserTarget": "net-incident:build:development"
+              "buildTarget": "net-incident:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "net-incident:build"
+            "buildTarget": "net-incident:build"
           }
         },
         "test": {

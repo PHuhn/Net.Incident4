@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { ConsoleLogService } from './console-log.service';
 import { LogLevel } from './log-level.enum';
 //
-fdescribe( 'ConsoleLogService', ( ) => {
+describe( 'ConsoleLogService', ( ) => {
 	let sut: ConsoleLogService;
 	//
 	beforeEach(( ) => {

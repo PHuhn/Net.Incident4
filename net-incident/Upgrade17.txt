@@ -647,4 +647,248 @@ To address all issues, run:
 Run `npm audit` for details.
 
 C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@17 @angular/cli@17
+Node.js version v21.3.0 detected.
+Odd numbered Node.js versions will not enter LTS status and should not be used for production. For more information, please see https://nodejs.org/en/about/releases/.
+The installed Angular CLI version is outdated.
+Installing a temporary Angular CLI versioned 17.0.5 to perform the update.
+√ Packages successfully installed.
+Node.js version v21.3.0 detected.
+Odd numbered Node.js versions will not enter LTS status and should not be used for production. For more information, please see https://nodejs.org/en/about/previous-releases/.
+Using package manager: npm
+Collecting installed dependencies...
+Found 40 dependencies.
+Fetching dependency metadata from registry...
+    Updating package.json with dependency @angular-devkit/build-angular @ "17.0.5" (was "16.2.8")...
+    Updating package.json with dependency @angular/animations @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/cli @ "17.0.5" (was "16.2.8")...
+    Updating package.json with dependency @angular/common @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/compiler @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/compiler-cli @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/core @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/forms @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/platform-browser @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/platform-browser-dynamic @ "17.0.5" (was "16.2.11")...
+    Updating package.json with dependency @angular/router @ "17.0.5" (was "16.2.11")...
+UPDATE package.json (1704 bytes)
+√ Packages successfully installed.
+** Executing migrations of package '@angular/cli' **
+
+> Replace usages of '@nguniversal/builders' with '@angular-devkit/build-angular'.
+  Migration completed (No changes made).
+
+> Replace usages of '@nguniversal/' packages with '@angular/ssr'.
+  Migration completed (No changes made).
+
+> Replace deprecated options in 'angular.json'.
+UPDATE angular.json (3818 bytes)
+  Migration completed (1 file modified).
+
+** Executing migrations of package '@angular/core' **
+
+> Angular v17 introduces a new control flow syntax that uses the @ and } characters.
+  This migration replaces the existing usages with their corresponding HTML entities.
+  Migration completed (No changes made).
+
+> Updates `TransferState`, `makeStateKey`, `StateKey` imports from `@angular/platform-browser` to `@angular/core`.
+  Migration completed (No changes made).
+
+> CompilerOption.useJit and CompilerOption.missingTranslation are unused under Ivy.
+  This migration removes their usage
+  Migration completed (No changes made).
+
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular/cdk@latest
+
+changed 1 package, and audited 1141 packages in 10s
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+5 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm audit fix --force
+npm WARN using --force Recommended protections disabled.
+npm WARN audit Updating @angular-devkit/build-angular to 16.2.10, which is a SemVer major change.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-devkit/build-angular@16.2.10
+npm WARN Found: @angular/compiler-cli@17.0.5
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   dev @angular/compiler-cli@"^17.0.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.10
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"16.2.10" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/compiler-cli@16.2.12
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"16.2.10" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-devkit/build-angular@16.2.10
+npm WARN Found: typescript@5.2.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @ngtools/webpack@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN     @ngtools/webpack@"16.2.10" from @angular-devkit/build-angular@16.2.10
+npm WARN     node_modules/@angular-devkit/build-angular
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.10
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"16.2.10" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: typescript@5.1.6
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"16.2.10" from the root project
+npm WARN deprecated @babel/plugin-proposal-unicode-property-regex@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-unicode-property-regex instead.
+npm WARN deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm WARN deprecated domexception@2.0.1: Use your platform's native DOMException instead
+npm WARN deprecated w3c-hr-time@1.0.2: Use your platform's native performance.now() and performance.timeOrigin.
+npm WARN deprecated @wessberg/ts-evaluator@0.0.27: this package has been renamed to ts-evaluator. Please install ts-evaluator instead
+
+added 91 packages, removed 78 packages, changed 22 packages, and audited 1154 packages in 35s
+
+151 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install -g @angular/core@latest @angular/cli@latest
+
+changed 231 packages in 41s
+
+45 packages are looking for funding
+  run `npm fund` for details
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>ng test
+Node.js version v21.3.0 detected.
+Odd numbered Node.js versions will not enter LTS status and should not be used for production. For more information, please see https://nodejs.org/en/about/previous-releases/.
+This version of CLI is only compatible with Angular versions ^16.0.0,
+but Angular version 17.0.5 was found instead.
+
+Please visit the link below to find instructions on how to update Angular.
+https://update.angular.io/
+
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>GetJasmineVer
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @types/jasmine@latest jasmine-core@latest karma@latest karma-chrome-launcher@latest karma-coverage@latest karma-jasmine@latest karma-jasmine-html-reporter@latest --force
+npm WARN using --force Recommended protections disabled.
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-devkit/build-angular@16.2.10
+npm WARN Found: @angular/compiler-cli@17.0.5
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   dev @angular/compiler-cli@"^17.0.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.10
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"^16.2.10" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: @angular/compiler-cli@16.2.12
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @angular-devkit/build-angular@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^16.2.10" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @angular-devkit/build-angular@16.2.10
+npm WARN Found: typescript@5.2.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@17.1.1
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^17.1.1" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.10
+npm WARN node_modules/@angular-devkit/build-angular
+npm WARN   dev @angular-devkit/build-angular@"^16.2.10" from the root project
+npm WARN
+npm WARN Conflicting peer dependency: typescript@5.1.6
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @angular-devkit/build-angular@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN     dev @angular-devkit/build-angular@"^16.2.10" from the root project
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @ngtools/webpack@16.2.10
+npm WARN Found: @angular/compiler-cli@17.0.5
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   dev @angular/compiler-cli@"^17.0.5" from the root project
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer @angular/compiler-cli@"^16.0.0" from @ngtools/webpack@16.2.10
+npm WARN node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN   @ngtools/webpack@"16.2.10" from @angular-devkit/build-angular@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN
+npm WARN Conflicting peer dependency: @angular/compiler-cli@16.2.12
+npm WARN node_modules/@angular/compiler-cli
+npm WARN   peer @angular/compiler-cli@"^16.0.0" from @ngtools/webpack@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN     @ngtools/webpack@"16.2.10" from @angular-devkit/build-angular@16.2.10
+npm WARN     node_modules/@angular-devkit/build-angular
+npm WARN ERESOLVE overriding peer dependency
+npm WARN While resolving: @ngtools/webpack@16.2.10
+npm WARN Found: typescript@5.2.2
+npm WARN node_modules/typescript
+npm WARN   peer typescript@"*" from @angular-eslint/builder@17.1.1
+npm WARN   node_modules/@angular-eslint/builder
+npm WARN     dev @angular-eslint/builder@"^17.1.1" from the root project
+npm WARN   10 more (@angular-eslint/eslint-plugin, ...)
+npm WARN
+npm WARN Could not resolve dependency:
+npm WARN peer typescript@">=4.9.3 <5.2" from @ngtools/webpack@16.2.10
+npm WARN node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN   @ngtools/webpack@"16.2.10" from @angular-devkit/build-angular@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular
+npm WARN
+npm WARN Conflicting peer dependency: typescript@5.1.6
+npm WARN node_modules/typescript
+npm WARN   peer typescript@">=4.9.3 <5.2" from @ngtools/webpack@16.2.10
+npm WARN   node_modules/@angular-devkit/build-angular/node_modules/@ngtools/webpack
+npm WARN     @ngtools/webpack@"16.2.10" from @angular-devkit/build-angular@16.2.10
+npm WARN     node_modules/@angular-devkit/build-angular
+
+changed 1 package, and audited 1154 packages in 3s
+
+151 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev  @angular-devkit/build-angular@latest
+
+added 78 packages, removed 91 packages, changed 19 packages, and audited 1141 packages in 41s
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+4 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
 
