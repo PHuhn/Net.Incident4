@@ -73,16 +73,16 @@ Create db:
 PROBLEM:
 	Unable to resolve service for type 'Microsoft.AspNetCore.Session.ISessionStore' while attempting to activate 'Microsoft.AspNetCore.Session.SessionMiddleware'.
 SOLUTION:
-    services.AddSession(options => {
-        options.Cookie.IsEssential = true;
-    });
+	services.AddSession(options => {
+		options.Cookie.IsEssential = true;
+	});
 
 PROBLEM:
 	InvalidOperationException: Unable to resolve service for type 'NSG.NetIncident4.Core.Infrastructure.Notification.INotificationService' while attempting to activate 'NSG.NetIncident4.Core.UI.Controllers.HomeController'.
 	Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, bool isDefaultParameterRequired)
 SOLUTION:
-    services.AddSingleton<INotificationService, NotificationService>();
-    services.AddSingleton<IEmailSender, NotificationService>();
+	services.AddSingleton<INotificationService, NotificationService>();
+	services.AddSingleton<IEmailSender, NotificationService>();
 
 PROBLEM:
 	Access to XMLHttpRequest at 'https://localhost:44362/api/Authenticate/Login' from
@@ -114,12 +114,12 @@ PROBLEM:
 	Tryig to display signon form:
 	No webpage was found for the web address: Account/SignIn?area= "MicrosoftIdentity"
 SOLUTION:
-    services.AddControllersWithViews(options =>
-    {
-        var policy = new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .Build();
-    }).AddMicrosoftIdentityUI();
+	services.AddControllersWithViews(options =>
+	{
+		var policy = new AuthorizationPolicyBuilder()
+			.RequireAuthenticatedUser()
+			.Build();
+	}).AddMicrosoftIdentityUI();
 
 PROBLEM:
 	Connection failed in IIS
@@ -258,9 +258,9 @@ SOLUTION:
 	Change the EntityTypeBuilder to not use
 		item.HasKey(i => i.IncidentNoteId);
 		//item.Property(i => i.IncidentNoteId)
-		//    .IsRequired()
-		//    .HasColumnName("IncidentNoteId")
-		//    .HasColumnType("bigint");
+		//	.IsRequired()
+		//	.HasColumnName("IncidentNoteId")
+		//	.HasColumnType("bigint");
 
 
 PROBLEM:
@@ -326,7 +326,7 @@ PROBLEM:
 SOLUTION:
 	Updated Visual Studio in Visual Studio Installer
 	In the project ...
-        <TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 	...
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
@@ -395,6 +395,182 @@ SOLUTION:
 	Changed data-toggle= to data-bs-toggle= and data-target= to data-bs-target=
 	Fixes the problem, but one can also add the follow classes:
 	accordion-item, accordion-header, accordion-button, accordion-collapse, accordion-body
+
+========
+PROBLEM:
+	.Net 7.0
+
+SOLUTION:
+	https://stackoverflow.com/questions/68987057/how-to-do-integration-testing-for-net-6-web-api-projects-using-webapplicationfa
+	dotnet new webapi --force
+	which lost all of these packages:
+	Install-Package Microsoft.IdentityModel.Tokens -Version 7.2.0
+	Install-Package Microsoft.AspNetCore.Authentication.JwtBearer -Version 7.0.15
+	Install-Package Microsoft.AspNetCore.Authentication.Google -Version 7.0.15
+	Install-Package Microsoft.AspNetCore.Authentication.MicrosoftAccount -Version 7.0.15
+	Install-package Microsoft.AspNetCore.Identity.UI -version 7.0.15
+	Install-package Microsoft.AspNetCore.Identity.EntityFrameworkCore -version 7.0.15
+	Install-Package Microsoft.SyndicationFeed.ReaderWriter -Version 1.0.2
+	Install-Package Microsoft.AspNetCore.Identity.UI -Version 7.0.15
+	Install-Package Microsoft.EntityFrameworkCore.SqlServer -version 7.0.15
+	Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -version 7.0.15
+	Install-Package Microsoft.EntityFrameworkCore.Tools -Version 7.0.15
+	Install-package System.IdentityModel.Tokens.Jwt -version 7.0.15
+	Install-Package MediatR -Version 12.2.0
+	Install-Package FluentValidation.AspNetCore -Version 11.3.0
+	Install-Package Microsoft.AspNetCore.OpenApi -version 7.0.15
+
+	services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+	Restored appsettings.json
+	Restored part of .csproj
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
+		<!-- Version <core>.<major>.<minor>.<build> -->
+		<Version>7.4.2.13</Version>
+		<Copyright>Copyright © 2024</Copyright>
+		<Company>Phillip N. Huhn, DBA Northern Software Group</Company>
+		<Authors>Phil Huhn (NSG)</Authors>
+		<Description>Backend and administration to Network Incident</Description>
+		<Product>Network Incident Backend</Product>
+		<InvariantGlobalization>false</InvariantGlobalization>
+	</PropertyGroup>
+
+========
+PROBLEM:
+	System.InvalidOperationException: 'A suitable constructor for type
+	'Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware' could not
+	be located. Ensure the type is concrete and services are registered
+	for all parameters of a public constructor.'
+
+SOLUTION:
+	app.UseCors(startup.corsNamedOriginPolicy);
+	Passed a null
+
+========
+PROBLEM:
+	CultureNotFoundException: Only the invariant culture is supported in globalization-invariant mode.
+
+SOLUTION:
+	In .cproj file change from:
+	<InvariantGlobalization>true</InvariantGlobalization>
+	to:
+	<InvariantGlobalization>false</InvariantGlobalization>
+
+========
+PROBLEM:
+	console-log.service.ts:112 Error: Auth-Service.baseSrvcErrorHandler: 
+	 {"headers":{"normalizedNames":{},"lazyUpdate":null},"status":500,"statusText":"OK","url":"https://localhost:44398/api/Authenticate/Login/","ok":false,"name":
+	 "HttpErrorResponse","message":"Http failure response for https://localhost:44398/api/Authenticate/Login/: 500 OK",
+	 "error":"System.TypeInitializationException: The type initializer for 'System.IdentityModel.Tokens.Jwt.JsonExtensions' threw an exception.\r\n --->
+	 System.TypeLoadException: Could not load type 'Microsoft.IdentityModel.Json.JsonConvert'
+	 from assembly 'Microsoft.IdentityModel.Tokens
+	or:
+	 Could not load type 'Microsoft.IdentityModel.Json.JsonConvert' from assembly 'Microsoft.IdentityModel.Tokens
+
+SOLUTION:
+	Install-package System.IdentityModel.Tokens.Jwt -version 7.0.15
+
+========
+PROBLEM:
+	Microsoft.EntityFrameworkCore.Update: Error: An exception occurred in the database while saving changes for context type 'NSG.NetIncident4.Core.Persistence.ApplicationDbContext'.
+	Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+	 ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Servers_Companies_CompanyId". The conflict occurred in database "NetIncidentIdentity04", table "dbo.Companies", column 'CompanyId'.
+	   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+	   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+	   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+	   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+	   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+	   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+	   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+	   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+	--- End of stack trace from previous location ---
+	   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+	ClientConnectionId:792372cb-9048-4533-9f43-3878898d5b35
+	Error Number:547,State:0,Class:16
+	   --- End of inner exception stack trace ---
+	   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)	   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+	   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+
+SOLUTION:
+	Duplicate removed from CompanyConfiguration.cs
+			builder.HasMany(s => s.Servers)
+				.WithOne(c => c.Company)
+				.HasForeignKey(s => s.ServerId)
+				.OnDelete(DeleteBehavior.Restrict)
+				.HasConstraintName("FK_Servers_Companies_CompanyId");
+
+	Install-Package Microsoft.AspNetCore.OpenApi -version 7.0.15
+	Install-Package Microsoft.EntityFrameworkCore.Tools -Version 7.0.15
+	> dotnet tool update --global dotnet-ef --version 7.0.15
+	> dotnet tool update dotnet-ef --version 7.0.15
+	> dotnet ef migrations add Initial
+	> dotnet ef database update
+
+	remove C# 8 assignments in Incident class from:
+		//
+		public NIC NIC { get; set; } = new NIC();
+		public Server Server { get; set; } = new Server();
+	to:
+		//
+		public NIC NIC { get; set; }
+		public Server Server { get; set; }
+
+========
+PROBLEM:
+	System.TypeInitializationException: The type initializer for 'System.IdentityModel.Tokens.Jwt.JsonExtensions' threw an exception.
+	 ---> System.TypeLoadException: Could not load type 'Microsoft.IdentityModel.Json.JsonConvert' from assembly 'Microsoft.IdentityModel.Tokens, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+	   at System.IdentityModel.Tokens.Jwt.JsonExtensions..cctor()
+	   --- End of inner exception stack trace ---
+	   at System.IdentityModel.Tokens.Jwt.JsonExtensions.get_Serializer()
+	   at System.IdentityModel.Tokens.Jwt.JsonExtensions.SerializeToJson(Object value)
+	   at System.IdentityModel.Tokens.Jwt.JwtPayload.SerializeToJson()
+	   at System.IdentityModel.Tokens.Jwt.JwtPayload.Base64UrlEncode()
+	   at System.IdentityModel.Tokens.Jwt.JwtSecurityToken.get_EncodedPayload()
+	   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(SecurityToken token)
+	   at NSG.NetIncident4.Core.UI.Api.AuthenticateController.Login(LoginModel model) in C:\Dat\Nsg\L\Web\22\Net.Incident4.backup7\NSG.NetIncident4.Core\UI\Api\AuthenticateController.cs:line 80
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+	   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+	   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+	   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+	   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+	   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+	   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+	   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+	   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+	Exception thrown: 'System.ObjectDisposedException' in System.Private.CoreLib.dll
+
+SOLUTION:
+	https://stackoverflow.com/questions/77120928/why-do-i-get-idx20803-error-after-upgrading-to-identitymodel-v7-from-v6
+	UnInstall-Package Microsoft.IdentityModel.Tokens
+	Install-Package Microsoft.IdentityModel.Tokens -Version 7.2.0
+	Install-Package Microsoft.IdentityModel.Protocols.OpenIdConnect -version 7.0.15
+
+========
+PROBLEM:
+
+SOLUTION:
 
 ========
 PROBLEM:

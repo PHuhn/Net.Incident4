@@ -43,8 +43,8 @@ namespace NSG.NetIncident4.Core.Domain.Entities
         [Required(ErrorMessage = "CreatedDate is required.")]
         public DateTime CreatedDate { get; set; }
         //
-        public NIC NIC { get; set; } = new NIC();
-        public Server Server { get; set; } = new Server();
+        public NIC NIC { get; set; }
+        public Server Server { get; set; }
         public virtual ICollection<IncidentIncidentNote> IncidentIncidentNotes { get; }
             = new List<IncidentIncidentNote>();
         public virtual ICollection<NetworkLog> NetworkLogs { get; }
@@ -67,9 +67,6 @@ namespace NSG.NetIncident4.Core.Domain.Entities
             Special = false;
             Notes = "";
             CreatedDate = DateTime.Now;
-            //
-            NIC = new NIC();
-            Server = new Server();
             //
         }
     }

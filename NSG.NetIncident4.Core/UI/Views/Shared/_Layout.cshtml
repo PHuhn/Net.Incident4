@@ -1,113 +1,113 @@
 ﻿<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Net-Incident</title>
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/all.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Net-Incident</title>
+	<link rel="stylesheet" href="~/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/all.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style='min-width: 60px;'>Web API Services</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial.cshtml" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="helpDropdown">
-                                Help
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="TestAlerts">Test Alerts</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="TestUser">Test Get User</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Bootstrap">Bootstrap</a>
-                            </div>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    User
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-area="" asp-page="/account/manage/Index">Manage</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserLogs">User Logs</a>
-                                    <div class="dropdown-divider"></div>
-                                    
-                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="NewsFeeds">News Feeds</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="AccuWeather">AccuWeather Forecast</a>
-                                </div>
-                            </li>
-                            @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin"))
-                            {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link text-dark dropdown-toggle" href="#" id="companyDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Company / Admin
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" asp-area="" asp-controller="UsersAdmin" asp-action="Index">Users Admin</a>
-                                        <a class="dropdown-item" asp-area="" asp-controller="CompanyServer" asp-action="Index">Company & Servers</a>
-                                        <a class="dropdown-item" asp-area="" asp-controller="CompanyEmailTemplates" asp-action="Index">Company/Email Templates</a>
-                                    </div>
-                                </li>
-                            }
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link text-dark dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Application / Admin
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" asp-area="" asp-controller="IncidentTypesEmailTemplate" asp-action="Index">Incident Types/Email Templates</a>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Nics" asp-action="Index">NIC's</a>
-                                        <a class="dropdown-item" asp-area="" asp-controller="NoteTypes" asp-action="Index">Note Type</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" asp-area="" asp-controller="RolesAdmin" asp-action="Index">Roles</a>
-                                        <div class="dropdown-divider"></div>
-                                    </div>
-                                </li>
-                            }
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <!-- partial name="_CookieConsentPartial" /-->
-        <partial name="_Alerts" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+			<div class="container">
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style='min-width: 60px;'>Web API Services</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+					<partial name="_LoginPartial.cshtml" />
+					<ul class="navbar-nav flex-grow-1">
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="helpDropdown">
+								Help
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="About">About</a>
+								<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+								<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="TestAlerts">Test Alerts</a>
+								<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="TestUser">Test Get User</a>
+								<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Bootstrap">Bootstrap</a>
+							</div>
+						</li>
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item dropdown">
+								<a class="nav-link text-dark dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									User
+								</a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<a class="dropdown-item" asp-area="" asp-page="/account/manage/Index">Manage</a>
+									<a class="dropdown-item" asp-area="" asp-controller="User" asp-action="UserLogs">User Logs</a>
+									<div class="dropdown-divider"></div>
+									
+									<a class="dropdown-item" asp-area="" asp-controller="User" asp-action="NewsFeeds">News Feeds</a>
+									<a class="dropdown-item" asp-area="" asp-controller="User" asp-action="AccuWeather">AccuWeather Forecast</a>
+								</div>
+							</li>
+							@if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin"))
+							{
+								<li class="nav-item dropdown">
+									<a class="nav-link text-dark dropdown-toggle" href="#" id="companyDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Company / Admin
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" asp-area="" asp-controller="UsersAdmin" asp-action="Index">Users Admin</a>
+										<a class="dropdown-item" asp-area="" asp-controller="CompanyServer" asp-action="Index">Company & Servers</a>
+										<a class="dropdown-item" asp-area="" asp-controller="CompanyEmailTemplates" asp-action="Index">Company/Email Templates</a>
+									</div>
+								</li>
+							}
+							@if (User.IsInRole("Admin"))
+							{
+								<li class="nav-item dropdown">
+									<a class="nav-link text-dark dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Application / Admin
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" asp-area="" asp-controller="IncidentTypesEmailTemplate" asp-action="Index">Incident Types/Email Templates</a>
+										<a class="dropdown-item" asp-area="" asp-controller="Nics" asp-action="Index">NIC's</a>
+										<a class="dropdown-item" asp-area="" asp-controller="NoteTypes" asp-action="Index">Note Type</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" asp-area="" asp-controller="RolesAdmin" asp-action="Index">Roles</a>
+										<div class="dropdown-divider"></div>
+									</div>
+								</li>
+							}
+						}
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<!-- partial name="_CookieConsentPartial" /-->
+		<partial name="_Alerts" />
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
 
-    <footer class="border-top footer bg-primary">
-        <div class="container">
-            &copy; 2023 - Web API for Network Incidents - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+	<footer class="border-top footer bg-primary">
+		<div class="container">
+			&copy; 2023 - Web API for Network Incidents - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>
 
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)
+	@RenderSection("Scripts", required: false)
 </body>
 </html>

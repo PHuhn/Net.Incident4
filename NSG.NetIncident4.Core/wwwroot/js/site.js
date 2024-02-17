@@ -107,20 +107,20 @@ function nsg_isDST(dt) {
 ** Toggle light and dark themes 
 */
 (function () {
-    'use strict';
-    function toggleThemeMenu() {
-        let themeMenu = document.querySelector('#theme-menu');
+	'use strict';
+	function toggleThemeMenu() {
+		let themeMenu = document.querySelector('#theme-menu');
 
-        if (!themeMenu) return;
+		if (!themeMenu) return;
 
-        document.querySelectorAll('[data-bs-theme-value]').forEach(value => {
+		document.querySelectorAll('[data-bs-theme-value]').forEach(value => {
 			value.addEventListener('click', () => {
-                const theme = value.getAttribute('data-bs-theme-value');
+				const theme = value.getAttribute('data-bs-theme-value');
 				console.warn(`toggleThemeMenu clicked: ${theme}`);
-                document.documentElement.setAttribute('data-bs-theme', theme);
-            });
-        });
-    }
+				document.documentElement.setAttribute('data-bs-theme', theme);
+			});
+		});
+	}
 	toggleThemeMenu();
 })();
 //

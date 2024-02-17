@@ -10,16 +10,16 @@
 	</PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>True</Optimize>
+	<Optimize>True</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
+	<Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.Development.json" />
-    <None Remove="appsettings.json" />
+	<None Remove="appsettings.Development.json" />
+	<None Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,16 +27,16 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <Content Include="appsettings.Development.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+	<Content Include="appsettings.Development.json">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	</Content>
+	<Content Include="appsettings.json">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	</Content>
   </ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
@@ -55,6 +55,7 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
 		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.3" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
@@ -75,10 +76,10 @@
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.13" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.13" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.3" />
 		<PackageReference Include="MockQueryable.Core" Version="6.0.1" />
 		<PackageReference Include="MockQueryable.Moq" Version="6.0.1" />
 		<PackageReference Include="System.ServiceModel.Syndication" Version="6.0.0" />
@@ -87,19 +88,19 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
 		<PackageReference Include="Microsoft.SyndicationFeed.ReaderWriter" Version="1.0.2" />
-        <PackageReference Include="Moq" Version="4.16.1" />
-        <PackageReference Include="NUnit" Version="3.13.1" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+		<PackageReference Include="Moq" Version="4.16.1" />
+		<PackageReference Include="NUnit" Version="3.13.1" />
+		<PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
 		<PackageReference Include="coverlet.collector" Version="3.0.2" />
-    </ItemGroup>
+	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSG.NetIncident4.Core\NSG.NetIncident4.Core.csproj" />
+	<ProjectReference Include="..\NSG.NetIncident4.Core\NSG.NetIncident4.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Entities\Authentication\" />
-    <Folder Include="UI\TagHelpers\" />
+	<Folder Include="Domain\Entities\Authentication\" />
+	<Folder Include="UI\TagHelpers\" />
   </ItemGroup>
 
 </Project>
