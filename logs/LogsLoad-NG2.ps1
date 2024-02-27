@@ -6,10 +6,10 @@
 	This is a simple Powershell script to load NetGear abuse logs.
 
 .EXAMPLE
-	PS> .\LogsLoad-NG.ps1 -server ".\Express" -dbName "NetIncident2" -filePath "C:\Temp\abuse.txt" -serverId 1 -incidentTypeId 5
+	PS> .\LogsLoad-NG2.ps1 -server ".\Express" -dbName "NetIncidentIdentity04" -filePath "C:\Temp\abuse.txt" -serverId 4 -incidentTypeId 1
 
 .EXAMPLE
-	PS> .\LogsLoad-NG.ps1 -filePath "C:\Temp\abuse.txt" -serverId 1 -incidentTypeId 5
+	PS> .\LogsLoad-NG2.ps1 -filePath "C:\Temp\abuse.txt" -serverId 1 -incidentTypeId 5
 
 .PARAMETER	server
 		SQL Server instance name, . can be used for local instance or .\SQLExpress for default instance name for Express version.
