@@ -1,15 +1,15 @@
+// ===========================================================================
+// File: Notification_UnitTests.cs
 using NUnit.Framework;
 using System;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 //
 using Moq;
-using NSG.NetIncident4.Core.Infrastructure.Notification;
 using MimeKit;
+//
+using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests.Infrastructure
@@ -120,3 +120,4 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         //
     }
 }
+// ===========================================================================

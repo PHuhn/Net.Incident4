@@ -36,7 +36,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             string actual = Core.UI.ViewHelpers.ViewHelpers.TruncateString(str, maxLength);
             // then
-            Assert.AreEqual(str, actual);
+            // Assert.AreEqual(str, actual);
+            Assert.That(actual, Is.EqualTo(str));
         }
         //
         [Test]
@@ -48,7 +49,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             string actual = Core.UI.ViewHelpers.ViewHelpers.TruncateString(str, maxLength);
             // then
-            Assert.AreEqual("123456789...", actual);
+            Assert.That(actual, Is.EqualTo("123456789..."));
         }
         //
         // StripCRLF(this string str)
@@ -60,7 +61,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             string actual = Core.UI.ViewHelpers.ViewHelpers.StripCRLF(str);
             // then
-            Assert.AreEqual("12", actual);
+            Assert.That(actual, Is.EqualTo("12"));
         }
         //
         [Test]
@@ -73,7 +74,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             string actual = Core.UI.ViewHelpers.ViewHelpers.DescIdShortDesc(desc, id, shortDesc);
             // then
-            Assert.AreEqual("Description (1 - Desc)", actual);
+            Assert.That(actual, Is.EqualTo("Description (1 - Desc)"));
         }
         //
         [Test]
@@ -83,10 +84,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             SelectListItem[] actual = Core.UI.ViewHelpers.ViewHelpers.GetClientScriptList();
             // then
-            Assert.AreEqual(" ", actual[0].Value);
-            Assert.AreEqual("ping", actual[1].Value);
-            Assert.AreEqual("whois", actual[2].Value);
-            Assert.AreEqual("email", actual[3].Value);
+            Assert.That(actual[0].Value, Is.EqualTo(" "));
+            Assert.That(actual[1].Value, Is.EqualTo("ping"));
+            Assert.That(actual[2].Value, Is.EqualTo("whois"));
+            Assert.That(actual[3].Value, Is.EqualTo("email"));
         }
         //
         [Test]
@@ -96,10 +97,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             string feedUrl = @"https://raw.githubusercontent.com/PHuhn/Net.Incident4/main/NSG.NetIncident4.Core_Tests/Data/AccuWeather.xml";
             // when
             SyndicationFeed actual = Core.UI.ViewHelpers.ViewHelpers.GetSyndicationFeed(feedUrl);
-            Assert.IsNotNull(actual);
+            Assert.That(actual, Is.Not.Null);
             var _items = actual.Items.ToArray();
-            Assert.AreEqual(4, _items.Length);
-            Assert.AreEqual("Currently in Ann Arbor, MI: 44 °F and Showers <img", _items[0].Summary.Text.Substring(0,50));
+            Assert.That(_items.Length, Is.EqualTo(4));
+            Assert.That(_items[0].Summary.Text.Substring(0,50), Is.EqualTo("Currently in Ann Arbor, MI: 44 °F and Showers <img"));
         }
         //
         [Test]
@@ -110,14 +111,14 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             List<News> actual = await Core.UI.ViewHelpers.ViewHelpers.GetNewsFeed(feedUrl);
             // then
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(7, actual.Count);
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual.Count, Is.EqualTo(7));
             News news = actual[0];
-            Assert.AreEqual("Kinder Eggs, other chocolate products recalled due to salmonella outbreak in Europe", news.Title);
-            Assert.IsNotEmpty(news.Description);
-            Assert.IsNotEmpty(news.Details);
-            Assert.AreEqual("Deepa Shivaram", news.Creator);
-            Assert.AreEqual(new DateTime(2022, 4, 7, 11, 51, 36), news.Published);
+            Assert.That(news.Title, Is.EqualTo("Kinder Eggs, other chocolate products recalled due to salmonella outbreak in Europe"));
+            Assert.That(news.Description, Is.Not.Empty);
+            Assert.That(news.Details, Is.Not.Empty);
+            Assert.That(news.Creator, Is.EqualTo("Deepa Shivaram"));
+            Assert.That(news.Published, Is.EqualTo(new DateTime(2022, 4, 7, 11, 51, 36)));
         }
         //
         [Test]
@@ -128,8 +129,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewHelpers
             // when
             List<News> actual = await Core.UI.ViewHelpers.ViewHelpers.GetNewsFeed(feedUrl, 5);
             // then
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(5, actual.Count);
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual.Count, Is.EqualTo(5));
         }
         //
     }

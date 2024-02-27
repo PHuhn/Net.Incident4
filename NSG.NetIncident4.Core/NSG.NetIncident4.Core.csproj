@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
 		<!-- Version <core>.<major>.<minor>.<build> -->
-		<Version>7.4.2.13</Version>
+		<Version>7.4.2.14</Version>
 		<Copyright>Copyright © 2024</Copyright>
 		<Company>Phillip N. Huhn, DBA Northern Software Group</Company>
 		<Authors>Phil Huhn (NSG)</Authors>
@@ -16,57 +16,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<_WebToolingArtifacts Remove="Properties\PublishProfiles\Publish-NI-ServicesCore.pubxml" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.14" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.14" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.14" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.14">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
-		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="6.0.8" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.13" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.13" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.13" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
-		<PackageReference Include="jquery" Version="3.6.0" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="MediatR" Version="12.2.0" />
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="1.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.15" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.15" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.15" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.15" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.15" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.15" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.15" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.15">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.2.0" />
 		<PackageReference Include="Microsoft.SyndicationFeed.ReaderWriter" Version="1.0.2" />
-		<PackageReference Include="MimeKit" Version="2.15.1" />
-		<PackageReference Include="OdeToCode.AddFeatureFolders" Version="2.0.3" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.15" />
-		<PackageReference Include="System.ServiceModel.Syndication" Version="6.0.0" />
+		<PackageReference Include="System.ServiceModel.Syndication" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -76,12 +44,12 @@
 		<ProjectReference Include="..\..\..\Ng\NSG.PrimeNG\NSG.PrimeNG.LazyLoading\NSG.PrimeNG.LazyLoading.csproj" />
 	</ItemGroup>
 
-  <ItemGroup>
-	<Folder Include="Views\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Views\" />
+	</ItemGroup>
 
-  <Target Name="CreateLogsFolder" AfterTargets="Publish">
-	<MakeDir Directories="$(PublishDir)logs" Condition="!Exists('$(PublishDir)logs')" />
-  </Target>
+	<Target Name="CreateLogsFolder" AfterTargets="Publish">
+		<MakeDir Directories="$(PublishDir)logs" Condition="!Exists('$(PublishDir)logs')" />
+	</Target>
 
 </Project>

@@ -133,7 +133,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<ApplicationUser> _updateResults = _handler.Handle(_update, CancellationToken.None);
             ApplicationUser user = _updateResults.Result;
-            Assert.AreEqual(_author.UserName, user.UserName);
+            Assert.That(_author.UserName, Is.EqualTo(user.UserName));
         }
         //
         [Test]
@@ -191,7 +191,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
             // then
             int _count = _deleteResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -212,7 +212,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             ApplicationUserDetailQuery _detail =
                 await _handler.Handle(_detailQuery, _cancelToken);
             // then
-            Assert.AreEqual(_detailQuery.UserName, _detail.UserName);
+            Assert.That(_detailQuery.UserName, Is.EqualTo(_detail.UserName));
         }
         //
         [Test]
@@ -235,9 +235,9 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             ApplicationUserServerDetailQueryHandler _handler = new ApplicationUserServerDetailQueryHandler(_userManagerMock.Object);
             ApplicationUserServerDetailQuery _detail =
                 await _handler.Handle(_detailQuery, _cancelToken);
-            Assert.AreEqual(_detailQuery.UserName, _detail.UserName);
-            Assert.AreEqual(_detailQuery.ServerShortName, _detail.ServerShortName);
-            Assert.AreEqual(1, _detail.ServerShortNames.Length);
+            Assert.That(_detailQuery.UserName, Is.EqualTo(_detail.UserName));
+            Assert.That(_detailQuery.ServerShortName, Is.EqualTo(_detail.ServerShortName));
+            Assert.That(_detail.ServerShortNames.Length, Is.EqualTo(1));
         }
         //
         [Test]
@@ -263,9 +263,9 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             ApplicationUserServerDetailQuery _detail =
                 await _handler.Handle(_detailQuery, _cancelToken);
             // then
-            Assert.AreEqual(_detailQuery.UserName, _detail.UserName);
-            Assert.AreEqual(_detailQuery.ServerShortName, _detail.ServerShortName);
-            Assert.AreEqual(1, _detail.ServerShortNames.Length);
+            Assert.That(_detailQuery.UserName, Is.EqualTo(_detail.UserName));
+            Assert.That(_detailQuery.ServerShortName, Is.EqualTo(_detail.ServerShortName));
+            Assert.That(_detail.ServerShortNames.Length, Is.EqualTo(1));
         }
         //
         [Test]
@@ -293,9 +293,9 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             // then
             Console.WriteLine($"UserName: {_detailQuery.UserName}, {_detail.UserName}");
             Console.WriteLine($"ServerShortName: {_detail.ServerShortName}");
-            Assert.AreEqual(_detailQuery.UserName, _detail.UserName);
-            Assert.AreEqual("", _detail.ServerShortName);
-            Assert.AreEqual(1, _detail.ServerShortNames.Length);
+            Assert.That(_detailQuery.UserName, Is.EqualTo(_detail.UserName));
+            Assert.That(_detail.ServerShortName, Is.EqualTo(""));
+            Assert.That(_detail.ServerShortNames.Length, Is.EqualTo(1));
         }
         //
         [Test]
@@ -317,7 +317,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_listQuery, CancellationToken.None);
             // then
             IList<ApplicationUserListQuery> _list = _viewModelResults.Result.ApplicationUsersList;
-            Assert.AreEqual(2, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(2));
         }
         //
     }

@@ -351,7 +351,8 @@ namespace NSG.NetIncident4.Core
 			** Add email/application services
 			*/
 			services.AddSingleton<INotificationService, NotificationService>();
-			services.AddTransient<IApplication, ApplicationImplementation>();
+            services.AddSingleton<IEmailSender, NotificationService>();
+            services.AddTransient<IApplication, ApplicationImplementation>();
 			/*
 			** Add MediatR from MediatR.Extensions.Microsoft.DependencyInjection package
 			*/

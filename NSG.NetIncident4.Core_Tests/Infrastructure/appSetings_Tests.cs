@@ -1,14 +1,12 @@
-﻿using NUnit.Framework;
+﻿// ===========================================================================
+// File: appSettings_Tests.cs
+using NUnit.Framework;
 using System;
-using System.IO;
-using System.Security.Principal;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http;
+//
 using Moq;
 //
 using NSG.Integration.Helpers;
-using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
 //
 namespace NSG.NetIncident4.Core_Tests.Infrastructure
@@ -29,8 +27,8 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             IdentitySettings identitySettings = configuration.GetSection(
                 "IdentitySettings").Get<IdentitySettings>();
             // then
-            Assert.IsNotNull(identitySettings);
-            Assert.GreaterOrEqual(identitySettings.PasswordMinLength, 6);
+            Assert.That(identitySettings, Is.Not.Null);
+            Assert.That(identitySettings.PasswordMinLength, Is.GreaterThanOrEqualTo(6));
         }
         //
         [Test]
@@ -40,8 +38,8 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             AuthSettings authSettings = configuration.GetSection(
                 "AuthSettings").Get<AuthSettings>();
             // then
-            Assert.IsNotNull(authSettings);
-            Assert.GreaterOrEqual(authSettings.CookieExpirationHours, 1);
+            Assert.That(authSettings, Is.Not.Null);
+            Assert.That(authSettings.CookieExpirationHours, Is.GreaterThanOrEqualTo(1));
         }
         //
         [Test]
@@ -50,11 +48,11 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             IConfigurationSection googleAuthSection = configuration.GetSection("Authentication:Google");
             // then
-            Assert.IsNotNull(googleAuthSection);
+            Assert.That(googleAuthSection, Is.Not.Null);
             string actual = googleAuthSection["ClientId"];
-            Assert.IsNotNull(actual);
+            Assert.That(actual, Is.Not.Null);
         }
         //
     }
 }
-//
+// ===========================================================================

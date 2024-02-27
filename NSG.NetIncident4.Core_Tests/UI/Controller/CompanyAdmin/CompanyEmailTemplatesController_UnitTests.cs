@@ -130,8 +130,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             // then
             Type type = sut.GetType();
             var attribute = type.CustomAttributes.Where(a => a.AttributeType.Name == "AuthorizeAttribute").FirstOrDefault();
-            Assert.IsNotNull(attribute, "No AuthorizeAttribute found on CompanyEmailTemplatesController");
-            Assert.AreEqual(attribute.NamedArguments[0].TypedValue.Value, "CompanyAdminRole");
+            // "No AuthorizeAttribute found on CompanyEmailTemplatesController"
+            Assert.That(attribute, Is.Not.Null);
+            Assert.That(attribute.NamedArguments[0].TypedValue.Value, Is.EqualTo("CompanyAdminRole"));
         }
         //
         #region "Query section"
@@ -169,11 +170,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Index(1);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as CompanyEmailTemplatesIndexViewModel;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.CompanySelect.Count);
-            Assert.AreEqual(1, model.CompanyEmailTemplates.Count);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanySelect.Count, Is.EqualTo(1));
+            Assert.That(model.CompanyEmailTemplates.Count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -194,12 +195,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Details(mediatorReturn.CompanyId, mediatorReturn.IncidentTypeId);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as CompanyEmailTemplateDetailQuery;
-            Assert.IsNotNull(model);
+            Assert.That(model, Is.Not.Null);
             // Compound key
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
-            Assert.AreEqual(mediatorReturn.IncidentTypeId, model.IncidentTypeId);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
+            Assert.That(model.IncidentTypeId, Is.EqualTo(mediatorReturn.IncidentTypeId));
         }
         //
         #endregion // Query section
@@ -246,11 +247,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Create(1);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as CompanyEmailTemplateCreateCommand;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.CompanyId);
-            Assert.AreEqual(0, model.IncidentTypeId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(1));
+            Assert.That(model.IncidentTypeId, Is.EqualTo(0));
         }
         //
         [Test]
@@ -273,9 +274,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Create(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Details");
-            Assert.AreEqual(CompanyEmailTemplatesController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Details"));
+            Assert.That(CompanyEmailTemplatesController.Alerts.Count, Is.EqualTo(0));
         }
         //
         #endregion // Create section
@@ -300,11 +301,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Edit(mediatorReturn.CompanyId, mediatorReturn.IncidentTypeId);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as CompanyEmailTemplateUpdateCommand;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
-            Assert.AreEqual(mediatorReturn.IncidentTypeId, model.IncidentTypeId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
+            Assert.That(model.IncidentTypeId, Is.EqualTo(mediatorReturn.IncidentTypeId));
         }
         //
         [Test]
@@ -329,9 +330,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Edit(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Details");
-            Assert.AreEqual(CompanyEmailTemplatesController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Details"));
+            Assert.That(CompanyEmailTemplatesController.Alerts.Count, Is.EqualTo(0));
         }
         //
         #endregion // Edit section
@@ -356,10 +357,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Delete(mediatorReturn.CompanyId, mediatorReturn.IncidentTypeId);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null );
             var model = viewResult.ViewData.Model as CompanyEmailTemplateDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
         }
         //
         [Test]
@@ -382,9 +383,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.DeleteConfirmed(mediatorParam.CompanyId, mediatorParam.IncidentTypeId);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Index");
-            Assert.AreEqual(CompanyEmailTemplatesController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Index"));
+            Assert.That(CompanyEmailTemplatesController.Alerts.Count, Is.EqualTo(0));
         }
         //
         #endregion // Delete section

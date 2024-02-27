@@ -16,7 +16,6 @@ using MockQueryable.Moq;
 using Moq;
 //
 using NSG.Integration.Helpers;
-using NSG.NetIncident4.Core;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.Controllers;
@@ -93,8 +92,8 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // then
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseString.Contains("Net-Incident"));
-            Assert.IsTrue(responseString.Contains("Administration and Web API Services"));
+            Assert.That(responseString.Contains("Net-Incident"), Is.True);
+            Assert.That(responseString.Contains("Administration and Web API Services"), Is.True);
         }
         //
         [Test()]
@@ -106,7 +105,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // then
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseString.Contains("Network Incident Backend"));
+            Assert.That(responseString.Contains("Network Incident Backend"), Is.True);
         }
         //
         [Test]
@@ -126,7 +125,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             string _emailBody = await sut.EmailConfirmationAsync(_user);
             // then
-            Assert.AreEqual(_emailBody, $"Please confirm your account: {_user.UserName} by <a href='{_callBackUrl}'>clicking here</a>.");
+            Assert.That(_emailBody, Is.EqualTo($"Please confirm your account: {_user.UserName} by <a href='{_callBackUrl}'>clicking here</a>."));
         }
         //
         [Test()]
@@ -138,7 +137,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             // Assert
-            Assert.AreEqual("Unable to load user with ID 'TestUser'.", responseString);
+            Assert.That(responseString, Is.EqualTo("Unable to load user with ID 'TestUser'."));
             var _actionContext = new ActionContext(_httpContext, new Microsoft.AspNetCore.Routing.RouteData(), new PageActionDescriptor());
             var _sut = new EmailTestPageModel(_userManager.Object, _emailSender.Object, _user)
             {
@@ -147,7 +146,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             };
             var _emailBody = await _sut.OnPostAsync();
             // then
-            Assert.AreEqual(_emailBody, $"Please confirm your account: author by <a href='http://localhost:8080'>clicking here</a>.");
+            Assert.That(_emailBody, Is.EqualTo($"Please confirm your account: author by <a href='http://localhost:8080'>clicking here</a>."));
         }
         //
     }

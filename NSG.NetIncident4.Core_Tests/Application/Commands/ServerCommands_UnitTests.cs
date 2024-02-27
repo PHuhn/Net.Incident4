@@ -87,8 +87,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<Server> _createResults = _handler.Handle(_create, _cancelToken);
             // then
             Server _entity = _createResults.Result;
-            Assert.AreEqual(_create.CompanyId, _entity.CompanyId);
-            Assert.AreEqual(_create.ServerShortName, _entity.ServerShortName);
+            Assert.That(_entity.CompanyId, Is.EqualTo(_create.CompanyId));
+            Assert.That(_entity.ServerShortName, Is.EqualTo(_create.ServerShortName));
         }
         //
         [Test]
@@ -128,7 +128,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             ServerUpdateCommandHandler _handler = new ServerUpdateCommandHandler(_contextMock.Object, _mediatorMock.Object);
             Task<int> _updateResults = _handler.Handle(_update, _cancelToken);
             int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -154,7 +154,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 Task<int> _deleteResults = _handler.Handle(_delete, _cancelToken);
                 // then
                 int _count = _deleteResults.Result;
-                Assert.AreEqual(1, _count);
+                Assert.That(_count, Is.EqualTo(1));
             }
             else
             {

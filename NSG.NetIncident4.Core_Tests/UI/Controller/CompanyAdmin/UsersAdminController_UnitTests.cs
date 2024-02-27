@@ -113,8 +113,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             // then
             Type type = sut.GetType();
             var attribute = type.CustomAttributes.Where(a => a.AttributeType.Name == "AuthorizeAttribute").FirstOrDefault();
-            Assert.IsNotNull(attribute, "No AuthorizeAttribute found on UsersAdminController");
-            Assert.AreEqual(attribute.NamedArguments[0].TypedValue.Value, "CompanyAdminRole");
+            // "No AuthorizeAttribute found on UsersAdminController"
+            Assert.That(attribute, Is.Not.Null);
+            Assert.That(attribute.NamedArguments[0].TypedValue.Value, Is.EqualTo("CompanyAdminRole"));
         }
         //
         #endregion // authorized
@@ -147,10 +148,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Index();
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as List<ApplicationUserListQuery>;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.Count);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -171,10 +172,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Details(mediatorReturn.UserName);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as ApplicationUserDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.Id, model.Id);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Id, Is.EqualTo(mediatorReturn.Id));
         }
         //
         #endregion // queries
@@ -213,10 +214,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Edit(mediatorReturn.UserName);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as ApplicationUserUpdateQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
         }
         //
         [Test]
@@ -240,9 +241,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Edit(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Details");
-            Assert.AreEqual(UsersAdminController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Details"));
+            Assert.That(UsersAdminController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -263,10 +264,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Delete(mediatorReturn.UserName);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as ApplicationUserDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
         }
         //
         [Test]
@@ -288,9 +289,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.DeleteConfirmed(mediatorParam.UserName);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Index");
-            Assert.AreEqual(UsersAdminController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Index"));
+            Assert.That(UsersAdminController.Alerts.Count, Is.EqualTo(0));
         }
         //
         #endregion // commands

@@ -66,7 +66,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             foreach (ApplicationUser _au in db_context.Users)
@@ -103,7 +103,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             foreach (ApplicationUser _au in db_context.Users)
@@ -143,7 +143,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();
@@ -185,7 +185,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();
@@ -225,7 +225,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();
@@ -287,7 +287,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail("Duplicate exception failed");
@@ -323,7 +323,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();
@@ -365,7 +365,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();
@@ -414,7 +414,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();
@@ -443,7 +443,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();
@@ -472,7 +472,7 @@ namespace NSG.NetIncident4.Core_Tests.Persistence
             {
                 string actual = db_context.HandleDbUpdateExceptionString(upExc);
                 Console.WriteLine(actual);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
                 return;
             }
             Assert.Fail();

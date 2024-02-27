@@ -267,7 +267,8 @@ namespace NSG.Integration.Helpers
             Closed = false,
             Special = false,
             Notes = "",
-            CreatedDate = DateTime.Now
+            CreatedDate = DateTime.Now,
+            Server = server1
         };
         public static Incident incident5 = new Incident()
         {
@@ -282,7 +283,8 @@ namespace NSG.Integration.Helpers
             Closed = false,
             Special = false,
             Notes = "",
-            CreatedDate = DateTime.Now
+            CreatedDate = DateTime.Now,
+            Server = server1
         };
         public static Incident incident6 = new Incident()
         {
@@ -297,7 +299,8 @@ namespace NSG.Integration.Helpers
             Closed = false,
             Special = false,
             Notes = "",
-            CreatedDate = DateTime.Now
+            CreatedDate = DateTime.Now,
+            Server = server1
         };
         public static List<Incident> incidentsFakeData = new List<Incident>()
         {

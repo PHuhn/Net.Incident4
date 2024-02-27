@@ -52,7 +52,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<NoteType> _createResults = _handler.Handle(_create, CancellationToken.None);
             // then
             NoteType _entity = _createResults.Result;
-            Assert.AreEqual(_create.NoteTypeShortDesc, _entity.NoteTypeShortDesc);
+            Assert.That(_entity.NoteTypeShortDesc, Is.EqualTo(_create.NoteTypeShortDesc));
         }
         //
         [Test]
@@ -81,7 +81,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
             // then
             int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -108,7 +108,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
             // then
             int _count = _deleteResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -134,7 +134,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_detailQuery, CancellationToken.None);
             // then
             NoteTypeDetailQuery _detail = _detailResults.Result;
-            Assert.AreEqual(1, _detail.NoteTypeId);
+            Assert.That(_detail.NoteTypeId, Is.EqualTo(1));
         }
         //
         [Test]
@@ -154,7 +154,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_listQuery, CancellationToken.None);
             // then
             IList<NoteTypeListQuery> _list = _viewModelResults.Result.NoteTypesList;
-            Assert.IsTrue(_list.Count > 4);
+            Assert.That(_list.Count > 4, Is.True);
         }
         //
     }

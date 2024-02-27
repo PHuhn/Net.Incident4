@@ -95,12 +95,12 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             LogData _entity = await _handler.Handle(_create, _cancelToken);
             // then
             Console.WriteLine(_entity.LogToString());
-            // Assert.AreEqual(5, _entity.Id);
-            Assert.AreEqual((byte)2, _entity.LogLevel);
-            Assert.AreEqual("Warning", _entity.Level);
-            Assert.AreEqual(_expectedMethod, _entity.Method.Substring(0, _expectedMethod.Length));
-            Assert.AreEqual(_message, _entity.Message);
-            Assert.AreEqual("", _entity.Exception);
+            // Assert.That(5, _entity.Id);
+            Assert.That(_entity.LogLevel, Is.EqualTo((byte)2));
+            Assert.That(_entity.Level, Is.EqualTo("Warning"));
+            Assert.That(_entity.Method.Substring(0, _expectedMethod.Length), Is.EqualTo(_expectedMethod));
+            Assert.That(_entity.Message, Is.EqualTo(_message));
+            Assert.That(_entity.Exception, Is.EqualTo(""));
         }
         //
         [Test]
@@ -125,12 +125,12 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             LogData _entity = await _handler.Handle(_create, _cancelToken);
             // then
             Console.WriteLine(_entity.LogToString());
-            // Assert.AreEqual(3, _entity.Id);
-            Assert.AreEqual(_severity, _entity.LogLevel);
-            Assert.AreEqual("Warning", _entity.Level);
-            Assert.AreEqual(_method, _entity.Method);
-            Assert.AreEqual(_message, _entity.Message);
-            Assert.AreEqual("", _entity.Exception);
+            // Assert.That(3, _entity.Id);
+            Assert.That(_entity.LogLevel, Is.EqualTo(_severity));
+            Assert.That(_entity.Level, Is.EqualTo("Warning"));
+            Assert.That(_entity.Method, Is.EqualTo(_method));
+            Assert.That(_entity.Message, Is.EqualTo(_message));
+            Assert.That(_entity.Exception, Is.EqualTo(""));
         }
         //
         [Test]
@@ -155,11 +155,11 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             LogData _entity = await _handler.Handle(_create, CancellationToken.None);
             Console.WriteLine(_entity.LogToString());
             // Assert.AreEqual(3, _entity.Id);
-            Assert.AreEqual((byte)1, _entity.LogLevel);
-            Assert.AreEqual("Error", _entity.Level);
-            Assert.AreEqual(_expectedMethod, _entity.Method.Substring(0, _expectedMethod.Length));
-            Assert.AreEqual(_message, _entity.Message);
-            Assert.AreEqual("System.Exception: Test exception", _entity.Exception);
+            Assert.That(_entity.LogLevel, Is.EqualTo((byte)1));
+            Assert.That(_entity.Level, Is.EqualTo("Error"));
+            Assert.That(_entity.Method.Substring(0, _expectedMethod.Length), Is.EqualTo(_expectedMethod));
+            Assert.That(_entity.Message, Is.EqualTo(_message));
+            Assert.That(_entity.Exception, Is.EqualTo("System.Exception: Test exception"));
         }
         //
         [Test]
@@ -183,12 +183,12 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _severity, _method, _message, _exception);
             LogData _entity = await _handler.Handle(_create, CancellationToken.None);
             Console.WriteLine(_entity.LogToString());
-            // Assert.AreEqual(3, _entity.Id);
-            Assert.AreEqual(_severity, _entity.LogLevel);
-            Assert.AreEqual("Error", _entity.Level);
-            Assert.AreEqual(_method, _entity.Method);
-            Assert.AreEqual(_message, _entity.Message);
-            Assert.AreEqual(_exception, _entity.Exception);
+            // Assert.That(3, _entity.Id);
+            Assert.That(_entity.LogLevel, Is.EqualTo(_severity));
+            Assert.That(_entity.Level, Is.EqualTo("Error"));
+            Assert.That(_entity.Method, Is.EqualTo(_method));
+            Assert.That(_entity.Message, Is.EqualTo(_message));
+            Assert.That(_entity.Exception, Is.EqualTo(_exception));
         }
         //
         [Test]
@@ -213,11 +213,11 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             LogData _entity = await _handler.Handle(_create, CancellationToken.None);
             Console.WriteLine(_entity.LogToString());
             // Assert.AreEqual(3, _entity.Id);
-            Assert.AreEqual(_severity, _entity.LogLevel);
-            Assert.AreEqual("Audit", _entity.Level);
-            Assert.AreEqual(_method, _entity.Method);
-            Assert.AreEqual(_message, _entity.Message);
-            Assert.AreEqual(_exception, _entity.Exception);
+            Assert.That(_entity.LogLevel, Is.EqualTo(_severity));
+            Assert.That(_entity.Level, Is.EqualTo("Audit"));
+            Assert.That(_entity.Method, Is.EqualTo(_method));
+            Assert.That(_entity.Message, Is.EqualTo(_message));
+            Assert.That(_entity.Exception, Is.EqualTo(_exception));
         }
         //
         [Test]
@@ -244,11 +244,11 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             // then
             Console.WriteLine(_entity.LogToString());
             // Assert.AreEqual(3, _entity.Id);
-            Assert.AreEqual(_severity, _entity.LogLevel);
-            Assert.AreEqual("Level-9", _entity.Level);
-            Assert.AreEqual(_method, _entity.Method);
-            Assert.AreEqual(_message, _entity.Message);
-            Assert.AreEqual(_exception, _entity.Exception);
+            Assert.That(_entity.LogLevel, Is.EqualTo(_severity));
+            Assert.That(_entity.Level, Is.EqualTo("Level-9"));
+            Assert.That(_entity.Method, Is.EqualTo(_method));
+            Assert.That(_entity.Message, Is.EqualTo(_message));
+            Assert.That(_entity.Exception, Is.EqualTo(_exception));
         }
         //
         [Test]
@@ -268,7 +268,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_listQuery, CancellationToken.None);
             // then
             IList<LogListQuery> _list = _viewModelResults.Result.LogsList;
-            Assert.AreEqual(4, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(4));
         }
         //
     }

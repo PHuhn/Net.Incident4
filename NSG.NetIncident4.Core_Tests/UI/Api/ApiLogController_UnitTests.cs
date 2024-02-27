@@ -31,7 +31,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             LogData _results = await sut.PostAsync(0, "method", "message");
             // then
-            Assert.IsInstanceOf<LogData>(_results);
+            Assert.That(_results, Is.InstanceOf<LogData>());
             //
         }
     }

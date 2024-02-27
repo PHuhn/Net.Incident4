@@ -50,8 +50,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             // then
             Type type = sut.GetType();
             var attribute = type.CustomAttributes.Where(a => a.AttributeType.Name == "AuthorizeAttribute").FirstOrDefault();
-            Assert.IsNotNull(attribute, "No AuthorizeAttribute found on RolesAdminController");
-            Assert.AreEqual(attribute.NamedArguments[0].TypedValue.Value, "AdminRole");
+            // "No AuthorizeAttribute found on RolesAdminController"
+            Assert.That(attribute, Is.Not.Null);
+            Assert.That(attribute.NamedArguments[0].TypedValue.Value, Is.EqualTo("AdminRole"));
         }
         //
         [Test]
@@ -80,10 +81,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Index();
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as List<ApplicationRoleListQuery>;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(3, model.Count);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Count, Is.EqualTo(3));
         }
         //
         [Test]
@@ -106,10 +107,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Details("adm");
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as ApplicationRoleUserDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.Id, model.Id);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Id, Is.EqualTo(mediatorReturn.Id));
         }
         //
         [Test]
@@ -134,9 +135,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Create(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Details");
-            Assert.AreEqual(RolesAdminController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Details"));
+            Assert.That(RolesAdminController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -159,10 +160,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Edit("adm");
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as ApplicationRoleUpdateCommand;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.Id, model.Id);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Id, Is.EqualTo(mediatorReturn.Id));
         }
         //
         [Test]
@@ -186,9 +187,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Edit(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Details");
-            Assert.AreEqual(RolesAdminController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Details"));
+            Assert.That(RolesAdminController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -211,10 +212,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Delete("adm");
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as ApplicationRoleUserDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.Id, model.Id);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Id, Is.EqualTo(mediatorReturn.Id));
         }
         //
         [Test]
@@ -238,9 +239,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.DeleteConfirmed("adm");
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Index");
-            Assert.AreEqual(RolesAdminController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Index"));
+            Assert.That(RolesAdminController.Alerts.Count, Is.EqualTo(0));
         }
         //
     }

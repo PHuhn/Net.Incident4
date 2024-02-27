@@ -70,7 +70,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<IncidentType> _createResults = _handler.Handle(_create, _cancelToken);
             // then
             IncidentType _entity = _createResults.Result;
-            Assert.AreEqual("Incid 9", _entity.IncidentTypeShortDesc);
+            Assert.That(_entity.IncidentTypeShortDesc, Is.EqualTo("Incid 9"));
         }
         //
         [Test]
@@ -92,7 +92,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
             int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -119,7 +119,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 };
                 Task<int> _deleteResults = _handler.Handle(_delete, _cancelToken);
                 int _count = _deleteResults.Result;
-                Assert.AreEqual(1, _count);
+                Assert.That(_count, Is.EqualTo(1));
             }
             else
             {
@@ -147,7 +147,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _detailQuery.IncidentTypeId = _incidentTypeId;
                 IncidentTypeDetailQuery _detail =
                     await _handler.Handle(_detailQuery, _cancelToken);
-                Assert.AreEqual(_detail.IncidentTypeId, _incidentTypeId);
+                Assert.That(_detail.IncidentTypeId, Is.EqualTo(_incidentTypeId));
             }
             else
             {
@@ -171,7 +171,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_listQuery, CancellationToken.None);
             // then
             IList<IncidentTypeListQuery> _list = _viewModelResults.Result.IncidentTypesList;
-            Assert.AreEqual(8, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(8));
         }
         //
     }

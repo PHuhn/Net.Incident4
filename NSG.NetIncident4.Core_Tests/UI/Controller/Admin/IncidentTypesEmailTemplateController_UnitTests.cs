@@ -47,8 +47,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             // then
             Type type = sut.GetType();
             var attribute = type.CustomAttributes.Where(a => a.AttributeType.Name == "AuthorizeAttribute").FirstOrDefault();
-            Assert.IsNotNull(attribute, "No AuthorizeAttribute found on IncidentTypesEmailTemplateController");
-            Assert.AreEqual(attribute.NamedArguments[0].TypedValue.Value, "AdminRole");
+            // Assert.IsNotNull(attribute, "No AuthorizeAttribute found on IncidentTypesEmailTemplateController");
+            // "No AuthorizeAttribute found on IncidentTypesEmailTemplateController"
+            Assert.That(attribute, Is.Not.Null);
+            Assert.That(attribute.NamedArguments[0].TypedValue.Value, Is.EqualTo("AdminRole"));
         }
         //
         [Test]
@@ -76,10 +78,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Index();
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as List<IncidentTypeListQuery>;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(3, model.Count);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Count, Is.EqualTo(3));
         }
         //
         [Test]
@@ -101,10 +103,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Details(3);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as IncidentTypeDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.IncidentTypeId, model.IncidentTypeId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.IncidentTypeId, Is.EqualTo(mediatorReturn.IncidentTypeId));
         }
         //
         [Test]
@@ -128,9 +130,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Create(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Details");
-            Assert.AreEqual(IncidentTypesEmailTemplateController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Details"));
+            Assert.That(IncidentTypesEmailTemplateController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -152,10 +154,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Edit(4);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as IncidentTypeDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.IncidentTypeId, model.IncidentTypeId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.IncidentTypeId, Is.EqualTo(mediatorReturn.IncidentTypeId));
         }
         //
         [Test]
@@ -178,9 +180,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Edit(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Details");
-            Assert.AreEqual(IncidentTypesEmailTemplateController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Details"));
+            Assert.That(IncidentTypesEmailTemplateController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -202,10 +204,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.Delete(4);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as IncidentTypeDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.IncidentTypeId, model.IncidentTypeId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.IncidentTypeId, Is.EqualTo(mediatorReturn.IncidentTypeId));
         }
         //
         [Test]
@@ -229,9 +231,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
             var actual = await sut.DeleteConfirmed(4);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Index");
-            Assert.AreEqual(IncidentTypesEmailTemplateController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Index"));
+            Assert.That(IncidentTypesEmailTemplateController.Alerts.Count, Is.EqualTo(0));
         }
         //
     }

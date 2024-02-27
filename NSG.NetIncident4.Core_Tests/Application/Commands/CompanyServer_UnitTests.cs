@@ -71,7 +71,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 Task<CompanyServerDetailQuery> _detailResults =
                     _handler.Handle(_detailQuery, _cancelToken);
                 CompanyServerDetailQuery _detail = _detailResults.Result;
-                Assert.AreEqual(_detail.CompanyId, _companyId);
+                Assert.That(_detail.CompanyId, Is.EqualTo(_companyId));
             }
         }
         //
@@ -91,7 +91,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_listQuery, _cancelToken);
             // then
             IList<CompanyServerListQuery> _list = _viewModelResults.Result.CompaniesList;
-            Assert.IsTrue(_list.Count == 1 || _list.Count == 2);
+            Assert.That((_list.Count == 1 || _list.Count == 2));
         }
         //
     }

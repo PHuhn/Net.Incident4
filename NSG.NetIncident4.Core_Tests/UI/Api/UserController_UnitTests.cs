@@ -35,7 +35,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             ApplicationUserServerDetailQuery _results = await sut.GetAsync("TestUser", "Server1");
             // then
-            Assert.IsInstanceOf<ApplicationUserServerDetailQuery>(_results);
+            Assert.That(_results, Is.InstanceOf<ApplicationUserServerDetailQuery>());
             //
         }
         //

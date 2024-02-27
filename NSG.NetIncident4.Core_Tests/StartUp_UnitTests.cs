@@ -1,19 +1,20 @@
+// ===========================================================================
+// File: StartUp_UnitTests.cs
 using NUnit.Framework;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Logging.Debug;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+//
 using MediatR;
 //
 using NSG.Integration.Helpers;
@@ -23,12 +24,6 @@ using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Services;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
 using MimeKit.NSG;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 //
 namespace NSG.NetIncident4.Core_Tests
 {
@@ -50,11 +45,12 @@ namespace NSG.NetIncident4.Core_Tests
             Console.WriteLine("LoggingService_Test");
             ServiceCollection services = new ServiceCollection();
             _startUp.ConfigureLoggingServices(services);
-            ILoggerFactory? _loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
+            Microsoft.Extensions.Logging.ILoggerFactory?
+                _loggerFactory = services.BuildServiceProvider().GetService<Microsoft.Extensions.Logging.ILoggerFactory>();
             ILoggerProvider? _loggerProvider = services.BuildServiceProvider().GetService<ILoggerProvider>();
             //
-            Assert.NotNull(_loggerFactory);
-            Assert.NotNull(_loggerProvider);
+            Assert.That(_loggerFactory, Is.Not.Null);
+            Assert.That(_loggerProvider, Is.Not.Null);
         }
         //
         [Test]
@@ -66,8 +62,8 @@ namespace NSG.NetIncident4.Core_Tests
             IConfigureOptions<RazorPagesOptions>? _configureRazorPages = services.BuildServiceProvider().GetService<IConfigureOptions<RazorPagesOptions>>();
             IConfigureOptions<RazorViewEngineOptions>? _configureRazorView = services.BuildServiceProvider().GetService<IConfigureOptions<RazorViewEngineOptions>>();
             //
-            Assert.NotNull(_configureRazorPages);
-            Assert.NotNull(_configureRazorView);
+            Assert.That(_configureRazorPages, Is.Not.Null);
+            Assert.That(_configureRazorView, Is.Not.Null);
         }
         //
         [Test]
@@ -91,15 +87,15 @@ namespace NSG.NetIncident4.Core_Tests
             IApplication? _application = services.BuildServiceProvider().GetService<IApplication>();
             IMediator? _mediator = services.BuildServiceProvider().GetService<IMediator>();
             // then
-            Assert.NotNull(_emailSettings.Value);
-            Assert.NotNull(_serviceSettings.Value);
-            Assert.NotNull(_applicationSettings.Value);
-            Assert.NotNull(_authSettings.Value);
+            Assert.That(_emailSettings.Value, Is.Not.Null);
+            Assert.That(_serviceSettings.Value, Is.Not.Null);
+            Assert.That(_applicationSettings.Value, Is.Not.Null);
+            Assert.That(_authSettings.Value, Is.Not.Null);
             //
-            Assert.NotNull(_notification);
-            Assert.NotNull(_emailSender);
-            Assert.NotNull(_application);
-            Assert.NotNull(_mediator);
+            Assert.That(_notification, Is.Not.Null);
+            Assert.That(_emailSender, Is.Not.Null);
+            Assert.That(_application, Is.Not.Null);
+            Assert.That(_mediator, Is.Not.Null);
         }
         //
         [Test]
@@ -113,7 +109,7 @@ namespace NSG.NetIncident4.Core_Tests
             _startUp.ConfigureAuthorizationPolicyServices(services);
             // then
             IAuthorizationService? _authorization = services.BuildServiceProvider().GetService<IAuthorizationService>();
-            Assert.NotNull(_authorization);
+            Assert.That(_authorization, Is.Not.Null);
         }
         //
         [Test]
@@ -128,7 +124,7 @@ namespace NSG.NetIncident4.Core_Tests
             IKeyManager? _keyManager = services.BuildServiceProvider().GetService<IKeyManager>();
             // ServiceType = { Name = "ISessionStore" FullName = "Microsoft.AspNetCore.Session.ISessionStore"}
             // ISessionStore _session = services.BuildServiceProvider().GetService<ISessionStore>();
-            Assert.NotNull(_keyManager);
+            Assert.That(_keyManager, Is.Not.Null);
         }
         //
         [Test]
@@ -144,7 +140,7 @@ namespace NSG.NetIncident4.Core_Tests
             _startUp.ConfigureCorsServices(services);
             // then
             ICorsService? _corsService = services.BuildServiceProvider().GetService<ICorsService>();
-            Assert.NotNull(_corsService);
+            Assert.That(_corsService, Is.Not.Null);
         }
         //
         [Test]
@@ -160,8 +156,9 @@ namespace NSG.NetIncident4.Core_Tests
             // then
             IConfigureOptions<MvcOptions>? _swaggerMvc = services.BuildServiceProvider().GetService<IConfigureOptions<MvcOptions>>();
             // ISwaggerProvider _swagger = services.BuildServiceProvider().GetService<ISwaggerProvider>();
-            Assert.NotNull(_swaggerMvc);
+            Assert.That(_swaggerMvc, Is.Not.Null);
         }
         //
     }
 }
+// ===========================================================================

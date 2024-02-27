@@ -85,8 +85,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<EmailTemplate> _createResults = _handler.Handle(_create, _cancelToken);
             // then
             EmailTemplate _entity = _createResults.Result;
-            Assert.AreEqual(1, _entity.CompanyId);
-            Assert.AreEqual(1, _entity.IncidentTypeId);
+            Assert.That(_entity.CompanyId, Is.EqualTo(1));
+            Assert.That(_entity.IncidentTypeId, Is.EqualTo(1));
         }
         //
         [Test]
@@ -123,7 +123,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 Task<int> _updateResults = _handler.Handle(_update, _cancelToken);
                 // then
                 int _count = _updateResults.Result;
-                Assert.AreEqual(1, _count);
+                Assert.That(_count, Is.EqualTo(1));
             }
             else
             {
@@ -156,7 +156,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 };
                 Task<int> _deleteResults = _handler.Handle(_delete, _cancelToken);
                 int _count = _deleteResults.Result;
-                Assert.AreEqual(1, _count);
+                Assert.That(_count, Is.EqualTo(1));
             }
             else
             {
@@ -190,8 +190,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 CompanyEmailTemplateDetailQuery _detail =
                     await _handler.Handle(_detailQuery, _cancelToken);
                 // then
-                Assert.AreEqual(_detailQuery.CompanyId, _detail.CompanyId);
-                Assert.AreEqual(_detailQuery.IncidentTypeId, _detail.IncidentTypeId);
+                Assert.That(_detailQuery.CompanyId, Is.EqualTo(_detail.CompanyId));
+                Assert.That(_detailQuery.IncidentTypeId, Is.EqualTo(_detail.IncidentTypeId));
             }
             else
             {
@@ -215,7 +215,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_listQuery, _cancelToken);
             // then
             IList<CompanyEmailTemplateListQuery> _list = _viewModelResults.Result.EmailTemplatesList;
-            Assert.AreEqual(1, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(1));
         }
         //
     }

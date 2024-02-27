@@ -39,7 +39,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             ActionResult<NetworkIncidentDetailQuery> _results = await sut.GetIncident(1);
             // then
-            Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results.Value);
+            Assert.That(_results.Value, Is.InstanceOf<NetworkIncidentDetailQuery>());
             //
         }
         //
@@ -56,8 +56,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             NetworkIncidentDetailQuery _results = await sut.PutIncident(4, new NetworkIncidentSaveQuery());
             // then
-            Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results);
-            Assert.AreEqual(_results.message, "");
+            Assert.That(_results, Is.InstanceOf<NetworkIncidentDetailQuery>());
+            Assert.That(_results.message, Is.EqualTo(""));
             //
         }
         //
@@ -77,7 +77,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             ActionResult<NetworkIncidentDetailQuery> _results = await sut.EmptyIncident("empty",1); // Server id
             // then
-            Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results.Value);
+            Assert.That(_results.Value, Is.InstanceOf<NetworkIncidentDetailQuery>());
             //
         }
         //
@@ -94,8 +94,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             NetworkIncidentDetailQuery _results = await sut.PostIncident(new NetworkIncidentSaveQuery()); // Server id
             // then
-            Assert.IsInstanceOf<NetworkIncidentDetailQuery>(_results);
-            Assert.AreEqual(_results.message, "");
+            Assert.That(_results, Is.InstanceOf<NetworkIncidentDetailQuery>());
+            Assert.That(_results.message, Is.EqualTo(""));
             //
         }
         //

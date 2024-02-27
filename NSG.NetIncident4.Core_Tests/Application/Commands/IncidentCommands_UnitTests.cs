@@ -128,7 +128,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
             // then
             int _count = _deleteResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -150,7 +150,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _handler.Handle(_listQuery, CancellationToken.None);
             // then
             IList<IncidentListQuery> _list = _viewModelResults.Result.results;
-            Assert.AreEqual(3, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(3));
         }
         //
     }

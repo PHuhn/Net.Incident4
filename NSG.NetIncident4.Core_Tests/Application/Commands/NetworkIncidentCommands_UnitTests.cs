@@ -137,9 +137,9 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 deletedLogs = new List<NetworkLogData>()
             };
             Task<NetworkIncidentDetailQuery> _createResults = _handler.Handle(new NetworkIncidentCreateCommand() { SaveQuery = _create }, CancellationToken.None);
-            Assert.IsNull(_createResults.Exception);
+            Assert.That(_createResults.Exception, Is.Null);
             NetworkIncidentDetailQuery _entity = _createResults.Result;
-            Assert.AreEqual(7, _entity.incident.IncidentId);
+            Assert.That(_entity.incident.IncidentId, Is.EqualTo(7));
         }
         //
         [Test]
@@ -154,8 +154,9 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             NetworkIncidentCreateCommand _create = new NetworkIncidentCreateCommand();
             Task<NetworkIncidentDetailQuery> _createResults = _handler.Handle(_create, CancellationToken.None);
             // then
-            Assert.IsNotNull(_createResults.Exception);
-            Assert.IsTrue(_createResults.Exception.InnerException is NetworkIncidentCreateCommandPermissionsException);
+            Assert.That(_createResults.Exception, Is.Not.Null);
+            // Assert.IsTrue(_createResults.Exception.InnerException is NetworkIncidentCreateCommandPermissionsException);
+            Assert.That(_createResults.Exception.InnerException is NetworkIncidentCreateCommandPermissionsException, Is.True);
             Console.WriteLine(_createResults.Exception.InnerException.Message);
         }
         //
@@ -183,8 +184,10 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<NetworkIncidentDetailQuery> _createResults = _handler.Handle(_create, CancellationToken.None);
             // then
-            Assert.IsNotNull(_createResults.Exception);
-            Assert.IsTrue(_createResults.Exception.InnerException is NetworkIncidentCreateCommandValidationException);
+            // Assert.IsNotNull(_createResults.Exception);
+            Assert.That(_createResults.Exception, Is.Not.Null);
+            // Assert.IsTrue(_createResults.Exception.InnerException is NetworkIncidentCreateCommandValidationException);
+            Assert.That(_createResults.Exception.InnerException is NetworkIncidentCreateCommandValidationException, Is.True);
             Console.WriteLine(_createResults.Exception.InnerException.Message);
         }
         //
@@ -228,9 +231,9 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _contextMock.Object, _mediatorMock.Object, _applicationMock.Object, _notificationMock.Object);
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             // then
-            Assert.IsNull(_updateResults.Exception);
+            Assert.That(_updateResults.Exception, Is.Null);
             NetworkIncidentDetailQuery _entity = _updateResults.Result;
-            Assert.AreEqual(_incidentId, _entity.incident.IncidentId);
+            Assert.That(_entity.incident.IncidentId, Is.EqualTo(_incidentId));
         }
         //
         [Test]
@@ -246,8 +249,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             NetworkIncidentSaveQuery _update = new NetworkIncidentSaveQuery();
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             // then
-            Assert.IsNotNull(_updateResults.Exception);
-            Assert.IsTrue(_updateResults.Exception.InnerException is NetworkIncidentUpdateCommandPermissionsException);
+            Assert.That(_updateResults.Exception, Is.Not.Null);
+            Assert.That(_updateResults.Exception.InnerException is NetworkIncidentUpdateCommandPermissionsException, Is.True);
             Console.WriteLine(_updateResults.Exception.InnerException.Message);
         }
         //
@@ -286,8 +289,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _contextMock.Object, _mediatorMock.Object, _applicationMock.Object, _notificationMock.Object);
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             // then
-            Assert.IsNotNull(_updateResults.Exception);
-            Assert.IsTrue(_updateResults.Exception.InnerException is NetworkIncidentUpdateCommandValidationException);
+            Assert.That(_updateResults.Exception, Is.Not.Null);
+            Assert.That(_updateResults.Exception.InnerException is NetworkIncidentUpdateCommandValidationException, Is.True);
             Console.WriteLine(_updateResults.Exception.InnerException.Message);
         }
         //
@@ -331,8 +334,8 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
                 _contextMock.Object, _mediatorMock.Object, _applicationMock.Object, _notificationMock.Object);
             Task<NetworkIncidentDetailQuery> _updateResults = _handler.Handle(_update, CancellationToken.None);
             // then
-            Assert.IsNotNull(_updateResults.Exception);
-            Assert.IsTrue(_updateResults.Exception.InnerException is NetworkIncidentUpdateCommandKeyNotFoundException);
+            Assert.That(_updateResults.Exception, Is.Not.Null);
+            Assert.That(_updateResults.Exception.InnerException is NetworkIncidentUpdateCommandKeyNotFoundException, Is.True);
             Console.WriteLine(_updateResults.Exception.InnerException.Message);
         }
         //
@@ -350,7 +353,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             NetworkIncidentDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
             // then
-            Assert.AreEqual(_detail.incident.IncidentId, _incidentId);
+            Assert.That(_detail.incident.IncidentId, Is.EqualTo(_incidentId));
         }
         //
         [Test]
@@ -369,10 +372,10 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             NetworkIncidentDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
             // then
-            Assert.AreEqual(1, _detail.incident.ServerId);
-            Assert.AreEqual(11, _detail.NICs.Count);
-            Assert.AreEqual(8, _detail.incidentTypes.Count);
-            Assert.AreEqual(5, _detail.noteTypes.Count);
+            Assert.That(_detail.incident.ServerId, Is.EqualTo(1));
+            Assert.That(_detail.NICs.Count, Is.EqualTo(11));
+            Assert.That(_detail.incidentTypes.Count, Is.EqualTo(8));
+            Assert.That(_detail.noteTypes.Count, Is.EqualTo(5));
         }
         //
     }

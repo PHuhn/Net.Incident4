@@ -1,8 +1,7 @@
-﻿//
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿// ===========================================================================
+// File: NotificationService.cs
+using System;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 //
 using MimeKit;
@@ -80,4 +79,4 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
 		//
 	}
 }
-//
+// ===========================================================================

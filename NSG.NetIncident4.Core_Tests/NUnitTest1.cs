@@ -59,11 +59,11 @@ namespace NSG.NetIncident4.Core_Tests
 			int _n1 = 0;
 			string _n1Str = _n1.ToString("d3");
 			Console.WriteLine(_n1Str);
-			Assert.AreEqual(_n1Str, "000");
+			Assert.That(_n1Str, Is.EqualTo("000"));
 			int _n2 = 301;
 			string _n2Str = _n2.ToString("d3");
 			Console.WriteLine(_n2Str);
-			Assert.AreEqual(_n2Str, "301");
+			Assert.That(_n2Str, Is.EqualTo("301"));
 			List<AlertMessage> Alerts = new List<AlertMessage>()
 			{
 				new AlertMessage( "001", "Warn", "Message 001"),
@@ -72,7 +72,7 @@ namespace NSG.NetIncident4.Core_Tests
 			string _id = (Alerts.Count + 1).ToString( "d3" );
 			Alerts.Add(new AlertMessage(_id, "Info", "Message " + _id));
 			Console.WriteLine(_id);
-			Assert.AreEqual(_id, "003");
+			Assert.That(_id, Is.EqualTo("003"));
 			foreach( AlertMessage _alert in Alerts)
 			{
 				Console.WriteLine(_alert.ToString());
@@ -106,7 +106,7 @@ namespace NSG.NetIncident4.Core_Tests
 			// then
 			Testing _entity = _createResults.Result;
 			Console.WriteLine(_entity);
-			Assert.AreEqual(_create.TestingShortDesc, _entity.TestingShortDesc);
+			Assert.That(_entity.TestingShortDesc, Is.EqualTo(_create.TestingShortDesc));
 		}
 		//
 		[Test]

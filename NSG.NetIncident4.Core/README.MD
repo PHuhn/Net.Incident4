@@ -1,7 +1,7 @@
 # NSG.NetIncident4.Core
 ## This Project
 
-This project is currently a .Net Core 6.0 Web MVC/API application.  NSG.NetIncident4.Core was first created as a .Net Core 2.2 application, but due to authentication issues was never completed.  Latter, I implemented it in .Net Core 5.0.  With persistence, I was able to work through the lack of understanding issues. 
+This project is currently a .Net 7.0 Web MVC/API application.  NSG.NetIncident4.Core was first created as a .Net Core 2.2 application, but due to authentication issues was never completed.  Latter, I implemented it in .Net Core 5.0.  With persistence, I was able to work through the lack of understanding issues. 
 
 ## Overview
 

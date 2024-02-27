@@ -40,7 +40,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             //// when
             LazyLoadEvent2 loadEvent = JsonConvert.DeserializeObject<LazyLoadEvent2>( lazyLoadJSON );
             // then
-            Assert.IsNotNull( loadEvent );
+            Assert.That(loadEvent, Is.Not.Null);
             //
         }
         //
@@ -56,7 +56,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             //// when
             LazyLoadEvent loadEvent = JsonConvert.DeserializeObject<LazyLoadEvent>(lazyLoadJSON);
             // then
-            Assert.IsNotNull(loadEvent);
+            Assert.That(loadEvent, Is.Not.Null );
             //
         }
         //
@@ -76,7 +76,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
                 lazyEvent = _docLazy.RootElement;
                 ActionResult<IncidentListQueryHandler.ViewModel> _results = await sut.GetIncidents(lazyEvent);
                 // then
-                Assert.IsInstanceOf<IncidentListQueryHandler.ViewModel>(_results.Value);
+                Assert.That(_results.Value, Is.InstanceOf<IncidentListQueryHandler.ViewModel>());
             }
             //
         }
@@ -94,7 +94,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             int _results = await sut.DeleteIncident(1);
             // then
-            Assert.AreEqual(_results, 1);
+            Assert.That(_results, Is.EqualTo(1));
             //
         }
         //

@@ -23,7 +23,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             // when
             string ret = str.ReplaceCRToN();
             // then
-            Assert.AreEqual(@"A\nb\nc", ret);
+            Assert.That(ret, Is.EqualTo(@"A\nb\nc"));
         }
         //
         [Test]
@@ -34,7 +34,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             // when
             string ret = str.ReplaceToBR();
             // then
-            Assert.AreEqual(@"A<br />b<br />c", ret);
+            Assert.That(ret, Is.EqualTo(@"A<br />b<br />c"));
         }
         //
         //[Test]

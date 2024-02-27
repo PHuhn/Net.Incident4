@@ -65,7 +65,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<NIC> _createResults = _handler.Handle(_create, CancellationToken.None);
             NIC _entity = _createResults.Result;
-            Assert.AreEqual("NIC_Id", _entity.NIC_Id);
+            Assert.That(_entity.NIC_Id, Is.EqualTo("NIC_Id"));
         }
         //
         [Test]
@@ -82,7 +82,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
             int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -104,7 +104,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<int> _deleteResults = _handler.Handle(_delete, _cancelToken);
             int _count = _deleteResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -126,7 +126,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             NICDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
             // then
-            Assert.AreEqual(_nicId, _detail.NIC_Id);
+            Assert.That(_detail.NIC_Id, Is.EqualTo(_nicId));
         }
         //
         [Test]
@@ -144,7 +144,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<NICListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
             IList<NICListQuery> _list = _viewModelResults.Result.NICsList;
-            Assert.AreEqual(11, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(11));
         }
         //
     }

@@ -58,7 +58,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             string _expected = @"
 Pinging pinspb.ru [46.161.62.245] with 32 bytes of data:";
             string _actual = ApiServicesController_PingCommand("46.161.62.245");
-            Assert.AreEqual(_expected, _actual.Substring(0, _expected.Length));
+            Assert.That(_actual.Substring(0, _expected.Length), Is.EqualTo(_expected));
         }
         //
         [Test]
@@ -68,7 +68,7 @@ Pinging pinspb.ru [46.161.62.245] with 32 bytes of data:";
             string _expected = @"
 Pinging ec2-54-183-209-144.us-west-1.compute.amazonaws.com [54.183.209.144] with 32 bytes of data:";
             string _actual = ApiServicesController_PingCommand("54.183.209.144");
-            Assert.AreEqual(_expected, _actual.Substring(0, _expected.Length));
+            Assert.That(_actual.Substring(0, _expected.Length), Is.EqualTo(_expected));
         }
         //
         [Test]
@@ -78,7 +78,7 @@ Pinging ec2-54-183-209-144.us-west-1.compute.amazonaws.com [54.183.209.144] with
             string _expected = @"
 Pinging 1.9.149.170 with 32 bytes of data:";
             string _actual = ApiServicesController_PingCommand("1.9.149.170");
-            Assert.AreEqual(_expected, _actual.Substring(0, _expected.Length));
+            Assert.That(_actual.Substring(0, _expected.Length), Is.EqualTo(_expected));
         }
         //
         private string ApiServicesController_PingCommand(string ip)
@@ -148,8 +148,8 @@ Pinging 1.9.149.170 with 32 bytes of data:";
             string _actual = _whois.Value;
             Console.WriteLine($"Query ip: {ip}");
             Console.WriteLine(_actual);
-            Assert.IsTrue(_actual.Contains(
-                "Abuse contact for '46.161.62.0 - 46.161.62.255' is 'abusemail@depo40.ru'") == true);
+            Assert.That(_actual.Contains(
+                "Abuse contact for '46.161.62.0 - 46.161.62.255' is 'abuse@finegroupservers.com'"), Is.True);
         }
         /*
         [Querying whois.arin.net]
@@ -301,9 +301,9 @@ Pinging 1.9.149.170 with 32 bytes of data:";
             string _actual = _whois.Value;
             Console.WriteLine($"Query ip: {ip}");
             Console.WriteLine(_actual);
-            Assert.IsTrue(_actual.Contains(ip.Substring(0, 6)) == true);
-            Assert.IsTrue(_actual.Contains(
-                "OrgAbuseEmail:  abuse@cox.com"));
+            Assert.That(_actual.Contains(ip.Substring(0, 6)), Is.True);
+            Assert.That(_actual.Contains(
+                "OrgAbuseEmail:  abuse@cox.com"), Is.True);
         }
         //
         // WhoIs Tests
@@ -339,7 +339,7 @@ Cox Communications Inc. CXA (NET-174-64-0-0-1) 174.64.0.0 - 174.79.255.255
 ";
             string _link = sutProtected.WhoIsLinkProtected(_data);
             System.Diagnostics.Debug.WriteLine(_link);
-            Assert.IsTrue(_link != "");
+            Assert.That(_link, Is.Not.Empty);
         }
         //
         [Test]
@@ -432,7 +432,7 @@ OrgTechRef:    https://whois.arin.net/rest/poc/MEROL3-ARIN
 ";
             string _link = sutProtected.WhoIsLinkProtected(_data);
             System.Diagnostics.Debug.WriteLine(_link);
-            Assert.AreEqual("", _link);
+            Assert.That(_link, Is.EqualTo(""));
         }
         //
         [Test]
@@ -465,7 +465,7 @@ network:Updated:20150331
 ";
             string _link = sutProtected.WhoIsLinkProtected(_data);
             System.Diagnostics.Debug.WriteLine(_link);
-            Assert.AreEqual("", _link);
+            Assert.That(_link, Is.EqualTo(""));
         }
         //
     }

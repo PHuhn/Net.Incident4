@@ -63,12 +63,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             var actual = await sut.UserLogs(event2);
             // then
-            Assert.IsNotNull(actual);
+            Assert.That(actual, Is.Not.Null);
             var viewResult = actual.Result as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.Model as Pagination<LogListQuery>;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.items.Count);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.items.Count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -81,7 +81,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // then
             Type type = sut.GetType();
             var attribute = type.GetCustomAttribute(typeof(AuthorizeAttribute), true);
-            Assert.IsNotNull(attribute, "No AuthorizeAttribute found on LogController");
+            // "No AuthorizeAttribute found on LogController"
+            Assert.That(attribute, Is.Not.Null);
         }
         //
         [Test]
@@ -97,11 +98,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             ActionResult<List<Forecast>> result = await sut.AccuWeather();
             // then
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
             var viewResult = result.Result as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.Model as List<Forecast>;
-            Assert.AreEqual(3, model.Count);
+            Assert.That(model.Count, Is.EqualTo(3));
         }
     }
 }

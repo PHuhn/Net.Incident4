@@ -67,7 +67,8 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             IActionResult _results = await sut.Login(_model);
             // then
-            Assert.IsInstanceOf<OkObjectResult>(_results);
+            // Assert.IsInstanceOf<OkObjectResult>(_results);
+            Assert.That(_results, Is.InstanceOf<OkObjectResult>());
         }
         //
         [Test]
@@ -81,9 +82,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             sut = new AuthenticateController(_userManager.Object, configuration, _emailSender.Object);
             // then
             IActionResult _results = await sut.Login(_model);
-            Assert.IsInstanceOf<UnauthorizedObjectResult>(_results);
+            Assert.That(_results, Is.InstanceOf<UnauthorizedObjectResult>());
             UnauthorizedObjectResult _unResults = _results as UnauthorizedObjectResult;
-            Assert.AreEqual(_unResults.StatusCode, 401);
+            Assert.That(_unResults.StatusCode, Is.EqualTo(401));
         }
         //
         [Test]
@@ -96,7 +97,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             LoginModel _model = new LoginModel() { Username = _username, Password = "NonUserPassword" };
             // when
             IActionResult _results = await sut.Login(_model);
-            Assert.IsInstanceOf<NotFoundResult>(_results);
+            Assert.That(_results, Is.InstanceOf<NotFoundResult>());
         }
         //
         [Test]
@@ -145,7 +146,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             IActionResult _results = await sut.Register(_model);
             // then
-            Assert.IsInstanceOf<OkObjectResult>(_results);
+            Assert.That(_results, Is.InstanceOf<OkObjectResult>());
         }
         //
         [Test]
@@ -167,10 +168,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
             // when
             IActionResult _results = await sut.Register(_model);
             // then
-            Assert.IsInstanceOf<ObjectResult>(_results);
+            Assert.That(_results, Is.InstanceOf<ObjectResult>());
             ObjectResult _objectResult = _results as ObjectResult;
-            Assert.AreEqual(_objectResult.StatusCode, 500);
-            Assert.AreEqual((_objectResult.Value as Response).Message, "User creation failed! " + _descrError);
+            Assert.That(_objectResult.StatusCode, Is.EqualTo(500));
+            Assert.That((_objectResult.Value as Response).Message, Is.EqualTo("User creation failed! " + _descrError));
         }
         //
         //private Mock<IUrlHelper> CreateMockUrlHelper(ActionContext context = null)

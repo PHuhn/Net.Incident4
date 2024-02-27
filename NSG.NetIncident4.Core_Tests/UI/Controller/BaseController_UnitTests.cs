@@ -51,12 +51,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Error(_message);
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "001");
-            Assert.AreEqual(_alertMessage.Level, "error");
-            Assert.AreEqual(_alertMessage.Message, _message);
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("001"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("error"));
+            Assert.That(_alertMessage.Message, Is.EqualTo(_message));
         }
         //
         [Test]
@@ -70,12 +70,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Warning(_message);
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "001");
-            Assert.AreEqual(_alertMessage.Level, "warn");
-            Assert.AreEqual(_alertMessage.Message, _message);
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("001"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("warn"));
+            Assert.That(_alertMessage.Message, Is.EqualTo(_message));
         }
         //
         [Test]
@@ -89,12 +89,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Success(_message);
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "001");
-            Assert.AreEqual(_alertMessage.Level, "success");
-            Assert.AreEqual(_alertMessage.Message, _message);
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("001"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("success"));
+            Assert.That(_alertMessage.Message, Is.EqualTo(_message));
         }
         //
         [Test]
@@ -108,12 +108,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Information(_message);
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "001");
-            Assert.AreEqual(_alertMessage.Level, "info");
-            Assert.AreEqual(_alertMessage.Message, _message);
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("001"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("info"));
+            Assert.That(_alertMessage.Message, Is.EqualTo(_message));
         }
         //
         [Test]
@@ -127,12 +127,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Base_AddErrors(new Exception(_message));
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "001");
-            Assert.AreEqual(_alertMessage.Level, "error");
-            Assert.AreEqual(_alertMessage.Message, _message);
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("001"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("error"));
+            Assert.That(_alertMessage.Message, Is.EqualTo(_message));
         }
         //
         [Test]
@@ -151,12 +151,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Base_AddErrors(_modelState);
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "SomeField");
-            Assert.AreEqual(_alertMessage.Level, "error");
-            Assert.AreEqual(_alertMessage.Message, $"{_propName}: {_message}\n");
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("SomeField"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("error"));
+            Assert.That(_alertMessage.Message, Is.EqualTo($"{_propName}: {_message}\n"));
         }
         //
         [Test]
@@ -172,12 +172,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Base_AddErrors(_results);
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "001");
-            Assert.AreEqual(_alertMessage.Level, "error");
-            Assert.AreEqual(_alertMessage.Message, $"{_code}: {_message}\n");
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("001"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("error"));
+            Assert.That(_alertMessage.Message, Is.EqualTo($"{_code}: {_message}\n"));
         }
         //  Base_AddErrors(ModelStateDictionary modelState)
         //
@@ -194,12 +194,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             sut.Base_AddErrors(_modelState);
             // then
-            Assert.AreEqual(BaseController.Alerts.Count, 1);
+            Assert.That(BaseController.Alerts.Count, Is.EqualTo(1));
             AlertMessage _alertMessage = BaseController.Alerts.FirstOrDefault();
-            Assert.IsNotNull(_alertMessage);
-            Assert.AreEqual(_alertMessage.Id, "001");
-            Assert.AreEqual(_alertMessage.Level, "error");
-            Assert.AreEqual(_alertMessage.Message, _message);
+            Assert.That(_alertMessage, Is.Not.Null);
+            Assert.That(_alertMessage.Id, Is.EqualTo("001"));
+            Assert.That(_alertMessage.Level, Is.EqualTo("error"));
+            Assert.That(_alertMessage.Message, Is.EqualTo(_message));
         }
         //
         #endregion // alert message
@@ -222,7 +222,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             string _userName = sut.Base_GetUserAccount();
             // then
-            Assert.AreEqual(_userName, _testName);
+            Assert.That(_userName, Is.EqualTo(_testName));
         }
         //
         [Test]
@@ -234,7 +234,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             // when
             string _userName = sut.Base_GetUserAccount();
             // then
-            Assert.AreEqual(_userName, "- Not Authenticated -");
+            Assert.That(_userName, Is.EqualTo("- Not Authenticated -"));
         }
         //
         #endregion // get user name

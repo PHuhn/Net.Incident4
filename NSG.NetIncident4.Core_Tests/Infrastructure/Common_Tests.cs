@@ -1,13 +1,15 @@
-﻿using NUnit.Framework;
+﻿// ===========================================================================
+// File: Common_Tests.cs
+using NUnit.Framework;
 using System;
-using System.IO;
-using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+//
 using Moq;
+//
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.Integration.Helpers;
 //
@@ -56,7 +58,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             System.Diagnostics.Debug.WriteLine(t);
             Console.WriteLine(t.User);
             System.Diagnostics.Debug.WriteLine(t.User);
-            Assert.AreEqual(userName, t.User.Identity.Name );
+            Assert.That(t.User.Identity.Name, Is.EqualTo(userName));
         }
         //
         [Test]
@@ -65,7 +67,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             string actual = application.GetApplicationName();
             // then
-            Assert.AreEqual("Net-Incident Identity", actual);
+            Assert.That(actual, Is.EqualTo("Net-Incident Identity"));
         }
         //
         [Test]
@@ -74,7 +76,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             string actual = application.GetApplicationPhoneNumber();
             // then
-            Assert.AreEqual("(734) 555-1212", actual);
+            Assert.That(actual, Is.EqualTo("(734) 555-1212"));
         }
         //
         [Test]
@@ -83,7 +85,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             string actual = application.GetUserAccount();
             // then
-            Assert.AreEqual(userName, actual);
+            Assert.That(actual, Is.EqualTo(userName));
         }
         //
         [Test]
@@ -92,7 +94,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             bool actual = application.IsAuthenticated();
             // then
-            Assert.AreEqual(true, actual);
+            Assert.That(actual, Is.EqualTo(true));
         }
         //
         [Test]
@@ -101,7 +103,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             bool actual = application.IsAdminRole();
             // then
-            Assert.AreEqual(true, actual);
+            Assert.That(actual, Is.EqualTo(true));
         }
         //
         [Test]
@@ -110,7 +112,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             bool actual = application.IsCompanyAdminRole();
             // then
-            Assert.AreEqual(true, actual);
+            Assert.That(actual, Is.EqualTo(true));
         }
         //
         [Test]
@@ -119,9 +121,9 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             // when
             bool actual = application.IsEditableRole();
             // then
-            Assert.AreEqual(true, actual);
+            Assert.That(actual, Is.EqualTo(true));
         }
         //
     }
 }
-//
+// ===========================================================================

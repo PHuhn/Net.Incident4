@@ -1,4 +1,5 @@
 @REM fake-smtp-server is a nodejs application
+@REM ReachFive/fake-smtp-server
 @REM
 @REM Usage:
 @REM   fake-smtp-server [OPTIONS] [ARGS]
@@ -13,6 +14,9 @@
 @REM Ports of 25, 465 or 587 (unencryped/SSL/TSL)
 @CLS
 @ECHO Use port # 9888
+
+@REM "C:\Program Files\Java\jdk-17\bin\java" -jar C:\bin\devel\fake-smtp\fake-smtp-server-2.2.0.jar
+
 fake-smtp-server --smtp-port 25 --http-port 9888 --max 10
 @REM
 @REM You can filter emails with the following parameters:

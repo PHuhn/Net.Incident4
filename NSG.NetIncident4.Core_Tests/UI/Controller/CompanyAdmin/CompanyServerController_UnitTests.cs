@@ -50,8 +50,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             // then
             Type type = sut.GetType();
             var attribute = type.CustomAttributes.Where(a => a.AttributeType.Name == "AuthorizeAttribute").FirstOrDefault();
-            Assert.IsNotNull(attribute, "No AuthorizeAttribute found on CompanyServerController");
-            Assert.AreEqual(attribute.NamedArguments[0].TypedValue.Value, "CompanyAdminRole");
+            // "No AuthorizeAttribute found on CompanyServerController"
+            Assert.That(attribute, Is.Not.Null);
+            Assert.That(attribute.NamedArguments[0].TypedValue.Value, Is.EqualTo("CompanyAdminRole"));
         }
         //
         [Test]
@@ -84,10 +85,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Index();
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as List<CompanyServerListQuery>;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.Count);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -132,10 +133,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Details(3);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as CompanyServerDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
         }
         //
         [Test]
@@ -168,9 +169,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.CompanyCreate(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Edit");
-            Assert.AreEqual(CompanyServerController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Edit"));
+            Assert.That(CompanyServerController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -209,10 +210,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Edit(2);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as CompanyServerDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
         }
         //
         [Test]
@@ -241,9 +242,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.CompanyEdit(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Edit");
-            Assert.AreEqual(CompanyServerController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Edit"));
+            Assert.That(CompanyServerController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -273,9 +274,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.ServerEdit(mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Edit");
-            Assert.AreEqual(CompanyServerController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Edit"));
+            Assert.That(CompanyServerController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -314,10 +315,10 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.Delete(4);
             // then
             var viewResult = actual as ViewResult;
-            Assert.IsNotNull(viewResult);
+            Assert.That(viewResult, Is.Not.Null);
             var model = viewResult.ViewData.Model as CompanyServerDetailQuery;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(mediatorReturn.CompanyId, model.CompanyId);
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.CompanyId, Is.EqualTo(mediatorReturn.CompanyId));
         }
         //
         [Test]
@@ -357,9 +358,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.CompanyDelete(2, mediatorParam);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Index");
-            Assert.AreEqual(CompanyServerController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Index"));
+            Assert.That(CompanyServerController.Alerts.Count, Is.EqualTo(0));
         }
         //
         [Test]
@@ -389,9 +390,9 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
             var actual = await sut.ServerDelete(3, mediatorParam.CompanyId);
             // then
             var viewResult = actual as RedirectToActionResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual(viewResult.ActionName, "Delete");
-            Assert.AreEqual(CompanyServerController.Alerts.Count, 0);
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Delete"));
+            Assert.That(CompanyServerController.Alerts.Count, Is.EqualTo(0));
         }
         //
     }

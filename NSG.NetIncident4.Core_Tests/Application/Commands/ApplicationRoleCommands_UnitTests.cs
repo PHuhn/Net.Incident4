@@ -70,7 +70,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<ApplicationRole> _createResults = _handler.Handle(_create, CancellationToken.None);
             ApplicationRole _entity = _createResults.Result;
-            Assert.AreEqual("Id", _entity.Id);
+            Assert.That(_entity.Id, Is.EqualTo("Id"));
         }
         //
         [Test]
@@ -102,7 +102,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
             int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -134,7 +134,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
             int? _count = _deleteResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -167,10 +167,10 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             };
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
             Console.WriteLine(_deleteResults.Status);
-            Assert.IsNotNull(_deleteResults.Exception);
+            Assert.That(_deleteResults.Exception, Is.InstanceOf<Exception>());
             Console.WriteLine(_deleteResults.Exception.Message);
             Console.WriteLine(_deleteResults.Exception.InnerException);
-            Assert.IsTrue(_deleteResults.Exception.InnerException is ApplicationRoleDeleteCommandActiveUsersException);
+            Assert.That(_deleteResults.Exception.InnerException is ApplicationRoleDeleteCommandActiveUsersException);
         }
         //
         [Test]
@@ -192,7 +192,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _detailQuery.Id = "pub";
             ApplicationRoleDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
-            Assert.AreEqual(_detailQuery.Id, _detail.Id);
+            Assert.That(_detailQuery.Id, Is.EqualTo(_detail.Id));
         }
         //
         [Test]
@@ -216,7 +216,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<ApplicationRoleListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
             IList<ApplicationRoleListQuery> _list = _viewModelResults.Result.ApplicationRolesList;
-            Assert.AreEqual(4, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(4));
         }
         //
     }

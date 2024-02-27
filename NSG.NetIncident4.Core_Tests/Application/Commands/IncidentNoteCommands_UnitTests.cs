@@ -63,7 +63,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             IncidentNoteCreateCommandHandler _handler = new IncidentNoteCreateCommandHandler(_contextMock.Object);
             Task<IncidentNote> _createResults = _handler.Handle(_create, _cancelToken);
             IncidentNote _entity = _createResults.Result;
-            Assert.AreEqual(_create.NoteTypeId, _entity.NoteTypeId);
+            Assert.That(_create.NoteTypeId, Is.EqualTo(_entity.NoteTypeId));
         }
         //
         [Test]
@@ -89,7 +89,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             IncidentNoteUpdateCommandHandler _handler = new IncidentNoteUpdateCommandHandler(_contextMock.Object);
             Task<int> _updateResults = _handler.Handle(_update, CancellationToken.None);
             int _count = _updateResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -113,7 +113,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<int> _deleteResults = _handler.Handle(_delete, CancellationToken.None);
             // then
             int _count = _deleteResults.Result;
-            Assert.AreEqual(1, _count);
+            Assert.That(_count, Is.EqualTo(1));
         }
         //
         [Test]
@@ -134,7 +134,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _detailQuery.IncidentNoteId = _incidentNoteId;
             IncidentNoteDetailQuery _detail =
                 await _handler.Handle(_detailQuery, CancellationToken.None);
-            Assert.AreEqual(_detailQuery.IncidentNoteId, _detail.IncidentNoteId);
+            Assert.That(_detailQuery.IncidentNoteId, Is.EqualTo(_detail.IncidentNoteId));
         }
         //
         [Test]
@@ -152,7 +152,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             Task<IncidentNoteListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
             IList<IncidentNoteListQuery> _list = _viewModelResults.Result.IncidentNotesList;
-            Assert.AreEqual(6, _list.Count);
+            Assert.That(_list.Count, Is.EqualTo(6));
         }
         //
     }
