@@ -1830,7 +1830,8 @@ Done:
 	V15.4.1.0 - base-srvc.service, generic http calls
 	V15.4.1.2 - new circular message queue feature in console-log
 	V16.4.1.9 - More colorizing ConsoleLogServce, updated Angular version to 16.2.11
-
+	V17.4.1.10 - 2024-02-27, Updated packages
+	
 To Do's:
 	V
 		https://kimsereyblog.blogspot.com/2018/11/create-navigation-loading-bar-for.html
