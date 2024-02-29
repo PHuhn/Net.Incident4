@@ -607,6 +607,19 @@ SOLUTION:
 
 ========
 PROBLEM:
+	Upgrade from .Net 7.0 to 8.0
+
+SOLUTION:
+	2024-02-29
+	Updated Visual Studio which update SDK to 8.0.2.  Converted vesions from
+	7.0.15 to 8.0.2
+	Compiled => installed packages that were missing, also in tests
+	Had to fix NSG.MockHelpers.cs in tests project.  I had to change call to
+	'new PropertyCounts' in DbSetAddAsync method.
+	All tests passed and the website ran and Angular updated a record..
+
+========
+PROBLEM:
 
 
 SOLUTION:

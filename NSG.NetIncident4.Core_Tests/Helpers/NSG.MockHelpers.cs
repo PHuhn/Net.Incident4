@@ -409,7 +409,7 @@ namespace NSG.Integration.Helpers
                         .Returns(() => new Mock<ISnapshot>().Object);
                     entityTypeMock
                         .SetupGet(_ => _.Counts)
-                        .Returns(new PropertyCounts(1, 1, 1, 1, 1, 1));
+                        .Returns(new PropertyCounts(1, 1, 1, 1, 1, 1, 1));
                     entityTypeMock
                         .Setup(_ => _.GetProperties())
                         .Returns(Enumerable.Empty<IProperty>());

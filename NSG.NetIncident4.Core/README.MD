@@ -1,7 +1,7 @@
 # NSG.NetIncident4.Core
 ## This Project
 
-This project is currently a .Net 7.0 Web MVC/API application.  NSG.NetIncident4.Core was first created as a .Net Core 2.2 application, but due to authentication issues was never completed.  Latter, I implemented it in .Net Core 5.0.  With persistence, I was able to work through the lack of understanding issues. 
+This project is currently a .Net 8.0 Web MVC/API application.  NSG.NetIncident4.Core was first created as a .Net Core 2.2 application, but due to authentication issues was never completed.  Latter, I implemented it in .Net Core 5.0.  With persistence, I was able to work through the lack of understanding issues. 
 
 ## Overview
 
@@ -15,7 +15,7 @@ The default roles are as follows:
 - User
 - Public
 
-The application has a complete set of the Microsoft Identity scaffolding.  Some the Identity scaffolding has been changed per requirement and style.
+The application has a complete set of the Microsoft Identity scaffolding.  Some of the Identity scaffolding has been changed per requirement and style.
 
 The application does allow for external logins from:
 
