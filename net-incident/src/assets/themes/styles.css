@@ -14,12 +14,34 @@ Afterdark, afternoon, Afterwork, Aristo, Black-Tie, Blitzer, Bluesky, Bootstrap,
 ==============================================================================
 custom html styling
 */
+:root {
+	--nsg-primary: var(--primary-color, #0073ea); /* #007bff; */
+	--nsg-primary-text: var(--text-color, #000); /* #007bff; */
+	--nsg-success: forestgreen;
+	--nsg-info:  var(--primary-color); /* #007bff; */
+	--nsg-warning: darkorange;
+	--nsg-danger: red;
+	--nsg-text-color: var(--text-color, #000f00);
+	--nsg-bg-color: var(--surface-ground, #fff0ff);
+	--nsg-jumbotron-bg-color: var(--gray-200);
+}
+:root,
+[data-bs-theme="light"] {
+	color-scheme: light;
+	--nsg-jumbotron-bg-color: var(--gray-200);
+}
+[data-bs-theme="dark"] {
+	color-scheme: dark;
+	--nsg-jumbotron-bg-color: var(--gray-700);
+}
+/* */
 body {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 1.2rem;
+	margin: 0;
 	line-height: 1.5; /* 1.5 */
-	color: #000;
-	background-color: #fff;
+	color: var(--nsg-text-color);
+	background-color: var(--nsg-bg-color);
 }
 optgroup, select, textarea {
 	font-family: sans-serif;
@@ -32,7 +54,7 @@ button, input, select, textarea {
 	font-family: sans-serif;
 	font-size: 100%;
 }
-input::placeholder, textarea::placeholder { color: lightgray; }
+/* input::placeholder, textarea::placeholder { color: lightgray; } */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 500;  line-height: 1.1;
 	margin-top: 0; margin-bottom: .5rem;
@@ -51,19 +73,26 @@ PrimeNg
 body .p-inputtext { padding: 0px 0 2px 0; border: 0 none; }
 /* style popup dialogs boxes */
 body .p-dialog .p-dialog-titlebar { font-weight: bold; }
-body .p-dialog .p-dialog-footer { background-color: #f4f4f4; }
 /* icon button sizing */
 body .p-fluid .p-button-icon-only { width: 1.8em; }
 body .p-button { font-size: 12px; }
 body .p-button.p-state-default.p-button-secondary, body .p-buttonset.p-button-secondary > .p-button.p-state-default {
 	border: 1px solid gray; }
 /* selected table item */
-body .p-table .p-table-tbody > tr.p-state-highlight {
-    background-color: #add8e6; color: #000000;
-}
 .p-datatable .p-datatable-thead > tr > th,
 .p-datatable .p-datatable-tbody > tr > td {
-    padding: 0.571rem 0.600rem;
+	padding: 0.571rem 0.600rem;
+}
+/* menu */
+.p-menubar {
+	background-color: transparent;
+	border: none;
+}
+.p-menubar .p-submenu-list {
+	border-radius: 4px;
+}
+.menubar {
+	background-color: var(--nsg-primary);
 }
 /*
 ==============================================================================
@@ -101,30 +130,52 @@ NSG
 	color: #000000;
 	font-weight: bold;
 }
+.nsg-bs-menu-container {
+	background-color: var(--nsg-primary);
+}
 /* custom appearance and positioning styles */
 .nsg-header {
 	height: 60px; padding-top: 12px;
 }
+/* Jumbo-tron */
 .nsg-jumbotron {
-	padding: 48px 32px 48px 32px;
+	min-height: 120px;
+	padding: 2rem 1rem;
+	margin-top: 3rem;
+	margin-bottom: 2rem;
+	border: 1px solid var(--nsg-primary);
+	border-radius: 5px;
+	background-color: var(--nsg-jumbotron-bg-color);
+}
+/* footer */
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
+.nsg-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	white-space: nowrap;
+	line-height: 60px;
+	color: var(--nsg-primary-text);
+	background-color: var(--nsg-primary);
 }
 /* https://www.sessions.edu/color-calculator/ */
 .nsg-inputtext { padding: 1px 1px 1px 4px; font-size: 1.2rem; border: 0 none; }
-.nsg-primary-color { color: #0073ea; } /* #0073ea .p-state-default */
-.nsg-color-back { color: #000000; } /* black */
+.nsg-primary-color { color: var(--nsg-primary-color); }
 .nsg-bold { font-weight: bold; }
 .nsg-complementary-color { color: #ea5a00; }
 .nsg-triadic-lite-color { color: #eacf00; }
 .nsg-triadic-dark-color { color: #ea003b; }
 .nsg-alert-color { color: red; }
-.nsg-primary-bgcolor { background-color: #f6f6f6; }
 .nsg-text-left { text-align: left !important; }
 .nsg-text-right { text-align: right !important; }
 .nsg-text-center { text-align: center !important; }
 .nsg-spacer25 { height: 25px; }
 .nsg-button-div { width: 40px; height: 32px; padding: 0; margin: 0; }
 .nsg-icon-button { width: 110px; }
-.nsg-link-div { color: #0073ea; text-decoration: underline; }
+.nsg-link-div { color: var(--nsg-primary-color); text-decoration: underline; }
 .nsg-column-container {
 	float: left;
 	padding: 0;

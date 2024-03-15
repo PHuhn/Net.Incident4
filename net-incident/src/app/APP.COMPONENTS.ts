@@ -1,5 +1,6 @@
 //
 import { AlertsComponent } from './global/alerts/alerts.component';
+import { ToggleThemeComponent } from './global/toggle-theme/toggle-theme.component';
 import { TruncatePipe } from './global/truncate.pipe';
 //
 import { IncidentGridComponent } from './net-incident/incident-grid/incident-grid.component';
@@ -18,6 +19,7 @@ import { HelpComponent } from './public/help/help.component';
 //
 export const APP_COMPONENTS = [
 	AlertsComponent,
+	ToggleThemeComponent,
 	TruncatePipe,
 	//
 	IncidentGridComponent,

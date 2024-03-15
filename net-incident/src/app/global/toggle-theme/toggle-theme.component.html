@@ -1,0 +1,5 @@
+<button type="button"
+	[style]="{ 'width': '2.7rem', 'height': '2.7rem', 'border-radius': '4px' }"
+	(click)="changeTheme(!isDarkMode)">
+	<i class="pi " [ngClass]="{'pi-moon': isDarkMode, 'pi-sun': !isDarkMode}"></i>
+</button>
