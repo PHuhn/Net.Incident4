@@ -620,6 +620,17 @@ SOLUTION:
 
 ========
 PROBLEM:
+	Feature to toggle between light and dark bootstrap themes
+
+SOLUTION:
+	V8.4.2.15
+	Added font awesome
+	Added wwwroot/js/swithc-theme.js
+	Added toggle icon button to _
+
+
+========
+PROBLEM:
 
 
 SOLUTION:

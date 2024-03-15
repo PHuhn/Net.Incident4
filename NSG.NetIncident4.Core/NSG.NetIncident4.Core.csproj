@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
 		<!-- Version <core>.<major>.<minor>.<build> -->
-		<Version>8.4.2.14</Version>
+		<Version>8.4.2.15</Version>
 		<Copyright>Copyright © 2024</Copyright>
 		<Company>Phillip N. Huhn, DBA Northern Software Group</Company>
 		<Authors>Phil Huhn (NSG)</Authors>
@@ -68,6 +68,10 @@
 
 	<ItemGroup>
 		<Folder Include="Views\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Font.Awesome" Version="5.15.4" />
 	</ItemGroup>
 
 	<Target Name="CreateLogsFolder" AfterTargets="Publish">
