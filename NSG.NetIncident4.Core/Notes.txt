@@ -626,8 +626,7 @@ SOLUTION:
 	V8.4.2.15
 	Added font awesome
 	Added wwwroot/js/swithc-theme.js
-	Added toggle icon button to _
-
+	Added toggle icon button to _Layout.chtml
 
 ========
 PROBLEM:
