@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
 		<!-- Version <core>.<major>.<minor>.<build> -->
-		<Version>8.4.2.15</Version>
+		<Version>8.4.2.16</Version>
 		<Copyright>Copyright © 2024</Copyright>
 		<Company>Phillip N. Huhn, DBA Northern Software Group</Company>
 		<Authors>Phil Huhn (NSG)</Authors>
@@ -72,6 +72,15 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Font.Awesome" Version="5.15.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\js\site.js">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="wwwroot\js\switch-theme.js">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<Target Name="CreateLogsFolder" AfterTargets="Publish">

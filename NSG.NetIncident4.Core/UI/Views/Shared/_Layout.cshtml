@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" id='body-color-theme' data-bs-theme="auto">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,8 +10,7 @@
 	<link rel="stylesheet" href="~/css/site.css" />
 	<link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body id='body-color-theme' data-bs-theme="light">
-	<script src="~/js/switch-theme.js" asp-append-version="true"></script>
+<body>
 	<header>
 		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
 			<div class="container">
@@ -22,11 +21,16 @@
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 					<partial name="_LoginPartial.cshtml" />
-					<button
+					<button id='switch-theme-button'
 						style='width: 2.7rem; height: 2.7rem; border-radius: 4px;'
-						onclick='nsg_switchTheme()'>
+							onclick='toggleTheme()'
+							>
 						<i id='switch-theme-icon' class='fa fa-sun'></i>
 					</button>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" role="switch" id="btnModeSwitch">
+						<label class="form-check-label" for="flexSwitchCheckDefault">Mode</label>
+					</div>
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -113,6 +117,18 @@
 
 	<script src="~/js/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+	<script src="~/js/switch-theme.js" asp-append-version="true"></script>
+	<script>
+		document.getElementById('btnModeSwitch').addEventListener('click', () => {
+			if (document.documentElement.getAttribute('data-bs-theme') === 'dark') {
+				document.documentElement.setAttribute('data-bs-theme', 'light')
+				console.log('light');
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+				console.log('dark');
+			}
+		})
+	</script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 
 	@RenderSection("Scripts", required: false)

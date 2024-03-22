@@ -625,14 +625,21 @@ PROBLEM:
 SOLUTION:
 	V8.4.2.15
 	Added font awesome
-	Added wwwroot/js/swithc-theme.js
+	Added wwwroot/js/switch-theme.js
 	Added toggle icon button to _Layout.chtml
+
+========
+PROBLEM:
+	Toggle light and dark feature is not retained when going to new page.
+
+SOLUTION:
+	V8.4.2.16
+	Corrected wwwroot/js/switch-theme.js and site.js
 
 ========
 PROBLEM:
 
 
 SOLUTION:
-
 
 
