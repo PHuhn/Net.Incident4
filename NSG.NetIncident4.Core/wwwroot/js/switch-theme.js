@@ -7,6 +7,9 @@
 ** . nsg_toggleTheme        toggle the current theme
 ** . nsg_getTheme           returns current theme in local storage
 ** . init                   initialization steps
+**
+** barrowed from:
+** https://community.abp.io/posts/how-to-add-dark-mode-support-to-the-basic-theme-in-3-steps-ge9c0f85
 */
 $(function () {
     /**
@@ -25,7 +28,7 @@ $(function () {
         console.warn(`${_methodName}: Failed to find: 'switch-theme-icon'`);
     }
     /**
-    ** 
+    ** Set both local storage and 'data-bs-theme' attribute
     ** @param {any/string} theme
     */
     function nsg_changeTheme(theme) {

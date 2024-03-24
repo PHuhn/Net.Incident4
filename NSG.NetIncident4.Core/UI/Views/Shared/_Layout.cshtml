@@ -27,10 +27,6 @@
 							>
 						<i id='switch-theme-icon' class='fa fa-sun'></i>
 					</button>
-					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" role="switch" id="btnModeSwitch">
-						<label class="form-check-label" for="flexSwitchCheckDefault">Mode</label>
-					</div>
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -118,17 +114,6 @@
 	<script src="~/js/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
 	<script src="~/js/switch-theme.js" asp-append-version="true"></script>
-	<script>
-		document.getElementById('btnModeSwitch').addEventListener('click', () => {
-			if (document.documentElement.getAttribute('data-bs-theme') === 'dark') {
-				document.documentElement.setAttribute('data-bs-theme', 'light')
-				console.log('light');
-			} else {
-				document.documentElement.setAttribute('data-bs-theme', 'dark')
-				console.log('dark');
-			}
-		})
-	</script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 
 	@RenderSection("Scripts", required: false)
