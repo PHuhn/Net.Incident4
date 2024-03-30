@@ -638,6 +638,14 @@ SOLUTION:
 
 ========
 PROBLEM:
+	Add pagination feature to NICs and ApplicationUsers
+
+SOLUTION:
+	V8.4.2.17 - Added pagination feature to NICs
+	V8.4.2.18 - Added pagination feature to ApplicationUsers
+
+========
+PROBLEM:
 
 
 SOLUTION:

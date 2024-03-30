@@ -16,6 +16,9 @@ using FluentValidation.Results;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Application.Infrastructure;
+using NSG.PrimeNG.LazyLoading;
+using NSG.NetIncident4.Core.Application.Commands.Logs;
+using SendGrid.Helpers.Mail;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 {
@@ -29,10 +32,10 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public string Id { get; set; }
 		public string UserName { get; set; }
 		public string Email { get; set; }
-        public string FullName { get; set; }
-        public int CompanyId { get; set; }
-        public string CompanyShortName { get; set; }
-        public string CompanyName { get; set; }
+		public string FullName { get; set; }
+		public int CompanyId { get; set; }
+		public string CompanyShortName { get; set; }
+		public string CompanyName { get; set; }
 		//
 		public ApplicationUserListQuery()
 		{
@@ -51,21 +54,21 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 	/// </summary>
 	public class ApplicationUserListQueryHandler : IRequestHandler<ApplicationUserListQueryHandler.ListQuery, ApplicationUserListQueryHandler.ViewModel>
 	{
-        //private readonly ApplicationDbContext _context;
-        //private IApplication _application;
-        private UserManager<ApplicationUser> _userManager;
-        private IMediator Mediator;
-        //
-        /// <summary>
-        ///  The constructor for the inner handler class, to list the ApplicationUser entity.
-        /// </summary>
-        /// <param name="userManager">The identity interface for users.</param>
-        /// <param name="mediator">MediatR dependency injector.</param>
-        public ApplicationUserListQueryHandler(UserManager<ApplicationUser> userManager, IMediator mediator)
+		//private readonly ApplicationDbContext _context;
+		//private IApplication _application;
+		private UserManager<ApplicationUser> _userManager;
+		private IMediator Mediator;
+		//
+		/// <summary>
+		///  The constructor for the inner handler class, to list the ApplicationUser entity.
+		/// </summary>
+		/// <param name="userManager">The identity interface for users.</param>
+		/// <param name="mediator">MediatR dependency injector.</param>
+		public ApplicationUserListQueryHandler(UserManager<ApplicationUser> userManager, IMediator mediator)
 		{
-            _userManager = userManager;
-            Mediator = mediator;
-        }
+			_userManager = userManager;
+			Mediator = mediator;
+		}
 		//
 		/// <summary>
 		/// 'ApplicationUser' query handle method, passing two interfaces.
@@ -82,15 +85,19 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				// Call the FluentValidationErrors extension method.
 				throw new ListQueryValidationException(_results.FluentValidationErrors());
 			}
-            GetUserCompanyListQueryHandler.ViewModel _companiesViewModel =
-                await Mediator.Send(new GetUserCompanyListQueryHandler.ListQuery());
+			GetUserCompanyListQueryHandler.ViewModel _companiesViewModel =
+				await Mediator.Send(new GetUserCompanyListQueryHandler.ListQuery());
 			//
 			return new ViewModel()
 			{
 				ApplicationUsersList = await _userManager.Users
 					.Include(u => u.Company)
 					.Where(_usr => _companiesViewModel.CompanyList.Contains(_usr.CompanyId))
-					.Select(cnt => cnt.ToApplicationUserListQuery()).ToListAsync()
+					.Select(_ausr => _ausr).AsQueryable()
+					.LazySkipTake2<ApplicationUser>(queryRequest.lazyLoadEvent)
+					.Select(cnt => cnt.ToApplicationUserListQuery()).ToListAsync(),
+				TotalRecords = _userManager.Users
+					.Where(_usr => _companiesViewModel.CompanyList.Contains(_usr.CompanyId)).Count()
 			};
 		}
 		//
@@ -100,11 +107,8 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		public class ViewModel
 		{
 			public IList<ApplicationUserListQuery> ApplicationUsersList { get; set; }
-			//
-			public ViewModel()
-			{
-				ApplicationUsersList = new List<ApplicationUserListQuery>();
-			}
+					= new List<ApplicationUserListQuery>();
+			public long TotalRecords { get; set; } = 0;
 		}
 		//
 		/// <summary>
@@ -112,6 +116,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		/// </summary>
 		public class ListQuery : IRequest<ViewModel>
 		{
+			public LazyLoadEvent2 lazyLoadEvent { get; set; }
 		}
 		//
 		/// <summary>
@@ -147,27 +152,27 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 		{
 		}
 	}
-    //
-    /// <summary>
-    /// Custom ApplicationUserListQuery validation exception.
-    /// </summary>
-    public class ApplicationUserListQueryUserException : Exception
-    {
-        //
-        /// <summary>
-        /// Implementation of ApplicationUserListQuery validation exception.
-        /// </summary>
-        /// <param name="errorMessage">The validation error messages.</param>
-        public ApplicationUserListQueryUserException(string errorMessage)
-            : base($"ApplicationUserListQuery user validation exception: errors: {errorMessage}")
-        {
-        }
-    }
-    //
-    /// <summary>
-    /// Extension method.
-    /// </summary>
-    public static partial class Extensions
+	//
+	/// <summary>
+	/// Custom ApplicationUserListQuery validation exception.
+	/// </summary>
+	public class ApplicationUserListQueryUserException : Exception
+	{
+		//
+		/// <summary>
+		/// Implementation of ApplicationUserListQuery validation exception.
+		/// </summary>
+		/// <param name="errorMessage">The validation error messages.</param>
+		public ApplicationUserListQueryUserException(string errorMessage)
+			: base($"ApplicationUserListQuery user validation exception: errors: {errorMessage}")
+		{
+		}
+	}
+	//
+	/// <summary>
+	/// Extension method.
+	/// </summary>
+	public static partial class Extensions
 	{
 		//
 		/// <summary>
@@ -182,11 +187,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.ApplicationUsers
 				Id = entity.Id,
 				UserName = entity.UserName,
 				Email = entity.Email,
-                FullName = entity.FullName,
-                CompanyId = entity.CompanyId,
-                CompanyShortName = (entity.Company != null ? entity.Company.CompanyShortName: "-null-"),
-                CompanyName = (entity.Company != null ? entity.Company.CompanyName : "-null-")
-            };
+				FullName = entity.FullName,
+				CompanyId = entity.CompanyId,
+				CompanyShortName = (entity.Company != null ? entity.Company.CompanyShortName: "-null-"),
+				CompanyName = (entity.Company != null ? entity.Company.CompanyName : "-null-")
+			};
 		}
 	}
 }

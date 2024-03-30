@@ -14,6 +14,9 @@ using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin;
 using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
+using NSG.PrimeNG.LazyLoading;
+using NSG.NetIncident4.Core.Application.Commands.NICs;
+using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
 {
@@ -144,14 +147,16 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.CompanyAdmin
                 .Verifiable("ApplicationUser list was not sent.");
             UsersAdminController sut = new UsersAdminController(userManager, emailSender, mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("AdminUser", "admin", "/UsersAdmin/", controllerHeaders);
+            LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = 5 };
             // when
-            var actual = await sut.Index();
+            var actual = await sut.Index(event2);
             // then
-            var viewResult = actual as ViewResult;
+            Assert.That(actual, Is.Not.Null);
+            var viewResult = actual.Result as ViewResult;
             Assert.That(viewResult, Is.Not.Null);
-            var model = viewResult.ViewData.Model as List<ApplicationUserListQuery>;
+            var model = viewResult.Model as Pagination<ApplicationUserListQuery>;
             Assert.That(model, Is.Not.Null);
-            Assert.That(model.Count, Is.EqualTo(1));
+            Assert.That(model.items.Count, Is.EqualTo(1));
         }
         //
         [Test]

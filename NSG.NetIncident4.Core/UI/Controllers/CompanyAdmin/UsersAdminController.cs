@@ -16,6 +16,8 @@ using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.UI.ViewHelpers;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
+using NSG.NetIncident4.Core.UI.ViewModels;
+using NSG.PrimeNG.LazyLoading;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
@@ -45,13 +47,21 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
         /// GET: /CompanyUsers/
         /// or
         /// GET: /CompanyUsers/Index
-        /// </summary>
-        /// <returns>View of a list of permissible users</returns>
-        public async Task<IActionResult> Index()
+		/// <param name="event2"></param>
+		/// <returns>Pagination of LogListQuery</returns>
+		public async Task<ActionResult<Pagination<ApplicationUserListQuery>>> Index(LazyLoadEvent2 event2)
         {
-            ApplicationUserListQueryHandler.ViewModel _usersResults =
-                await Mediator.Send(new ApplicationUserListQueryHandler.ListQuery());
-            return View(_usersResults.ApplicationUsersList);
+            if (event2.rows == 0) { event2.rows = 10; }
+            ApplicationUserListQueryHandler.ListQuery _parm = new ApplicationUserListQueryHandler.ListQuery() { lazyLoadEvent = event2 };
+            ApplicationUserListQueryHandler.ViewModel _results = await Mediator.Send(_parm);
+            Pagination<ApplicationUserListQuery> pagination = new Pagination<ApplicationUserListQuery>(
+                _results.ApplicationUsersList as List<ApplicationUserListQuery>,
+                event2,
+                _results.TotalRecords
+            )
+            { action = "Index" };
+            //
+            return View(pagination);
         }
         //
         /// <summary>

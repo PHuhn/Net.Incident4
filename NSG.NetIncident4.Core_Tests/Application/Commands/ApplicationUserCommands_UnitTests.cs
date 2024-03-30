@@ -16,6 +16,7 @@ using NSG.NetIncident4.Core.Application.Commands.ApplicationUsers;
 using NSG.NetIncident4.Core.Application.Infrastructure;
 using System.Linq;
 using NSG.NetIncident4.Core.Persistence;
+using NSG.PrimeNG.LazyLoading;
 //
 namespace NSG.NetIncident4.Core_Tests.Application.Commands
 {
@@ -309,10 +310,11 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _userStoreMock = new Mock<IUserStore<ApplicationUser>>();
             Mock<UserManager<ApplicationUser>> _userManagerMock = MockHelpers.GetMockUserManager(_userStoreMock.Object);
             _userManagerMock.Setup(x => x.Users).Returns(_users);
+            LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = 10 };
             // when
             ApplicationUserListQueryHandler _handler = new ApplicationUserListQueryHandler(_userManagerMock.Object, _mockGetCompaniesMediator.Object);
             ApplicationUserListQueryHandler.ListQuery _listQuery =
-                new ApplicationUserListQueryHandler.ListQuery();
+                new ApplicationUserListQueryHandler.ListQuery() { lazyLoadEvent = event2 };
             Task<ApplicationUserListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
             // then
