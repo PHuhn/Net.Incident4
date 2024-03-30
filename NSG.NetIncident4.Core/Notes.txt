@@ -638,11 +638,12 @@ SOLUTION:
 
 ========
 PROBLEM:
-	Add pagination feature to NICs and ApplicationUsers
+	Add pagination feature to NICs, ApplicationUsers and CompanyServers
 
 SOLUTION:
 	V8.4.2.17 - Added pagination feature to NICs
 	V8.4.2.18 - Added pagination feature to ApplicationUsers
+	V8.4.2.19 - Added pagination feature to CompanyServers
 
 ========
 PROBLEM:

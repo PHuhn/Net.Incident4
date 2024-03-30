@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NSG.NetIncident4.Core.Application.Commands.CompanyServers.CompanyServerListQuery>
+﻿@model NSG.NetIncident4.Core.UI.ViewModels.Pagination<NSG.NetIncident4.Core.Application.Commands.CompanyServers.CompanyServerListQuery>
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,7 +13,7 @@
         <div class="col-md-1"></div>
     </div>
 </div>
-@foreach (var item in Model)
+@foreach (var item in Model.items)
 {
     <div class="nsg-row">
         <div class="row">
@@ -40,3 +40,5 @@
         <div style="clear: left;"></div>
     </div>
 }
+<!-- add paginator to form, model must be Pagination<T> -->
+<partial name="PagerPartial" model="Model" />

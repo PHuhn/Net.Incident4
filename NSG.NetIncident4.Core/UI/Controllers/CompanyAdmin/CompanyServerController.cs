@@ -14,6 +14,8 @@ using NSG.NetIncident4.Core.Application.Commands.CompanyServers;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Infrastructure.Common;
+using NSG.NetIncident4.Core.UI.ViewModels;
+using NSG.PrimeNG.LazyLoading;
 //
 namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
 {
@@ -26,11 +28,24 @@ namespace NSG.NetIncident4.Core.UI.Controllers.CompanyAdmin
         {
         }
         //
-        // GET: CompanyServer
-        public async Task<ActionResult> Index()
+        /// <summary>
+        /// GET: CompanyServer
+        /// </summary>
+        /// <param name="event2"></param>
+        /// <returns>Pagination of CompanyServerListQuery</returns>
+        public async Task<ActionResult<Pagination<CompanyServerListQuery>>> Index(LazyLoadEvent2 event2)
         {
-            CompanyServerListQueryHandler.ViewModel _results = await Mediator.Send(new CompanyServerListQueryHandler.ListQuery());
-            return View(_results.CompaniesList);
+            if (event2.rows == 0) { event2.rows = 5; }
+            CompanyServerListQueryHandler.ListQuery _parm = new CompanyServerListQueryHandler.ListQuery() { lazyLoadEvent = event2 };
+            CompanyServerListQueryHandler.ViewModel _results = await Mediator.Send(_parm);
+            Pagination<CompanyServerListQuery> pagination = new Pagination<CompanyServerListQuery>(
+                _results.CompaniesList as List<CompanyServerListQuery>,
+                event2,
+                _results.TotalRecords
+            )
+            { action = "Index" };
+            //
+            return View(pagination);
         }
         //
         // GET: CompanyServer/Details/5
