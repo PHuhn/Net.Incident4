@@ -137,14 +137,16 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             var _mockDbSet = NSG_Helpers.nicsFakeData.BuildMock().BuildMockDbSet();
             _contextMock = MockHelpers.GetDbContextMock();
             _contextMock.Setup(x => x.NICs).Returns(_mockDbSet.Object);
+            int displayRows = 5;
+            LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = displayRows };
             // when
             NICListQueryHandler _handler = new NICListQueryHandler(_contextMock.Object);
             NICListQueryHandler.ListQuery _listQuery =
-                new NICListQueryHandler.ListQuery();
+                new NICListQueryHandler.ListQuery() { lazyLoadEvent = event2 };
             Task<NICListQueryHandler.ViewModel> _viewModelResults =
                 _handler.Handle(_listQuery, CancellationToken.None);
             IList<NICListQuery> _list = _viewModelResults.Result.NICsList;
-            Assert.That(_list.Count, Is.EqualTo(11));
+            Assert.That(_list.Count, Is.EqualTo(displayRows));
         }
         //
     }

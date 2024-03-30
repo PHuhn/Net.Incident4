@@ -12,6 +12,8 @@ using NSG.NetIncident4.Core.Application.Commands.Logs;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.Infrastructure.Common;
+using NSG.NetIncident4.Core.UI.ViewModels;
+using NSG.PrimeNG.LazyLoading;
 //
 // in base controller MediatR;
 //
@@ -25,16 +27,29 @@ namespace NSG.NetIncident4.Core.UI.Controllers.Admin
         public NicsController(IMediator mediator) : base(mediator)
         {
         }
-        //
-        // GET: Nics
-        public async Task<IActionResult> Index()
-        {
-            NICListQueryHandler.ViewModel _results = await Mediator.Send(new NICListQueryHandler.ListQuery());
-            return View(_results.NICsList);
-        }
-        //
-        // GET: Nics/Details/5
-        public async Task<IActionResult> Details(string id)
+		//
+		/// <summary>
+		/// GET: NICs
+		/// </summary>
+		/// <param name="event2"></param>
+		/// <returns>Pagination of NICListQuery</returns>
+		public async Task<ActionResult<Pagination<NICListQuery>>> Index(LazyLoadEvent2 event2)
+		{
+			if (event2.rows == 0) { event2.rows = 10; }
+			NICListQueryHandler.ListQuery _parm = new NICListQueryHandler.ListQuery() { lazyLoadEvent = event2 };
+			NICListQueryHandler.ViewModel _results = await Mediator.Send(_parm);
+			Pagination<NICListQuery> pagination = new Pagination<NICListQuery>(
+				_results.NICsList as List<NICListQuery>,
+				event2,
+				_results.TotalRecords
+			)
+			{ action = "Index" };
+			//
+			return View(pagination);
+		}
+		//
+		// GET: Nics/Details/5
+		public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {

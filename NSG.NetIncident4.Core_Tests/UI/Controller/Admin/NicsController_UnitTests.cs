@@ -19,6 +19,9 @@ using NSG.Integration.Helpers;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.UI.Controllers.Admin;
 using NSG.NetIncident4.Core.Application.Commands.NICs;
+using NSG.PrimeNG.LazyLoading;
+using NSG.NetIncident4.Core.Application.Commands.Logs;
+using NSG.NetIncident4.Core.UI.ViewModels;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
 {
@@ -73,14 +76,16 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller.Admin
                 .Verifiable("NIC list was not sent.");
             NicsController sut = new NicsController(mockMediator.Object);
             sut.ControllerContext = Fixture_ControllerContext("TestUser", "admin", "/Nics", controllerHeaders);
+            LazyLoadEvent2 event2 = new LazyLoadEvent2() { first = 0, rows = 5 };
             // when
-            var actual = await sut.Index();
+            var actual = await sut.Index(event2);
             // then
-            var viewResult = actual as ViewResult;
+            Assert.That(actual, Is.Not.Null);
+            var viewResult = actual.Result as ViewResult;
             Assert.That(viewResult, Is.Not.Null);
-            var model = viewResult.ViewData.Model as List<NICListQuery>;
+            var model = viewResult.Model as Pagination<NICListQuery>;
             Assert.That(model, Is.Not.Null);
-            Assert.That(model.Count, Is.EqualTo(3));
+            Assert.That(model.items.Count, Is.EqualTo(3));
         }
         //
         [Test]

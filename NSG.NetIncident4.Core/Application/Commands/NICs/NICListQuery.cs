@@ -14,6 +14,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using NSG.NetIncident4.Core.Domain.Entities;
 using NSG.NetIncident4.Core.Persistence;
+using NSG.PrimeNG.LazyLoading;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.NICs
 {
@@ -25,11 +26,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 	{
 		[System.ComponentModel.DataAnnotations.Key]
 		public string NIC_Id { get; set; } = String.Empty;
-        public string NICDescription { get; set; } = String.Empty;
-        public string NICAbuseEmailAddress { get; set; } = String.Empty;
-        public string NICRestService { get; set; } = String.Empty;
-        public string NICWebSite { get; set; } = String.Empty;
-    }
+		public string NICDescription { get; set; } = String.Empty;
+		public string NICAbuseEmailAddress { get; set; } = String.Empty;
+		public string NICRestService { get; set; } = String.Empty;
+		public string NICWebSite { get; set; } = String.Empty;
+	}
 	//
 	/// <summary>
 	/// 'NIC' list query handler.
@@ -66,7 +67,11 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 			return new ViewModel()
 			{
 				NICsList = await _context.NICs
-					.Select(cnt => cnt.ToNICListQuery()).ToListAsync()
+					.OrderByDescending(ob => ob.NIC_Id)
+					.Select(d => d).AsQueryable()
+					.LazySkipTake2<NIC>(queryRequest.lazyLoadEvent)
+					.Select(cnt => cnt.ToNICListQuery()).ToListAsync(),
+				TotalRecords = _context.NICs.Count()
 			};
 		}
 		//
@@ -76,6 +81,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 		public class ViewModel
 		{
 			public IList<NICListQuery> NICsList { get; set; } = new List<NICListQuery>();
+			public long TotalRecords { get; set; } = 0;
 		}
 		//
 		/// <summary>
@@ -83,6 +89,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.NICs
 		/// </summary>
 		public class ListQuery : IRequest<ViewModel>
 		{
+			public LazyLoadEvent2 lazyLoadEvent { get; set; }
 		}
 		//
 		/// <summary>

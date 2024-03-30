@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NSG.NetIncident4.Core.Application.Commands.NICs.NICListQuery>
+﻿@model NSG.NetIncident4.Core.UI.ViewModels.Pagination<NSG.NetIncident4.Core.Application.Commands.NICs.NICListQuery>
 @{
     ViewData["Title"] = "Index";
 }
@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-1"></div>
 </div>
-@foreach (var item in Model)
+@foreach (var item in Model.items)
 {
     <div class="row nsg-row">
         <div class="col-md-2">
@@ -34,3 +34,5 @@
         </div>
     </div>
 }
+<!-- add paginator to form, model must be Pagination<T> -->
+<partial name="PagerPartial" model="Model" />
