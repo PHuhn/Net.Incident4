@@ -10,7 +10,7 @@ export class AboutComponent {
 	//
 	applicationName = 'Network Incident';
 	companyName = 'Phillip N. Huhn, DBA Northern Software Group';
-	copyright ='Copyright © 2022';
+	copyright ='Copyright © 2024';
 	// (angular version).major.minor.build
 	// major is application version
 	version = `${pkg.version}`;
