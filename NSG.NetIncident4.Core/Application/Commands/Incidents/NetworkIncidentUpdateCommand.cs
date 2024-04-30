@@ -21,6 +21,7 @@ using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Application.Commands.Logs;
+using Org.BouncyCastle.Utilities.Encoders;
 //
 namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 {
@@ -67,7 +68,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 				// Call the FluentValidationErrors extension method.
 				throw new NetworkIncidentUpdateCommandValidationException(_results.FluentValidationErrors());
 			}
-            string _params = $"Entering with, incidentId: {request.incident.IncidentId}, UserName: {request.user.UserName}";
+            string _params = $"{codeName}: Entering with, incidentId: {request.incident.IncidentId}, UserName: {request.user.UserName}";
             System.Diagnostics.Debug.WriteLine(_params);
             //
             var _entity = await _context.Incidents
@@ -98,16 +99,15 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
                 //
                 await _context.SaveChangesAsync(cancellationToken);
                 //
+                string _mailing = "Not Mailed";
                 if (_mailedBefore == false && request.incident.Mailed == true)
                 {
-                    await Task.Run(async () =>
-                    {
-                         await EMailIspReportAsync(request, cancellationToken);
-                    });
+                    _mailing = "Mailed to ISP";
+                    await EMailIspReportAsync(request, cancellationToken);
                 }
                 await Mediator.Send(new LogCreateCommand(
                     LoggingLevel.Debug, MethodBase.GetCurrentMethod(),
-                    $"Exit of NetworkIncidentUpdateCommand handler, id: {request.incident.IncidentId}"));
+                    $"{codeName}: Exit of handler, incidentId: {request.incident.IncidentId}, {_mailing}"));
             }
             catch (Exception _ex)
             {
@@ -314,65 +314,99 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
         }
         //
         #endregion // NetworkLogs processing
-        //
-        //
-        /// <summary>
-        /// EMail the last ISP Report
-        /// </summary>
-        /// <param name="data"></param>
-        private async Task EMailIspReportAsync(NetworkIncidentSaveQuery data, CancellationToken cancellationToken)
-        {
-            string codeName = "EMailIspReportAsync";
-            var _emailNoteTypeId = await _context.NoteTypes.Where(_it => _it.NoteTypeClientScript == "email").Select(_it => _it.NoteTypeId).FirstOrDefaultAsync();
-            Incident? _entity = await _context.Incidents
-                .Include(_i => _i.IncidentIncidentNotes)
-                .ThenInclude(IncidentIncidentNotes => IncidentIncidentNotes.IncidentNote)
-                .SingleOrDefaultAsync(_r => _r.IncidentId == data.incident.IncidentId, cancellationToken);
-            //
-            if( _entity != null )
-            {
-                IncidentNote? _note = _entity.IncidentIncidentNotes.Where(_inn => _inn.IncidentNote.NoteTypeId == _emailNoteTypeId).Select(_in => _in.IncidentNote).FirstOrDefault();
-                if (_note != null)
-                {
-                    try
-                    {
-                        // translate the message from json string of sendgrid type
-                        SendGridMessage? _sgm = JsonConvert.DeserializeObject<SendGridMessage>(_note.Note);
-                        await _notification.SendEmailAsync(MimeKit.SendGridExtensions.NewMimeMessage(_sgm));
-                    }
-                    catch (Exception _ex)
-                    {
-                        await Mediator.Send(new LogCreateCommand(
-                            LoggingLevel.Warning, MethodBase.GetCurrentMethod(),
-                            _ex.GetBaseException().Message, _ex));
-                        System.Diagnostics.Debug.WriteLine(_ex.ToString());
-                        throw (new Exception($"{codeName}: email failed, see logs.", _ex));
-                    }
-                }
-                else
-                {
-                    string _msg = $"Email note record for incident id: {data.incident.IncidentId} not found.";
-                    System.Diagnostics.Debug.WriteLine(_msg);
-                    Exception _ex = new KeyNotFoundException(_msg);
-                    await Mediator.Send(new LogCreateCommand(
-                        LoggingLevel.Error, MethodBase.GetCurrentMethod(),
-                        _ex.Message, _ex));
-                    throw _ex;
-                }
-            }
-            else
-            {
-                string _msg = $"Incident record with id: {data.incident.IncidentId} not found.";
-                System.Diagnostics.Debug.WriteLine(_msg);
-                Exception _ex = new KeyNotFoundException(_msg);
-                await Mediator.Send(new LogCreateCommand(
-                    LoggingLevel.Error, MethodBase.GetCurrentMethod(),
-                    _ex.Message, _ex));
-                throw _ex;
-            }
-        }
-        //
-    }
+		//
+		/// <summary>
+		/// EMail the last ISP Report
+		/// </summary>
+		/// <param name="data"></param>
+		private async Task EMailIspReportAsync(NetworkIncidentSaveQuery data, CancellationToken cancellationToken)
+		{
+			string codeName = "EMailIspReportAsync";
+			long _incidentId = data.incident.IncidentId;
+			await Mediator.Send(new LogCreateCommand(LoggingLevel.Debug,
+				MethodBase.GetCurrentMethod(), $"{codeName}: Entering ..."));
+			try
+			{
+				// get the NoteTypeId that is flagged as email
+				var _emailNoteTypeId = await _context.NoteTypes.Where(_it => _it.NoteTypeClientScript == "email").Select(_it => _it.NoteTypeId).FirstOrDefaultAsync();
+				Incident? _entity = await _context.Incidents
+					.Include(_i => _i.IncidentIncidentNotes)
+					.ThenInclude(IncidentIncidentNotes => IncidentIncidentNotes.IncidentNote)
+					.Include(_i => _i.Server)
+					.ThenInclude(Servers => Servers.Company)
+					.SingleOrDefaultAsync(_r => _r.IncidentId == _incidentId, cancellationToken);
+				//
+				if ( _entity != null )
+				{
+					//
+					string? _companyShortName = _entity.Server.Company.CompanyShortName;
+					IncidentNote? _note = _entity.IncidentIncidentNotes.Where(_inn => _inn.IncidentNote.NoteTypeId == _emailNoteTypeId).Select(_in => _in.IncidentNote).FirstOrDefault();
+					if (_note != null && !String.IsNullOrEmpty(_companyShortName))
+					{
+						try
+						{
+							string _msg = $"{codeName}: Sending by SendEmailAsync with {_companyShortName}";
+							await Mediator.Send(new LogCreateCommand( LoggingLevel.Debug,
+								MethodBase.GetCurrentMethod(), _msg));
+							System.Diagnostics.Debug.WriteLine(_msg);
+							// translate the message from json string of sendgrid type
+							SendGridMessage? _sgm = JsonConvert.DeserializeObject<SendGridMessage>(_note.Note);
+							await Mediator.Send(new LogCreateCommand(LoggingLevel.Debug,
+								MethodBase.GetCurrentMethod(), $"{codeName}: Sending with: {_companyShortName}"));
+							var _ = _notification.SendEmailAsync(MimeKit.SendGridExtensions.NewMimeMessage(_sgm), _companyShortName);
+						}
+						catch (Exception _ex)
+						{
+							await Mediator.Send(new LogCreateCommand(
+								LoggingLevel.Warning, MethodBase.GetCurrentMethod(),
+								_ex.GetBaseException().Message, _ex));
+							System.Diagnostics.Debug.WriteLine(_ex.ToString());
+							throw (new Exception($"{codeName}: email failed, see logs.", _ex));
+						}
+					}
+					else
+					{
+						string _errMsg = "";
+						if ( _note != null )
+						{
+							_errMsg = $"{codeName}: Email note record for incident id: {_incidentId} not found.\n";
+						}
+						if ( !String.IsNullOrEmpty(_companyShortName) )
+						{
+							_errMsg += $"{codeName}: Company short name is empty.";
+						}
+						System.Diagnostics.Debug.WriteLine(_errMsg);
+						Exception _ex = new KeyNotFoundException(_errMsg);
+						await Mediator.Send(new LogCreateCommand(
+							LoggingLevel.Error, MethodBase.GetCurrentMethod(),
+							_errMsg, _ex));
+						throw _ex;
+					}
+				}
+				else
+				{
+					string _msgIncId = $"{codeName}: Incident record with id: {_incidentId} not found.";
+					System.Diagnostics.Debug.WriteLine(_msgIncId);
+					Exception _ex = new KeyNotFoundException(_msgIncId);
+					await Mediator.Send(new LogCreateCommand(
+						LoggingLevel.Error, MethodBase.GetCurrentMethod(),
+						_msgIncId, _ex));
+					throw _ex;
+				}
+			}
+			catch (Exception _ex)
+			{
+				await Mediator.Send(new LogCreateCommand(
+					LoggingLevel.Warning, MethodBase.GetCurrentMethod(),
+					_ex.GetBaseException().Message, _ex));
+				System.Diagnostics.Debug.WriteLine(_ex.ToString());
+				throw (new Exception($"{codeName}: email query failed, see logs.", _ex));
+			}
+			await Mediator.Send(new LogCreateCommand(LoggingLevel.Debug,
+				MethodBase.GetCurrentMethod(), $"{codeName}: Exiting ..."));
+		}
+		//
+	}
 	//
 	/// <summary>
 	/// Custom NetworkIncidentSaveQuery record not found exception.

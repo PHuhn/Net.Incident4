@@ -31,6 +31,7 @@ using NSG.NetIncident4.Core.Infrastructure.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Infrastructure.Services;
+using Swashbuckle.AspNetCore.SwaggerGen;
 //
 namespace NSG.NetIncident4.Core
 {
@@ -43,7 +44,7 @@ namespace NSG.NetIncident4.Core
 		}
 
 		public IConfiguration Configuration { get; }
-		public AuthSettings authSettings;
+		public AuthSettings? authSettings;
 		private string _corsName = "CorsOrigins";
 		public string corsNamedOriginPolicy
 		{
@@ -225,10 +226,14 @@ namespace NSG.NetIncident4.Core
 					services.AddAuthentication()
 						.AddGoogle(options =>
 						{
-							options.ClientId = googleAuthSection["ClientId"];
-							options.ClientSecret = googleAuthSection["ClientSecret"];
-							// options.SignInScheme = IdentityConstants.ExternalScheme;
-						});
+							string? _cId = googleAuthSection["ClientId"];
+                            string? _cSecret = googleAuthSection["ClientSecret"];
+                            if (_cId != null && _cSecret != null)
+							{
+                                options.ClientId = _cId;
+                                options.ClientSecret = _cSecret;
+                            }
+                        });
 				}
 			};
 			// Conditionally add Microsoft Account external authentication.
@@ -240,8 +245,13 @@ namespace NSG.NetIncident4.Core
 					services.AddAuthentication()
 						.AddMicrosoftAccount(microsoftOptions =>
 						{
-							microsoftOptions.ClientId = microsoftAuthSection["ClientId"];
-							microsoftOptions.ClientSecret = microsoftAuthSection["ClientSecret"];
+                            string? _cId = microsoftAuthSection["ClientId"];
+                            string? _cSecret = microsoftAuthSection["ClientSecret"];
+                            if (_cId != null && _cSecret != null)
+                            {
+                                microsoftOptions.ClientId = _cId;
+                                microsoftOptions.ClientSecret = _cSecret;
+                            }
 						});
 				}
 			};
@@ -334,18 +344,22 @@ namespace NSG.NetIncident4.Core
 		/// </param>
 		public virtual void ConfigureNotificationServices(IServiceCollection services)
 		{
-			/*
+            /*
 			** Read values from the 'appsettings.json'
 			** * Add and configure email/notification services
 			** * Services like ping/whois
 			** * Applications information line name and phone #
 			*/
-			services.Configure<MimeKit.NSG.EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.Configure<Dictionary<string, MimeKit.NSG.EmailSettings>>(Configuration.GetSection("EmailSettings"));
 			services.Configure<ServicesSettings>(Configuration.GetSection("ServicesSettings"));
 			services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 			authSettings = Options.Create<AuthSettings>(
 				Configuration.GetSection("AuthSettings").Get<AuthSettings>()).Value;
-			services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
+            if ( authSettings == null )
+            {
+                throw (new ApplicationException("No auth setting found"));
+            }
+            services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
 			services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 			/*
 			** Add email/application services
@@ -427,12 +441,12 @@ namespace NSG.NetIncident4.Core
 		public virtual void ConfigureSqlContextIdentity(IServiceCollection services)
 		{
 			//
-			string _connetionString = Configuration.GetConnectionString("NetIncident4");
-			IdentitySettings identitySettings = Configuration.GetSection(
+			string? _connetionString = Configuration.GetConnectionString("NetIncident4");
+			IdentitySettings? identitySettings = Configuration.GetSection(
 				"IdentitySettings").Get<IdentitySettings>();
 			if (string.IsNullOrEmpty(_connetionString) || identitySettings == null)
 			{
-				throw (new ApplicationException("No connection string found"));
+				throw (new ApplicationException("No connection or identity setting string found"));
 			}
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(_connetionString));

@@ -641,9 +641,51 @@ PROBLEM:
 	Add pagination feature to NICs, ApplicationUsers and CompanyServers
 
 SOLUTION:
+	2024-03-30
 	V8.4.2.17 - Added pagination feature to NICs
 	V8.4.2.18 - Added pagination feature to ApplicationUsers
 	V8.4.2.19 - Added pagination feature to CompanyServers
+
+========
+PROBLEM:
+	Add email configuration per company
+
+SOLUTION:
+	V8.4.2.20 - Added EmailSettings dictionary in the settings.json, with default
+	and requiring an additional EmailSettings per each company
+
+========
+PROBLEM:
+	Hide API keys and user passwords
+
+SOLUTION:
+	r-click NSG.NetIncident4Core project and select 'Manage User Secrets' to
+	manage secrets.json:
+
+	{
+	  "Authentication:Microsoft": {
+		"ClientSecret": "",
+		"ClientId": ""
+	  },
+	  "Authentication:Google": {
+		"ClientSecret": "",
+		"ClientId": ""
+	  },
+	  "EmailSettings:NSG": {
+		"SmtpHost": "smtp.gmail.com",
+        "SmtpPort": 465,
+        "EnableSsl": true,
+		"IMapHost": "imap.gmail.com",
+		"IMapPort": 993,
+		"IMapEnableSsl": true,
+		"InBox": "INBOX",
+		"SentBox": "[Gmail]/Sent Mail",
+		"UserName": "Phil Huhn",
+		"UserEmail": "Phil.N.Huhn@gmail.com",
+		"Password": "iiii vvvv uuuu dddd"
+	  }
+	}
+
 
 ========
 PROBLEM:

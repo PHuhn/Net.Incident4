@@ -21,6 +21,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using NSG.Integration.Helpers;
 using System.Text;
 using NSG.NetIncident4.Core.UI.ViewModels;
+using Microsoft.Extensions.Configuration;
+using MimeKit.NSG;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.Extensions.DependencyInjection;
 // using NSG.Integration.Helpers;
 //
 namespace NSG.NetIncident4.Core_Tests
@@ -108,25 +113,113 @@ namespace NSG.NetIncident4.Core_Tests
 			Console.WriteLine(_entity);
 			Assert.That(_entity.TestingShortDesc, Is.EqualTo(_create.TestingShortDesc));
 		}
+        //
+        //
+        public Dictionary<string, EmailSettings> GetEmailSettings()
+        {
+            // MimeKit.NSG.
+            Dictionary<string, EmailSettings> _emailSettings;
+            Console.WriteLine("GetEmailSettings: Entering ...");
+            string _appSettings = "appSettings.json";
+            try
+            {
+                IConfiguration _config = new ConfigurationBuilder()
+                    .AddJsonFile(_appSettings, optional: true, reloadOnChange: false)
+                    .AddUserSecrets<Test_Tests>()
+                    .Build();
+                Console.WriteLine($"GetEmailSettings: After config: {_config}");
+                //
+                if (_config != null)
+                {
+                    _emailSettings =
+                        _config.GetSection("EmailSettings").Get<Dictionary<string, EmailSettings>>();
+                    Console.WriteLine($"EmailSettings: {_emailSettings}");
+                }
+                else
+                {
+                    var _msg = "GetEmailSettings: ConfigurationBuilder, Could not find EmailSettings in secrets.json";
+                    Console.WriteLine(_msg);
+                    throw new Exception(_msg);
+                }
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine(_ex.Message);
+                throw;
+            }
+            return _emailSettings;
+        }
 		//
-		[Test]
+        [Test]
+        public async Task Read_EmailSettings_Test()
+        {
+			Dictionary<string, EmailSettings> _emailSettings = GetEmailSettings();
+            Assert.That(_emailSettings.Count, Is.GreaterThan(0));
+            EmailSettings _defaultSettings = _emailSettings["Default"];
+            Assert.That(_defaultSettings.UserName, Is.EqualTo("Administrator"));
+            Console.WriteLine($"Default: {_defaultSettings}");
+            EmailSettings _nsgSettings = _emailSettings["NSG"];
+            Assert.That(_nsgSettings.UserName, Is.EqualTo("Phil (NSG)"));
+            Console.WriteLine($"NSG: {_nsgSettings}");
+            //foreach (KeyValuePair<string, EmailSettings> entry in _emailSettings)
+            //{
+            //    Console.WriteLine(entry.Key);
+            //    Console.WriteLine(entry.Value.ToString());
+            //    Console.WriteLine("");
+            //}
+            Assert.Pass();
+        }
+        //
+        [Test]
 		public async Task Test1()
 		{
-			//ApplicationRole _entity = new ApplicationRole()
-			//{
-			//	Id = "pub",
-			//	Name = "Name"
-			//};
-			//var _roles = new List<ApplicationRole>() { _entity, new ApplicationRole { Id = "Test", Name = "User" } }
-			//		.AsQueryable().BuildMock();
-			//Console.WriteLine("Setup");
-			//Console.WriteLine(_roles.ToArray());
-			//
-			Assert.Pass();
+			string Password = "1111 2222 3333 4444";
+            Console.WriteLine(Password.Substring(Math.Max(0, Password.Length - 4)));
+            //ApplicationRole _entity = new ApplicationRole()
+            //{
+            //	Id = "pub",
+            //	Name = "Name"
+            //};
+            //var _roles = new List<ApplicationRole>() { _entity, new ApplicationRole { Id = "Test", Name = "User" } }
+            //		.AsQueryable().BuildMock();
+            //Console.WriteLine("Setup");
+            //Console.WriteLine(_roles.ToArray());
+            //
+            Assert.Pass();
 		}
-		//
-	}
-	public class Testing
+        //
+        // [Test]
+        public async Task GetIncident_with_Note_Company_Test()
+        {
+			// this is to test a block of code to get it right
+			long _incidentId = 74;
+            ServiceCollection _services = new ServiceCollection();
+			ApplicationDbContext _context = NSG_Helpers.GetDbContext(_services);
+            var _emailNoteTypeId = await _context.NoteTypes.Where(_it => _it.NoteTypeClientScript == "email").Select(_it => _it.NoteTypeId).FirstOrDefaultAsync();
+            Incident? _entity = await _context.Incidents
+                .Include(_i => _i.IncidentIncidentNotes)
+                .ThenInclude(IncidentIncidentNotes => IncidentIncidentNotes.IncidentNote)
+                .Include(_i => _i.Server)
+                .ThenInclude(Servers => Servers.Company)
+                .SingleOrDefaultAsync(_r => _r.IncidentId == _incidentId);
+			//
+			if (_entity != null)
+			{
+				//
+				IncidentNote? _note = _entity.IncidentIncidentNotes.Where(_inn => _inn.IncidentNote.NoteTypeId == _emailNoteTypeId).Select(_in => _in.IncidentNote).FirstOrDefault();
+                string? _companyShortName = _entity.Server.Company.CompanyShortName;
+				Assert.That<IncidentNote>(_note, Is.Not.Null);
+                Assert.That<string>(_companyShortName, Is.Not.Null);
+                Assert.That<string>(_companyShortName, Is.Not.EqualTo(""));
+            }
+            else
+			{
+                Assert.Fail();
+            }
+        }
+        //
+    }
+    public class Testing
 	{
 		//
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

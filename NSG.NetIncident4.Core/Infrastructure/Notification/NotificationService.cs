@@ -1,11 +1,13 @@
 ﻿// ===========================================================================
 // File: NotificationService.cs
 using System;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 //
 using MimeKit;
 using MimeKit.NSG;
+using NSG.NetIncident4.Core.Infrastructure.Common;
 //
 namespace NSG.NetIncident4.Core.Infrastructure.Notification
 {
@@ -18,16 +20,19 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
 		//private readonly IHostingEnvironment _env;
 		//IHostingEnvironment env,
 		//_env = env;
-		private readonly EmailSettings _emailSettings;
-		ILogger _logger;
+		private EmailSettings _emailSettings;
+        private readonly Dictionary<string, MimeKit.NSG.EmailSettings> _emailSettingsDict;
+		private readonly IApplication _application;
+        ILogger _logger;
 		//
 		public NotificationService(
-			IOptions<EmailSettings> emailSettings,
+			IOptions<Dictionary<string, EmailSettings>> emailSettings,
 			ILogger<NotificationService> logger)
 		{
-			_emailSettings = emailSettings.Value;
-			_logger = logger;
-		}
+            _emailSettingsDict = emailSettings.Value;
+			_emailSettings = _emailSettingsDict["Default"];
+            _logger = logger;
+        }
 		//
 		/// <summary>
 		/// For account controller communications, such as:
@@ -76,7 +81,42 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
 			}
 			return Task.CompletedTask;
 		}
-		//
-	}
+        //
+        /// <summary>
+        /// For very general communications, including attachments and html messages.
+        /// </summary>
+        /// <param name="mimeMessage"></param>
+        /// <returns>void/complete</returns>
+        public Task SendEmailAsync( MimeKit.MimeMessage mimeMessage, string companyShortName )
+        {
+            _logger.LogDebug($"SendEmailByCompanyAsync: Entered with: {companyShortName}");
+            EmailSettings _tempSettings = _emailSettings;
+            EmailSettings? _newSettings = _emailSettingsDict[companyShortName];
+			if (_newSettings != null)
+			{
+				_emailSettings = _newSettings;
+                _logger.LogDebug($"SendEmailByCompanyAsync: {companyShortName}\n{_newSettings}");
+            }
+            else
+			{
+				string _msg = $"EmailSetting configuration does not contain company {companyShortName}, count: {_emailSettingsDict.Count}";
+                _logger.LogError(_msg);
+                throw new Exception(_msg);
+            }
+            try
+            {
+                Task<MimeKit.MimeMessage> _email = mimeMessage.SendAsync(_emailSettings);
+                _logger.LogInformation(_email.Result.EmailToString());
+            }
+            catch (System.Exception _ex)
+            {
+                _logger.LogError(_ex.ToString());
+                throw new System.InvalidOperationException(_ex.Message);
+            }
+            _emailSettings = _tempSettings;
+            return Task.CompletedTask;
+        }
+        //
+    }
 }
 // ===========================================================================

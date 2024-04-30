@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using MimeKit;
 //
+using MimeKit.NSG;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.Integration.Helpers;
 //
@@ -28,7 +29,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         ** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         */
         public IConfiguration Configuration { get; set;  }
-        IOptions<MimeKit.NSG.EmailSettings> emailSettings = null;
+        IOptions<Dictionary<string, EmailSettings>> emailSettings = null;
         Mock<ILogger<NotificationService>> mockLogger = null;
         //
         public Notification_UnitTests()
@@ -40,9 +41,10 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
                     throw new FileNotFoundException($"Settings file: {_appSettings} not found.");
             Configuration = new ConfigurationBuilder()
                 .AddJsonFile(_appSettings, optional: true, reloadOnChange: false)
+                .AddUserSecrets<Notification_UnitTests>()
                 .Build();
             emailSettings =
-                Options.Create<MimeKit.NSG.EmailSettings>(Configuration.GetSection("EmailSettings").Get<MimeKit.NSG.EmailSettings>());
+                Options.Create<Dictionary<string, EmailSettings>>(Configuration.GetSection("EmailSettings").Get<Dictionary<string, EmailSettings>>());
             //
             mockLogger = new Mock<ILogger<NotificationService>>();
             //

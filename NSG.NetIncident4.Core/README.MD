@@ -22,15 +22,21 @@ The application does allow for external logins from:
 - Google
 - Microsoft Account
 
-External login will require obtaining and id and secret from the provider.  The configuration is via appSettings (secrets) or another implemetation.  The following is a sample secrets.json settings:
+External login will require obtaining and id and secret from the provider.  The configuration is via appSettings (secrets) or another implemetation.
+The following is a sample secrets.json settings:
 
     {
-      "Authentication:Microsoft:ClientSecret": "",
-      "Authentication:Microsoft:ClientId": "",
-      "Authentication:Google:ClientSecret": "GOC...T",
-      "Authentication:Google:ClientId": "300...apps.googleusercontent.com"
-    }
-
+      "Authentication": {
+        "Microsoft": {
+          "ClientSecret": "",
+          "ClientId": ""
+        },
+        "Google": {
+          "ClientSecret": "GOC...T",
+          "ClientId": "300...apps.googleusercontent.com"
+        }
+      },
+      ...
 ### Application Maintenance (Views)
 
 This maintains the following from the Network Incident application data:
@@ -57,6 +63,44 @@ This exposes the following web API for the companion Angular Net-Incident applic
 - Network Incident
   - Incident Logs,
   - Incident Notes (emails/ping/whois/etc)
+
+The Web API also handle sending emails to the ISP.
+After an email is created in the Notes, checking email checkbox will cause the Web API to send the email to the ISP.
+The email configuration for each company is stored in appsettings.json or secrets.json as follows:
+
+      ...
+      },
+      "EmailSettings": {
+        "Default": {
+          "SmtpHost": "smtp.gmail.com",
+          "SmtpPort": 25,
+          "EnableSsl": false,
+          "IMapHost": "imap.gmail.com",
+          "IMapPort": 993,
+          "IMapEnableSsl": true,
+          "InBox": "INBOX",
+          "SentBox": "[Gmail]/Sent Mail",
+          "UserName": "Administrator",
+          "UserEmail": "Phil@gmail.com",
+          "Password": "iiii vvvv uuuu defg"
+        },
+        "NSG": {
+          "SmtpHost": "smtp.gmail.com",
+          "SmtpPort": 587,
+          "EnableSsl": true,
+          "IMapHost": "imap.gmail.com",
+          "IMapPort": 993,
+          "IMapEnableSsl": true,
+          "InBox": "INBOX",
+          "SentBox": "[Gmail]/Sent Mail",
+          "UserName": "Phil (NSG)",
+          "UserEmail": "Phil@gmail.com",
+          "Password": "iiii vvvv uuuu defg"
+        }
+      }
+    }
+
+The **Default** email settings is used to send out general emails.
 
 ## The Library dependencies
 - NSG.NetIncident4.Core requires [NSG.Library.Helpers](https://github.com/PHuhn/NSG.Library/wiki/NSG.Library), a set of static helper methods used to access command line O/S commands,

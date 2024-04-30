@@ -479,14 +479,16 @@ namespace NSG.Integration.Helpers
     //
     public class FakeNotificationService : INotificationService
     {
-        private readonly EmailSettings _emailSettings;
+        EmailSettings _emailSettings;
+        Dictionary<string, MimeKit.NSG.EmailSettings> _emailSettingsDict;
         ILogger _logger;
         //
         public FakeNotificationService(
-            EmailSettings emailSettings,
+            Dictionary<string, EmailSettings> emailSettings,
             ILogger logger)
         {
-            _emailSettings = emailSettings;
+            _emailSettingsDict = emailSettings;
+            _emailSettings = emailSettings["Default"];
             _logger = logger;
         }
         //
@@ -509,6 +511,14 @@ namespace NSG.Integration.Helpers
             _logger.LogWarning(_msg);
             Console.WriteLine("Message sent:\n" + _msg);
             return Task.CompletedTask;
+        }
+        public Task SendEmailAsync(MimeKit.MimeMessage mimeMessage, string companyShortName)
+        {
+            if (_emailSettingsDict[companyShortName] == null)
+            {
+                throw new Exception($"EmailSetting configuration does not contain company {companyShortName}");
+            }
+            return SendEmailAsync(mimeMessage);
         }
     }
 }

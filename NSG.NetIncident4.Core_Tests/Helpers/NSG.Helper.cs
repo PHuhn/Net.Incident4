@@ -28,6 +28,7 @@ using NSG.NetIncident4.Core.Application.Commands.Servers;
 using System.ComponentModel.Design;
 using System.Diagnostics.Metrics;
 using NSG.NetIncident4.Core.Application.Commands.Incidents;
+using NSG.NetIncident4.Core.Infrastructure.Authentication;
 //
 namespace NSG.Integration.Helpers
 {
@@ -463,6 +464,24 @@ namespace NSG.Integration.Helpers
             ApplicationDbContext db_context = services.BuildServiceProvider().GetService<ApplicationDbContext>();
             db_context.Database.EnsureCreated();
             // db_context.Database.OpenConnection();
+            return db_context;
+        }
+        //
+        public static ApplicationDbContext GetDbContext(ServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer("Data Source=.\\EXPRESS;Initial Catalog=NetIncidentIdentity04;Integrated Security=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Encrypt=False")
+            );
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            ApplicationDbContext db_context = services.BuildServiceProvider().GetService<ApplicationDbContext>();
+            db_context.Database.EnsureCreated();
+            db_context.Database.OpenConnection();
             return db_context;
         }
         //
