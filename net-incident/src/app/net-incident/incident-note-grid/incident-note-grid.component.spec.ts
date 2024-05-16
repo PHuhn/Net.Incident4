@@ -182,6 +182,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 			'#NoteDetailWindowHeader' )).nativeElement;
 		expect( title.innerText ).toEqual( expectedWindowTitle + '0' );
 		windowCleanup( );
+		tickFakeWait( 10 );
 	}));
 	//
 	// editItemClicked( )
@@ -196,6 +197,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 			'#NoteDetailWindowHeader' )).nativeElement;
 		expect( title.innerText ).toEqual( expectedWindowTitle + incidentNote.IncidentNoteId );
 		windowCleanup( );
+		tickFakeWait( 10 );
 	}));
 	/*
 	** deleteItemClicked( item: IncidentNote ) :boolean
@@ -227,6 +229,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 		sut.networkIncident.incident.Mailed = true;
 		sut.ngAfterViewInit( );
 		spyOn( alertService, 'setWhereWhatWarning' );
+		tickFakeWait( 1 );
 		// when
 		const ret: Boolean =
 				sut.deleteItemClicked( sut.networkIncident.incidentNotes[ 2 ] );
@@ -272,7 +275,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 	//
 	// onClose( saved: boolean ): void
 	//
-	it('should not delete if mailed ...', fakeAsync(() => {
+	it('onCloseWin: on save should cleanup ...', fakeAsync(() => {
 		// given
 		sut.windowIncidentNoteInput = windowNoteInput;
 		tickFakeWait( 1 );
@@ -281,7 +284,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 		// then
 		tickFakeWait( 1 );
 		expect( sut.windowIncidentNoteInput ).toBeUndefined( );
-		tickFakeWait( 1 );
+		tickFakeWait( 100 );
 		//
 	}));
 	//

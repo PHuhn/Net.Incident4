@@ -5,6 +5,7 @@
 		<p-table #dt id='incidents-grid' [value]='incidents' [totalRecords]='totalRecords'
 				expandableRows='true' dataKey='IncidentId'
 				[rows]='5' [paginator]='true' [rowsPerPageOptions]='[5,10,50]'
+				[globalFilterFields]="['ServerId', 'Mailed', 'Closed', 'Special', 'IncidentId', 'IPAddress', 'NIC', 'NetworkName', 'AbuseEmailAddress', 'ISPTicketNumber']"
 				[lazy]='true' (onLazyLoad)='loadIncidentsLazy($event)' [loading]='loading'>
 			<ng-template pTemplate='caption'>
 				<div class='row nsg-primary-color'>
@@ -23,6 +24,7 @@
 					<div class='col-auto'>
 						<label for='ServerName'>Server:&nbsp;</label>
 						<a class='nsg-link-div' id='ServerName' (click)='onChangeServer( $event )'>{{user.Server.ServerName}} ({{user.Server.ServerShortName}})</a>
+						<input type='number' hidden id='serverIdSelect' name='serverIdSelect' [(ngModel)]='user.Server.ServerId' (input)="dt.filter($event.target.value, 'ServerId', 'equals')" />
 					</div>
 				</div>
 			</ng-template>
@@ -30,29 +32,26 @@
 				<tr>
 					<th style='width: 40px;'></th>
 					<th style='width: 58px;'>
-						<button (click)="addItemClicked( )" pButton type="button" icon="pi pi-plus" class="p-button-primary"></button>
+						<button (click)='addItemClicked( )' pButton type='button' icon='pi pi-plus' class='p-button-primary'></button>
 					</th>
-					<th style='width: 70px;' [pSortableColumn]='"IncidentId"'>
-						Id
-						<p-sortIcon [field]='"IncidentId"'></p-sortIcon>
+					<th style='width: 70px;'>Id
+						<p-columnFilter type='numeric' field='IncidentId' matchMode='gt' display='menu'/>
 					</th>
-					<th style='width: 150px;' [pSortableColumn]='"IPAddress"'>
-						IP Address
-						<p-sortIcon [field]='"IPAddress"'></p-sortIcon>
+					<th style='width: 150px;'>IP Address
+						<p-columnFilter type='text' field='IPAddress' display='menu' />
 					</th>
-					<th style='width: 100px;' [pSortableColumn]='"NIC"'>
-						NIC
-						<p-sortIcon [field]='"NIC"'></p-sortIcon>
+					<th style='width: 100px;'>NIC
+						<p-columnFilter type='text' field='NIC' display='menu' />
 					</th>
-					<th style='width: 200px;' [pSortableColumn]='"NetworkName"'>
-						Network Name
-						<p-sortIcon [field]='"NetworkName"'></p-sortIcon>
+					<th style='width: 200px;'>Network Name
+						<p-columnFilter type='text' field='NetworkName' display='menu' />
 					</th>
-					<th [pSortableColumn]='"AbuseEmailAddress"'>
-						Abuse Email Address
-						<p-sortIcon [field]='"AbuseEmailAddress"'></p-sortIcon>
+					<th>Abuse Email Address
+						<p-columnFilter type='text' field='AbuseEmailAddress' display='menu' />
 					</th>
-					<th>ISP Ticket #</th>
+					<th>ISP Ticket #
+						<p-columnFilter type='text' field='ISPTicketNumber' display='menu' />
+					</th>
 					<th style='width: 58px;'></th>
 				</tr>
 			</ng-template>

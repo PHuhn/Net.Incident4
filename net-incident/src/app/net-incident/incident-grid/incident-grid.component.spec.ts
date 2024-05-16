@@ -13,7 +13,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { Header, Footer } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { ConfirmationService, Confirmation, LazyLoadEvent, SelectItem } from 'primeng/api';
+import { ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
 import { Dropdown, DropdownModule } from 'primeng/dropdown';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
@@ -33,6 +33,7 @@ import { SelectItemClass } from '../../global/select-item-class';
 import { IIncident, Incident } from '../incident';
 import { INetworkLog, NetworkLog } from '../network-log';
 import { NetworkIncident } from '../network-incident';
+import { LazyLoadEvent2 } from '../../global/LazyLoadEvent2';
 import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
 import { IncidentGridComponent } from './incident-grid.component';
 import { IncidentDetailWindowComponent } from '../incident-detail-window/incident-detail-window.component';
@@ -160,16 +161,16 @@ describe( 'IncidentGridComponent', ( ) => {
 		tickFakeWait( 1000 );
 	} ) );
 	//
-	function createEvent( page: number, size: number): LazyLoadEvent {
-		const event: LazyLoadEvent = {'first':page, 'rows':size, 'sortField':'IncidentId','sortOrder':-1,
-			'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null};
+	function createEvent( page: number, size: number): LazyLoadEvent2 {
+		const event: LazyLoadEvent2 = {'first':page, 'rows':size, 'sortField':'IncidentId','sortOrder':-1,
+			'filters':{'ServerId':[{'value':1,'matchMode':'equals'}],'Mailed':[{'value':false,'matchMode':'equals'}],'Closed':[{'value':false,'matchMode':'equals'}],'Special':[{'value':false,'matchMode':'equals'}]},'globalFilter':null};
 		return event;
 	}
 	//
 	function newPage( ): ILazyResults {
-		const event: LazyLoadEvent = createEvent( 0, 5);
+		const event: LazyLoadEvent2 = createEvent( 0, 5);
 		const page: ILazyResults =
-				lazyLoading.LazyLoading( [ ... mockDatum ], event );
+				lazyLoading.LazyLoading2( [ ... mockDatum ], event );
 		return page;
 	}
 	//
@@ -227,7 +228,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		// console.warn( 'onClose: should refresh grid ...' );
 		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
 		incidentServiceSpy.postJsonBody.and.returnValue( throwError( ( ) => response ) );
-		const event: LazyLoadEvent = createEvent( 1, 5);
+		const event: LazyLoadEvent2 = createEvent( 1, 5);
 		spyOn( alertService, 'setWhereWhatError' );
 		// when
 		sut.loadIncidentsLazy( event );
@@ -300,6 +301,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		//
 		expect( sut.user.ServerShortName ).toEqual( 'srv 1' );
 		expect( consoleService.lastMessage ).toEqual( 'Info: Server-Selection-Component.displayWin setter: win: true' );
+		tickFakeWait(10);
 		//
 	} ) );
 	//
@@ -350,12 +352,13 @@ describe( 'IncidentGridComponent', ( ) => {
 		// console.warn( 'onChangeServer: should launch server selection window ...' );
 		sut.onChangeServer( 'testing' );
 		// then
-		tickFakeWait(10); // wait 1 second task to get done
+		tickFakeWait(10); // wait 100 second task to get done
 		//
 		expect( sut.displayServersWindow ).toEqual( true );
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
 			selectionWindowTitleSelector )).nativeElement;
 		expect( title.innerText.trim( ) ).toEqual( `Select a server` );
+		tickFakeWait(10);
 	}));
 	/*
 	** addItemClicked( )
@@ -527,7 +530,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		const page = newPage( );
 		incidentServiceSpy.postJsonBody.and.returnValue( of( page ) );
 		sut.lastTableLazyLoadEvent = 
-			{'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':false,'matchMode':'equals'},'Closed':{'value':false,'matchMode':'equals'},'Special':{'value':false,'matchMode':'equals'}},'globalFilter':null} as LazyLoadEvent;
+			{'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':[{'value':1,'matchMode':'equals'}],'Mailed':[{'value':false,'matchMode':'equals'}],'Closed':[{'value':false,'matchMode':'equals'}],'Special':[{'value':false,'matchMode':'equals'}]},'globalFilter':null} as LazyLoadEvent2;
 		//
 		tickFakeWait( 1 ); // wait 1 second task to get done
 		// when

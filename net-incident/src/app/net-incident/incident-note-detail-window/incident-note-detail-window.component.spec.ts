@@ -181,6 +181,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		expect( sut.model.Note ).toEqual( mockData.Note );
 		expect( sut.model.CreatedDate ).toEqual( mockData.CreatedDate );
 		windowCleanup( );
+		tickFakeWait( 10 );
 	} ) );
 	//
 	it( 'incidentnote: should get the input data ...', fakeAsync( ( ) => {
@@ -192,6 +193,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		// then
 		expect( _input ).toEqual( testWindowIncidentNoteInput );
 		windowCleanup( );
+		tickFakeWait( 10 );
 	} ) );
 	/*
 	** updateItem( ): void
@@ -343,10 +345,11 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		// then
 		expect( sut.model.NoteTypeId ).toEqual( id );
 		windowCleanup( );
+		tickFakeWait( 10 );
 		//
 	} ) );
 	//
-	it('onTypeIdChanged: call the onChange event ...', fakeAsync(() => {
+	it('onTypeIdChanged: call the onChange event (ping) ...', fakeAsync(() => {
 		// given
 		sut.incidentnote = { ... testWindowIncidentNoteInput };
 		sut.add = true;
@@ -360,6 +363,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		expect( sut.model.NoteTypeId ).toEqual( id );
 		expect( sut.model.Note ).toEqual( resp );
 		windowCleanup( );
+		tickFakeWait( 10 );
 		//
 	} ) );
 	//

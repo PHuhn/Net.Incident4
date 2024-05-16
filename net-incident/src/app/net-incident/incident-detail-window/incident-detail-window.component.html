@@ -43,7 +43,8 @@
 					<div class='col-lg-3 col-md-4 col-sm-12 nsg-primary-color nsg-text-right'><label for='Mailed'>Mailed:&nbsp;</label></div>
 					<div class='col-lg-8 col-md-8 col-sm-12 nsg-primary-color nsg-text-left'>
 						<input type='checkbox' id='Mailed' name='Mailed' 
-							#Mailed='ngModel' [(ngModel)]='networkIncident.incident.Mailed' />&nbsp; &nbsp;
+							#Mailed='ngModel' [(ngModel)]='networkIncident.incident.Mailed'
+							(change)='MailedCheckboxEvent($event)' />&nbsp; &nbsp;
 						<label for='Closed'>Closed:&nbsp;</label>
 						<input type='checkbox' id='Closed' name='Closed' 
 							#Closed='ngModel' [(ngModel)]='networkIncident.incident.Closed' />&nbsp; &nbsp;

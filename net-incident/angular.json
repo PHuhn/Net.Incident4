@@ -98,9 +98,7 @@
               "src/favicon.png",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": [],
             "scripts": []
           }
         },

@@ -21,6 +21,8 @@ import { SelectItemClass } from '../../global/select-item-class';
 import { NetworkIncident } from '../network-incident';
 import { NetworkIncidentSave } from '../network-incident-save';
 import { IWhoIsAbuse, WhoIsAbuse } from '../whois-abuse';
+import { AbuseEmailReport } from '../abuse-email-report';
+import { SelectItemExtra } from '../../global/select-item-class';
 import { IncidentNote } from '../incident-note';
 //
 import { NetworkLogGridComponent } from '../network-log-grid/network-log-grid.component';
@@ -102,6 +104,61 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 			return;
 		}
 		this.NetIncidentSave( false );
+	}
+	/**
+	** The Mailed checkbox was changed
+	** @param event 
+	** @returns ture if success, false if error
+	*/
+	MailedCheckboxEvent( event: Event ): boolean {
+		const _mailed: Boolean = (event.target as HTMLInputElement).checked;
+		if( _mailed ) {
+			const model: Incident = this.networkIncident.incident;
+			if( model.IncidentId === undefined || model.IncidentId === null || model.IncidentId === 0 
+				|| model.IPAddress.length === 0 || model.IPAddress === undefined
+				|| model.NIC.length === 0 || model.NIC === undefined
+				|| model.AbuseEmailAddress.length === 0
+				|| model.NetworkName.length === 0)  {
+				const errMsgs: Message[] = [];
+				//
+				if( model.IncidentId === undefined || model.IncidentId === null || model.IncidentId === 0  ) {
+					errMsgs.push( new Message( 'IncidentId-1', `Incident not saved, 'Id' is zero` ) );
+				}
+				if( model.IPAddress.length === 0 || model.IPAddress === undefined ) {
+					errMsgs.push( new Message( 'IPAddress-1', `'IP Address' is required.` ) );
+				}
+				if( model.NIC.length === 0 || model.NIC === undefined ) {
+					errMsgs.push( new Message( 'NIC-1', `'NIC' not set.` ) );
+				}
+				if( model.NetworkName.length === 0 ) {
+					errMsgs.push( new Message( 'NetworkName-1', `'Network Name' not set.` ) );
+				}
+				if( model.AbuseEmailAddress.length === 0 ) {
+					errMsgs.push( new Message( 'AbuseEmailAddress-1', `'Abuse Email Address'  not set.` ) );
+				}
+				this._alerts.warningSet( errMsgs );
+				return false;
+			} else {
+				const _noteType: SelectItemExtra = this.networkIncident.noteTypes.find( nt => nt.extra === 'email');
+				const _noteTypeId: number = _noteType.value;
+				this._alerts.setWhereWhatInfo(this.codeName, `Email note type id: + ${_noteTypeId}` );
+				if( this.networkIncident.incidentNotes.filter( _in => _in.NoteTypeId === _noteTypeId ).length === 0 ) {
+					// Create the abuse email message
+					const abuseReport: AbuseEmailReport = new AbuseEmailReport( this.networkIncident );
+					if( abuseReport.IsValid() ) {
+						const _id = this.newNoteId();
+						const _incidentNote: IncidentNote = new IncidentNote( _id, _noteTypeId,
+							_noteType.label, abuseReport.ComposeEmail( ).replace(/\\n/g, '\n'),
+							new Date(), true);
+						this.networkIncident.incidentNotes = [ ...this.networkIncident.incidentNotes, _incidentNote ];
+					} else {
+						this._console.Warning( JSON.stringify( abuseReport.errMsgs ) );
+						this._alerts.warningSet( abuseReport.errMsgs );
+					}
+				}
+			}
+		}
+		return true;
 	}
 	/**
 	** Allow save and close of save and stay.

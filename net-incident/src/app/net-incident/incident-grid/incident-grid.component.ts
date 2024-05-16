@@ -19,6 +19,7 @@ import { IUser, User } from '../user';
 import { UserService } from '../services/user.service';
 import { IncidentService } from '../services/incident.service';
 import { IIncident, Incident } from '../incident';
+import { LazyLoadEvent2 } from '../../global/LazyLoadEvent2';
 import { IncidentDetailWindowComponent } from '../incident-detail-window/incident-detail-window.component';
 import { ServerSelectionWindowComponent } from '../server-selection-window/server-selection-window.component';
 import { AppComponent } from '../../app.component';
@@ -41,7 +42,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// Local variables
 	incidents: Incident[] = [];
 	totalRecords: number = 0;
-	lastTableLazyLoadEvent: LazyLoadEvent;
+	lastTableLazyLoadEvent: LazyLoadEvent2;
 	id: number = -1;
 	loading: boolean = false;
 	@ViewChild('dt', { static: true }) dt: Table | undefined;
@@ -230,50 +231,36 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 		});
 		//
 	}
-	//
-	// event:
-	// {first: 3, rows: 3, sortField: "AbuseEmailAddress", sortOrder: 1,
-	// filters: }, globalFilter: null, multiSortMeta: undefined}
-	// make a remote request to load data using state metadata from event
-	// event.first = First row offset
-	// event.rows = Number of rows per page
-	// event.sortField = Field name to sort with
-	// event.sortOrder = Sort order as number, 1 for asc and -1 for dec
-	// filters: FilterMetadata object having field as key and filter value, filter matchMode as value
-	//
-	loadIncidentsLazy( event: LazyLoadEvent ) {
+	/**
+	** event latout as follows:
+	** {first: 3, rows: 3, sortField: "AbuseEmailAddress", sortOrder: 1,
+	** filters: }, globalFilter: null, multiSortMeta: undefined}
+	** make a remote request to load data using state metadata from event
+	** event.first = First row offset
+	** event.rows = Number of rows per page
+	** event.sortField = Field name to sort with
+	** event.sortOrder = Sort order as number, 1 for asc and -1 for dec
+	** filters: FilterMetadata[] object having field as key and filter value, filter matchMode as value
+	** @param event LazyLoadEvent but with array of FilterMetadat
+	*/
+	loadIncidentsLazy( event: LazyLoadEvent2 ) {
 		setTimeout( ( ) => {
 			this.loading = true;
-			// manually apply filters, to force the filter.
-			event.filters.ServerId = {
-				value: this.user.Server.ServerId,
-				matchMode: 'equals'
-			};
-			event.filters.Mailed = {
-				value: this.mailed,
-				matchMode: 'equals'
-			};
-			event.filters.Closed = {
-				value: this.closed,
-				matchMode: 'equals'
-			};
-			event.filters.Special = {
-				value: this.special,
-				matchMode: 'equals'
-			};
 			event.globalFilter = '';
-			this.lastTableLazyLoadEvent = event;
-			// const ev: any = { ... event };
-			// ev.filters = { 'ServerId':
-			// 	[{ value: this.user.Server.ServerId, matchMode: 'equals' }] };
-			// ev.filters = { 'Mailed':
-			// 	[{ value: this.mailed, matchMode: 'equals' }] };
-			// ev.filters = { 'Closed':
-			// 	[{ value: this.closed, matchMode: 'equals' }] };
-			// ev.filters = { 'Special':
-			// 	[{ value: this.special, matchMode: 'equals' }] };
+			event.sortField = '';
+			// The following 6 fields are defined by p-columnFilter:
+			// IncidentId, IPAddress, NIC, NetworkName, AbuseEmailAddress, ISPTicketNumber
+			// Manually apply the caption filters, to force the filter.
+			const ev: LazyLoadEvent2 = { ... event };
+			ev.filters = { ... event.filters, 
+				'ServerId': [{ value: this.user.Server.ServerId, matchMode: 'equals' }],
+				'Mailed': [{ value: this.mailed, matchMode: 'equals' }],
+				'Closed': [{ value: this.closed, matchMode: 'equals' }],
+				'Special': [{ value: this.special, matchMode: 'equals' }],
+			};
+			this.lastTableLazyLoadEvent = ev;
 			//
-			this._data.postJsonBody<ILazyResults>( event ).subscribe({
+			this._data.postJsonBody<ILazyResults>( ev ).subscribe({
 				next: (paginationData: ILazyResults ) => {
 					this._console.Debug( `${this.codeName}.loadIncidentsLazy: # records: ${paginationData.results.length} totalRecords: ${paginationData.totalRecords}` );
 					// console.warn( JSON.stringify( paginationData ) );
