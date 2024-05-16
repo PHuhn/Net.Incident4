@@ -34,7 +34,7 @@
 
 #>
 
-param( [string]$server = ".\SQLExpress", [string]$dbName = "NetIncident2", [string]$filePath = "", [int]$serverId = -1, [int]$incidentTypeId = -1 )
+param( [string]$server = ".\SQLExpress", [string]$dbName = "NetIncidentIdentity04", [string]$filePath = "", [int]$serverId = -1, [int]$incidentTypeId = -1 )
 #
 # ============================================================================
 #    By: Phil Huhn

@@ -165,21 +165,21 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 			}
             ViewModel _return = new ViewModel();
             _return.loadEvent = queryRequest.JsonString;
-            LazyLoadEvent? _loadEvent = JsonConvert.DeserializeObject<LazyLoadEvent>(queryRequest.JsonString);
+            LazyLoadEvent2? _loadEvent = JsonConvert.DeserializeObject<LazyLoadEvent2>(queryRequest.JsonString);
             if( _loadEvent != null)
             {
                 IQueryable<Incident> _incidentQuery = _context.Incidents
-                                        .LazyFilters<Incident>(_loadEvent);
+                                        .LazyFilters2<Incident>(_loadEvent);
                 if (!string.IsNullOrEmpty(_loadEvent.sortField))
                 {
-                    _incidentQuery = _incidentQuery.LazyOrderBy<Incident>(_loadEvent);
+                    _incidentQuery = _incidentQuery.LazyOrderBy2<Incident>(_loadEvent);
                 }
                 else // Default sort order
                 {
                     _incidentQuery = _incidentQuery.OrderByDescending(_r => _r.IncidentId);
                 }
                 // 'OrderBy' must be called before the method 'Skip'.
-                _incidentQuery = _incidentQuery.LazySkipTake<Incident>(_loadEvent);
+                _incidentQuery = _incidentQuery.LazySkipTake2<Incident>(_loadEvent);
                 // Execute query and convert from Incident to IncidentData (POCO) ...
                 _return.results = await _incidentQuery
                     .Select(incid => incid.ToIncidentListQuery()).ToListAsync();
@@ -187,16 +187,16 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             }
             else
             {
-                _return.message = $"Problem deserialization of LazyLoadEvent: {queryRequest.JsonString}";
+                _return.message = $"Problem deserialization of LazyLoadEvent2: {queryRequest.JsonString}";
             }
             //
             return _return;
 		}
         // Return a count of filtered rows of Incident
-        private long GetCountPagination(LazyLoadEvent jsonData)
+        private long GetCountPagination(LazyLoadEvent2 jsonData)
         {
             IQueryable<Incident> _incidentQuery = _context.Incidents;
-            _incidentQuery = _incidentQuery.LazyFilters(jsonData);
+            _incidentQuery = _incidentQuery.LazyFilters2(jsonData);
             long _incidentCount = _incidentQuery.Count();
             return _incidentCount;
         }
@@ -262,7 +262,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
 			{
                 RuleFor(x => x.JsonString).NotNull()
                     .Must(Extensions.IsValidLazyLoadEventString)
-                    .WithMessage("Invalid JSON paging request (LazyLoadEvent).");
+                    .WithMessage("Invalid JSON paging request (LazyLoadEvent2).");
                 //
             }
             //

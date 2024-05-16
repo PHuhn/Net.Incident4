@@ -110,6 +110,7 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
             }
             catch (System.Exception _ex)
             {
+                _logger.LogError($"Company: {companyShortName}, {_emailSettings.ToString()}");
                 _logger.LogError(_ex.ToString());
                 throw new System.InvalidOperationException(_ex.Message);
             }

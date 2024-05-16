@@ -51,7 +51,7 @@ namespace NSG.NetIncident4.Core.Application.Commands.Incidents
             {
                 try
                 {
-                    LazyLoadEvent result = JsonConvert.DeserializeObject<LazyLoadEvent>(jsonString);
+                    LazyLoadEvent2 result = JsonConvert.DeserializeObject<LazyLoadEvent2>(jsonString);
                 }
                 catch
                 {

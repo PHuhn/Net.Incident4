@@ -1,0 +1,179 @@
+C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>dir
+ Volume in drive C is Windows
+ Volume Serial Number is 1065-8FCA
+
+ Directory of C:\Dat\Nsg\L\Web\22\Net.Incident4\logs
+
+05/01/2024  10:01 AM    <DIR>          .
+05/01/2024  10:01 AM    <DIR>          ..
+01/12/2024  01:40 PM               721 LogFilter.bat
+06/01/2018  11:41 AM            10,103 LogsLoad-IIS.ps1
+05/29/2018  08:10 PM             5,658 LogsLoad-NG.ps1
+01/12/2024  02:08 PM             5,683 LogsLoad-NG2.ps1
+11/22/2018  10:15 AM             3,424 LogsLoad.txt
+04/27/2022  08:47 PM             3,464 NGR6220-2022-04-27-probe.txt
+04/27/2022  09:35 PM             8,760 NGR6220-2022-04-27.sql
+04/27/2022  08:40 PM            32,239 NGR6220-2022-04-27.txt
+05/10/2022  04:45 PM            32,253 NGR6220-2022-05-10.txt
+11/24/2023  10:46 AM             3,109 NGR6220-2023-11-24.txt
+01/12/2024  01:42 PM             9,433 NGR6220-2024-01-12-probe.txt
+01/12/2024  01:25 PM            32,312 NGR6220-2024-01-12.txt
+05/01/2024  10:06 AM             5,903 NGR6220-2024-05-01.txt
+01/12/2024  02:20 PM            23,973 NGR6220-204-01-12.sql
+05/10/2022  05:30 PM             7,661 NGR6220-py-logs.txt
+05/10/2022  05:27 PM    <DIR>          Py-Net-Incident
+04/29/2022  12:27 PM             3,111 README.md
+              16 File(s)        187,807 bytes
+               3 Dir(s)  55,376,240,640 bytes free
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>logFilter NGR6220-2024-05-01
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>grep -E "^\[admin login" NGR6220-2024-05-01.txt  1>NGR6220-2024-05-01-admin.txt
+ECHO is on.
+====================================
+ECHO is on.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>grep -vE "^\[DHCP IP: \(192.168.1|^\[Service blocked: ICMP_echo_req|^\[Time synchronized|^\[Internet connected|^\[Internet disconnected|^\[admin login|^\[Initialized, firmware|^\[Log Cleared|^\[WLAN access rejected: " NGR6220-2024-05-01.txt  1>NGR6220-2024-05-01-probe.txt
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>TYPE NGR6220-2024-05-01-admin.txt
+[admin login] from source 192.168.1.23, Wednesday, May 01,2024 09:59:33
+[admin login] from source 192.168.1.23, Wednesday, May 01,2024 09:59:13
+[admin login] from source 192.168.1.23, Tuesday, April 30,2024 17:46:57
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>TYPE NGR6220-2024-05-01-probe.txt
+[DoS attack: RST Scan] from source: 142.251.176.188:5228, Wednesday, May 01,2024 10:00:17
+[DoS attack: RST Scan] from source: 141.226.224.32:443, Wednesday, May 01,2024 09:54:30
+[DoS attack: RST Scan] from source: 146.75.42.172:80, Wednesday, May 01,2024 09:24:20
+[DoS attack: RST Scan] from source: 142.250.190.78:443, Wednesday, May 01,2024 09:23:09
+[DoS attack: RST Scan] from source: 17.248.207.66:443, Wednesday, May 01,2024 09:22:22
+[DoS attack: RST Scan] from source: 17.253.27.199:443, Wednesday, May 01,2024 09:20:52
+[DoS attack: RST Scan] from source: 172.217.2.34:443, Wednesday, May 01,2024 09:09:14
+[DoS attack: RST Scan] from source: 142.250.191.195:443, Wednesday, May 01,2024 08:01:42
+[DoS attack: RST Scan] from source: 141.226.224.32:443, Wednesday, May 01,2024 07:48:36
+[DoS attack: IMAP Scan] from source: 59.126.252.139:36541, Wednesday, May 01,2024 03:27:47
+[DoS attack: IMAP Scan] from source: 159.192.106.207:15773, Wednesday, May 01,2024 03:03:11
+[DoS attack: IMAP Scan] from source: 59.126.252.139:35943, Tuesday, April 30,2024 23:42:48
+[DoS attack: RST Scan] from source: 54.86.233.207:443, Tuesday, April 30,2024 19:34:18
+[DoS attack: RST Scan] from source: 69.10.44.98:8443, Tuesday, April 30,2024 19:28:03
+[DoS attack: RST Scan] from source: 23.72.250.208:443, Tuesday, April 30,2024 18:35:16
+[DoS attack: RST Scan] from source: 52.188.143.188:443, Tuesday, April 30,2024 17:49:11
+[DoS attack: RST Scan] from source: 141.226.224.32:443, Tuesday, April 30,2024 16:37:59
+[DoS attack: RST Scan] from source: 157.240.254.37:443, Tuesday, April 30,2024 16:01:05
+[DoS attack: RST Scan] from source: 172.217.2.46:443, Tuesday, April 30,2024 16:00:15
+[DoS attack: RST Scan] from source: 157.240.254.63:443, Tuesday, April 30,2024 15:56:49
+[DoS attack: RST Scan] from source: 172.217.0.170:443, Tuesday, April 30,2024 15:56:03
+[DoS attack: RST Scan] from source: 172.217.0.170:443, Tuesday, April 30,2024 11:12:24
+[DoS attack: RST Scan] from source: 142.250.190.46:443, Tuesday, April 30,2024 10:57:23
+[DoS attack: RST Scan] from source: 142.250.111.188:5228, Tuesday, April 30,2024 10:47:33
+[DoS attack: RST Scan] from source: 17.253.11.199:443, Tuesday, April 30,2024 10:30:27
+[DoS attack: RST Scan] from source: 142.251.166.188:5228, Tuesday, April 30,2024 10:22:59
+[DoS attack: RST Scan] from source: 151.101.130.87:80, Tuesday, April 30,2024 10:18:29
+[DoS attack: RST Scan] from source: 151.101.130.87:80, Tuesday, April 30,2024 10:17:28
+[DoS attack: RST Scan] from source: 17.253.11.196:443, Tuesday, April 30,2024 10:06:07
+[DoS attack: RST Scan] from source: 17.253.27.214:80, Tuesday, April 30,2024 09:52:08
+[DoS attack: RST Scan] from source: 142.251.177.188:5228, Tuesday, April 30,2024 09:36:02
+[DoS attack: RST Scan] from source: 17.253.11.196:443, Tuesday, April 30,2024 09:22:14
+[DoS attack: RST Scan] from source: 142.250.191.234:443, Tuesday, April 30,2024 09:15:01
+[DoS attack: RST Scan] from source: 17.253.11.197:443, Tuesday, April 30,2024 08:57:27
+[DoS attack: RST Scan] from source: 17.188.23.24:443, Tuesday, April 30,2024 08:46:34
+[DoS attack: RST Scan] from source: 142.250.190.131:443, Tuesday, April 30,2024 08:41:10
+[DoS attack: RST Scan] from source: 172.217.2.46:443, Tuesday, April 30,2024 08:36:20
+[DoS attack: RST Scan] from source: 142.250.190.98:443, Tuesday, April 30,2024 08:15:08
+[DoS attack: RST Scan] from source: 142.250.191.196:443, Tuesday, April 30,2024 08:14:21
+[DoS attack: RST Scan] from source: 142.250.190.129:443, Tuesday, April 30,2024 08:06:27
+[DoS attack: RST Scan] from source: 142.250.191.161:443, Tuesday, April 30,2024 08:03:42
+[DoS attack: RST Scan] from source: 17.253.27.218:443, Tuesday, April 30,2024 06:32:28
+C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>powershell
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+PS C:\Dat\Nsg\L\Web\22\Net.Incident4\logs> .\LogsLoad-NG2.ps1 -server ".\Express" -dbName "NetIncidentIdentity04" -filePath "C:\Dat\Nsg\L\Web\22\Net.Incident4\logs\NGR6220-2024-05-01-Probe.txt" -serverId 4 -incidentTypeId 1
+server=.\Express dbName=NetIncidentIdentity04 C:\Dat\Nsg\L\Web\22\Net.Incident4\logs\NGR6220-2024-05-01-Probe.txt=C:\Dat\Nsg\L\Web\22\Net.Incident4\logs\NGR6220-2024-05-01-Probe.txt serverId=4 incidentTypeId=1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.251.176.188', ' May 01, 2024 10:00:17', '[DoS attack: RST Scan] from source: 142.251.176.188:5228, Wednesday, May 01,2024 10:00:17         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '141.226.224.32', ' May 01, 2024 09:54:30', '[DoS attack: RST Scan] from source: 141.226.224.32:443, Wednesday, May 01,2024 09:54:30         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '146.75.42.172', ' May 01, 2024 09:24:20', '[DoS attack: RST Scan] from source: 146.75.42.172:80, Wednesday, May 01,2024 09:24:20         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.190.78', ' May 01, 2024 09:23:09', '[DoS attack: RST Scan] from source: 142.250.190.78:443, Wednesday, May 01,2024 09:23:09         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.248.207.66', ' May 01, 2024 09:22:22', '[DoS attack: RST Scan] from source: 17.248.207.66:443, Wednesday, May 01,2024 09:22:22         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.253.27.199', ' May 01, 2024 09:20:52', '[DoS attack: RST Scan] from source: 17.253.27.199:443, Wednesday, May 01,2024 09:20:52         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '172.217.2.34', ' May 01, 2024 09:09:14', '[DoS attack: RST Scan] from source: 172.217.2.34:443, Wednesday, May 01,2024 09:09:14         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.191.195', ' May 01, 2024 08:01:42', '[DoS attack: RST Scan] from source: 142.250.191.195:443, Wednesday, May 01,2024 08:01:42         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '141.226.224.32', ' May 01, 2024 07:48:36', '[DoS attack: RST Scan] from source: 141.226.224.32:443, Wednesday, May 01,2024 07:48:36         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '59.126.252.139', ' May 01, 2024 03:27:47', '[DoS attack: IMAP Scan] from source: 59.126.252.139:36541, Wednesday, May 01,2024 03:27:47         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '159.192.106.207', ' May 01, 2024 03:03:11', '[DoS attack: IMAP Scan] from source: 159.192.106.207:15773, Wednesday, May 01,2024 03:03:11         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '59.126.252.139', ' April 30, 2024 23:42:48', '[DoS attack: IMAP Scan] from source: 59.126.252.139:35943, Tuesday, April 30,2024 23:42:48         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '54.86.233.207', ' April 30, 2024 19:34:18', '[DoS attack: RST Scan] from source: 54.86.233.207:443, Tuesday, April 30,2024 19:34:18         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '69.10.44.98', ' April 30, 2024 19:28:03', '[DoS attack: RST Scan] from source: 69.10.44.98:8443, Tuesday, April 30,2024 19:28:03         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '23.72.250.208', ' April 30, 2024 18:35:16', '[DoS attack: RST Scan] from source: 23.72.250.208:443, Tuesday, April 30,2024 18:35:16         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '52.188.143.188', ' April 30, 2024 17:49:11', '[DoS attack: RST Scan] from source: 52.188.143.188:443, Tuesday, April 30,2024 17:49:11         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '141.226.224.32', ' April 30, 2024 16:37:59', '[DoS attack: RST Scan] from source: 141.226.224.32:443, Tuesday, April 30,2024 16:37:59         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '157.240.254.37', ' April 30, 2024 16:01:05', '[DoS attack: RST Scan] from source: 157.240.254.37:443, Tuesday, April 30,2024 16:01:05         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '172.217.2.46', ' April 30, 2024 16:00:15', '[DoS attack: RST Scan] from source: 172.217.2.46:443, Tuesday, April 30,2024 16:00:15         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '157.240.254.63', ' April 30, 2024 15:56:49', '[DoS attack: RST Scan] from source: 157.240.254.63:443, Tuesday, April 30,2024 15:56:49         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '172.217.0.170', ' April 30, 2024 15:56:03', '[DoS attack: RST Scan] from source: 172.217.0.170:443, Tuesday, April 30,2024 15:56:03         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '172.217.0.170', ' April 30, 2024 11:12:24', '[DoS attack: RST Scan] from source: 172.217.0.170:443, Tuesday, April 30,2024 11:12:24         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.190.46', ' April 30, 2024 10:57:23', '[DoS attack: RST Scan] from source: 142.250.190.46:443, Tuesday, April 30,2024 10:57:23         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.111.188', ' April 30, 2024 10:47:33', '[DoS attack: RST Scan] from source: 142.250.111.188:5228, Tuesday, April 30,2024 10:47:33         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.253.11.199', ' April 30, 2024 10:30:27', '[DoS attack: RST Scan] from source: 17.253.11.199:443, Tuesday, April 30,2024 10:30:27         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.251.166.188', ' April 30, 2024 10:22:59', '[DoS attack: RST Scan] from source: 142.251.166.188:5228, Tuesday, April 30,2024 10:22:59         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '151.101.130.87', ' April 30, 2024 10:18:29', '[DoS attack: RST Scan] from source: 151.101.130.87:80, Tuesday, April 30,2024 10:18:29         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '151.101.130.87', ' April 30, 2024 10:17:28', '[DoS attack: RST Scan] from source: 151.101.130.87:80, Tuesday, April 30,2024 10:17:28         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.253.11.196', ' April 30, 2024 10:06:07', '[DoS attack: RST Scan] from source: 17.253.11.196:443, Tuesday, April 30,2024 10:06:07         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.253.27.214', ' April 30, 2024 09:52:08', '[DoS attack: RST Scan] from source: 17.253.27.214:80, Tuesday, April 30,2024 09:52:08         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.251.177.188', ' April 30, 2024 09:36:02', '[DoS attack: RST Scan] from source: 142.251.177.188:5228, Tuesday, April 30,2024 09:36:02         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.253.11.196', ' April 30, 2024 09:22:14', '[DoS attack: RST Scan] from source: 17.253.11.196:443, Tuesday, April 30,2024 09:22:14         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.191.234', ' April 30, 2024 09:15:01', '[DoS attack: RST Scan] from source: 142.250.191.234:443, Tuesday, April 30,2024 09:15:01         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.253.11.197', ' April 30, 2024 08:57:27', '[DoS attack: RST Scan] from source: 17.253.11.197:443, Tuesday, April 30,2024 08:57:27         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.188.23.24', ' April 30, 2024 08:46:34', '[DoS attack: RST Scan] from source: 17.188.23.24:443, Tuesday, April 30,2024 08:46:34         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.190.131', ' April 30, 2024 08:41:10', '[DoS attack: RST Scan] from source: 142.250.190.131:443, Tuesday, April 30,2024 08:41:10         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '172.217.2.46', ' April 30, 2024 08:36:20', '[DoS attack: RST Scan] from source: 172.217.2.46:443, Tuesday, April 30,2024 08:36:20         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.190.98', ' April 30, 2024 08:15:08', '[DoS attack: RST Scan] from source: 142.250.190.98:443, Tuesday, April 30,2024 08:15:08         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.191.196', ' April 30, 2024 08:14:21', '[DoS attack: RST Scan] from source: 142.250.191.196:443, Tuesday, April 30,2024 08:14:21         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.190.129', ' April 30, 2024 08:06:27', '[DoS attack: RST Scan] from source: 142.250.190.129:443, Tuesday, April 30,2024 08:06:27         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '142.250.191.161', ' April 30, 2024 08:03:42', '[DoS attack: RST Scan] from source: 142.250.191.161:443, Tuesday, April 30,2024 08:03:42         ', 1 )
+1
+INSERT INTO dbo.NetworkLog (ServerId, IPAddress, NetworkLogDate, [Log], IncidentTypeId) VALUES ( 4, '17.253.27.218', ' April 30, 2024 06:32:28', '[DoS attack: RST Scan] from source: 17.253.27.218:443, Tuesday, April 30,2024 06:32:28         ', 1 )
+1
+PS C:\Dat\Nsg\L\Web\22\Net.Incident4\logs>
+

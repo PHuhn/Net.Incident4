@@ -140,7 +140,7 @@ namespace NSG.NetIncident4.Core_Tests.Application.Commands
             _contextMock = MockHelpers.GetDbContextMock();
             _contextMock.Setup(x => x.Incidents).Returns(_mockDbSet.Object);
             _applicationMock.Setup(x => x.IsAuthenticated()).Returns(true);
-            string _jsonString = "{'first':0,'rows':3,'sortOrder':1,'filters':{'ServerId':{'value':1,'matchMode':'equals'},'Mailed':{'value':'false','matchMode':'equals'},'Closed':{'value':'false','matchMode':'equals'},'Special':{'value':'false','matchMode':'equals'}},'globalFilter':null}";
+            string _jsonString = "{'first':0,'rows':3,'sortOrder':1,'filters':{'ServerId':[{'value':1,'matchMode':'equals'}],'Mailed':[{'value':'false','matchMode':'equals'}],'Closed':[{'value':'false','matchMode':'equals'}],'Special':[{'value':'false','matchMode':'equals'}]},'globalFilter':null}";
             IncidentReport(_contextMock.Object);
             // when
             IncidentListQueryHandler _handler = new IncidentListQueryHandler(_contextMock.Object, _applicationMock.Object);
