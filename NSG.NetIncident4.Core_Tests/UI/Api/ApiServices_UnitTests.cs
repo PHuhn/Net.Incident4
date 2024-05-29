@@ -467,6 +467,21 @@ network:Updated:20150331
             System.Diagnostics.Debug.WriteLine(_link);
             Assert.That(_link, Is.EqualTo(""));
         }
+        // 159.192.106.207
+        //
+        [Test]
+        public void ApiServicesController_WhoIs_159_192_106_207_Test()
+        {
+            string ip = "159.192.106.207";
+            ActionResult<string> _whois = sut.WhoIs(ip);
+            Console.WriteLine(_whois.Result);
+            string _actual = _whois.Value;
+            Console.WriteLine($"Query ip: {ip}");
+            Console.WriteLine(_actual);
+            Assert.That(_actual.Contains(ip.Substring(0, 6)), Is.True);
+            Assert.That(_actual.Contains(
+                "OrgAbuseEmail:  abuse@cox.com"), Is.True);
+        }
         //
     }
     public class ServicesControllerProtected : ServicesController

@@ -76,7 +76,7 @@ namespace NSG.NetIncident4.Core.UI.Api
         {
             _logger?.LogDebug("'{0}' has been invoked with {1}.", nameof(Ping), ip);
             return IpAddressCommand(ip,
-                _servicesSettings.PingDir, _servicesSettings.PingCmd);
+                _servicesSettings.PingDir, _servicesSettings.PingCmd, _servicesSettings.PingTimeOut);
         }
         //
         // [ActionName("whois")]
@@ -90,18 +90,18 @@ namespace NSG.NetIncident4.Core.UI.Api
         {
             _logger?.LogDebug("'{0}' has been invoked with {1}.", nameof(WhoIs), ip);
             string _whois = IpAddressCommand(ip,
-                _servicesSettings.WhoisDir, _servicesSettings.WhoisCmd);
+                _servicesSettings.WhoisDir, _servicesSettings.WhoisCmd, _servicesSettings.WhoisTimeOut);
             string _link = WhoIsLink(_whois);
             if (_link != "")
                 return IpAddressCommand(_link,
-                    _servicesSettings.WhoisDir, _servicesSettings.WhoisCmd);
+                    _servicesSettings.WhoisDir, _servicesSettings.WhoisCmd, _servicesSettings.WhoisTimeOut);
             return _whois;
         }
         //
         // -----------------------------------------------------------------------
         //
         [NonAction]
-        private string IpAddressCommand(string ip, string dir, string command)
+        private string IpAddressCommand(string ip, string dir, string command, int timeOut)
         {
             string _return = "";
             if (ip != "")
@@ -110,7 +110,7 @@ namespace NSG.NetIncident4.Core.UI.Api
                 if (ip.Substring(0, 1).CompareTo("9") < 1 || ip.Substring(0, 3).ToLower() == "net")
                 {
                     string _cmdText = String.Format(command, ip);
-                    _return = NSG.Library.Helpers.OS.CallOperatingSystemCmd(_cmdText, dir);
+                    _return = NSG.Library.Helpers.OS.CallOperatingSystemCmd(_cmdText, dir, timeOut);
                 }
             }
             return _return;

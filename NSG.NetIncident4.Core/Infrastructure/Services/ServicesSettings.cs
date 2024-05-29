@@ -25,6 +25,11 @@ namespace NSG.NetIncident4.Core.Infrastructure.Services
         public string PingCmd { get; set; } = String.Empty;
         //
         /// <summary>
+        /// The ping WaitForExit timeout in milliseconds, -1 infinite
+        /// </summary>
+        public int PingTimeOut { get; set; } = -1;
+        //
+        /// <summary>
         /// Default folder to execute the whois command
         /// </summary>
         public string WhoisDir { get; set; } = String.Empty;
@@ -33,6 +38,11 @@ namespace NSG.NetIncident4.Core.Infrastructure.Services
         /// The whois command to execute, string.Format , IP address is the 0 arg
         /// </summary>
         public string WhoisCmd { get; set; } = String.Empty;
+        //
+        /// <summary>
+        /// The whois WaitForExit timeout in milliseconds, -1 infinite
+        /// </summary>
+        public int WhoisTimeOut { get; set; } = -1;
         //
     }
     //
