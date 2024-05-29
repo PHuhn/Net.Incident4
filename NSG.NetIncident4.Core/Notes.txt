@@ -689,6 +689,13 @@ SOLUTION:
 
 ========
 PROBLEM:
+	Some whois commands fail without returning anything
+
+SOLUTION:
+	V8.4.2.22, added timeout on the OS command execution.
+
+========
+PROBLEM:
 
 
 SOLUTION:

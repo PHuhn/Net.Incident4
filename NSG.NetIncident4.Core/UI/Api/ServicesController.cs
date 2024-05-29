@@ -100,6 +100,14 @@ namespace NSG.NetIncident4.Core.UI.Api
         //
         // -----------------------------------------------------------------------
         //
+        /// <summary>
+        /// Call the OS commands with an IP address.
+        /// </summary>
+        /// <param name="ip">IP address </param>
+        /// <param name="dir">Path to execute the command</param>
+        /// <param name="command">The command to execute, example: "whois {0}"</param>
+        /// <param name="timeOut">The WaitForExit timeout in milliseconds (2000 = 2 seconds), -1 infinite</param>
+        /// <returns></returns>
         [NonAction]
         private string IpAddressCommand(string ip, string dir, string command, int timeOut)
         {
