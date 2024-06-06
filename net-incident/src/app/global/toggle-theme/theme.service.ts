@@ -5,6 +5,8 @@
 import { Inject, Injectable, Renderer2, RendererFactory2  } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 //
+import { ConsoleLogService } from '../console-log/console-log.service';
+//
 @Injectable({
 	providedIn: 'root',
 })
@@ -24,6 +26,7 @@ export class ThemeService {
 	}
 	//
 	constructor(
+		public _console: ConsoleLogService,
 		@Inject(DOCUMENT) private _document: Document,
 		rendererFactory: RendererFactory2 ) {
 			this._renderer = rendererFactory.createRenderer(null, null);
@@ -35,6 +38,7 @@ export class ThemeService {
 	** @param isDark boolean
 	*/
 	switchTheme(isDark: boolean): number {
+		const _codeMethod: string = `${this.codeName}.switchTheme`;
 		const _themeLink = this._document.getElementById('app-theme') as HTMLLinkElement;
 		if (_themeLink) {
 			// change the <link id="app-theme" rel="stylesheet" ... 
@@ -46,13 +50,13 @@ export class ThemeService {
 			const _colorTheme = this._document.getElementById('body-color-theme');
 			if( _colorTheme !== null ) {
 				this._renderer.setAttribute( _colorTheme, 'data-bs-theme', _theme );
-				console.log( `${this.codeName}: New color theme: ${_theme}` );
+				this._console.Information( `${_codeMethod}: New color theme: ${_theme}` );
 				return 0;
 			}
-			console.warn( `${this.codeName}: Failed to find: 'body-color-theme'` );
+			this._console.Warning( `${_codeMethod}: Failed to find: 'body-color-theme'` );
 			return 1;
 		}
-		console.warn( `${this.codeName}: Failed to find: 'app-theme'` );
+		this._console.Warning( `${_codeMethod}: Failed to find: 'app-theme'` );
 		return 2;
 	}
 	//

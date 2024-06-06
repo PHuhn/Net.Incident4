@@ -4,6 +4,8 @@
     [closeOnEscape]='false' [closable]='false'>
   <p-header  id='NoteDetailWindowHeader' name='NoteDetailWindowHeader'>
     Incident Note Detail: {{id}}
+		<!-- ng-template [ngIf]='loading'> <p-progressSpinner /> -->
+		<app-loading-spinner id='loadingSpinner' [loading]='loading'></app-loading-spinner>
   </p-header>
   <form #form='ngForm' novalidate>
     <div *ngIf='model !== undefined' class='nsg-text-left'>

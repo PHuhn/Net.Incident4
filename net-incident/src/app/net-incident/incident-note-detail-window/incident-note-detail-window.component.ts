@@ -42,6 +42,7 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	id: number = 0;
 	incidentnoteWindowInput: IIncidentNoteWindowInput | undefined;
 	displayWin: boolean = false;
+	loading: boolean = false;
 	// communicate to the AlertComponent
 	protected _alerts: AlertsService;
 	// to write console logs condition on environment log-level
@@ -182,7 +183,8 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	*/
 	getPing( ): void {
 		this._console.Debug( `${this.codeName}.getPing: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
-		this.model.Note = 'This may take 10 seconds...';
+		this.model.Note = 'This may take some seconds...';
+		this.loading = true;
 		this.httpSubscription = this._services.getPing( this.networkIncident.incident.IPAddress ).subscribe({
 			next: ( pingData: string ) => {
 				this.model.Note = ( pingData !== '' ? pingData :
@@ -193,7 +195,9 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 				this._alerts.setWhereWhatError( 'Note detail: getPing',
 					'Services-Service failed.', error || 'Server error');
 			},
-			complete: () => { }
+			complete: () => {
+				this.loading = false;
+			}
 		});
 	}
 	/**
@@ -201,6 +205,8 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 	*/
 	getWhoIs( ): void {
 		this._console.Debug( `${this.codeName}.getWhoIs: Entering, ip: ${this.networkIncident.incident.IPAddress}` );
+		this.model.Note = 'This may take some seconds...';
+		this.loading = true;
 		this.httpSubscription = this._services.getWhoIs( this.networkIncident.incident.IPAddress ).subscribe({
 			next: ( whoisData: string ) => {
 				this.model.Note = ( whoisData !== '' ? whoisData :
@@ -210,7 +216,9 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 				this._alerts.setWhereWhatError( 'Note detail: getWhoIs',
 					'Services-Service failed.', error || 'Server error');
 			},
-			complete: () => { }
+			complete: () => {
+				this.loading = false;
+			}
 		});
 	}
 	/**

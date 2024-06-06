@@ -7,13 +7,10 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 //
 import { Observable, of, throwError } from 'rxjs';
 //
-import { TableModule } from 'primeng/table';
-import { Dialog } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { Dropdown, DropdownModule } from 'primeng/dropdown';
-import { FocusTrapModule } from 'primeng/focustrap';
 import { ConfirmationService, SelectItem } from 'primeng/api';
+import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
+import { APP_COMPONENTS } from '../../APP.COMPONENTS';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { Message } from '../../global/alerts/message';
 import { AlertsService } from '../../global/alerts/alerts.service';
@@ -28,14 +25,10 @@ import { INetworkLog, NetworkLog } from '../network-log';
 import { IUser, User } from '../user';
 import { ServerData } from '../server-data';
 import { SelectItemClass } from '../../global/select-item-class';
-//
-import { TruncatePipe } from '../../global/truncate.pipe';
 import { NetworkIncidentSave } from '../network-incident-save';
-import { IncidentDetailWindowComponent } from './incident-detail-window.component';
-import { NetworkLogGridComponent } from '../network-log-grid/network-log-grid.component';
-import { IncidentNoteGridComponent } from '../incident-note-grid/incident-note-grid.component';
-import { IncidentNoteDetailWindowComponent } from '../incident-note-detail-window/incident-note-detail-window.component';
 import { IncidentNote } from '../incident-note';
+//
+import { IncidentDetailWindowComponent } from './incident-detail-window.component';
 //
 describe( 'IncidentDetailWindowComponent', ( ) => {
 	let sut: IncidentDetailWindowComponent;
@@ -89,21 +82,13 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 	//
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule(  {
-			imports: [ FormsModule,
-				ButtonModule,
-				TableModule,
-				DropdownModule,
-				FocusTrapModule,
+			imports: [
+				FormsModule,
+				APP_MODULE_PRIMENG,
 				BrowserAnimationsModule
 			],
 			declarations: [
-				IncidentDetailWindowComponent,
-				IncidentDetailWindowComponent,
-				NetworkLogGridComponent,
-				IncidentNoteGridComponent,
-				IncidentNoteDetailWindowComponent,
-				TruncatePipe,
-				Dialog
+				APP_COMPONENTS
 			],
 			providers: [
 				BaseCompService,

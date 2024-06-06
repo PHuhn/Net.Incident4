@@ -52,6 +52,7 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	networkIncidentSave: NetworkIncidentSave | undefined;
 	user: User;
 	displayWindow: boolean = false;
+	loading: boolean = false;
 	// communicate to the AlertComponent
 	protected _alerts: AlertsService;
 	// to write console logs condition on environment log-level
@@ -137,6 +138,8 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 					errMsgs.push( new Message( 'AbuseEmailAddress-1', `'Abuse Email Address'  not set.` ) );
 				}
 				this._alerts.warningSet( errMsgs );
+				(event.target as HTMLInputElement).checked = false;
+				this.networkIncident.incident.Mailed = false;
 				return false;
 			} else {
 				const _noteType: SelectItemExtra = this.networkIncident.noteTypes.find( nt => nt.extra === 'email');
@@ -380,6 +383,7 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 			if( ipAddress === '' ) { return; }
 			this._console.Verbose(
 				`${this.codeName}.ipChanged: calling whois with ${ipAddress}` );
+			this.loading = true;
 			this._services.getWhoIs( ipAddress ).subscribe({
 				next: ( whoisData: string ) => {
 					if( whoisData !== '' && this.networkIncident !== undefined ) {
@@ -410,7 +414,10 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 					this._alerts.setWhereWhatError( `${this.codeName}: getWhoIs`,
 						'Services-Service failed.', error || 'Server error');
 				},
-				complete: () => { }
+				complete: () => {
+					this.loading = false;
+					this._console.Information( `${this.codeName}.ipChanged: getWhoIs completed: ${ipAddress} ${this.networkIncident.incident.AbuseEmailAddress}` );
+				}
 			});
 		} else {
 			this._console.Verbose( `${this.codeName}.ipChanged: Addresses are the same ${this.networkIncident.incident.IPAddress}` );
@@ -442,9 +449,7 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	*/
 	createItem( stay: boolean ): void {
 		this._console.Information( `${this.codeName}.createItem, Entering: ${stay}` );
-		console.warn( `createItem ${stay}` );
 		if( this.networkIncidentSave !== undefined ) {
-			console.warn( `createItem defined` );
 			this.httpCreateSubscription = this._netIncident.createModel<NetworkIncidentSave>( this.networkIncidentSave ).subscribe({
 				next: ( netIncidentData: NetworkIncident ) => {
 					this._console.Verbose( `${this.codeName}.createItem, netIncidentData` );

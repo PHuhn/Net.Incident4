@@ -245,12 +245,60 @@ network:Updated:20150331
 			'End of whois-abuse.spec\n' +
 			'=================================' );
 	});
-	//
-	// GetNIC( raw: string ): string
-	//
-	it('should get NIC data for be arin 17 nic ...', ( ) => {
+	/*
+	** GetNIC( raw: string ): string
+	*/
+	it('GetNIC: should get NIC data for be arin 17 nic ...', ( ) => {
 		sut.GetNIC( whois_arin17_142_171_7 );
 		// console.log( `17.142.171.7: ${sut.nic}` );
+		expect( sut.nic ).toEqual( 'arin.net' );
+	});
+	it('GetNIC: should get NIC data for be ripe 94 nic ...', ( ) => {
+		sut.GetNIC( whois_ripe94_41_54_105 );
+		expect( sut.nic ).toEqual( 'ripe.net' );
+	});
+	it('GetNIC: should get NIC data for be afr 197 nic ...', ( ) => {
+		sut.GetNIC( whois_afr197_48_169_77 );
+		expect( sut.nic ).toEqual( 'afrinic.net' );
+	});
+	it('GetNIC: should get NIC data for be ap 1 nic ...', ( ) => {
+		sut.GetNIC( whois_ap1_52_34_175 );
+		expect( sut.nic ).toEqual( 'apnic.net' );
+	});
+	it('GetNIC: should get NIC data for be lac 138 nic ...', ( ) => {
+		sut.GetNIC( whois_lac138_36_27_5 );
+		expect( sut.nic ).toEqual( 'lacnic.net' );
+	});
+	it('GetNIC: should get NIC data for be br 177 nic ...', ( ) => {
+		sut.GetNIC( whois_br177_37_164_71 );
+		expect( sut.nic ).toEqual( 'nic.br' );
+	});
+	it('GetNIC: should get NIC data for be tw 114 nic ...', ( ) => {
+		sut.GetNIC( whois_tw114_45_70_76 );
+		expect( sut.nic ).toEqual( 'twnic.net' );
+	});
+	it('GetNIC: should get NIC data for be kr 122 nic ...', ( ) => {
+		sut.GetNIC( whois_kr112_220_69_50 );
+		expect( sut.nic ).toEqual( 'krnic.net' );
+	});
+	it('GetNIC: should get NIC data for be ns 67 nic ...', ( ) => {
+		sut.GetNIC( whois_ns67_229_101_42 );
+		expect( sut.nic ).toEqual( 'krypt.com' );
+	});
+	it('GetNIC: should get NIC data for be sh 184 nic ...', ( ) => {
+		sut.GetNIC( whois_SingleHopNet184_154 );
+		expect( sut.nic ).toEqual( 'singlehop.net' );
+	});
+	it('GetNIC: should get NIC data for be ap 14.136.23.194 nic ...', ( ) => {
+		sut.GetNIC( `[Querying whois.arin.net]\r\n[Redirected to whois.apnic.net]\r\n[Querying whois.apnic.net]\r\n[whois.apnic.net]\r\n` );
+		expect( sut.nic ).toEqual( 'apnic.net' );
+	});
+	it('GetNIC: should get sc NIC for ip 50.31.142.255 ...', ( ) => {
+		sut.GetNIC( `[Querying whois.arin.net]\r\n[Redirected to rwhois.servercentral.net:4321]\r\n[Querying rwhois.servercentral.net]\r\n[Unable to connect to remote host]\r\n` );
+		expect( sut.nic ).toEqual( 'servercentral.net' );
+	});
+	it('GetNIC: should get arin NIC for ip 50.31.142.255 ...', ( ) => {
+		sut.GetNIC( `[Querying whois.arin.net]\r\n[Unable to connect to remote host]\r\n` );
 		expect( sut.nic ).toEqual( 'arin.net' );
 	});
 	/*
@@ -260,12 +308,27 @@ network:Updated:20150331
 		sut.ProcessTw( `twnic.net`, `\noops\n` );
 		expect( sut.abuse ).toEqual( '' );
 	});
+	it('ProcessTw: should fail ...', ( ) => {
+		sut.ProcessTw( `twnic.net`, whois_tw114_45_70_76 );
+		expect( sut.abuse ).toEqual( 'network-adm@hinet.net' );
+	});
 	/*
 	** ProcessParsed( nic: string, parsed: any[] )
 	*/
 	it('ProcessParsed: should fail ...', ( ) => {
 		sut.ProcessParsed( `ripe.net`, [] );
 		expect( sut.abuse ).toEqual( '' );
+	});
+	/*
+	** ParseWhoIsData( data: string ): any[]
+	*/
+	it('ParseWhoIsData: should succeed ...', ( ) => {
+		const retArray = sut.ParseWhoIsData( `[Querying whois.arin.net]\r\n% \r\nnetwork:City:Scottsdale\r\nnetwork:State:AZ\r\n` );
+		expect( retArray[0].value ).toEqual( 'City:Scottsdale' );
+	});
+	it('ParseWhoIsData: should fail ...', ( ) => {
+		const retArray = sut.ParseWhoIsData( whois_SingleHopNet184_154 );
+		expect( retArray[8].value ).toEqual( 'City:Scottsdale' );
 	});
 	//
 });

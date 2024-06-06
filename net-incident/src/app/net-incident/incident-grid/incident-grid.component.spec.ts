@@ -7,17 +7,11 @@ import { takeWhile } from 'rxjs/operators';
 import { By } from '@angular/platform-browser';
 import { HttpResponse } from '@angular/common/http';
 //
-import { TableModule } from 'primeng/table';
-import { Dialog } from 'primeng/dialog';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { FocusTrapModule } from 'primeng/focustrap';
-import { Header, Footer } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
 import { ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
-import { Dropdown, DropdownModule } from 'primeng/dropdown';
+import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
+import { APP_COMPONENTS } from '../../APP.COMPONENTS';
 import { AlertsService } from '../../global/alerts/alerts.service';
-import { Alerts } from '../../global/alerts/alerts';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { ServicesService } from '../services/services.service';
@@ -25,7 +19,6 @@ import { UserService } from '../../net-incident/services/user.service';
 import { IncidentService } from '../services/incident.service';
 import { NetworkIncidentService } from '../services/network-incident.service';
 //
-import { TruncatePipe } from '../../global/truncate.pipe';
 import { DetailWindowInput } from '../DetailWindowInput';
 import { IUser, User } from '../user';
 import { ServerData } from '../server-data';
@@ -36,11 +29,6 @@ import { NetworkIncident } from '../network-incident';
 import { LazyLoadEvent2 } from '../../global/LazyLoadEvent2';
 import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
 import { IncidentGridComponent } from './incident-grid.component';
-import { IncidentDetailWindowComponent } from '../incident-detail-window/incident-detail-window.component';
-import { ServerSelectionWindowComponent } from '../../net-incident/server-selection-window/server-selection-window.component';
-import { NetworkLogGridComponent } from '../network-log-grid/network-log-grid.component';
-import { IncidentNoteGridComponent } from '../incident-note-grid/incident-note-grid.component';
-import { IncidentNoteDetailWindowComponent } from '../incident-note-detail-window/incident-note-detail-window.component';
 import { LazyLoadingMock } from '../services/mocks/lazy-loading.mock';
 //
 import { AppComponent } from '../../app.component';
@@ -107,22 +95,11 @@ describe( 'IncidentGridComponent', ( ) => {
 		TestBed.configureTestingModule( {
 			imports: [
 				FormsModule,
-				TableModule,
-				ButtonModule,
-				DropdownModule,
-				FocusTrapModule,
+				APP_MODULE_PRIMENG,
 				BrowserAnimationsModule
 			],
 			declarations: [
-				IncidentGridComponent,
-				IncidentDetailWindowComponent,
-				ServerSelectionWindowComponent,
-				NetworkLogGridComponent,
-				IncidentNoteGridComponent,
-				IncidentNoteDetailWindowComponent,
-				TruncatePipe,
-				Dialog,
-				ConfirmDialog
+				APP_COMPONENTS
 			],
 			providers: [
 				BaseCompService,

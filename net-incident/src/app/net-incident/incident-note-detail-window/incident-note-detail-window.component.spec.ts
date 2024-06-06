@@ -8,16 +8,11 @@ import { By } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient, HttpResponse, HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
 //
-import { Dialog } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { Dropdown, DropdownModule } from 'primeng/dropdown';
-import { FocusTrapModule } from 'primeng/focustrap';
-import { Header, Footer, ConfirmationService, SelectItem } from 'primeng/api';
+import { ConfirmationService, SelectItem } from 'primeng/api';
+import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { AlertsService } from '../../global/alerts/alerts.service';
-import { Alerts } from '../../global/alerts/alerts';
-import { AlertLevel } from '../../global/alerts/alert-level.enum';
 import { Message } from '../../global/alerts/message';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { ServicesService } from '../services/services.service';
@@ -29,6 +24,7 @@ import { ServerData } from '../server-data';
 import { User } from '../user';
 import { IIncidentNote, IncidentNote } from '../incident-note';
 import { IncidentNoteDetailWindowComponent, IIncidentNoteWindowInput } from './incident-note-detail-window.component';
+import { LoadingSpinnerComponent } from '../../global/loading-spinner/loading-spinner.component';
 //
 describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 	let sut: IncidentNoteDetailWindowComponent;
@@ -85,10 +81,9 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 	//
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule(  {
-			imports: [ FormsModule,
-				ButtonModule,
-				FocusTrapModule,
-				DropdownModule,
+			imports: [
+				FormsModule,
+				APP_MODULE_PRIMENG,
 				BrowserAnimationsModule,
 				// HttpClient 4.3 testing
 				HttpClientModule,
@@ -96,7 +91,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 			],
 			declarations: [
 				IncidentNoteDetailWindowComponent,
-				Dialog
+				LoadingSpinnerComponent
 			],
 			providers: [
 				BaseCompService,
@@ -308,7 +303,6 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 		sut.incidentnote = _input;
 		spyOn( sut.emitCloseWin, 'emit' );
 		tickFakeWait( 10 );
-		console.error( sut.add );
 		// when
 		sut.windowClose( true );
 		// then

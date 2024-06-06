@@ -13,10 +13,16 @@ export interface IWhoIsAbuse {
 	//
 	GetNIC( raw: string ): string;
 	//
-	BadAbuseEmail(): boolean;
+	BadAbuseEmail( ): boolean;
+	//
+	ValidEmailAddress(ea: string): boolean;
 }
 //
-// using whois data try to find the abuse e-mail address
+// using whois data try to find the
+// * abuse e-mail address
+// * NIC (Network Information Center)
+// * Network: 
+// * Abuse Email:
 //
 export class WhoIsAbuse implements IWhoIsAbuse {
 	public nic: string;
@@ -24,6 +30,7 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 	public abuse: string;
 	public inet: string;
 	private logLevel: number = environment.logLevel;
+	private badAbuse: string[]; // environment.BadAbuseEmailAddresses;
 	//
 	private emailRE = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	//
@@ -31,21 +38,25 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 	//
 	constructor() {
 		this.nic = ''; this.net = ''; this.abuse = ''; this.inet = '';
+		this.badAbuse = environment.BadAbuseEmailAddresses;
 	}
-	//
-	// returns: this class { nic, net, abuse, inet }
-	//
+	/**
+	** Sets the following: nic, net, abuse, inet
+	** @param data raw whois data
+	*/
 	GetWhoIsAbuse( data: string ): void {
 		const parsed = this.ParseWhoIsData( data );
 		const nic = this.GetNIC( data );
-		// now get net and abuse e-mail
-		if( this.netSolutions.includes( nic ) ) {
-			this.ProcessNetSolutions( nic, data );
-		} else {
-			if ( nic === 'twnic.net') {
-				this.ProcessTw( nic, data );
+		if( nic !== '' ) {
+			// now get net and abuse e-mail
+			if( this.netSolutions.includes( nic ) ) {
+				this.ProcessNetSolutions( nic, data );
 			} else {
-				this.ProcessParsed( nic, parsed );
+				if ( nic === 'twnic.net') {
+					this.ProcessTw( nic, data );
+				} else {
+					this.ProcessParsed( nic, parsed );
+				}
 			}
 		}
 	}
@@ -60,8 +71,8 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 		//
 		data.split( '\n' ).forEach( ( part ) => {
 			if( !part ) { return; }
-			colonPos = part.indexOf( ': ' );
-			attr = part.substr( 0, colonPos );
+			colonPos = part.indexOf( ':' );
+			attr = part.substring( 0, colonPos );
 			if( attr !== '' ) {
 				returnArray.push( {
 					'attribute': attr,
@@ -75,10 +86,12 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 		//
 		return returnArray;
 	}
-	//
-	// Get the NIC that returned the data
-	// returns: string of the NIC
-	//
+	/**
+	** Parse the first 8 lines starting with [ to find the proper NIC.
+	** side effect this.nic is set
+	** @param raw 
+	** @returns string of the NIC
+	*/
 	GetNIC( raw: string ): string {
 		let nic = '';
 		if( raw !== '' ) {
@@ -86,15 +99,15 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 			for (let i = 0; i < 8; i++) {
 				// allow for redirection, [Redirected to whois.ripe.net]
 				const line = lines[i];
-				if( line.substr( 0, 1 ) === '[' ) {
+				if( line.substring( 0, 1 ) === '[' ) {
 					let pos = line.indexOf( 'whois.' );
 					if( pos === -1 ) {
 						// [vault.krypt.com] length is the same!
 						pos = line.indexOf( 'vault.' );
 					}
 					if( pos > -1 ) {
-						const parts = line.substr( pos ).split( '.' );
-						nic = line.substr( pos+6, line.indexOf( ']' ) - ( pos+6 ) );
+						const parts = line.substring( pos ).split( '.' );
+						nic = line.substring( pos+6, line.indexOf( ']' ) );
 						if( parts[1] === 'registro' ) {
 							nic = nic.replace(/registro/,'nic');
 						}
@@ -107,9 +120,12 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 		this.nic = nic;
 		return nic;
 	}
-	//
-	// process the raw data from whois
-	// returns: this class { nic, net, abuse, inet }
+	/**
+	** process the raw data from whois
+	** @param nic the NIC returned from GetNIC
+	** @param raw whois data
+	** @returns this class { nic, net, abuse, inet }
+	*/
 	ProcessNetSolutions( nic: string, raw: string ) {
 		let net = '', abuse = '', inet = '';
 		const lines = raw.split( '\n' );
@@ -122,20 +138,27 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 				if( flds.length > 2 ) {
 					const attrib: string = flds[1].toLowerCase( );
 					if( netAtt.includes( attrib ) ) { net = flds[2].replace(/(\r\n|\n|\r)/gm,''); }
-					if( abuseAtt.includes( attrib ) ) { abuse = flds[2].replace(/(\r\n|\n|\r)/gm,''); }
+					if( abuseAtt.includes( attrib ) ) {
+						const ea = flds[2].replace(/(\r\n|\n|\r)/gm,'');
+						if( this.ValidEmailAddress(ea ))
+							abuse = ea;
+						}
 					if( inetAtt.includes( attrib ) ) { inet = flds[2].replace(/(\r\n|\n|\r)/gm,''); }
 				}
 			}
 		});
-		this.nic = nic; this.net = net; this.abuse = abuse; this.inet = inet;
-		if( this.BadAbuseEmail() ) {
-			this.abuse = '';
+		this.nic = nic; this.net = net; this.inet = inet;
+		if( this.ValidEmailAddress( abuse ) ) {
+			this.abuse = abuse;
 		}
 		return { 'nic': nic, 'net': net, 'abuse': abuse, 'inet': inet };
 	}
-	//
-	// process the raw data from whois
-	// returns: this class { nic, net, abuse, inet }
+	/**
+	** process the raw data from whois
+	** @param nic the NIC returned from GetNIC
+	** @param raw whois data
+	** @returns this class { nic, net, abuse, inet }
+	*/
 	ProcessTw( nic: string, raw: string ) {
 		let net = '', abuse = '', inet = '';
 		const lines: string[] = raw.split( '\n' );
@@ -145,34 +168,42 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 			if( flds.length > 1 ) {
 				const attrib: string = flds[0].toLowerCase( );
 				if( attrib === 'netname' ) { net = flds[1].trim().replace(/(\r\n|\n|\r)/gm,''); }
-				if( attrib === 'netblock' ) { inet = flds[1].replace(/(\r\n|\n|\r)/gm,''); }
+				if( attrib === 'netblock' ) { inet = flds[1].trim().replace(/(\r\n|\n|\r)/gm,''); }
+				if( attrib === 'abuse-c' ) {
+					const ea = flds[1].trim().replace(/(\r\n|\n|\r)/gm,'');
+					if( this.ValidEmailAddress(ea )) abuse = ea;
+				}
 			} else {
 				if( prvs.length > 1 ) {
 					// Technical contact:
 					// network-adm@hinet.net
 					const attrib: string = prvs[0].toLowerCase( );
 					if( attrib === 'technical contact' ) {
-						abuse = flds[0].trim().replace(/(\r\n|\n|\r)/gm,'');
+						const ea = flds[0].trim().replace(/(\r\n|\n|\r)/gm,'');
+						if( this.ValidEmailAddress(ea )) abuse = ea;
 					}
 				}
 			}
 			prvs = flds;
 		});
-		this.nic = nic; this.net = net; this.abuse = abuse; this.inet = inet;
-		if( this.BadAbuseEmail() ) {
-			this.abuse = '';
+		this.nic = nic; this.net = net; this.inet = inet;
+		if( this.ValidEmailAddress( abuse ) ) {
+			this.abuse = abuse;
 		}
 		return { 'nic': nic, 'net': net, 'abuse': abuse, 'inet': inet };
 	}
-	//
-	// process the parsed data from whois
-	// returns: this class { nic, net, abuse, inet }
+	/**
+	** process the parsed data from whois
+	** @param nic the NIC returned from GetNIC
+	** @param parsed 
+	** @returns this class { nic, net, abuse, inet }
+	*/
 	ProcessParsed( nic: string, parsed: any[] ) {
 		let net = '', abuse = '', inet = '';
 		// default values to search for...
 		let netAtt = [ 'customer', 'custname', 'netname' ];
 		let inetAtt = [ 'inetnum', 'netrange' ];
-		let abuseAtt = [ 'abuse-mailbox', 'orgabuseemail' ];
+		let abuseAtt = [ 'abuse-mailbox', 'orgabuseemail', 'abuse-c' ];
 		if( nic === 'lacnic.net' ) {
 			netAtt = [ 'owner' ];
 			// keep default inet
@@ -200,7 +231,8 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 								console.log( line );
 							}
 							const abuseLine = line.split( `'` );
-							abuse = abuseLine[ abuseLine.length - 2 ];
+							const ea = abuseLine[ abuseLine.length - 2 ];
+							if( this.ValidEmailAddress( ea )) abuse = ea;
 						}
 					}
 				});
@@ -219,33 +251,44 @@ export class WhoIsAbuse implements IWhoIsAbuse {
 				}
 				if( abuse === '' ) {
 					if( abuseAtt.includes( attrib ) ) {
-						abuse = obj.value;
+						const ea = obj.value;
+						if( this.ValidEmailAddress( ea )) abuse = ea;
 					}
 				}
 			}
 		}
-		this.nic = nic; this.net = net; this.abuse = abuse; this.inet = inet;
-		if( this.BadAbuseEmail() ) {
-			this.abuse = '';
+		this.nic = nic; this.net = net; this.inet = inet;
+		if( this.ValidEmailAddress( abuse ) ) {
+			this.abuse = abuse;
 		}
 		return { 'nic': nic, 'net': net, 'abuse': abuse, 'inet': inet };
 	}
-	//
-	// Is this a bad abuse e-mail address.
-	//
+	/**
+	** Is this a bad abuse e-mail address.
+	** @returns true if bad or false if good
+	*/
 	BadAbuseEmail(): boolean {
-		if( this.abuse === '' ) {
-			return true;
-		}
-		const badAbuse = environment.BadAbuseEmailAddresses;
-		if( badAbuse.includes( this.abuse ) ) {
-			return true;
-		}
-		return !this.ValidateEmail( this.abuse );
+		return !this.ValidEmailAddress( this.abuse );
 	}
-	//
-	//  Is this a valid email address.
-	//
+	/**
+	** Is this a good e-mail address.  Excluding NIC email addresses.
+	** @param ea email address
+	** @returns true if good, false if bad
+	*/
+	ValidEmailAddress( ea: string ): boolean {
+		if( ea === '' ) {
+			return false;
+		}
+		if( this.badAbuse.includes( ea ) ) {
+			return false;
+		}
+		return this.ValidateEmail( ea );
+	}
+	/**
+	** Is this a valid email address.
+	** @param email 
+	** @returns true if valid or false if invalid
+	*/
 	ValidateEmail( email: string ): boolean {
 		return this.emailRE.test(String(email).toLowerCase());
 	}

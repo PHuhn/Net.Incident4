@@ -2,6 +2,7 @@
 import { AlertsComponent } from './global/alerts/alerts.component';
 import { ToggleThemeComponent } from './global/toggle-theme/toggle-theme.component';
 import { TruncatePipe } from './global/truncate.pipe';
+import { LoadingSpinnerComponent } from './global/loading-spinner/loading-spinner.component'
 //
 import { IncidentGridComponent } from './net-incident/incident-grid/incident-grid.component';
 import { IncidentDetailWindowComponent } from './net-incident/incident-detail-window/incident-detail-window.component';
@@ -21,6 +22,7 @@ export const APP_COMPONENTS = [
 	AlertsComponent,
 	ToggleThemeComponent,
 	TruncatePipe,
+	LoadingSpinnerComponent,
 	//
 	IncidentGridComponent,
 	IncidentDetailWindowComponent,

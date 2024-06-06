@@ -2,6 +2,8 @@
 <p-dialog [(visible)]='displayWin' [modal]='true' [resizable]='true' [closeOnEscape]='false' [closable]='false'>
 	<p-header  id='IncidentDetailWindowHeader' name='IncidentDetailWindowHeader' [style]="{width: '1300'}">
 		Incident Detail: {{id}}, IP Address: {{ip}}
+		<!-- ng-template [ngIf]='loading'> <p-progressSpinner /> -->
+		<app-loading-spinner id='loadingSpinner' [loading]='loading'></app-loading-spinner>
 	</p-header>
 	<form #form='ngForm' novalidate>
 		<div *ngIf='networkIncident !== undefined'>
