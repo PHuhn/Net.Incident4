@@ -2,8 +2,8 @@
 // File: base-srvc.service.spec.ts
 import { TestBed, getTestBed, inject, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClientModule, HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { catchError, tap } from 'rxjs/operators';
 import { LazyLoadEvent } from 'primeng/api';
@@ -46,14 +46,11 @@ describe('BaseSrvcService', () => {
 	//
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
-			imports: [
-				// Angular 4.3.1
-				HttpClientModule,
-				HttpClientTestingModule
-			],
 			providers: [
 				BaseSrvcService,
 				ConsoleLogService,
+				provideHttpClient(),
+				provideHttpClientTesting(),
 				{provide: 'url', useValue: 'http://localhost/TestNote'},
 				{provide: 'name', useValue: 'TestNote'}
 			]

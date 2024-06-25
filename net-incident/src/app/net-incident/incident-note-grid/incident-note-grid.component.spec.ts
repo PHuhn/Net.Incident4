@@ -3,8 +3,9 @@ import { ComponentFixture, TestBed, getTestBed, inject, fakeAsync, tick, waitFor
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
-import { HttpClientModule, HttpClient, HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
+//
+import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
@@ -72,9 +73,6 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 				FormsModule,
 				APP_MODULE_PRIMENG,
 				BrowserAnimationsModule,
-				// HttpClient 4.3 testing
-				HttpClientModule,
-				HttpClientTestingModule
 			],
 			declarations: [
 				APP_COMPONENTS,
@@ -83,6 +81,8 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 				BaseCompService,
 				AlertsService,
 				ConfirmationService,
+				provideHttpClient(),
+				provideHttpClientTesting(),
 				{ provide: ServicesService, useValue: servicesServiceSpy },
 			]
 		});

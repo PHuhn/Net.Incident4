@@ -5,8 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 //
-import { HttpClientModule, HttpClient, HttpResponse, HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
@@ -84,10 +84,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 			imports: [
 				FormsModule,
 				APP_MODULE_PRIMENG,
-				BrowserAnimationsModule,
-				// HttpClient 4.3 testing
-				HttpClientModule,
-				HttpClientTestingModule
+				BrowserAnimationsModule
 			],
 			declarations: [
 				IncidentNoteDetailWindowComponent,
@@ -98,6 +95,8 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 				AlertsService,
 				ConsoleLogService,
 				ConfirmationService,
+				provideHttpClient(),
+				provideHttpClientTesting(),
 				{ provide: ServicesService, useValue: servicesServiceSpy },
 			]
 		});

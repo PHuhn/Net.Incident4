@@ -6,8 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 //
-import { HttpClientModule, HttpClient, HttpResponse, HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -42,8 +42,6 @@ describe('AppComponent', () => {
 				FormsModule,
 				RouterTestingModule,
 				BrowserAnimationsModule,
-				HttpClientModule,
-				HttpClientTestingModule,
 				APP_MODULE_PRIMENG
 			],
 			declarations: [
@@ -56,6 +54,8 @@ describe('AppComponent', () => {
 				BaseCompService,
 				AlertsService,
 				ConfirmationService,
+				provideHttpClient(),
+				provideHttpClientTesting(),
 				{ provide: AuthService, useValue: authServiceSpy }
 			]
 		} );

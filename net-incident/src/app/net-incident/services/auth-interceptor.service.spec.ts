@@ -2,9 +2,10 @@
 // https://blog.angular-university.io/angular-jwt-authentication/
 // https://stackoverflow.com/questions/46225164/unit-testing-httpinterceptor-from-angular-4
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+//
+import { HttpClient, withInterceptors, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { Observable, throwError } from 'rxjs';
 //
@@ -19,14 +20,9 @@ describe('AuthInterceptorService', () => {
 	//
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			imports: [HttpClientTestingModule],
 			providers: [
-				// Http,
-				{
-					provide: HTTP_INTERCEPTORS,
-					useClass: AuthInterceptorService,
-					multi: true,
-				},
+				provideHttpClient(withInterceptors([AuthInterceptorService])),
+				provideHttpClientTesting()
 			],
 		});
 		http = TestBed.inject(HttpTestingController);
@@ -76,6 +72,7 @@ describe('AuthInterceptorService', () => {
 	it('should add an Authorization header 2 ...', ( ) => {
 		const token: string = '1234567890';
 		setLocalStorage( '1234567890', Date.now() + 10000 );
+		// console.log( localStorage.getItem( 'access_token' ) );
 		httpClient.get( url ).subscribe(response => {
 			// console.log( JSON.stringify( response ) );
 			expect( response ).toBeTruthy();

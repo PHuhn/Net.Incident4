@@ -4,8 +4,8 @@
 //
 import { TestBed, getTestBed, inject, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClientModule, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { environment } from '../../../environments/environment';
 import { Message } from '../../global/alerts/message';
@@ -44,12 +44,9 @@ describe('UserService', () => {
 	//
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
-			imports: [
-				// no more boilerplate code w/ custom providers needed :-)
-				HttpClientModule,
-				HttpClientTestingModule
-			],
 			providers: [
+				provideHttpClient(),
+				provideHttpClientTesting(),
 				{ provide: UserService, useClass: UserService },
 				{ provide: AlertsService, useClass: AlertsService }
 			]

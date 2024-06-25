@@ -1,5 +1,5 @@
 // ===========================================================================
-// File: digital-clock.component.ts
+// File: spinner-loading.component.ts
 import { Component, Input } from '@angular/core';
 //
 @Component({
