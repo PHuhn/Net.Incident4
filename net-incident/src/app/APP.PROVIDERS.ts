@@ -1,8 +1,7 @@
 // ===========================================================================
 // HttpClient use HttpClientModule https://github.com/angular/angular/issues/11694
 //
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { withInterceptors, provideHttpClient } from '@angular/common/http';
 //
 // infrastructure services
 import { ConfirmationService } from 'primeng/api';
@@ -25,12 +24,7 @@ export const APP_PROVIDERS = [
 	//
 	UserService,
 	AuthService,
-	{
-		// HttpClientModule in global.module.ts
-		provide: HTTP_INTERCEPTORS,
-		useClass: AuthInterceptorService,
-		multi: true
-	},
+	provideHttpClient(withInterceptors([AuthInterceptorService])),
 	//
 	ServicesService,
 	IncidentService,
