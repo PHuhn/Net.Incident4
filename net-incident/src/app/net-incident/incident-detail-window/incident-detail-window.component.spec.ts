@@ -1,11 +1,10 @@
 // ===========================================================================
-import { ComponentFixture, TestBed, inject, fakeAsync, tick, getTestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 //
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 //
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
@@ -13,6 +12,7 @@ import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 import { APP_COMPONENTS } from '../../APP.COMPONENTS';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { Message } from '../../global/alerts/message';
+import { AlertLevel } from '../../global/alerts/alert-level.enum';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { ServicesService } from '../services/services.service';
@@ -21,14 +21,15 @@ import { NetworkIncidentService } from '../services/network-incident.service';
 import { DetailWindowInput } from '../DetailWindowInput';
 import { IIncident, Incident } from '../incident';
 import { NetworkIncident } from '../network-incident';
-import { INetworkLog, NetworkLog } from '../network-log';
-import { IUser, User } from '../user';
+import { NetworkLog } from '../network-log';
+import { User } from '../user';
 import { ServerData } from '../server-data';
 import { SelectItemClass } from '../../global/select-item-class';
 import { NetworkIncidentSave } from '../network-incident-save';
 import { IncidentNote } from '../incident-note';
 //
 import { IncidentDetailWindowComponent } from './incident-detail-window.component';
+import { LogLevel } from 'src/app/global/console-log/log-level.enum';
 //
 describe( 'IncidentDetailWindowComponent', ( ) => {
 	let sut: IncidentDetailWindowComponent;
@@ -236,7 +237,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		save.message = '';
 		sut.networkIncidentSave = save;
 		spyOn( alertService, 'warningSet' );
-		networkIncidentServiceSpy.validateIncident.and.returnValue( [ new Message( 'id','message' ) ] );
+		networkIncidentServiceSpy.validateIncident.and.returnValue( [ new Message( 'id', AlertLevel.Warning, 'message' ) ] );
 		networkIncidentServiceSpy.validateNetworkLogs.and.returnValue( [] );
 		// when
 		sut.validate( );

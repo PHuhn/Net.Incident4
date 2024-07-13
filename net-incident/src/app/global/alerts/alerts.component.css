@@ -1,6 +1,15 @@
-
-.alertMessages {width: 300px; margin: 2px; padding-left: 0px; 
-    position: fixed; top: 0; right: 10px; z-index: 20000; 
-    background-position: -312px 0px; 
-    background: fff
-    top left no-repeat 14px 14px;}
+.alertMessages {
+	width: 300px;
+	min-height: 35px;
+	margin: 2px 0 0 0;
+	padding: 1px;
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	z-index: 20000;
+	background-position: -312px 0;
+	border: 1px solid red;
+	border-radius: 5px;
+	font-weight: bold;
+	background-color: var(--nsg-jumbotron-bg-color);
+}

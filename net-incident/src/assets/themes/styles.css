@@ -100,35 +100,19 @@ NSG
 */
 /* Info */
 .nsg-msg-info {
-	background-color: #61a5da; /* #007ad9 */
-	border: 2px solid #bae1ff;
-	border-radius: 8px;
-	color: #000000;
-	font-weight: bold;
+    color: rgb(52, 89, 230);
 }
 /* Success */
 .nsg-msg-success {
-	background-color: #59ad5b; /* #34a835 */
-	border: 2px solid #c4edc4;
-	border-radius: 8px;
-	color: #000000;
-	font-weight: bold;
+    color: forestgreen;
 }
 /* Warning */
 .nsg-msg-warning {
-	background-color: #ffba01;
-	border: 2px solid #fff1ce;
-	border-radius: 8px;
-	color: #000000;
-	font-weight: bold;
+    color: darkorange;
 }
-/* Danger */
-.nsg-msg-danger {
-	background-color: #fc6d79; /* #e91224;*/
-	border: 2px solid #fac7cb;
-	border-radius: 8px;
-	color: #000000;
-	font-weight: bold;
+/* Error/Danger */
+.nsg-msg-error, .nsg-msg-danger {
+    color: red;
 }
 .nsg-bs-menu-container {
 	background-color: var(--nsg-primary);

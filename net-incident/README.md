@@ -62,8 +62,9 @@ I have three different base classes as follows:
   *	baseErrorHandler( where: string, what: string, error: string )
 * BaseSrvcService which extends @Injectable (service) with the following methods:
   *	getModelAll<T>( )
-  *	getModelLazy<T>( event: LazyLoadEvent )
+  *	getModelLazy<T>( event: LazyLoadMeta )
   *	getModelSome<T>( param: any )
+  * postJsonBody<T>( body: any )
   *	getModelById<T>( id: any )
   *	getText( id: any )
   *	postJsonBody<T>( body: any )

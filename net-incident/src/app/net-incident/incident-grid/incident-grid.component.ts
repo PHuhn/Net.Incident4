@@ -1,27 +1,21 @@
 // File: incident-grid.component.ts
-import { Component, OnInit, OnDestroy, Input, ViewChild, EventEmitter } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 //
 import { Table } from 'primeng/table';
-import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
-import { FilterMetadata } from 'primeng/api';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadMeta } from 'primeng/api';
 //
-import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
+import { ILazyResults } from '../../global/base-srvc/ilazy-results';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { BaseComponent } from '../../global/base-comp/base-comp.component';
 import { DetailWindowInput } from '../DetailWindowInput';
-import { IUser, User } from '../user';
+import { User } from '../user';
 import { UserService } from '../services/user.service';
 import { IncidentService } from '../services/incident.service';
 import { IIncident, Incident } from '../incident';
-import { LazyLoadEvent2 } from '../../global/LazyLoadEvent2';
-import { IncidentDetailWindowComponent } from '../incident-detail-window/incident-detail-window.component';
-import { ServerSelectionWindowComponent } from '../server-selection-window/server-selection-window.component';
 import { AppComponent } from '../../app.component';
 //
 @Component({
@@ -42,7 +36,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// Local variables
 	incidents: Incident[] = [];
 	totalRecords: number = 0;
-	lastTableLazyLoadEvent: LazyLoadEvent2;
+	lastTableLazyLoadMeta: LazyLoadMeta;
 	id: number = -1;
 	loading: boolean = false;
 	@ViewChild('dt', { static: true }) dt: Table | undefined;
@@ -193,7 +187,7 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	refreshWithLastEvent(): void {
 		this._console.Debug(
 			`${this.codeName}.refreshWithLastEvent: entered` );
-		this.loadIncidentsLazy(this.lastTableLazyLoadEvent);
+		this.loadIncidentsLazy(this.lastTableLazyLoadMeta);
 	}
 	//
 	// --------------------------------------------------------------------
@@ -241,9 +235,9 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	** event.sortField = Field name to sort with
 	** event.sortOrder = Sort order as number, 1 for asc and -1 for dec
 	** filters: FilterMetadata[] object having field as key and filter value, filter matchMode as value
-	** @param event LazyLoadEvent but with array of FilterMetadat
+	** @param event LazyLoadMeta but with array of FilterMetadat
 	*/
-	loadIncidentsLazy( event: LazyLoadEvent2 ) {
+	loadIncidentsLazy( event: LazyLoadMeta ) {
 		setTimeout( ( ) => {
 			this.loading = true;
 			event.globalFilter = '';
@@ -251,17 +245,17 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 			// The following 6 fields are defined by p-columnFilter:
 			// IncidentId, IPAddress, NIC, NetworkName, AbuseEmailAddress, ISPTicketNumber
 			// Manually apply the caption filters, to force the filter.
-			const ev: LazyLoadEvent2 = { ... event };
+			const ev: LazyLoadMeta = { ... event };
 			ev.filters = { ... event.filters, 
 				'ServerId': [{ value: this.user.Server.ServerId, matchMode: 'equals' }],
 				'Mailed': [{ value: this.mailed, matchMode: 'equals' }],
 				'Closed': [{ value: this.closed, matchMode: 'equals' }],
 				'Special': [{ value: this.special, matchMode: 'equals' }],
 			};
-			this.lastTableLazyLoadEvent = ev;
+			this.lastTableLazyLoadMeta = ev;
 			//
-			this._data.postJsonBody<ILazyResults>( ev ).subscribe({
-				next: (paginationData: ILazyResults ) => {
+			this._data.getModelLazy<IIncident>( ev ).subscribe({
+				next: (paginationData: ILazyResults<IIncident> ) => {
 					this._console.Debug( `${this.codeName}.loadIncidentsLazy: # records: ${paginationData.results.length} totalRecords: ${paginationData.totalRecords}` );
 					// console.warn( JSON.stringify( paginationData ) );
 					this.loading = false;
@@ -269,9 +263,12 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 					this.totalRecords = paginationData.totalRecords;
 				},
 				error: (error) => {
-					this.loading = false;
 					this.baseErrorHandler(
 						this.codeName, `loadIncidentsLazy`, error );
+					this.loading = false;
+				},
+				complete: () => {
+					this.loading = false;
 				}
 			});
 		}, 0 );

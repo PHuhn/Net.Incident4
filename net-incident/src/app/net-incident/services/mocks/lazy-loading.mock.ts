@@ -1,9 +1,8 @@
 // ===========================================================================
 // file: LazyLoading.mock
-import { LazyLoadEvent, FilterMetadata } from 'primeng/api';
+import { LazyLoadEvent, LazyLoadMeta, FilterMetadata } from 'primeng/api';
 //
-import { LazyLoadEvent2 } from '../../../global/LazyLoadEvent2';
-import { ILazyResults } from '../../../global/base-srvc/ibase-srvc';
+import { ILazyResults } from '../../../global/base-srvc/ilazy-results';
 //
 export class LazyLoadingMock {
 	//
@@ -14,9 +13,9 @@ export class LazyLoadingMock {
 	** @param event 
 	** @returns ILazyResults
 	*/
-	LazyLoading<T>( datasource: T[], event: LazyLoadEvent ): ILazyResults {
+	LazyLoading<T>( datasource: T[], event: LazyLoadEvent ): ILazyResults<T> {
 		//
-		const results: ILazyResults = { results: datasource, totalRecords: datasource ? datasource.length : 0, loadEvent: JSON.stringify( event ), message: ''};
+		const results: ILazyResults<T> = { results: datasource, totalRecords: datasource ? datasource.length : 0, loadEvent: JSON.stringify( event ), message: ''};
 		if ( datasource && datasource.length ) {
 			let filtered: T[] = datasource.slice( 0 );
 			if( event.filters ) {
@@ -45,9 +44,9 @@ export class LazyLoadingMock {
 	** @param event 
 	** @returns ILazyResults
 	*/
-	LazyLoading2<T>( datasource: T[], event: LazyLoadEvent2 ): ILazyResults {
+	LazyLoading2<T>( datasource: T[], event: LazyLoadMeta ): ILazyResults<T> {
 		//
-		const results: ILazyResults = { results: datasource, totalRecords: datasource ? datasource.length : 0, loadEvent: JSON.stringify( event ), message: ''};
+		const results: ILazyResults<T> = { results: datasource, totalRecords: datasource ? datasource.length : 0, loadEvent: JSON.stringify( event ), message: ''};
 		if ( datasource && datasource.length ) {
 			let filtered: T[] = datasource.slice( 0 );
 			if( event.filters ) {
@@ -116,11 +115,11 @@ export class LazyLoadingMock {
 	** @param event 
 	** @returns 
 	*/
-	LazyFilters2<T>( filtered: T[], event: LazyLoadEvent2 ): T[] {
+	LazyFilters2<T>( filtered: T[], event: LazyLoadMeta ): T[] {
 		if( event.filters ) {
 			for (const key in event.filters) {
 				if (event.filters.hasOwnProperty( key )) {
-					const filterMeta: FilterMetadata[] = event.filters[key];
+					const filterMeta = event.filters[key] as FilterMetadata[];
 					if (Array.isArray(filterMeta)) {
 						let tempCat: any[] = [];
 						let opOr: boolean = false;
@@ -229,17 +228,29 @@ export class LazyLoadingMock {
 	** @param event 
 	** @returns 
 	*/
-	LazyOrderBy2<T>( data: T[], event: LazyLoadEvent2 ): T[] {
+	LazyOrderBy2<T>( data: T[], event: LazyLoadMeta ): T[] {
 		if( data.length > 0 ) {
-			if( event.sortField !== undefined ) {
-				const key = event.sortField;
+			if( event.sortField !== undefined && event.sortField !== null ) {
+				const keys = event.sortField;
+				const keyArr: string[] = Array.isArray(keys) ? keys : [keys];
 				if( event.sortOrder !== undefined ) {
-					const sortOrder: number = event.sortOrder !== undefined ? event.sortOrder : 1;
-					return data.sort( ( n1: any, n2: any ) => {
-						if( n1[key] > n2[key] ) {
-							return ( sortOrder === 1 ? 1: -1 );
-						}
-						return ( sortOrder === 1 ? -1: 1 );
+					let sortOrder: number = 1;
+					if( event.sortOrder !== null ) {
+						sortOrder = event.sortOrder;
+					}
+					return data.sort( ( n1: T, n2: T ) => {
+						let sort: number = 0;
+						keyArr.forEach(key => {
+							if( sort === 0 ) {
+								if( n1[key as keyof T] > n2[key as keyof T] ) {
+									sort = sortOrder === 1 ? 1: -1;
+								}
+								if( n1[key as keyof T] < n2[key as keyof T] ) {
+									sort = sortOrder === 1 ? -1: 1;
+								}
+							}
+						});
+						return sort;
 					});
 				}
 			}
@@ -264,7 +275,7 @@ export class LazyLoadingMock {
 	** @param event 
 	** @returns 
 	*/
-	LazySkipTake2<T>( data: T[], event: LazyLoadEvent2 ): T[] {
+	LazySkipTake2<T>( data: T[], event: LazyLoadMeta ): T[] {
 		if( event.first !== undefined && event.rows !== undefined ) {
 			return data.slice( event.first, ( event.first + event.rows ) );
 		}

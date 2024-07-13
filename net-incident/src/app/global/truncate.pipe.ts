@@ -14,7 +14,7 @@ export class TruncatePipe implements PipeTransform {
 	//
 	transform(value: string, len: number, args?: string): string {
 		len = len < 1 ? 30 : len;
-		const ellipsis = args === undefined ? '' : args;
+		const ellipsis = args === undefined ? '…' : args;
 		return value.length > len ? value.substring( 0, len ) + ellipsis : value;
 	}
 	//

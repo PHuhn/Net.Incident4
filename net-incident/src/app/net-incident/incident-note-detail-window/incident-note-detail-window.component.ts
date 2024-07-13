@@ -1,23 +1,18 @@
 // ===========================================================================
 // File: incident-note-detail-window.component.ts
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
-//
-import { Dialog } from 'primeng/dialog';
-import { SelectItem } from 'primeng/api';
-import { Dropdown, DropdownModule } from 'primeng/dropdown';
 //
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { Message } from '../../global/alerts/message';
+import { AlertLevel } from '../../global/alerts/alert-level.enum';
 import { ServicesService } from '../services/services.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { BaseComponent } from '../../global/base-comp/base-comp.component';
 import { IIncidentNote, IncidentNote } from '../incident-note';
 import { NetworkIncident } from '../network-incident';
 import { AbuseEmailReport } from '../abuse-email-report';
-import { IIncident } from '../incident';
 import { SelectItemExtra } from 'src/app/global/select-item-class';
 //
 export interface IIncidentNoteWindowInput {
@@ -254,16 +249,16 @@ export class IncidentNoteDetailWindowComponent extends BaseComponent implements 
 		const errMsgs: Message[] = [];
 		//
 		if( model.IncidentNoteId === undefined || model.IncidentNoteId === null ) {
-			errMsgs.push( new Message( 'IncidentNoteId-1', `'Incident Note Id' is required.` ) );
+			errMsgs.push( new Message( 'IncidentNoteId-1', AlertLevel.Warning, `'Incident Note Id' is required.` ) );
 		}
 		if( model.NoteTypeId === undefined || model.NoteTypeId === null || model.NoteTypeId < 1 ) {
-			errMsgs.push( new Message( 'NoteTypeId-1', `'Note Type Id' is required.` ) );
+			errMsgs.push( new Message( 'NoteTypeId-1', AlertLevel.Warning, `'Note Type Id' is required.` ) );
 		}
 		if( model.NoteTypeId > 2147483647 ) {
-			errMsgs.push( new Message( 'NoteTypeId-2', `'Note Type Id' is too large, over: 2147483647` ) );
+			errMsgs.push( new Message( 'NoteTypeId-2', AlertLevel.Warning, `'Note Type Id' is too large, over: 2147483647` ) );
 		}
 		if( model.Note.length === 0 || model.Note === undefined ) {
-			errMsgs.push( new Message( 'Note-1', `'Note' is required.` ) );
+			errMsgs.push( new Message( 'Note-1', AlertLevel.Warning, `'Note' is required.` ) );
 		}
 		//
 		return errMsgs;

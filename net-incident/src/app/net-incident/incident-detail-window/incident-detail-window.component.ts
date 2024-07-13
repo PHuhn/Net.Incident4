@@ -1,11 +1,7 @@
 // ===========================================================================
 // File: Incident-detail-window.component.ts
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-//
-import { Dialog } from 'primeng/dialog';
-import { environment } from '../../../environments/environment';
+import { Component, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ServicesService } from '../services/services.service';
@@ -14,19 +10,16 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { BaseComponent } from '../../global/base-comp/base-comp.component';
 import { Message } from '../../global/alerts/message';
+import { AlertLevel } from '../../global/alerts/alert-level.enum';
 import { DetailWindowInput } from '../DetailWindowInput';
 import { IUser, User } from '../user';
 import { IIncident, Incident } from '../incident';
-import { SelectItemClass } from '../../global/select-item-class';
 import { NetworkIncident } from '../network-incident';
 import { NetworkIncidentSave } from '../network-incident-save';
-import { IWhoIsAbuse, WhoIsAbuse } from '../whois-abuse';
+import { WhoIsAbuse } from '../whois-abuse';
 import { AbuseEmailReport } from '../abuse-email-report';
 import { SelectItemExtra } from '../../global/select-item-class';
 import { IncidentNote } from '../incident-note';
-//
-import { NetworkLogGridComponent } from '../network-log-grid/network-log-grid.component';
-import { IncidentNoteGridComponent } from '../incident-note-grid/incident-note-grid.component';
 //
 @Component({
 	selector: 'app-incident-detail-window',
@@ -123,19 +116,19 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 				const errMsgs: Message[] = [];
 				//
 				if( model.IncidentId === undefined || model.IncidentId === null || model.IncidentId === 0  ) {
-					errMsgs.push( new Message( 'IncidentId-1', `Incident not saved, 'Id' is zero` ) );
+					errMsgs.push( new Message( 'IncidentId-1', AlertLevel.Warning, `Incident not saved, 'Id' is zero` ) );
 				}
 				if( model.IPAddress.length === 0 || model.IPAddress === undefined ) {
-					errMsgs.push( new Message( 'IPAddress-1', `'IP Address' is required.` ) );
+					errMsgs.push( new Message( 'IPAddress-1', AlertLevel.Warning, `'IP Address' is required.` ) );
 				}
 				if( model.NIC.length === 0 || model.NIC === undefined ) {
-					errMsgs.push( new Message( 'NIC-1', `'NIC' not set.` ) );
+					errMsgs.push( new Message( 'NIC-1', AlertLevel.Warning, `'NIC' not set.` ) );
 				}
 				if( model.NetworkName.length === 0 ) {
-					errMsgs.push( new Message( 'NetworkName-1', `'Network Name' not set.` ) );
+					errMsgs.push( new Message( 'NetworkName-1', AlertLevel.Warning, `'Network Name' not set.` ) );
 				}
 				if( model.AbuseEmailAddress.length === 0 ) {
-					errMsgs.push( new Message( 'AbuseEmailAddress-1', `'Abuse Email Address'  not set.` ) );
+					errMsgs.push( new Message( 'AbuseEmailAddress-1', AlertLevel.Warning, `'Abuse Email Address'  not set.` ) );
 				}
 				this._alerts.warningSet( errMsgs );
 				(event.target as HTMLInputElement).checked = false;
@@ -299,7 +292,7 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	*/
 	validate( ): boolean {
 		if( this.networkIncidentSave === undefined ) {
-			const msg = new Message( 'err1', 'Incident undefined.');
+			const msg = new Message( 'err1', AlertLevel.Warning, 'Incident undefined.');
 			this._console.Warning( `${this.codeName}.validate, ${msg}` );
 			this._alerts.warningSet( [msg] );
 			return false;
@@ -347,13 +340,13 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	validateUser( errMsgs: Message[], model: IUser ): void {
 		//
 		if( model.UserName === undefined || model.UserName === '' ) {
-			errMsgs.push( new Message( 'UserName-1', `From User, 'User Name' is required.` ) );
+			errMsgs.push( new Message( 'UserName-1', AlertLevel.Warning, `From User, 'User Name' is required.` ) );
 		}
 		if( model.UserNicName === undefined || model.UserNicName === '' ) {
-			errMsgs.push( new Message( 'UserNicName-1', `From User, 'User Nic Name' is required.` ) );
+			errMsgs.push( new Message( 'UserNicName-1', AlertLevel.Warning, `From User, 'User Nic Name' is required.` ) );
 		}
 		if( model.Email === undefined || model.Email === '' ) {
-			errMsgs.push( new Message( 'Email-1', `From User, 'User Email Address' is required.` ) );
+			errMsgs.push( new Message( 'Email-1', AlertLevel.Warning, `From User, 'User Email Address' is required.` ) );
 		}
 		//
 	}
@@ -372,7 +365,7 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 		this._console.Information(
 			`${this.codeName}.ipChanged, IP address: ${ipAddress}` );
 		if( this.networkIncident === undefined ) {
-			const msg = new Message( 'err1', 'Incident undefined.');
+			const msg = new Message( 'err1', AlertLevel.Warning, 'Incident undefined.');
 			this._console.Warning( `${this.codeName}.ipChanged, ${msg}` );
 			this._alerts.warningSet( [msg] );
 			return;

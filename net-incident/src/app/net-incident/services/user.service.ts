@@ -18,16 +18,13 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 @Injectable( { providedIn: 'root' } )
 export class UserService extends BaseSrvcService {
 	//
-	url: string;
-	public codeName: string;
-	//
 	// Service constructor, inject http service.
 	//
 	constructor(
 		protected _http: HttpClient,
 		protected _console: ConsoleLogService ) {
-			super( _http, _console,
-				environment.base_Url + 'User', 'User' );
+			super( _http, _console );
+			this.baseUrl = environment.base_Url + 'User';
 			this.codeName = 'User-Service';
 	}
 	//

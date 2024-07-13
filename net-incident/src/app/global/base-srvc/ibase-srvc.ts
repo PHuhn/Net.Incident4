@@ -1,30 +1,12 @@
 // ===========================================================================
 // File: ibase-srvc.ts
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 //
-import { LazyLoadEvent } from 'primeng/api';
-/**
-** lazy loading return results
-*/
-export interface ILazyResults {
-	/**
-	** results is an array of generic objects
-	*/
-	results: Array<any>;
-	/**
-	** totalRecords is the total number of records
-	*/
-	totalRecords: number;
-	/**
-	** the calling lazy-load-event
-	*/
-	loadEvent: string;
-	/**
-	** message if any from the service
-	*/
-	message: string;
-}
+import { LazyLoadMeta } from 'primeng/api';
+//
+import { ID } from '../global';
+import { ILazyResults } from './ilazy-results'
 /**
 ** base http services
 */
@@ -53,35 +35,32 @@ export interface IBaseSrvc {
 	** @param param 
 	** @returns string
 	*/
-	baseParamStringify( param: any ): string;
+	baseParamStringify( param: ID ): string;
 	/**
 	** Read (get) all models.
 	*/
 	getModelAll<T>( ): Observable<T[] | never>;
 	/**
+	** Read (get) lazy loading page of models using primeng
+	*/
+	getModelLazy<T>( event: LazyLoadMeta ): Observable<ILazyResults<T> | never>;
+	/**
 	** Read (get) some models.
 	** @param param needs to be an object much like the compound key in getModelById
 	*/
-	getModelSome<T>( param: any ): Observable<T[] | never>;
+	getModelSome<T>( param: ID ): Observable<T[] | never>;
 	/**
 	** Read (get) model with id.
 	** @param id needs to be a primative data-type (url param /) or object (url param ?),
 	** object would be used for a compound key
 	*/
-	getModelById<T>( id: any ): Observable<T | never>;
+	getModelById<T>( id: ID ): Observable<T | HttpErrorResponse | undefined>;
 	/**
 	** Get text service.
-	** @param id 
+	** @param id global ID type
 	** @returns text/string
 	*/
-	getText( id: any ): Observable<string | never>;
-	/**
-	** post (get) passing body with JSON options.  Can be used
-	** with PrimeNG's lazy load table and with authenication
-	** @param body 
-	** @returns T
-	*/
-	postJsonBody<T>( body: any ): Observable<T | never>;
+	getText( id: ID ): Observable<string | never>;
 	/**
 	** Create (post) model.
 	** @param model object of class T
@@ -91,19 +70,19 @@ export interface IBaseSrvc {
 	** Update (put) model.
 	** @param id needs to start with either / or ?
 	*/
-	updateModel<T>( id: any, model: T ): Observable<T | never>;
+	updateModel<T>( id: ID, model: T ): Observable<T | never>;
 	/**
 	** Delete (delete) model with id.
 	** @param id needs to start with either / or ?
 	** @param model object of class T
 	*/
-	deleteModel<T>( id: any ): Observable<T | never>;
+	deleteModel<T>( id: ID ): Observable<T>;
 	/**
 	** Handle an error from this service.
 	** 1) Log a console error log,
 	** 2) Throw an exception up the chain of execution.
 	*/
-	baseSrvcErrorHandler( error: any ): Observable<never>;
+	baseSrvcErrorHandler( error: HttpErrorResponse | string ): Observable<never>;
 	//
 }
 // ===========================================================================

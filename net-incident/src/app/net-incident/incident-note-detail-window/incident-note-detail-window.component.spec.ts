@@ -1,14 +1,13 @@
 // ===========================================================================
-import { ComponentFixture, TestBed, getTestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
-import { By } from '@angular/platform-browser';
 //
-import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 //
-import { ConfirmationService, SelectItem } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
@@ -17,7 +16,7 @@ import { Message } from '../../global/alerts/message';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { ServicesService } from '../services/services.service';
 import { SelectItemClass, SelectItemExtra } from '../../global/select-item-class';
-import { IIncident, Incident } from '../incident';
+import { Incident } from '../incident';
 import { NetworkIncident } from '../network-incident';
 import { NetworkLog } from '../network-log';
 import { ServerData } from '../server-data';

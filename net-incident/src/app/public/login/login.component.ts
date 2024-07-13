@@ -3,7 +3,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { environment } from '../../../environments/environment';
 //
 import { SelectItem } from 'primeng/api';
-import { Dialog } from 'primeng/dialog';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { Message } from '../../global/alerts/message';
@@ -12,10 +11,9 @@ import { UserService } from '../../net-incident/services/user.service';
 import { AuthService } from '../../net-incident/services/auth.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { BaseComponent } from '../../global/base-comp/base-comp.component';
-import { IUser, User } from '../../net-incident/user';
+import { User } from '../../net-incident/user';
 import { IAuthResponse } from './iauth-response';
 import { Login } from '../../net-incident/login';
-import { ServerSelectionWindowComponent } from '../../net-incident/server-selection-window/server-selection-window.component';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Component({

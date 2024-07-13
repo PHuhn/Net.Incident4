@@ -1,16 +1,15 @@
 // ===========================================================================
 // File: base-srvc.service.spec.ts
-import { TestBed, getTestBed, inject, waitForAsync } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
-import { catchError, tap } from 'rxjs/operators';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadMeta } from 'primeng/api';
 //
-import { ILazyResults, IBaseSrvc } from './ibase-srvc';
+import { ILazyResults } from './ilazy-results';
 import { IAuthResponse, AuthResponse } from '../../public/login/iauth-response';
-import { ConsoleLogService } from '../../global/console-log/console-log.service';
+import { ConsoleLogService } from '../console-log/console-log.service';
 import { BaseSrvcService } from './base-srvc.service';
 //
 export interface ITestNote {
@@ -29,7 +28,7 @@ export class TestNote implements ITestNote {
 //
 describe('BaseSrvcService', () => {
 	let sut: BaseSrvcService;
-	let http: HttpClient;
+	// let http: HttpClient;
 	let backend: HttpTestingController;
 	const status: number = 401;
 	const errMsg: string = 'Fake error';
@@ -47,16 +46,14 @@ describe('BaseSrvcService', () => {
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
 			providers: [
-				BaseSrvcService,
-				ConsoleLogService,
 				provideHttpClient(),
 				provideHttpClientTesting(),
-				{provide: 'url', useValue: 'http://localhost/TestNote'},
-				{provide: 'name', useValue: 'TestNote'}
+				BaseSrvcService,
+				ConsoleLogService
 			]
 		} );
 		// Setup injected pre service for each test
-		http = TestBed.inject( HttpClient );
+		// http = TestBed.inject( HttpClient );
 		backend = TestBed.inject( HttpTestingController );
 		// Setup sut
 		sut = TestBed.inject( BaseSrvcService );
@@ -83,8 +80,7 @@ describe('BaseSrvcService', () => {
 				},
 			error: (error: HttpErrorResponse) => {
 				fail( `getModelById: expected error... ${error}` );
-			},
-			complete: () => { }
+			}
 		});
 		// then
 		const request: TestRequest = backend.expectOne( `${url}/` );
@@ -96,36 +92,6 @@ describe('BaseSrvcService', () => {
 	** postJsonBody<T>( body: any ): Observable<T | never>
 	** Read (get) lazy loading page of models.
 	*/
-	it( 'postJsonBody: should get page of data...', waitForAsync( ( ) => {
-		// given
-		const event: LazyLoadEvent = {
-			first: 0, rows: 4,
-		};
-		const srvcResults: ILazyResults = {
-			results: mockModels.filter( ftr => ftr.TestNoteId < 5 ),
-			totalRecords: 4,
-			loadEvent: JSON.stringify( event ),
-			message: ''
-		};
-		// when
-		sut.postJsonBody<ILazyResults>( event ).subscribe({
-			next: (response: ILazyResults) => {
-				// then
-				expect( response.results.length ).toBe( 4 );
-				expect( response.results[ 0 ].TestNoteId ).toEqual( 1 );
-				expect( response.results[ 1 ].TestNoteId ).toEqual( 2 );
-			},
-			error: (error: HttpErrorResponse) => {
-				fail( `postJsonBody: expected error... ${error}` );
-			},
-			complete: () => { }
-		});
-		// then
-		const request: TestRequest = backend.expectOne( `${url}/` );
-		expect( request.request.method ).toBe( 'POST' );
-		request.flush( srvcResults );
-	}));
-	//
 	it( 'postJsonBody: should authenticate user...', waitForAsync( ( ) => {
 		// given
 		const _url = 'http://localhost/authenticate';
@@ -155,6 +121,38 @@ describe('BaseSrvcService', () => {
 		request.flush( _srvcResults );
 	}));
 	/*
+	** getModelLazy<T>( event: LazyLoadMeta ): Observable<ILazyResults | never>
+	** Read (get) lazy loading page of models.
+	*/
+	it( 'getModelLazy: should get page of data...', waitForAsync( ( ) => {
+		// given
+		const event: LazyLoadMeta = {
+			first: 0, rows: 4,
+		};
+		const srvcResults: ILazyResults<ITestNote> = {
+			results: mockModels.filter( ftr => ftr.TestNoteId < 5 ),
+			totalRecords: 4,
+			loadEvent: JSON.stringify( event ),
+			message: ''
+		};
+		// when
+		sut.getModelLazy<ITestNote>( event ).subscribe({
+			next: (results: ILazyResults<ITestNote>) => {
+				// then
+				expect( results.results.length ).toBe( 4 );
+				expect( results.results[ 0 ].TestNoteId ).toEqual( 1 );
+				expect( results.results[ 1 ].TestNoteId ).toEqual( 2 );
+			},
+			error: (error: HttpErrorResponse) => {
+				fail( `getModelLazy: expected error... ${error}` );
+			}
+		});
+		// then
+		const request: TestRequest = backend.expectOne( `${url}/` );
+		expect( request.request.method ).toBe( 'POST' );
+		request.flush( srvcResults );
+	}));
+	/*
 	** getModelSome<T>( param: any ): Observable<T[] | never>
 	** Read (get) some models.
 	** @param param object or data type
@@ -169,15 +167,13 @@ describe('BaseSrvcService', () => {
 		sut.getModelSome<ITestNote>( param ).subscribe({
 			next: (results: ITestNote[]) => {
 				// then
-				console.log( results );
 				expect( results.length ).toBe( 2 );
 				expect( results[ 0 ].TestNoteId ).toEqual( 3 );
 				expect( results[ 1 ].TestNoteId ).toEqual( 4 );
 			},
 			error: (error: HttpErrorResponse) => {
-				fail( `getModelSome: expected error... ${error}` );
-			},
-			complete: () => { }
+				fail( `getModelLazy: expected error... ${error}` );
+			}
 		});
 		// then
 		const request: TestRequest = backend.expectOne( `${url}${srvcParam}` );
@@ -195,20 +191,18 @@ describe('BaseSrvcService', () => {
 		sut.getModelSome<ITestNote>( param ).subscribe({
 			next: (results: ITestNote[]) => {
 				// then
-				console.log( results );
 				expect( results.length ).toBe( 1 );
 				expect( results[ 0 ].TestNoteId ).toEqual( 3 );
 			},
 			error: (error: HttpErrorResponse) => {
 				fail( `getModelLazy: expected error... ${error}` );
-			},
-			complete: () => { }
+			}
 		});
 		// then
 		const request: TestRequest = backend.expectOne( `${url}${srvcParam}` );
 		expect( request.request.method ).toBe( 'GET' );
 		// returns an array
-		request.flush( [<ITestNote>mockModels[2]] );
+		request.flush( [mockModels[2] as ITestNote] );
 	}));
 	/*
 	** getModelById( id: string ): Observable<T>
@@ -217,7 +211,6 @@ describe('BaseSrvcService', () => {
 		// given
 		const mockData: ITestNote = mockModels[ 1 ];
 		const id1: number = mockData.TestNoteId;
-		const param: string = sut.baseParamStringify( id1 );
 		// when
 		sut.getModelById<ITestNote>( id1 ).subscribe({
 			// then
@@ -225,27 +218,26 @@ describe('BaseSrvcService', () => {
 				expect( value.TestNoteId ).toEqual( id1 );
 			},
 			error: (error: HttpErrorResponse) => {
-				fail( 'getModelById: expected error...' );
-			},
-			complete: () => { }
+				fail( `getModelById: expected error...  ${error}` );
+			}
 		});
 		// use the HttpTestingController to mock requests and the flush method to provide dummy values as responses
 		// then
 		const request: TestRequest = backend.expectOne( `${url}/${id1}` );
 		expect( request.request.method ).toBe( 'GET' );
-		request.flush( <ITestNote>mockData );
+		request.flush( mockData as ITestNote );
 		//
 	}));
 	/*
 	** Get text service.
 	** @param id 
 	** @returns text/string
-	** getText( id: any ): Observable<string | never>
+	** getText( id: ID ): Observable<string | never>
 	*/
 	it( 'getText: should create a new row...', waitForAsync( ( ) => {
 		// given
 		const mockResponse: string = 'Some Text';
-		const id1: any = { a:'some', b: 'Text' };
+		const id1: object = { a:'some', b: 'Text' };
 		// when
 		sut.getText( id1 ).subscribe({
 			// then
@@ -277,9 +269,8 @@ describe('BaseSrvcService', () => {
 				expect( value.TestNoteId ).toEqual( id1 );
 			},
 			error: (error: HttpErrorResponse) => {
-				fail( 'createModel: expected error... ${error}' );
-			},
-			complete: () => { }
+				fail( `deleteModel: expected error... ${error}` );
+			}
 		});
 		// then
 		const request: TestRequest = backend.expectOne( `${url}/` );
@@ -304,8 +295,7 @@ describe('BaseSrvcService', () => {
 			},
 			error: (error: HttpErrorResponse) => {
 				expect( error.toString() ).toEqual( `Error: ${errMsg} (${status})` );
-			},
-			complete: () => { }
+			}
 		});
 		// then
 		const request: TestRequest = backend.expectOne( `${url}/` );
@@ -321,8 +311,6 @@ describe('BaseSrvcService', () => {
 		const mockData: ITestNote = mockModels[ 1 ];
 		const id1: number = mockData.TestNoteId;
 		const param: string = sut.baseParamStringify( id1 );
-		const response = new HttpResponse<any>( {
-			status: 200, statusText: 'OK' } );
 		// when
 		sut.updateModel( param, mockData ).subscribe({
 			// then
@@ -330,9 +318,8 @@ describe('BaseSrvcService', () => {
 				expect( value.TestNoteId ).toEqual( id1 );
 			},
 			error: (error: HttpErrorResponse) => {
-				fail( 'updateModel: expected error...' );
-			},
-			complete: () => { }
+				fail( `updateModel: expected error...  ${error}` );
+			}
 		});
 		// then
 		const request = backend.expectOne( `${url}${param}` );
@@ -359,8 +346,7 @@ describe('BaseSrvcService', () => {
 			},
 			error: (error: HttpErrorResponse) => {
 				expect( error.toString() ).toEqual( `Error: ${errMsg} (${status})` );
-			},
-			complete: () => { }
+			}
 		});
 		// then
 		const request = backend.expectOne( `${url}${param}` );
@@ -383,9 +369,8 @@ describe('BaseSrvcService', () => {
 				expect( value.TestNoteId ).toEqual( id1 );
 			},
 			error: (error: HttpErrorResponse) => {
-				fail( 'deleteModel: expected error...' );
-			},
-			complete: () => { }
+				fail( `deleteModel: expected error... ${error}` );
+			}
 		});
 		// then
 		const request = backend.expectOne( `${url}${param}` );
@@ -412,8 +397,7 @@ describe('BaseSrvcService', () => {
 			},
 			error: (error: HttpErrorResponse) => {
 				expect( error.toString() ).toEqual( `Error: ${errMsg} (${status})` );
-			},
-			complete: () => { }
+			}
 		});
 		// then
 		const request = backend.expectOne( `${url}${param}` );

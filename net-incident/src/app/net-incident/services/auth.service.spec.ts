@@ -1,15 +1,11 @@
 // ===========================================================================
 // File: auth.service.spec.ts
-import { TestBed, getTestBed, inject, waitForAsync } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClient, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 //
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-//
-import { Message } from '../../global/alerts/message';
-import { IAuthResponse, AuthResponse } from '../../public/login/iauth-response';
+import { AuthResponse } from '../../public/login/iauth-response';
 import { environment } from '../../../environments/environment';
 import { AuthService } from './auth.service';
 //
@@ -135,7 +131,7 @@ describe('AuthService', () => {
 		const response: AuthResponse = new AuthResponse(
 			token, ''
 		);
-		const errMsg = `Error: ${sut.codeName}.authenticate: Invalid token returned.`;
+		const errMsg = `Error: Auth-Service.authenticate: Invalid token returned.`;
 		sut.authenticate( 'badUserName', 'asdfdsaf' ).subscribe({
 			next: ( tokenData: AuthResponse ) => {
 				//

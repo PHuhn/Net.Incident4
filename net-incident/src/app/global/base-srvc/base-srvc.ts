@@ -3,7 +3,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 //
-import { ConsoleLogService } from '../../global/console-log/console-log.service';
+import { ConsoleLogService } from '../console-log/console-log.service';
 //
 export class BaseSrvc {
 	/*
@@ -28,12 +28,7 @@ export class BaseSrvc {
 	** * injects console log service,
 	*/
 	constructor(
-		protected _console: ConsoleLogService,
-		private _url: string,
-		private _class: string ) {
-		this.baseUrl = _url;
-		this.baseClassName = _class;		
-	}
+		protected _console: ConsoleLogService ) { }
 	/**
 	** Get a date-time string YYYY-MM-DDTHH:MM:SS.
 	** @param dt Date type
@@ -55,7 +50,7 @@ export class BaseSrvc {
 	** @param param 
 	** @returns string (see above)
 	*/
-	baseParamStringify( param: any ): string {
+	baseParamStringify( param: string | object | number | bigint | boolean | null ): string {
 		let _ret: string = '';
 		if( param === null ) {
 			return `/`;
@@ -101,13 +96,14 @@ export class BaseSrvc {
 	** 1) Log a console error log,
 	** 2) Throw an exception up the chain of execution.
 	*/
-	baseSrvcErrorHandler( error: any ): Observable<never> {
+	baseSrvcErrorHandler( error: HttpErrorResponse | string ): Observable<never> {
 		if ( error instanceof HttpErrorResponse ) {
 			this._console.Error(
 				`${this.codeName}.baseSrvcErrorHandler: ${JSON.stringify(error)}` );
 			const errMsg: string =
-				`${error.statusText} (${(error.status ? error.status : 'unk')})`;
+				`${(error.statusText ? error.statusText : 'Service error')} (${(error.status ? error.status : 'unk')})`;
 			return throwError( ( ) => new Error( errMsg ) );
+			// error.statusText || 'Service error' ) );
 		}
 		this._console.Error(
 			`${this.codeName}.baseSrvcErrorHandler: ${error}` );

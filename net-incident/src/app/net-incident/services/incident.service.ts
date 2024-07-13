@@ -3,35 +3,25 @@
 // Service for Incident class
 //
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
-//
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { LazyLoadEvent } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
 //
 import { environment } from '../../../environments/environment';
-import { Message } from '../../global/alerts/message';
 import { IIncident, Incident } from '../incident';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseSrvcService } from '../../global/base-srvc/base-srvc.service';
-import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
 //
 @Injectable( { providedIn: 'root' } )
 export class IncidentService extends BaseSrvcService {
-	//
-	// --------------------------------------------------------------------
-	// Data declaration.
-	//
-	codeName: string;
 	//
 	// Service constructor, inject http service.
 	//
 	constructor(
 		protected http: HttpClient,
 		protected _console: ConsoleLogService ) {
-			super( http, _console,
-				environment.base_Url + 'Incidents', 'Incident' );
+			super( http, _console );
+			this.baseUrl = environment.base_Url + 'Incidents';
 			this.codeName = 'incident-service';
+			this.baseClassName = 'Incident';
 	}
 	//
 	// Single place to create a new Incident.

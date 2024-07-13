@@ -2,13 +2,12 @@
 // File: abuse-email-report.ts
 //
 import { ConsoleLogService } from '../global/console-log/console-log.service';
-import { environment } from '../../environments/environment';
 import { Message } from '../global/alerts/message';
-import { IIncident, Incident } from './incident';
-import { INetworkLog, NetworkLog } from './network-log';
+import { AlertLevel } from '../global/alerts/alert-level.enum';
+import { NetworkLog } from './network-log';
 import { NetworkIncident } from './network-incident';
-import { IIncidentType, IncidentType } from './incident-type';
-import { EmailAddress, EmailRequest } from './email';
+import { IncidentType } from './incident-type';
+import { EmailRequest } from './email';
 //
 export interface IAbuseEmailReport {
 	//
@@ -57,51 +56,51 @@ export class AbuseEmailReport implements IAbuseEmailReport {
 		//
 		if( this.networkIncident.incident.IncidentId === undefined || this.networkIncident.incident.IncidentId === null
 				|| this.networkIncident.incident.IncidentId === 0 ) {
-			this.errMsgs.push( new Message( 'IncidentNoteId-1', `From Incident, 'Incident Id' is required.` ) );
+			this.errMsgs.push( new Message( 'IncidentNoteId-1', AlertLevel.Warning, `From Incident, 'Incident Id' is required.` ) );
 		}
 		if( this.networkIncident.incident.ServerId === undefined || this.networkIncident.incident.ServerId === null
 				|| this.networkIncident.incident.ServerId === 0 ) {
-			this.errMsgs.push( new Message( 'CompanyId-1', `From Incident, 'Company Id' is required.` ) );
+			this.errMsgs.push( new Message( 'CompanyId-1', AlertLevel.Warning, `From Incident, 'Company Id' is required.` ) );
 		}
 		if( this.networkIncident.incident.AbuseEmailAddress === undefined || this.networkIncident.incident.AbuseEmailAddress === null
 				|| this.networkIncident.incident.AbuseEmailAddress === '' ) {
-			this.errMsgs.push( new Message( 'EmailAddress-1', `From Incident, 'Email Address' is required.` ) );
+			this.errMsgs.push( new Message( 'EmailAddress-1', AlertLevel.Warning, `From Incident, 'Email Address' is required.` ) );
 		}
 		if( this.networkIncident.incident.IPAddress === '' || this.networkIncident.incident.IPAddress === undefined ) {
-			this.errMsgs.push( new Message( 'ipAddress-1', `From Incident, 'IP Address' is required.` ) );
+			this.errMsgs.push( new Message( 'ipAddress-1', AlertLevel.Warning, `From Incident, 'IP Address' is required.` ) );
 		}
 		// from user
 		if( this.networkIncident.user.UserName === '' || this.networkIncident.user.UserName === undefined ) {
-			this.errMsgs.push( new Message( 'UserName-1', `From User, 'User Name' is required.` ) );
+			this.errMsgs.push( new Message( 'UserName-1', AlertLevel.Warning, `From User, 'User Name' is required.` ) );
 		}
 		if( this.networkIncident.user.UserNicName === '' || this.networkIncident.user.UserNicName === undefined ) {
-			this.errMsgs.push( new Message( 'UserNicName-1', `From User, 'User Nic Name' is required.` ) );
+			this.errMsgs.push( new Message( 'UserNicName-1', AlertLevel.Warning, `From User, 'User Nic Name' is required.` ) );
 		}
 		if( this.networkIncident.user.Email === '' || this.networkIncident.user.Email === undefined ) {
-			this.errMsgs.push( new Message( 'UserEmailAddress-1', `From User, 'User Email Address' is required.` ) );
+			this.errMsgs.push( new Message( 'UserEmailAddress-1', AlertLevel.Warning, `From User, 'User Email Address' is required.` ) );
 		}
 		// from server
 		if( this.networkIncident.user.Server.ServerName === '' || this.networkIncident.user.Server.ServerName === undefined ) {
-			this.errMsgs.push( new Message( 'ServerName-1', `From Server, 'Server Name' is required.` ) );
+			this.errMsgs.push( new Message( 'ServerName-1', AlertLevel.Warning, `From Server, 'Server Name' is required.` ) );
 		}
 		if( this.networkIncident.user.Server.WebSite === '' || this.networkIncident.user.Server.WebSite === undefined ) {
-			this.errMsgs.push( new Message( 'Device-1', `From Server, 'Web Site' is required.` ) );
+			this.errMsgs.push( new Message( 'Device-1', AlertLevel.Warning, `From Server, 'Web Site' is required.` ) );
 		}
 		if( this.networkIncident.user.Server.ServerLocation === '' || this.networkIncident.user.Server.ServerLocation === undefined ) {
-			this.errMsgs.push( new Message( 'ServerLocation-1', `From Server, 'Server Location' is required.` ) );
+			this.errMsgs.push( new Message( 'ServerLocation-1', AlertLevel.Warning, `From Server, 'Server Location' is required.` ) );
 		}
 		if( this.networkIncident.user.Server.FromName === '' || this.networkIncident.user.Server.FromName === undefined ) {
-			this.errMsgs.push( new Message( 'FromName-1', `From Server, 'From Name' is required.` ) );
+			this.errMsgs.push( new Message( 'FromName-1', AlertLevel.Warning, `From Server, 'From Name' is required.` ) );
 		}
 		if( this.networkIncident.user.Server.FromNicName === '' || this.networkIncident.user.Server.FromNicName === undefined ) {
-			this.errMsgs.push( new Message( 'FromNicName-1', `From Server, 'From Nic Name' is required.` ) );
+			this.errMsgs.push( new Message( 'FromNicName-1', AlertLevel.Warning, `From Server, 'From Nic Name' is required.` ) );
 		}
 		if( this.networkIncident.user.Server.FromEmailAddress === '' || this.networkIncident.user.Server.FromEmailAddress === undefined ) {
-			this.errMsgs.push( new Message( 'FromEmailAddress-1', `From Server, 'From Email Address' is required.` ) );
+			this.errMsgs.push( new Message( 'FromEmailAddress-1', AlertLevel.Warning, `From Server, 'From Email Address' is required.` ) );
 		}
 		// detail logs
 		if( this.selectedLogs.length === 0 ) {
-			this.errMsgs.push( new Message( 'NetworkLog-1', `At least one 'Network Log' needs to be selected.` ) );
+			this.errMsgs.push( new Message( 'NetworkLog-1', AlertLevel.Warning, `At least one 'Network Log' needs to be selected.` ) );
 		}
 		//
 		return ( this.errMsgs.length === 0 ? true : false );

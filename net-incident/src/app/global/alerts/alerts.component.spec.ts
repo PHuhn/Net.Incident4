@@ -1,7 +1,5 @@
-//
+// ===========================================================================
 import { ComponentFixture, TestBed, inject, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //
 import { AlertsComponent } from './alerts.component';
@@ -44,7 +42,7 @@ describe('AlertsComponent', () => {
 	//
 	it('should take alerts message ...', () => {
 		// given / when
-		service.setAlerts(AlertLevel.Info, [new Message('1','Hello World')]);
+		service.setAlerts(AlertLevel.Info, [new Message('1',AlertLevel.Info, 'Hello World')]);
 		// then
 		// console.log( 'AlertsComponent: ' + String( sut.msgs.length ) );
 		expect(sut.level).toBe(AlertLevel.Info);
@@ -99,7 +97,7 @@ describe('AlertsComponent', () => {
 	//
 	it('should close on-click of alert message ...', () => {
 		// given / when
-		service.setAlerts(AlertLevel.Info, [new Message('1','Hello World')]);
+		service.setAlerts(AlertLevel.Info, [new Message('1', AlertLevel.Info, 'Hello World')]);
 		// then
 		expect(sut.level).toBe(AlertLevel.Info);
 		expect(sut.msgs.length).toBe(1);
@@ -112,29 +110,38 @@ describe('AlertsComponent', () => {
 	//
 	it('warning message should return class ...', () => {
 		// given / when
-		service.setAlerts(AlertLevel.Warning, [new Message('1','Hello World')]);
+		service.setAlerts(AlertLevel.Warning, [new Message('1',AlertLevel.Warning, 'Hello World')]);
 		// then
 		expect(sut.level).toBe(AlertLevel.Warning);
 		const css = sut.getClass( );
-		expect( css ).toEqual( 'alertMessages nsg-msg-warning' );
+		expect( css ).toEqual( 'nsg-msg-warning' );
 	});
 	//
 	it('error message should return class ...', () => {
 		// given / when
-		service.setAlerts(AlertLevel.Error, [new Message('1','Hello World')]);
+		service.setAlerts(AlertLevel.Error, [new Message('1', AlertLevel.Error, 'Hello World')]);
 		// then
 		expect(sut.level).toBe(AlertLevel.Error);
 		const css = sut.getClass( );
-		expect( css ).toEqual( 'alertMessages nsg-msg-danger' );
+		expect( css ).toEqual( 'nsg-msg-danger' );
 	});
 	//
 	it('info message should return class ...', () => {
 		// given / when
-		service.setAlerts(AlertLevel.Info, [new Message('1','Hello World')]);
+		service.setAlerts(AlertLevel.Info, [new Message('1', AlertLevel.Info, 'Hello World')]);
 		// then
 		expect(sut.level).toBe(AlertLevel.Info);
 		const css = sut.getClass( );
-		expect( css ).toEqual( 'alertMessages nsg-msg-info' );
+		expect( css ).toEqual( 'nsg-msg-info' );
+	});
+	//
+	it('success message should return class ...', () => {
+		// given / when
+		service.setAlerts(AlertLevel.Success, [new Message('1', AlertLevel.Success, 'Hello World')]);
+		// then
+		expect(sut.level).toBe(AlertLevel.Success);
+		const css = sut.getClass( );
+		expect( css ).toEqual( 'nsg-msg-success' );
 	});
 	//
 	it('OnInit service subscription should handle an error ...', fakeAsync( () => {
@@ -151,3 +158,4 @@ describe('AlertsComponent', () => {
 	} ) );
 	//
 });
+// ===========================================================================

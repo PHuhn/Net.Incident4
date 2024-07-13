@@ -1,7 +1,6 @@
 // ===========================================================================
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, animate, transition, style } from '@angular/animations';
-import { Observable } from 'rxjs';
 //
 import { AlertLevel } from './alert-level.enum';
 import { Message } from './message';
@@ -41,12 +40,12 @@ export class AlertsComponent implements OnInit {
 		// console.log( 'AlertsComponent, OnInit ... ' );
 		// Subscribe to the service
 		// Will fire everytime other component use the set methods
-		const subscription = this._alertService.getAlerts().subscribe({
+		this._alertService.getAlerts().subscribe({
 			next: ( alertMsg: Alerts ) => {
 				this.showMessage( alertMsg.level, alertMsg.messages );
 			},
 			error: (error) => {
-				this.showMessage( AlertLevel.Error, [new Message('ERR-1', error)] );
+				this.showMessage( AlertLevel.Error, [new Message('ERR-1', AlertLevel.Error, error)] );
 				console.error( `${this.codeName}.subscription: ${error}` );
 			}
 		} );
@@ -64,6 +63,7 @@ export class AlertsComponent implements OnInit {
 	** close the message
 	*/
 	onClick(): boolean {
+		this._alertService.warningInit();
 		this.msgs = [];
 		this.showMsgs = false;
 		return false;
@@ -71,16 +71,16 @@ export class AlertsComponent implements OnInit {
 	/*
 	** return the class for the message
 	*/
-	getClass(): string {
-		switch( +this.level ) {
+	getClass( msglevel: AlertLevel = +this.level ): string {
+		switch( msglevel ) {
 			case AlertLevel.Error:
-				return 'alertMessages nsg-msg-danger';
+				return 'nsg-msg-danger';
 			case AlertLevel.Warning:
-				return 'alertMessages nsg-msg-warning';
+				return 'nsg-msg-warning';
 			case AlertLevel.Success:
-				return 'alertMessages nsg-msg-success';
+				return 'nsg-msg-success';
 		}
-		return 'alertMessages nsg-msg-info';
+		return 'nsg-msg-info';
 	}
 	//
 }

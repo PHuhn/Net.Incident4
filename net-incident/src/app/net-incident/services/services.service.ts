@@ -10,18 +10,15 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 //
 @Injectable( { providedIn: 'root' } )
 export class ServicesService extends BaseSrvcService {
-	/* --------------------------------------------------------------------
-	** Local variables
-	*/
 	/**
 	** Service constructor, inject http service.
 	*/
 	constructor(
 		protected _http: HttpClient,
 		protected _console: ConsoleLogService ) {
-			super( _http, _console,
-				environment.base_Url + 'services', 'Services' );
-			this.codeName = 'services-service';
+			super( _http, _console );
+			this.baseUrl = environment.base_Url + 'services';
+			this.codeName = 'Services';
 	}
 	/**
 	** Get ping for ip address

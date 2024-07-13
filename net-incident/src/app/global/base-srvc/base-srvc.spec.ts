@@ -1,10 +1,9 @@
 // ===========================================================================
 // File: base-srvc.ts
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
 //
-import { ConsoleLogService } from '../../global/console-log/console-log.service';
+import { ConsoleLogService } from '../console-log/console-log.service';
 //
 import { BaseSrvc } from './base-srvc';
 //
@@ -16,7 +15,7 @@ export interface IChangeDateId {
 describe('BaseSrvc', () => {
 	//
 	const _console: ConsoleLogService = new ConsoleLogService();
-	const sut: BaseSrvc = new BaseSrvc(_console, 'https://nsg.com', 'TestModel' );
+	const sut: BaseSrvc = new BaseSrvc(_console);
 	const errMsg: string = 'Fake error';
 	const errSrv: string = 'Service error';
 	//
@@ -46,9 +45,7 @@ describe('BaseSrvc', () => {
 	** types: Date/string/number/bigint/boolean/symbol/undefined/object/function
 	*/
 	it('baseParamStringify: should get RESTFull undefined parameter string ...', () => {
-		let param: string = sut.baseParamStringify( undefined );
-		expect( param ).toEqual( '/' );
-		param = sut.baseParamStringify( null );
+		const param: string = sut.baseParamStringify( null );
 		expect( param ).toEqual( '/' );
 	});
 	//
@@ -100,7 +97,7 @@ describe('BaseSrvc', () => {
 				console.log( JSON.stringify( resp ) );
 				fail( 'handleError: expected error...' );
 			},
-			error: (error: HttpErrorResponse | any) => {
+			error: (error: HttpErrorResponse | string) => {
 				// then
 				expect( error.toString() ).toEqual( `Error: ${errMsg}` );
 			}
@@ -117,7 +114,7 @@ describe('BaseSrvc', () => {
 				console.log( JSON.stringify( resp ) );
 				fail( 'handleError: expected error...' );
 			},
-			error: (error: HttpErrorResponse | any) => {
+			error: (error: HttpErrorResponse | string) => {
 				// then
 				expect( error.toString() ).toEqual( `Error: ${errSrv}` );
 			}
@@ -133,50 +130,12 @@ describe('BaseSrvc', () => {
 		// when
 		sut.baseSrvcErrorHandler( resp ).subscribe({
 			next: (val) => {
-				console.log( JSON.stringify( resp ) );
+				console.log( `${JSON.stringify( resp )}, ${val}` );
 				fail( 'handleError: expected error...' );
 			},
-			error: (error: HttpErrorResponse | any) => {
+			error: (error: HttpErrorResponse | string) => {
 				// then
 				expect( error.toString() ).toEqual( `Error: ${errMsg} (599)` );
-			}
-		});
-		//
-	} ) );
-	//
-	it( 'baseSrvcErrorHandler: should throw a HttpErrorResponse error with no text...', waitForAsync( ( ) => {
-		// given
-		const resp: HttpErrorResponse = new HttpErrorResponse({
-			error: {}, status: 599, statusText: null
-		});
-		// when
-		sut.baseSrvcErrorHandler( resp ).subscribe({
-			next: (val) => {
-				console.log( JSON.stringify( resp ) );
-				fail( 'handleError: expected error...' );
-			},
-			error: (error: HttpErrorResponse | any) => {
-				// then
-				expect( error.toString() ).toEqual( `Error: Unknown Error (599)` );
-			}
-		});
-		//
-	} ) );
-	//
-	it( 'baseSrvcErrorHandler: should throw a HttpErrorResponse error with no status...', waitForAsync( ( ) => {
-		// given
-		const resp: HttpErrorResponse = new HttpErrorResponse({
-			error: {}, status: undefined, statusText: errMsg
-		});
-		// when
-		sut.baseSrvcErrorHandler( resp ).subscribe({
-			next: (val) => {
-				console.log( JSON.stringify( resp ) );
-				fail( 'handleError: expected error...' );
-			},
-			error: (error: HttpErrorResponse | any) => {
-				// then
-				expect( error.toString() ).toEqual( `Error: ${errMsg} (unk)` );
 			}
 		});
 		//

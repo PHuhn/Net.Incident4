@@ -76,11 +76,23 @@ export class BaseComponent {
 	** } );
 	*/
 	baseDeleteConfirm<T>( id: T, callBack: DeleteCallback<T>, label: string = '' ): boolean {
-		let display: string = String( id );
-		if( label !== '' ) {
-			display = `${label} (${id})`;
+		let idValue: string = '';
+		if( typeof id === 'object' ) {
+			for ( const [ , value] of Object.entries(id as object) ) {
+				if ( idValue === '' ) {
+					idValue = `${value}`;
+				} else {
+					idValue = `${idValue} - ${value}`;
+				}
+			}
+		} else {
+			idValue = `${id}`
 		}
-		this._console.Verbose(
+		let display: string = idValue;
+		if( label !== '' ) {
+			display = `${label} (${idValue})`;
+		}
+		this._console.Information(
 			`${this.codeName}.baseDeleteConfirm: ${display}` );
 		this._confirmationService.confirm({
 			key: 'delete',
@@ -88,7 +100,7 @@ export class BaseComponent {
 			accept: () => {
 				this._console.Information(
 					`${this.codeName}.baseDeleteConfirm: User's response: true` );
-				return callBack( id );
+				return callBack( id as T );
 			},
 			reject: () => {
 				this._console.Verbose(

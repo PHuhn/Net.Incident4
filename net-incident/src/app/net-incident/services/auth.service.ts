@@ -14,18 +14,14 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 //
 @Injectable( { providedIn: 'root' } )
 export class AuthService extends BaseSrvcService {
-	//
-	private url: string;
-	public codeName: string;
 	/**
 	** Service constructor, inject http service.
 	*/
 	public constructor(
 		protected _http: HttpClient,
 		protected _console: ConsoleLogService ) {
-			super( _http, _console,
-				environment.base_Url + 'Authenticate/Login', 'Authenticate' );
-			this.url = environment.base_Url + 'Authenticate/Login';
+			super( _http, _console );
+			this.baseUrl = environment.base_Url + 'Authenticate/Login';
 			this.codeName = 'Auth-Service';
 	}
 	/**
@@ -35,7 +31,7 @@ export class AuthService extends BaseSrvcService {
 		// configure call to login service
 		const body = {"Username": userName, "Password": password };
 		this._console.Information(
-			`${this.codeName}.authenticate: ${this.url} username=${userName}` );
+			`${this.codeName}.authenticate: ${this.baseUrl} username=${userName}` );
 		return this.postJsonBody<IAuthResponse>( body )
 			.pipe( tap( ( authResponse: IAuthResponse ) => {
 				const len = authResponse.token.length;

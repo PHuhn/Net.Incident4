@@ -3,6 +3,10 @@ for details on configuring this project to bundle and minify static web assets. 
 :root {
     --nsg-label-color: navy;
     --nsg-a-color: #0366d6;
+	--nsg-success: forestgreen;
+	--nsg-info:  rgb(52, 89, 230);
+	--nsg-warning: #f97316; /* darkorange;*/
+	--nsg-danger: red;
     --nsg-jumbotron-color: black;
     --nsg-jumbotron-bg-color: var(--bs-gray-300);
     --nsg-hd-row-bg-color: var(--bs-gray-200);
@@ -64,36 +68,33 @@ dt, label {
     z-index: 20000;
     background-position: -312px 0;
     border: 1px solid red;
+	border-radius: 5px;
     font-weight: bold;
     background-color: #ffffff;
 }
 /* background: #ffffff top left no-repeat 14px 14px; */
-/* unordered list of alerts */
-nsg-alerts-msg-ul {
-    background-color: white;
-    list-style: square;
-}
 /* Info */
 .nsg-msg-info {
-    color: rgb(52, 89, 230);
-    font-weight: bold;
+	color: var(--nsg-info);
 }
 /* Success */
 .nsg-msg-success {
-    color: forestgreen;
-    font-weight: bold;
+	color: var(--nsg-success);
 }
 /* Warning */
-.nsg-msg-warn {
-    color: darkorange;
-    font-weight: bold;
+.nsg-msg-warning {
+	color: var(--nsg-warning);
 }
 /* Error/Danger */
 .nsg-msg-error, .nsg-msg-danger {
-    color: red;
-    font-weight: bold;
+	color: var(--nsg-danger);
 }
-
+/* Bold nsg-msgs */
+.nsg-msg-info, .nsg-msg-success, .nsg-msg-warning,
+ .nsg-msg-error, .nsg-msg-danger {
+	font-weight: bold;
+}
+/* */
 .nsg-td-label {
     padding: 0 2px 0 5px;
     text-align: right;

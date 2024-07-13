@@ -12,7 +12,6 @@ import { BaseComponent } from './base-comp.component';
 describe('BaseCompComponent', () => {
 	let sut: BaseComponent;
 	let fixture: ComponentFixture<BaseComponent>;
-	let baseService: BaseCompService;
 	let alertService: AlertsService;
 	let consoleService: ConsoleLogService;
 	let confirmService: ConfirmationService;
@@ -29,10 +28,6 @@ describe('BaseCompComponent', () => {
 				ConfirmationService
 			]
 		} );
-		baseService = TestBed.inject( BaseCompService );
-		// alertService = TestBed.inject( AlertsService );
-		// consoleService = TestBed.inject( ConsoleLogService );
-		// confirmService = TestBed.inject( ConfirmationService );
 		TestBed.compileComponents( );
 	});
 	//
@@ -90,6 +85,7 @@ describe('BaseCompComponent', () => {
 		spyOn( consoleService, 'Information' );
 		spyOn(confirmService, 'confirm').and.callFake(
 			(confirmation: Confirmation) => {
+				console.log(confirmation.message);
 				expect( confirmation.message ).toEqual( `Are you sure you want to delete Display (id-value)?` );
 				if( confirmation.accept !== undefined ) {
 					return confirmation.accept();
@@ -110,6 +106,12 @@ describe('BaseCompComponent', () => {
 	//
 	it('baseDeleteConfirm should Cancel when reject ...', fakeAsync(() => {
 		// given
+		// console.log( `baseDeleteConfirm should Cancel when reject ...` )
+		// consoleService.Warning( 'here' );
+		// consoleService.Success( 'here' );
+		// consoleService.Information( 'here' );
+		// consoleService.Verbose( 'here' );
+		// consoleService.Debug( 'here' );
 		spyOn( consoleService, 'Verbose' );
 		spyOn( confirmService, 'confirm' ).and.callFake(
 			( confirmation: Confirmation ) => {
@@ -118,10 +120,11 @@ describe('BaseCompComponent', () => {
 				}
 				return false;
 			});
-		const id: string = 'id-value';
+		sut._baseServices._console.logLevel = 5;
+		const id: object = { field1: 'one', field2: 'two'};
 		// when
-		const ret: boolean = sut.baseDeleteConfirm<string>( id, (ident: string): boolean => {
-			consoleService.Warning( ident );
+		const ret: boolean = sut.baseDeleteConfirm<object>( id, (): boolean => {
+			consoleService.Warning( 'Delete canceled.' );
 			fail( 'baseDeleteConfirm should Cancel' );
 			return true;
 		} );
@@ -130,6 +133,8 @@ describe('BaseCompComponent', () => {
 		tick( 1 ); // give it very small amount of time
 		expect( consoleService.Verbose )
 			.toHaveBeenCalledWith( `base-component.baseDeleteConfirm: User's dismissed.` );
+		expect( consoleService.lastMessage )
+			.toEqual( 'Info: base-component.baseDeleteConfirm: one - two' );
 	}));
 	//
 });

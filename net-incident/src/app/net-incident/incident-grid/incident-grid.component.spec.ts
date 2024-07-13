@@ -1,13 +1,12 @@
 // ===========================================================================
-import { ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks, getTestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { of, throwError, interval } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { HttpResponse } from '@angular/common/http';
 //
-import { ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
+import { LazyLoadMeta, ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
 import { APP_COMPONENTS } from '../../APP.COMPONENTS';
@@ -20,14 +19,13 @@ import { IncidentService } from '../services/incident.service';
 import { NetworkIncidentService } from '../services/network-incident.service';
 //
 import { DetailWindowInput } from '../DetailWindowInput';
-import { IUser, User } from '../user';
+import { User } from '../user';
 import { ServerData } from '../server-data';
 import { SelectItemClass } from '../../global/select-item-class';
 import { IIncident, Incident } from '../incident';
-import { INetworkLog, NetworkLog } from '../network-log';
+import { NetworkLog } from '../network-log';
 import { NetworkIncident } from '../network-incident';
-import { LazyLoadEvent2 } from '../../global/LazyLoadEvent2';
-import { ILazyResults } from '../../global/base-srvc/ibase-srvc';
+import { ILazyResults } from '../../global/base-srvc/ilazy-results';
 import { IncidentGridComponent } from './incident-grid.component';
 import { LazyLoadingMock } from '../services/mocks/lazy-loading.mock';
 //
@@ -49,12 +47,11 @@ describe( 'IncidentGridComponent', ( ) => {
 	const servicesServiceSpy = jasmine.createSpyObj('ServicesService',
 		['getText']);
 	const incidentServiceSpy = jasmine.createSpyObj(
-		'IncidentService', ['emptyIncident', 'postJsonBody', 'deleteModel']);
+		'IncidentService', ['emptyIncident', 'getModelLazy', 'deleteModel']);
 	let confirmService: ConfirmationService;
 	const networkIncidentServiceSpy = jasmine.createSpyObj(
 		'NetworkIncidentService', ['validateIncident', 'validateNetworkLog',
 		'validateNetworkLogs', 'getModelById', 'createIncident', 'updateIncident']);
-	const expectedWindowTitle: string = 'Incident Detail';
 	const windowTitleSelector: string =
 		'app-incident-detail-window > p-dialog > div > div.p-dialog-titlebar > span > p-header > div';
 	const testDate: Date = new Date('2000-01-01T00:00:00');
@@ -87,9 +84,7 @@ describe( 'IncidentGridComponent', ( ) => {
 		new NetworkLog( 5,1,null,'193.5',new Date( '2018-02-27T00:00:00' ),'Log 5',1, 'SQL', false ),
 		new NetworkLog( 6,1,null,'193.5',new Date( '2018-02-27T00:00:00' ),'Log 6',1, 'SQL', false )
 	];
-	const displayServersWindow: boolean = false;
-	let pageEmpty: ILazyResults = { results: [], totalRecords: 0, loadEvent: '', message: ''};
-	let pageData: ILazyResults = { results: [], totalRecords: 0, loadEvent: '', message: ''};
+	let pageData: ILazyResults<IIncident> = { results: [], totalRecords: 0, loadEvent: '', message: ''};
 	//
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
@@ -121,11 +116,11 @@ describe( 'IncidentGridComponent', ( ) => {
 	//
 	beforeEach( fakeAsync( ( ) => {
 		// clone the array with slice( 0 )
-		const page: ILazyResults = pageData;
+		const page: ILazyResults<IIncident> = pageData;
 		const temp: IIncident[] = mockDatum.filter( inc => inc.ServerId === 1 ).sort( ( n1: IIncident, n2: IIncident ) => (n1.IncidentId < n2.IncidentId ? 1: -1) );
 		page.totalRecords = temp.length;
 		page.results = temp.slice(0, 3);
-		incidentServiceSpy.postJsonBody.and.returnValue( of( page ) );
+		incidentServiceSpy.getModelLazy.and.returnValue( of( page ) );
 		userServiceSpy.getModelById.and.returnValue(of( user ));
 		AppComponent.securityManager = new Security( user );
 		//
@@ -138,15 +133,15 @@ describe( 'IncidentGridComponent', ( ) => {
 		tickFakeWait( 1000 );
 	} ) );
 	//
-	function createEvent( page: number, size: number): LazyLoadEvent2 {
-		const event: LazyLoadEvent2 = {'first':page, 'rows':size, 'sortField':'IncidentId','sortOrder':-1,
+	function createEvent( page: number, size: number): LazyLoadMeta {
+		const event: LazyLoadMeta = {'first':page, 'rows':size, 'sortField':'IncidentId','sortOrder':-1,
 			'filters':{'ServerId':[{'value':1,'matchMode':'equals'}],'Mailed':[{'value':false,'matchMode':'equals'}],'Closed':[{'value':false,'matchMode':'equals'}],'Special':[{'value':false,'matchMode':'equals'}]},'globalFilter':null};
 		return event;
 	}
 	//
-	function newPage( ): ILazyResults {
-		const event: LazyLoadEvent2 = createEvent( 0, 5);
-		const page: ILazyResults =
+	function newPage( ): ILazyResults<IIncident> {
+		const event: LazyLoadMeta = createEvent( 0, 5);
+		const page: ILazyResults<IIncident> =
 				lazyLoading.LazyLoading2( [ ... mockDatum ], event );
 		return page;
 	}
@@ -198,14 +193,13 @@ describe( 'IncidentGridComponent', ( ) => {
 		expect( sut ).toBeTruthy( );
 	} ) );
 	/*
-	** loadIncidentsLazy( event: LazyLoadEvent )
+	** loadIncidentsLazy( event: LazyLoadMeta )
 	*/
 	it('loadIncidentsLazy: should handle service error ...', fakeAsync(() => {
 		// given
-		// console.warn( 'onClose: should refresh grid ...' );
 		const response = new HttpResponse( { status: 500, statusText: 'Fake Error' } );
-		incidentServiceSpy.postJsonBody.and.returnValue( throwError( ( ) => response ) );
-		const event: LazyLoadEvent2 = createEvent( 1, 5);
+		incidentServiceSpy.getModelLazy.and.returnValue( throwError( ( ) => response ) );
+		const event: LazyLoadMeta = createEvent( 1, 5);
 		spyOn( alertService, 'setWhereWhatError' );
 		// when
 		sut.loadIncidentsLazy( event );
@@ -503,11 +497,10 @@ describe( 'IncidentGridComponent', ( ) => {
 	//
 	it('onClose: should refresh grid ...', fakeAsync(() => {
 		// given
-		// console.warn( 'onClose: should refresh grid ...' );
 		const page = newPage( );
-		incidentServiceSpy.postJsonBody.and.returnValue( of( page ) );
-		sut.lastTableLazyLoadEvent = 
-			{'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':[{'value':1,'matchMode':'equals'}],'Mailed':[{'value':false,'matchMode':'equals'}],'Closed':[{'value':false,'matchMode':'equals'}],'Special':[{'value':false,'matchMode':'equals'}]},'globalFilter':null} as LazyLoadEvent2;
+		incidentServiceSpy.getModelLazy.and.returnValue( of( page ) );
+		sut.lastTableLazyLoadMeta = 
+			{'first':0,'rows':5,'sortField':'IncidentId','sortOrder':-1,'filters':{'ServerId':[{'value':1,'matchMode':'equals'}],'Mailed':[{'value':false,'matchMode':'equals'}],'Closed':[{'value':false,'matchMode':'equals'}],'Special':[{'value':false,'matchMode':'equals'}]},'globalFilter':null} as LazyLoadMeta;
 		//
 		tickFakeWait( 1 ); // wait 1 second task to get done
 		// when

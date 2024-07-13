@@ -1,7 +1,7 @@
 <!-- Alerts.Component -->
-<div [@visibilityChanged]='showMsgs' (click)='onClick()' [class]='getClass()'>
+<a [@visibilityChanged]='showMsgs' (click)='onClick()' (keydown)='onClick()' class='alertMessages'>
 	<ul name='alertMessages' role='alert'>
-		<li *ngFor='let item of msgs' [id]="item.id">{{ item.message }}</li>
+		<li *ngFor='let item of msgs' [id]='item.id' [class]='getClass(item.label)'>{{ item.message }}</li>
 	</ul>
-</div>
+</a>
 <!-- End of Alerts.Component -->
