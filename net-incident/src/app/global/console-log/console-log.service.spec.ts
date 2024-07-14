@@ -5,6 +5,7 @@ import { ConsoleLogService } from './console-log.service';
 import { LogLevel } from './log-level.enum';
 //
 describe( 'ConsoleLogService', ( ) => {
+	// system under test
 	let sut: ConsoleLogService;
 	//
 	beforeEach(( ) => {
@@ -66,11 +67,11 @@ describe( 'ConsoleLogService', ( ) => {
 		// then
 		expect( _ret ).toEqual( 'Debug: Debug message' );
 	});
-	//
+	/*
+	** Verbose(message: string): string
+	*/
 	it( 'Verbose should create Verbose message ...', ( ) => {
-		// given
-		sut.logLevel = LogLevel.Verbose;
-		// when
+		// given / when
 		const _ret = sut.Verbose( 'Verbose message' );
 		// then
 		expect( _ret ).toEqual( 'Verbose: Verbose message' );
@@ -78,7 +79,7 @@ describe( 'ConsoleLogService', ( ) => {
 	//
 	it( 'Verbose should not print log message ...', ( ) => {
 		// given
-		sut.logLevel = LogLevel.Error;
+		sut.logLevel = LogLevel.Info;
 		// when
 		const _ret = sut.Verbose( 'Verbose message' );
 		// then
@@ -91,18 +92,6 @@ describe( 'ConsoleLogService', ( ) => {
 		const _ret = ( sut as any ).LogMessage( -1, 'Test message' );
 		// then
 		expect( _ret ).toEqual( 'Unknown: Test message' );
-	});
-	/*
-	** getEnumKeyByEnumValue
-	*/
-	it( 'should get LogLevel string value ...', ( ) => {
-		const _ret = sut.getEnumKeyByEnumValue( LogLevel, LogLevel.Error );
-		expect( _ret ).toBe( 'Error' );
-	});
-	//
-	it( 'should not get LogLevel string value ...', ( ) => {
-		const _ret = sut.getEnumKeyByEnumValue( LogLevel, 99 );
-		expect( _ret ).toEqual( '--' );
 	});
 	/*
 	** trace

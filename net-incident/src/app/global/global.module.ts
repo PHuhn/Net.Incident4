@@ -1,9 +1,10 @@
 // ===========================================================================
 // File: global.module.ts
 import { NgModule } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { withJsonpSupport } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //
@@ -16,12 +17,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		FormsModule,
 		BrowserModule,
 		BrowserAnimationsModule,
-		ReactiveFormsModule,
-		// include HttpClientModule after BrowserModule
-		HttpClientModule,
-		HttpClientJsonpModule
+		ReactiveFormsModule
 	],
-	declarations: [
+	providers: [
+		provideHttpClient(withJsonpSupport())
 	]
 })
 export class GlobalModule { }

@@ -1,3 +1,5 @@
+// ===========================================================================
+// file: theme.service.spec.ts
 import { TestBed, fakeAsync } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
 import { ThemeService } from './theme.service';
@@ -5,7 +7,6 @@ import { ThemeService } from './theme.service';
 describe('ThemeService', () => {
 	let sut: ThemeService;
 	let document: Document;
-	const docmentServiceSpy = jasmine.createSpyObj('Document', ['getElementById']);
 	//
 	beforeEach( fakeAsync( ( ) => {
 		TestBed.configureTestingModule( {
@@ -17,7 +18,6 @@ describe('ThemeService', () => {
 			]
 		} );
 		document = TestBed.inject(DOCUMENT);
-		const mockedElement: Element = jasmine.createSpyObj('element', ['getElementById']);
 		// Setup sut
 		sut = TestBed.inject( ThemeService );
 		TestBed.compileComponents();
@@ -34,7 +34,7 @@ describe('ThemeService', () => {
 		const isDark: boolean = false;
 		sut._isDarkTheme = isDark;
 		const _themeLink: HTMLLinkElement = document.createElement( 'link' );
-		spyOn(document, 'getElementById').and.callFake( (elementId: string) => _themeLink as HTMLLinkElement );
+		spyOn(document, 'getElementById').and.callFake( ( ) => _themeLink as HTMLLinkElement );
 		// when
 		const ret = sut.switchTheme( !isDark );
 		// then
@@ -47,7 +47,7 @@ describe('ThemeService', () => {
 		const isDark: boolean = true;
 		sut._isDarkTheme = isDark;
 		const _themeLink: HTMLLinkElement = document.createElement( 'link' );
-		spyOn(document, 'getElementById').and.callFake( (elementId: string) => _themeLink as HTMLLinkElement );
+		spyOn(document, 'getElementById').and.callFake( ( ) => _themeLink as HTMLLinkElement );
 		// when
 		const ret = sut.switchTheme( !isDark );
 		// then
@@ -60,7 +60,7 @@ describe('ThemeService', () => {
 		const isDark: boolean = false;
 		sut._isDarkTheme = isDark;
 		let _themeLink: HTMLLinkElement;
-		spyOn(document, 'getElementById').and.callFake( (elementId: string) => _themeLink as HTMLLinkElement );
+		spyOn(document, 'getElementById').and.callFake( ( ) => _themeLink as HTMLLinkElement );
 		// when
 		const ret = sut.switchTheme( !isDark );
 		// then
@@ -91,3 +91,4 @@ describe('ThemeService', () => {
 	});
 	//
 });
+// ===========================================================================

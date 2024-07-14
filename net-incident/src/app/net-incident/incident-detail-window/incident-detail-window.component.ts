@@ -18,7 +18,7 @@ import { NetworkIncident } from '../network-incident';
 import { NetworkIncidentSave } from '../network-incident-save';
 import { WhoIsAbuse } from '../whois-abuse';
 import { AbuseEmailReport } from '../abuse-email-report';
-import { SelectItemExtra } from '../../global/select-item-class';
+import { SelectItemExtra } from '../../global/primeng/select-item-class';
 import { IncidentNote } from '../incident-note';
 //
 @Component({
@@ -136,7 +136,7 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 				return false;
 			} else {
 				const _noteType: SelectItemExtra = this.networkIncident.noteTypes.find( nt => nt.extra === 'email');
-				const _noteTypeId: number = _noteType.value;
+				const _noteTypeId: number = _noteType.value as number;
 				this._alerts.setWhereWhatInfo(this.codeName, `Email note type id: + ${_noteTypeId}` );
 				if( this.networkIncident.incidentNotes.filter( _in => _in.NoteTypeId === _noteTypeId ).length === 0 ) {
 					// Create the abuse email message

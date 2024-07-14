@@ -24,7 +24,7 @@ import { NetworkIncident } from '../network-incident';
 import { NetworkLog } from '../network-log';
 import { User } from '../user';
 import { ServerData } from '../server-data';
-import { SelectItemClass } from '../../global/select-item-class';
+import { SelectItemClass } from '../../global/primeng/select-item-class';
 import { NetworkIncidentSave } from '../network-incident-save';
 import { IncidentNote } from '../incident-note';
 //

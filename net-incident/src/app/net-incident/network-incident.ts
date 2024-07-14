@@ -6,7 +6,7 @@ import { IIncident, Incident } from './incident';
 import { IIncidentNote, IncidentNote } from './incident-note';
 import { INetworkLog, NetworkLog } from './network-log';
 import { IIncidentType, IncidentType } from './incident-type';
-import { SelectItemExtra } from '../global/select-item-class';
+import { SelectItemExtra } from '../global/primeng/select-item-class';
 //
 export interface INetworkIncident {
 	incident: Incident;

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 //
 import { environment } from '../../../environments/environment';
 import { LogLevel } from './log-level.enum';
+import { _GLOBAL } from '../global';
 //
 @Injectable({ providedIn: 'root' })
 export class ConsoleLogService {
@@ -13,7 +14,7 @@ export class ConsoleLogService {
 		return this._logLevel;
 	}
 	set logLevel(newValue: LogLevel) {
-		if( newValue >= LogLevel.Error && newValue <= LogLevel.Verbose ) {
+		if( newValue >= LogLevel.Error && newValue <= LogLevel.Debug ) {
 			this._logLevel = newValue;
 		}
 	}
@@ -105,7 +106,7 @@ export class ConsoleLogService {
 	private LogMessage( logLevel: LogLevel, message: string): string {
 		// 0=error, 1=warning, 2=success, 3=info, 4=verbose, 5=debug
 		if( logLevel <= this._logLevel ) {
-			const _logString = this.getEnumKeyByEnumValue(LogLevel, logLevel);
+			const _logString = _GLOBAL.getEnumKeyByEnumValue(LogLevel, logLevel);
 			let msg: string = `${_logString}: ${message}`;
 			switch(logLevel) {
 				case LogLevel.Error:
@@ -142,13 +143,6 @@ export class ConsoleLogService {
 		} else {
 			return '';
 		}
-	}
-	/*
-	** Convert the enum into a string value
-	*/
-	public getEnumKeyByEnumValue(myEnum: any, enumValue: any): string {
-		const keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
-		return keys.length > 0 ? keys[0] : '--';
 	}
 	//
 }

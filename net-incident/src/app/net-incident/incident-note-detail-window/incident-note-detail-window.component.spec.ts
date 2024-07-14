@@ -15,7 +15,7 @@ import { AlertsService } from '../../global/alerts/alerts.service';
 import { Message } from '../../global/alerts/message';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { ServicesService } from '../services/services.service';
-import { SelectItemClass, SelectItemExtra } from '../../global/select-item-class';
+import { SelectItemClass, SelectItemExtra } from '../../global/primeng/select-item-class';
 import { Incident } from '../incident';
 import { NetworkIncident } from '../network-incident';
 import { NetworkLog } from '../network-log';

@@ -17,7 +17,7 @@ import { ServicesService } from '../services/services.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 //
-import { SelectItemExtra } from '../../global/select-item-class';
+import { SelectItemExtra } from '../../global/primeng/select-item-class';
 import { IUser, User } from '../user';
 import { IIncident, Incident } from '../incident';
 import { INetworkIncident, NetworkIncident } from '../network-incident';

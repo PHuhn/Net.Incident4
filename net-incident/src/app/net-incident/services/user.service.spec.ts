@@ -13,7 +13,7 @@ import { AlertsService } from '../../global/alerts/alerts.service';
 import { UserService } from './user.service';
 import { IUser, User } from '../user';
 import { ServerData } from '../server-data';
-import { SelectItemClass } from '../../global/select-item-class';
+import { SelectItemClass } from '../../global/primeng/select-item-class';
 //
 describe('UserService', () => {
 	let sut: UserService;

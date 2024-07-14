@@ -1,5 +1,4 @@
-import { TestBed, ComponentFixture, inject, fakeAsync, tick } from '@angular/core/testing';
-import { FormsModule, NgForm } from '@angular/forms';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { ThemeService } from './theme.service';
 import { ToggleThemeComponent } from './toggle-theme.component';

@@ -11,7 +11,7 @@ import { FocusTrapModule } from 'primeng/focustrap';
 import { Header, Footer, SelectItem } from 'primeng/api';
 //
 import { ServerSelectionWindowComponent } from './server-selection-window.component';
-import { SelectItemClass } from '../../global/select-item-class';
+import { SelectItemClass } from '../../global/primeng/select-item-class';
 //
 describe('ServerSelectionWindowComponent', () => {
 	let sut: ServerSelectionWindowComponent;

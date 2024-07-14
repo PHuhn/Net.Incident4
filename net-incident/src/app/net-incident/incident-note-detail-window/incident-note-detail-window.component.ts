@@ -13,7 +13,7 @@ import { BaseComponent } from '../../global/base-comp/base-comp.component';
 import { IIncidentNote, IncidentNote } from '../incident-note';
 import { NetworkIncident } from '../network-incident';
 import { AbuseEmailReport } from '../abuse-email-report';
-import { SelectItemExtra } from 'src/app/global/select-item-class';
+import { SelectItemExtra } from 'src/app/global/primeng/select-item-class';
 //
 export interface IIncidentNoteWindowInput {
 	model: IIncidentNote;

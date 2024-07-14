@@ -1,9 +1,15 @@
+// ===========================================================================
+// File: toggle-theme.component.ts
 import { Component } from '@angular/core';
 import { ThemeService } from './theme.service';
 //
 @Component({
 	selector: 'app-toggle-theme',
-	templateUrl: './toggle-theme.component.html',
+	template: `<button type='button'
+	class='nsg-toggle-theme-button'
+	(click)='changeTheme(!isDarkMode)'>
+	<i class='pi ' [ngClass]="{'pi-moon': isDarkMode, 'pi-sun': !isDarkMode}"></i>
+</button>`,
 	styleUrl: './toggle-theme.component.css'
 })
 export class ToggleThemeComponent {
@@ -21,3 +27,4 @@ export class ToggleThemeComponent {
 	}
 	//
 }
+// ===========================================================================

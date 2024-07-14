@@ -1,50 +1,49 @@
 // ===========================================================================
 // File: select-item-class.ts
 //  define the interface(IDropDown/class(DropDown)
-import { SelectItem } from 'primeng/api';
 //
-export class SelectItemClass implements SelectItem {
-	public value: any;
+import { SelectItem } from 'primeng/api';
+import { BaseClass } from '../base-class';
+import { ID } from '../global';
+//
+export class SelectItemClass extends BaseClass implements SelectItem {
+	public value: ID;
 	public label: string;
 	public styleClass?: string;
 	/**
 	** Create a dropdown object using 2 parameters constructor, default selected to false.
+	** @param value 
+	** @param label 
 	*/
-	constructor( value: any, label: string ) {
+	constructor( value: ID, label: string ) {
+		super( );
 		this.value = value;
 		this.label = label;
 	}
-	/**
-	** Create a 'to string'.
-	*/
-	toString( ): string {
-	   return `SelectItem:[Value: ${this.value}, Text: ${this.label}, styleClass: ${this.styleClass}]`;
-	}
+	// BaseClass contains Clone( )
+	// BaseClass contains toString( )
 	//
 }
 /**
 ** Create a dropdown object with and extra column.
 ** This was created for NoteType scripts.
 */
-export class SelectItemExtra implements SelectItem {
-	public value: any;
+export class SelectItemExtra extends BaseClass implements SelectItem {
+	public value: ID;
 	public label: string;
 	public styleClass?: string;
 	public extra: string;
 	/**
 	** Create a dropdown object using 3 parameters constructor, default selected to false.
 	*/
-	constructor( value: any, label: string, extra: string ) {
+	constructor( value: ID, label: string, extra: string ) {
+		super( );
 		this.value = value;
 		this.label = label;
 		this.extra = extra;
 	}
-	/**
-	** Create a 'to string'.
-	*/
-	toString( ): string {
-	   return `SelectItemExtra:[Value: ${this.value}, Text: ${this.label}, styleClass: ${this.styleClass}, extra: ${this.extra}]`;
-	}
+	// BaseClass contains Clone( )
+	// BaseClass contains toString( )
 	//
 }
 // ===========================================================================

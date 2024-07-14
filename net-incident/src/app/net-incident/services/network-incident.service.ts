@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Message } from '../../global/alerts/message';
 import { AlertLevel } from '../../global/alerts/alert-level.enum';
-import { SelectItemClass } from '../../global/select-item-class';
+import { SelectItemClass } from '../../global/primeng/select-item-class';
 import { IIncident } from '../incident';
 import { INetworkLog } from '../network-log';
 import { BaseSrvcService } from '../../global/base-srvc/base-srvc.service';
