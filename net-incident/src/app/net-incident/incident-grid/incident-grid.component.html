@@ -128,6 +128,10 @@
 					</div>
 				</td><tr>
 			</ng-template>
+			<ng-template pTemplate='summary'>
+				<app-filter-summary [fieldDescriptions]='trans'
+						[lazyLoadEvent]='lastTableLazyLoadMeta' ></app-filter-summary>
+			</ng-template>
 		</p-table>
 	</div><!-- class='container' -->
 </div><!-- -->

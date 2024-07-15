@@ -10,6 +10,7 @@ import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@a
 import { ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
+import { APP_GLOBAL_COMPONENTS } from '../../global/APP.GLOBAL';
 import { APP_COMPONENTS } from '../../APP.COMPONENTS';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
@@ -75,6 +76,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 				BrowserAnimationsModule,
 			],
 			declarations: [
+				APP_GLOBAL_COMPONENTS,
 				APP_COMPONENTS,
 			],
 			providers: [

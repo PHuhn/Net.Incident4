@@ -9,6 +9,7 @@ import { of, throwError } from 'rxjs';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
+import { APP_GLOBAL_COMPONENTS } from '../../global/APP.GLOBAL';
 import { APP_COMPONENTS } from '../../APP.COMPONENTS';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { Message } from '../../global/alerts/message';
@@ -89,6 +90,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 				BrowserAnimationsModule
 			],
 			declarations: [
+				APP_GLOBAL_COMPONENTS,
 				APP_COMPONENTS
 			],
 			providers: [

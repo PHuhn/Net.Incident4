@@ -18,10 +18,6 @@ import { IncidentService } from './net-incident/services/incident.service';
 import { NetworkIncidentService } from './net-incident/services/network-incident.service';
 //
 export const APP_PROVIDERS = [
-	ConfirmationService,
-	AlertsService,
-	ConsoleLogService,
-	//
 	UserService,
 	AuthService,
 	provideHttpClient(withInterceptors([AuthInterceptorService])),

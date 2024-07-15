@@ -50,11 +50,12 @@ export class FilterSummaryComponent {
 	** Place filter summary in the footer as	follows:
 	** | Description (contains) Fake
 	** | Short Description (contains) Short
-	** @param event 
-	** @param translation 
+	** @param event LazyLoadMeta used to filter grid
+	** @param translation Array of this field should be displayed as that
 	** @returns array of string
 	*/
 	formatFilters( event: LazyLoadMeta, translation: AssocArray ): string[] {
+		// console.warn( `formatFilters: Entering ...` );
 		const filterStrings: string[] = [];
 		for ( const prop in event.filters ) {
 			if( prop !== '' ) {
@@ -63,11 +64,14 @@ export class FilterSummaryComponent {
 				if ( Array.isArray( filterMeta ) ) {
 					for ( const meta of filterMeta ) {
 						if( meta.value !== undefined && meta.value !== null ) {
-							let field: string = translation[ filterField ];
-							if( field === undefined ) {
-								field = this.displayTitle( filterField );
+							const valid: boolean = ( typeof meta.value === 'boolean' && meta.value === false )? false : true;
+							if( valid ) {
+								let field: string = translation[ filterField ];
+								if( field === undefined ) {
+									field = this.displayTitle( filterField );
+								}
+								filterStrings.push( `${field} (${meta.matchMode}) ${meta.value}` );
 							}
-							filterStrings.push( `${field} (${meta.matchMode}) ${meta.value}` );
 						}
 					}
 				}

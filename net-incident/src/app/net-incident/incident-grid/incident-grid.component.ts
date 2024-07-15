@@ -4,7 +4,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { ConfirmationService } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
-import { LazyLoadMeta } from 'primeng/api';
+import { LazyLoadMeta, FilterMetadata } from 'primeng/api';
 //
 import { ILazyResults } from '../../global/base-srvc/ilazy-results';
 import { AlertsService } from '../../global/alerts/alerts.service';
@@ -17,6 +17,7 @@ import { UserService } from '../services/user.service';
 import { IncidentService } from '../services/incident.service';
 import { IIncident, Incident } from '../incident';
 import { AppComponent } from '../../app.component';
+import { AssocArray } from '../../global/primeng/filter-summary/filter-summary.component';
 //
 @Component({
 	selector: 'app-incident-grid',
@@ -36,6 +37,11 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 	// Local variables
 	incidents: Incident[] = [];
 	totalRecords: number = 0;
+	trans: AssocArray = {
+		'IncidentId': 'Id',
+		'IPAddress': 'IP Address',
+		'ISPTicketNumber': 'ISP Ticket #'
+	};
 	lastTableLazyLoadMeta: LazyLoadMeta;
 	id: number = -1;
 	loading: boolean = false;
@@ -246,7 +252,11 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 			// IncidentId, IPAddress, NIC, NetworkName, AbuseEmailAddress, ISPTicketNumber
 			// Manually apply the caption filters, to force the filter.
 			const ev: LazyLoadMeta = { ... event };
-			ev.filters = { ... event.filters, 
+			let filters: Record<string, FilterMetadata[]> = {};
+			if( event.filters !== undefined || event.filters !== null ) {
+				filters = this.fixFieldNames( event.filters as Record<string, FilterMetadata[]> );
+			} 
+			ev.filters = { ... filters, 
 				'ServerId': [{ value: this.user.Server.ServerId, matchMode: 'equals' }],
 				'Mailed': [{ value: this.mailed, matchMode: 'equals' }],
 				'Closed': [{ value: this.closed, matchMode: 'equals' }],
@@ -272,6 +282,28 @@ export class IncidentGridComponent extends BaseComponent implements OnInit {
 				}
 			});
 		}, 0 );
+	}
+	/**
+	** fix up convertion from NIC to NIC_Id
+	** @param filters 
+	** @returns 
+	*/
+	fixFieldNames( filters: { [s: string]: FilterMetadata[] } ): { [s: string]: FilterMetadata[] } {
+		const _filters: { [s: string]: FilterMetadata[] } = {};
+		for ( const field in filters ) {
+			const tfield = field === 'NIC' ? 'NIC_Id' : field;
+			const metaArr: FilterMetadata[] = [];
+			for( const metaKey in filters[field]) {
+				const meta = filters[field][metaKey];
+				if( meta.value !== undefined && meta.value !== null ) {
+					metaArr.push( meta );
+				}
+			}
+			if( metaArr.length > 0 ) {
+				_filters[tfield] = metaArr;
+			}
+		}
+		return _filters;
 	}
 	/**
 	** Call delete data service,

@@ -6,24 +6,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 //
-import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 //
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { Menubar, MenubarModule } from 'primeng/menubar';
-import { MessagesModule } from 'primeng/messages';
-import { ToastModule } from 'primeng/toast';
+import { Menubar } from 'primeng/menubar';
 //
+import { APP_GLOBAL_COMPONENTS } from './global/APP.GLOBAL';
 import { APP_COMPONENTS } from './APP.COMPONENTS';
-import { APP_PROVIDERS } from './APP.PROVIDERS';
 import { APP_MODULE_PRIMENG } from './APP.MODULE-PRIMENG';
 import { BaseCompService } from './global/base-comp/base-comp.service';
 import { AlertsService } from './global/alerts/alerts.service';
 import { AuthService } from './net-incident/services/auth.service';
 import { User } from './net-incident/user';
 import { AlertsComponent } from './global/alerts/alerts.component';
-import { HeaderComponent } from './public/header/header.component';
 import { FormsModule } from '@angular/forms';
 //
 describe('AppComponent', () => {
@@ -48,6 +45,7 @@ describe('AppComponent', () => {
 				AppComponent,
 				ConfirmDialog,
 				Menubar,
+				APP_GLOBAL_COMPONENTS,
 				APP_COMPONENTS
 			],
 			providers: [

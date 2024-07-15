@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 //
 import { APP_PROVIDERS } from './APP.PROVIDERS';
 import { APP_COMPONENTS } from './APP.COMPONENTS';
-import { APP_MODULE_PRIMENG } from './APP.MODULE-PRIMENG';
+import { APP_MODULE_PRIMENG, APP_PRIMENG_PROVIDERS } from './APP.MODULE-PRIMENG';
+import { APP_GLOBAL_COMPONENTS, APP_GLOBAL_PROVIDERS } from './global/APP.GLOBAL';
 import { AppRoutingModule } from './app-routing.module';
 import { GlobalModule } from './global/global.module';
 import { AppComponent } from './app.component';
@@ -11,7 +12,8 @@ import { AppComponent } from './app.component';
 @NgModule({
 	declarations: [
 		AppComponent,
-		APP_COMPONENTS
+		APP_GLOBAL_COMPONENTS,
+		APP_COMPONENTS,
 	],
 	imports: [
 		AppRoutingModule,
@@ -19,6 +21,8 @@ import { AppComponent } from './app.component';
 		APP_MODULE_PRIMENG
 	],
 	providers: [
+		APP_GLOBAL_PROVIDERS,
+		APP_PRIMENG_PROVIDERS,
 		APP_PROVIDERS
 	],
 	bootstrap: [AppComponent]

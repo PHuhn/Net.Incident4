@@ -6,10 +6,11 @@ import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { HttpResponse } from '@angular/common/http';
 //
-import { LazyLoadMeta, ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
+import { LazyLoadMeta, FilterMetadata, ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
 import { APP_COMPONENTS } from '../../APP.COMPONENTS';
+import { APP_GLOBAL_COMPONENTS } from '../../global/APP.GLOBAL';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
@@ -94,6 +95,7 @@ describe( 'IncidentGridComponent', ( ) => {
 				BrowserAnimationsModule
 			],
 			declarations: [
+				APP_GLOBAL_COMPONENTS,
 				APP_COMPONENTS
 			],
 			providers: [
@@ -513,6 +515,23 @@ describe( 'IncidentGridComponent', ( ) => {
 		windowCleanup( );
 		//
 	}));
+	//
+	it('fixFieldNames: should translater NIC to NIC_Id ...', () => {
+		const filters: { [s: string]: FilterMetadata[] } = {
+			'ServerId': [{ value: 4, matchMode: 'equals' }],
+			'Mailed': [{ value: true, matchMode: 'equals' }],
+			'Closed': [{ value: null, matchMode: 'equals' }],
+			'NIC': [{ value: 'ripe.net', matchMode: 'equals' }],
+		};
+		const actual = sut.fixFieldNames(filters);
+		// then
+		const keys: string[] = [];
+		for( const item in actual ) {
+			keys.push( item );
+		}
+		expect( keys.length ).toEqual( 3 );
+		expect( keys.find( f => f === 'NIC_Id') ).toEqual('NIC_Id');
+	});
 	//
 	it('subscribe: should understand next/error/complete ...', () => {
 		const values = [1,2,3];
