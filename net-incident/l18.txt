@@ -1,0 +1,5 @@
+
+Linting "net-incident"...
+
+All files pass linting.
+
