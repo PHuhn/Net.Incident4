@@ -113,7 +113,7 @@ describe('BaseSrvcService', () => {
 			error: (error: HttpErrorResponse) => {
 				fail( `postJsonBody: expected error... ${error}` );
 			},
-			complete: () => { }
+			// complete: () => { }
 		});
 		// then
 		const request: TestRequest = backend.expectOne( `${_url}/` );
@@ -245,9 +245,9 @@ describe('BaseSrvcService', () => {
 				expect( value ).toEqual( mockResponse );
 			},
 			error: (error: HttpErrorResponse) => {
-				fail( 'getText: expected error... ${error}' );
+				fail( `postJsonBody: expected error... ${error}` );
 			},
-			complete: () => { }
+			// complete: () => { }
 		});
 		// then
 		const request: TestRequest = backend.expectOne( `${url}?a=some&b=Text` );

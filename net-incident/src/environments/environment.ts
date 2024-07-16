@@ -4,14 +4,14 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 // port # 9111 or 63074
 // base_Url: 'https://localhost:9114/api/',
-// base_Url: 'https://localhost:44378/api/',
+// base_Url: 'https://localhost:44357/api/',
 // LogLevel: 	Error = 0, Warning = 1, Success = 2, Info = 3, Debug = 4, Verbose = 5
 export const environment = {
   production: false,
   envName: 'dev',
   base_Url: 'https://localhost:9114/api/',
   defaultUserAccount: 'Phil',
-  defaultUserServer: 'nsg memb',
+  defaultUserServer: 'NG R6220',
   logLevel: 4,
   BadAbuseEmailAddresses: [ 'hostmaster@nic.ad.jp', 'abuse@ripe.net' ],
   NetSolutionsNIC: [ 'amanah.com', 'cogentco.com', 'corp.tn.contina.com', 'gin.ntt.net',
