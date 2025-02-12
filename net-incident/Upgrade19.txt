@@ -1,0 +1,360 @@
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm i zone.js@latest
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn   node_modules/@angular/animations
+npm warn   9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@18.4.1.17
+npm warn Found: zone.js@0.14.2
+npm warn node_modules/zone.js
+npm warn   peer zone.js@"~0.14.0" from @angular/core@18.1.0
+npm warn   node_modules/@angular/core
+npm warn     peer @angular/core@"18.1.0" from @angular/animations@18.1.0
+npm warn     node_modules/@angular/animations
+npm warn     9 more (@angular/cdk, @angular/common, @angular/compiler, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer zone.js@"~0.14.0" from primeng@17.18.4
+npm warn node_modules/primeng
+npm warn   dev primeng@"^17.18.4" from the root project
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/architect@0.1801.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/build-angular@18.1.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/build-webpack@0.1801.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/core@18.1.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/schematics@18.1.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/animations@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/cli@18.1.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/common@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/compiler@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/compiler-cli@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/core@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/forms@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/platform-browser@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/platform-browser-dynamic@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/router@18.1.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@schematics/angular@18.1.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/build@18.1.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@ngtools/webpack@18.1.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+
+added 1 package, removed 1 package, changed 3 packages, and audited 1151 packages in 1m
+
+189 packages are looking for funding
+  run `npm fund` for details
+
+19 vulnerabilities (5 low, 5 moderate, 9 high)
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
