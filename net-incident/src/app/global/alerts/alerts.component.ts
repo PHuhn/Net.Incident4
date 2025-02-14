@@ -8,17 +8,18 @@ import { Alerts } from './alerts';
 import { AlertsService } from './alerts.service';
 //
 @Component({
-	selector: 'app-alerts',
-	animations: [
-		trigger('visibilityChanged', [
-			state('true' , style({ opacity: 1, transform: 'scale(1.0)' })),
-			state('false', style({ opacity: 0, transform: 'scale(0.0)'	})),
-			transition('1 => 0', animate('300ms')),
-			transition('0 => 1', animate('300ms'))
-		])
-	],
-	templateUrl: './alerts.component.html',
-	styleUrls: ['./alerts.component.css']
+    selector: 'app-alerts',
+    animations: [
+        trigger('visibilityChanged', [
+            state('true', style({ opacity: 1, transform: 'scale(1.0)' })),
+            state('false', style({ opacity: 0, transform: 'scale(0.0)' })),
+            transition('1 => 0', animate('300ms')),
+            transition('0 => 1', animate('300ms'))
+        ])
+    ],
+    templateUrl: './alerts.component.html',
+    styleUrls: ['./alerts.component.css'],
+    standalone: false
 })
 export class AlertsComponent implements OnInit {
 	/*

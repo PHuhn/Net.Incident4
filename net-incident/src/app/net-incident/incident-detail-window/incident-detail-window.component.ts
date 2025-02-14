@@ -22,8 +22,9 @@ import { SelectItemExtra } from '../../global/primeng/select-item-class';
 import { IncidentNote } from '../incident-note';
 //
 @Component({
-	selector: 'app-incident-detail-window',
-	templateUrl: './incident-detail-window.component.html'
+    selector: 'app-incident-detail-window',
+    templateUrl: './incident-detail-window.component.html',
+    standalone: false
 })
 export class IncidentDetailWindowComponent extends BaseComponent implements OnDestroy {
 	//

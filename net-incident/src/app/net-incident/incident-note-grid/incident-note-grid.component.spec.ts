@@ -1,11 +1,11 @@
 // ===========================================================================
-import { ComponentFixture, TestBed, getTestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 //
-import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
@@ -15,7 +15,6 @@ import { APP_COMPONENTS } from '../../APP.COMPONENTS';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { ServicesService } from '../services/services.service';
-import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 //
 import { SelectItemExtra } from '../../global/primeng/select-item-class';
@@ -36,9 +35,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 	let sut: IncidentNoteGridComponent;
 	let fixture: ComponentFixture<IncidentNoteGridComponent>;
 	let alertService: AlertsService;
-	let servicesService: ServicesService;
 	let baseService: BaseCompService;
-	let consoleService: ConsoleLogService;
 	let confirmService: ConfirmationService;
 	let windowNoteInput: IIncidentNoteWindowInput;
 	//
@@ -91,9 +88,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 		// Setup injected pre service for each test
 		baseService = TestBed.inject( BaseCompService );
 		alertService = baseService._alerts;
-		consoleService = baseService._console;
 		confirmService = baseService._confirmationService;
-		servicesService = TestBed.inject( ServicesService );
 		TestBed.compileComponents( );
 	}));
 	//
@@ -169,7 +164,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 		tickFakeWait( 10 );
 		//
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
-			'#NoteDetailWindowHeader' )).nativeElement;
+			'#incidentNoteDetailWindow > p-dialog > div > div > div.p-dialog-header' )).nativeElement;
 		expect( title.innerText ).toEqual( expectedWindowTitle + '0' );
 		windowCleanup( );
 		tickFakeWait( 10 );
@@ -184,7 +179,8 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 		tickFakeWait( 10 );
 		//
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
-			'#NoteDetailWindowHeader' )).nativeElement;
+			'#incidentNoteDetailWindow > p-dialog > div > div > div.p-dialog-header' )).nativeElement;
+		// console.warn( title );
 		expect( title.innerText ).toEqual( expectedWindowTitle + incidentNote.IncidentNoteId );
 		windowCleanup( );
 		tickFakeWait( 10 );

@@ -32,11 +32,11 @@
 				<td>{{rowData['IncidentTypeShortDesc']}}</td>
 				<td>{{rowData['Log'] | truncate: 20: '...' }}</td>
 				<td *ngIf='!disabled'>
-					<button (click)="deleteItemClicked( rowData )" pButton type="button" icon="pi pi-trash" class="p-button-danger"></button>
+					<button (click)="deleteItemClicked( rowData )" pButton type="button" icon="pi pi-trash" severity='danger'></button>
 				</td>
 			</tr>
 		</ng-template>
-		<ng-template let-networklog pTemplate='rowexpansion'>
+		<ng-template #expandedrow let-networklog>
 			<tr><td [attr.colspan]='disabled ? 5 : 7'>
 				<div>
 					<div class='row'>

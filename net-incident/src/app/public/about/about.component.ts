@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import pkg from 'package.json'
 
 @Component({
-	selector: 'app-about',
-	templateUrl: './about.component.html'
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    standalone: false
 })
 export class AboutComponent {
 	//

@@ -7,8 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 //
 import { ConfirmationService, SelectItem } from 'primeng/api';
-import { Dialog } from 'primeng/dialog';
-import { Header, Footer } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
@@ -40,13 +39,11 @@ describe('LoginComponent', () => {
 			imports: [
 				FormsModule,
 				ButtonModule,
+				DialogModule,
 				BrowserAnimationsModule
 			],
 			declarations: [
 				LoginComponent,
-				Dialog,
-				Header,
-				Footer,
 				ServerSelectionWindowComponent
 			],
 			providers: [

@@ -5,18 +5,17 @@
 import { Inject, Injectable, Renderer2, RendererFactory2  } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 //
-import { ConsoleLogService } from '../console-log/console-log.service';
+import { ConsoleLogService } from '../../console-log/console-log.service';
 //
 @Injectable({
 	providedIn: 'root',
 })
-export class ThemeService {
+export class DarkModeService {
 	//
 	codeName: string = 'theme-service';
 	private _renderer: Renderer2;
-	_folder: string = '/assets/themes';
-	_rootTheme: string = 'lara';
-	_rootColor: string = 'blue';
+	private _primeDark: string = 'p-dark';
+	private _colorSchemeDataTheme: string = 'data-color-scheme';
 	/**
 	** get the current value of _isDarkTheme
 	*/
@@ -33,31 +32,28 @@ export class ThemeService {
 	}
 	/**
 	** Change the <link id="app-theme" rel="stylesheet" ... in the index.html
-	** to different light or dark theme.  Additionally, set 'data-bs-theme' to
+	** to different light or dark theme.  Additionally, set 'data-color-scheme' to
 	** the theme color, so one can set extra CSS values beyond the PrimeNG theme.
 	** @param isDark boolean
 	*/
 	switchTheme(isDark: boolean): number {
 		const _codeMethod: string = `${this.codeName}.switchTheme`;
-		const _themeLink = this._document.getElementById('app-theme') as HTMLLinkElement;
-		if (_themeLink) {
-			// change the <link id="app-theme" rel="stylesheet" ... 
-			const _theme = isDark ? 'dark' : 'light';
-			const _link = `${this._folder}/${this._rootTheme}-${_theme}-${this._rootColor}/theme.css`;
-			_themeLink.href = _link;
-			this._isDarkTheme = isDark;
-			// additionally set 'data-bs-theme' to the theme color
-			const _colorTheme = this._document.getElementById('body-color-theme');
-			if( _colorTheme !== null ) {
-				this._renderer.setAttribute( _colorTheme, 'data-bs-theme', _theme );
-				this._console.Information( `${_codeMethod}: New color theme: ${_theme}` );
-				return 0;
-			}
-			this._console.Warning( `${_codeMethod}: Failed to find: 'body-color-theme'` );
-			return 1;
+		if ( isDark) {
+			this._document.documentElement.classList.add( this._primeDark );
+		} else {
+			this._document.documentElement.classList.remove( this._primeDark );
 		}
-		this._console.Warning( `${_codeMethod}: Failed to find: 'app-theme'` );
-		return 2;
+		// additionally set 'data-color-scheme' to the theme color
+		const _theme = isDark ? 'dark' : 'light';
+		this._isDarkTheme = isDark;
+		const _documentBody = this._document.body;
+		if( _documentBody !== null ) {
+			this._renderer.setAttribute( _documentBody, this._colorSchemeDataTheme, _theme );
+			this._console.Information( `${_codeMethod}: New color theme: ${_theme}` );
+			return 0;
+		}
+		this._console.Warning( `${_codeMethod}: Failed to find: 'body' tag` );
+		return 1;
 	}
 	//
 }

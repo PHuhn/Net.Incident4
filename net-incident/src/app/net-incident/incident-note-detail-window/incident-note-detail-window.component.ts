@@ -22,8 +22,9 @@ export interface IIncidentNoteWindowInput {
 }
 //
 @Component({
-  selector: 'app-incident-note-detail-window',
-  templateUrl: './incident-note-detail-window.component.html'
+    selector: 'app-incident-note-detail-window',
+    templateUrl: './incident-note-detail-window.component.html',
+    standalone: false
 })
 export class IncidentNoteDetailWindowComponent extends BaseComponent implements OnInit, OnDestroy {
 	//

@@ -3,18 +3,22 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '../environments/environment';
 //
+import { PrimeNG } from 'primeng/config';
+import { definePreset } from "@primeng/themes";
+import Aura from '@primeng/themes/aura';
+//
 import { AlertsService } from './global/alerts/alerts.service';
 import { AuthService } from './net-incident/services/auth.service';
 import { ConsoleLogService } from './global/console-log/console-log.service';
 import { IUser, User } from './net-incident/user';
 import { Security } from './net-incident/security';
-import { IncidentGridComponent } from './net-incident/incident-grid/incident-grid.component';
 import { ServerData } from './net-incident/server-data';
 import { SelectItemClass } from './global/primeng/select-item-class';
 //
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    standalone: false
 })
 export class AppComponent implements OnInit {
 	/*
@@ -34,9 +38,210 @@ export class AppComponent implements OnInit {
 	constructor(
 		private _alerts: AlertsService,
 		private _console: ConsoleLogService,
-		private _auth: AuthService
+		private _auth: AuthService,
+		public _config: PrimeNG
 	) {
 		this.user = User.empty( );
+		this.setPrimeConfig( this._config );
+	}
+	/**
+	** Configure the following parts of this app:
+	** * PrimeNG
+	**
+	** @param config 
+	*/
+	setPrimeConfig( config: PrimeNG ): void {
+		const auraPreset = definePreset(Aura, {
+			semantic: {
+				primary: {
+					0: '#ffffff',
+					1: '#ffffc8',
+					50: '{blue.50}',
+					100: '{blue.100}',
+					200: '{blue.200}',
+					300: '{blue.300}',
+					400: '{blue.400}',
+					500: '{blue.500}',
+					600: '{blue.600}',
+					700: '{blue.700}',
+					800: '{blue.800}',
+					900: '{blue.900}',
+					950: '{blue.950}',
+					999: '#000038'
+				},
+				colorScheme: {
+					light: {
+						primary: {
+							color: '{blue.600}',
+							inverseColor: '#ffffff',
+							hoverColor: '{blue.700}',
+							activeColor: '{blue.800}'
+						},
+						highlight: {
+							background: '{blue.500}',
+							focusBackground: '{blue.500}',
+							color: '{blue.50}',
+							focusColor: '#ffffff'
+						},
+					},
+					dark: {
+						primary: {
+							color: '{blue.50}',
+							inverseColor: '{blue.950}',
+							hoverColor: '{blue.100}',
+							activeColor: '{blue.50}'
+						},
+						highlight: {
+							background: 'rgba(250, 250, 250, .16)',
+							focusBackground: 'rgba(250, 250, 250, .24)',
+							color: 'rgba(255,255,255,.87)',
+							focusColor: 'rgba(255,255,255,.87)'
+						},
+					}
+				},
+			},
+			components: {
+				card: {
+					colorScheme: {
+						light: {
+							root: {
+								background: '{primary.100}',
+								borderColor: '{primary.500}',
+								borderWidth: '1px',
+								borderRadius: '5px',
+								color: '{primary.950}',
+							},
+						},
+						dark: {
+							root: {
+								background: '{primary.900}',
+								borderColor: '{primary.700}',
+								borderWidth: '1px',
+								borderRadius: '5px',
+								color: '{primary.50}',
+							}
+						}
+					}
+				},
+				menubar: {
+					colorScheme: {
+						light: {
+							root: {
+								background: '{primary.500}',
+								color: '{primary.950}',
+								borderColor: '{primary.500}',
+							}
+						},
+						dark: {
+							root: {
+								background: '{primary.800}',
+								color: '{primary.50}',
+								borderColor: '{primary.800}',
+							}
+						}
+					}
+				},
+				datatable: {
+					colorScheme: {
+						light: {
+							row: {
+								background: '{primary.50}',
+							},
+							header: {
+								background: '{primary.200}',
+							},
+							headerCell: {
+								background: '{primary.100}',
+							},
+							footer: {
+								background: '{primary.100}',
+							},
+							paginatorTop: {
+								background: '{primary.100}',
+							},
+							paginatorBottom: {
+								background: '{primary.100}',
+							},
+						},
+						dark: {
+							row: {
+								background: '{primary.950}',
+							},
+							header: {
+								background: '{primary.950}',
+							},
+							headerCell: {
+								background: '{primary.900}',
+							},
+							footer: {
+								background: '{primary.900}',
+							},
+							paginatorBottom: {
+								background: '{primary.900}',
+							},
+						}
+					}
+				},
+				button: {
+					colorScheme: {
+						light: {
+							root: {
+								secondary: {
+									borderColor: '#000000',
+									hoverBorderColor: '{primary.950}',
+								},
+							},
+						},
+						dark: {
+							root: {
+								primary: {
+									background: '{primary.600}',
+									hoverBackground: '{primary.700}',
+									activeBackground: '{primary.700}',
+									borderColor: '{primary.600}',
+									hoverBorderColor: '{primary.700}',
+									activeBorderColor: '{primary.700}',
+									color: '{primary.50}',
+									hoverColor: '{primary.100}',
+									activeColor: '{primary.100}',
+									focusRing: {
+										color: '{primary.600}',
+										shadow: 'none'
+									}
+								},
+								secondary: {
+									borderColor: '{primary.100}',
+									hoverBorderColor: '{primary.50}',
+								},
+							},
+						},
+					},
+				},
+				dialog: {
+					colorScheme: {
+						light: {
+							root: {
+								background: '{primary.50}',
+								color: '{primary.950}',
+							},
+						},
+						dark: {
+							root: {
+								background: '{primary.900}',
+								color: '{primary.50}',
+							},
+						}
+					}
+				}
+			}
+		} );
+		config.theme.set({
+			preset: auraPreset,
+			options: {
+				darkModeSelector: '.p-dark',
+			},
+		});
+		//
 	}
 	/*
 	** On component initialization, get all data from the data service.

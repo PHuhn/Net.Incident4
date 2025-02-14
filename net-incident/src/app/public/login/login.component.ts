@@ -17,8 +17,9 @@ import { Login } from '../../net-incident/login';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Component({
-	selector: 'app-login',
-	templateUrl: './login.component.html'
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    standalone: false
 })
 export class LoginComponent extends BaseComponent implements OnInit {
 	//

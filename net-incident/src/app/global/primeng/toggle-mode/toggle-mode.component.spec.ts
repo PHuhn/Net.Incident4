@@ -1,28 +1,28 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import { ThemeService } from './theme.service';
-import { ToggleThemeComponent } from './toggle-theme.component';
+import { DarkModeService } from './dark-mode.service';
+import { ToggleModeComponent } from './toggle-mode.component';
 
-describe('ToggleThemeComponent', () => {
-	let sut: ToggleThemeComponent;
-	let fixture: ComponentFixture<ToggleThemeComponent>;
-	const themeServiceSpy = jasmine.createSpyObj('ThemeService', ['switchTheme']);
+describe('ToggleModeComponent', () => {
+	let sut: ToggleModeComponent;
+	let fixture: ComponentFixture<ToggleModeComponent>;
+	const darkModeServiceSpy = jasmine.createSpyObj('DarkModeService', ['switchTheme']);
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [ToggleThemeComponent
+			declarations: [ToggleModeComponent
 			],
 			providers: [
-				{ provide: ThemeService, useValue: themeServiceSpy }
+				{ provide: DarkModeService, useValue: darkModeServiceSpy }
 			]
 		})
 		.compileComponents();
-		fixture = TestBed.createComponent(ToggleThemeComponent);
+		fixture = TestBed.createComponent(ToggleModeComponent);
 		sut = fixture.componentInstance;
 		fixture.detectChanges();
 	});
 	//
-	it('ToggleThemeComponent: should create ...', () => {
+	it('ToggleModeComponent: should create ...', () => {
 		expect( sut ).toBeTruthy();
 	});
 	/*
@@ -31,7 +31,7 @@ describe('ToggleThemeComponent', () => {
 	it('changeTheme: should successfully change dark theme ...', () => {
 		// given
 		const isDark: boolean = true;
-		themeServiceSpy.switchTheme.and.returnValue( 0 );
+		darkModeServiceSpy.switchTheme.and.returnValue( 0 );
 		// when
 		const ret = sut.changeTheme( isDark );
 		// then
@@ -41,7 +41,7 @@ describe('ToggleThemeComponent', () => {
 	it('changeTheme: should successfully change light theme ...', () => {
 		// given
 		const isDark: boolean = false;
-		themeServiceSpy.switchTheme.and.returnValue( 0 );
+		darkModeServiceSpy.switchTheme.and.returnValue( 0 );
 		// when
 		const ret = sut.changeTheme( isDark );
 		// then
@@ -51,7 +51,7 @@ describe('ToggleThemeComponent', () => {
 	it('changeTheme: should fail to change theme ...', () => {
 		// given
 		const isDark: boolean = false;
-		themeServiceSpy.switchTheme.and.returnValue( 1 );
+		darkModeServiceSpy.switchTheme.and.returnValue( 1 );
 		// when
 		const ret = sut.changeTheme( isDark );
 		// then
@@ -63,7 +63,7 @@ describe('ToggleThemeComponent', () => {
 	it('isDarkMode: should successfully return dark theme ...', () => {
 		// given
 		const isDark: boolean = true;
-		Object.defineProperty( themeServiceSpy, 'isDarkTheme', {get: () => isDark});
+		Object.defineProperty( darkModeServiceSpy, 'isDarkTheme', {get: () => isDark});
 		// when
 		const ret = sut.isDarkMode;
 		// then

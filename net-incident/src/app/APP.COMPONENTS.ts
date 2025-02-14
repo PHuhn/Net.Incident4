@@ -1,4 +1,6 @@
 //
+import { ToggleModeComponent } from './global/primeng/toggle-mode/toggle-mode.component';
+//
 import { IncidentGridComponent } from './net-incident/incident-grid/incident-grid.component';
 import { IncidentDetailWindowComponent } from './net-incident/incident-detail-window/incident-detail-window.component';
 import { NetworkLogGridComponent } from './net-incident/network-log-grid/network-log-grid.component';
@@ -14,6 +16,8 @@ import { ContactComponent } from './public/contact/contact.component';
 import { HelpComponent } from './public/help/help.component';
 //
 export const APP_COMPONENTS = [
+	ToggleModeComponent,
+	//
 	IncidentGridComponent,
 	IncidentDetailWindowComponent,
 	NetworkLogGridComponent,

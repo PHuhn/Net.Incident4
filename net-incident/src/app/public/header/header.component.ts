@@ -7,8 +7,9 @@ import { environment } from '../../../environments/environment';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Component({
-	selector: 'app-header',
-	templateUrl: './header.component.html'
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    standalone: false
 })
 export class HeaderComponent implements OnInit {
 	//

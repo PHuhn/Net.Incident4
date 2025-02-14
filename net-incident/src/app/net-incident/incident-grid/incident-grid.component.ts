@@ -20,9 +20,10 @@ import { AppComponent } from '../../app.component';
 import { AssocArray } from '../../global/primeng/filter-summary/filter-summary.component';
 //
 @Component({
-	selector: 'app-incident-grid',
-	templateUrl: './incident-grid.component.html',
-	styleUrls: ['./incident-grid.component.css']
+    selector: 'app-incident-grid',
+    templateUrl: './incident-grid.component.html',
+    styleUrls: ['./incident-grid.component.css'],
+    standalone: false
 })
 export class IncidentGridComponent extends BaseComponent implements OnInit {
 	//

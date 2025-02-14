@@ -1,17 +1,21 @@
 <!-- Server-detail-window.component.html -->
 <p-dialog id='serverSelectionWindow' name='serverSelectionWindow'
-    [(visible)]='displayWin' [modal]='true' [style]="{width: '500px'}" [closeOnEscape]='false' [closable]='false'>
-  <p-header class='nsg-primary-color'>Select a server</p-header>
-  <h5 *ngIf='model === undefined'>Loading ...</h5>
-  <div *ngIf='model !== undefined'>
-    <div class='nsg-primary-color nsg-bold'>
-      <div *ngFor='let item of model'>
-        <input type='radio' [name]='item.value' (change)='onServerSelection( $event, item.value )'>
-        <label for='{{item.label}}'>{{item.label}} ({{item.value}})</label>
-        <br/>
-      </div>
-    </div>
-  </div>
-  <p-footer>&nbsp;</p-footer>
+		[(visible)]='displayWin' [modal]='true' [style]="{width: '500px'}" [closeOnEscape]='false' [closable]='false'>
+	<ng-template #header class='nsg-primary-color'>
+		Select a server
+	</ng-template>
+	<h5 *ngIf='model === undefined'>Loading ...</h5>
+	<div *ngIf='model !== undefined'>
+		<div class='nsg-primary-color nsg-bold'>
+			<div *ngFor='let item of model'>
+				<input type='radio' [name]='item.value' (change)='onServerSelection( $event, item.value )'>
+				<label for='{{item.label}}'>{{item.label}} ({{item.value}})</label>
+				<br/>
+			</div>
+		</div>
+	</div>
+	<ng-template #footer>
+		&nbsp;
+	</ng-template>
 </p-dialog>
 <!-- End of Server-detail-window.component.html -->

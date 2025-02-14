@@ -2,10 +2,10 @@
 // file: theme.service.spec.ts
 import { TestBed, fakeAsync } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
-import { ThemeService } from './theme.service';
+import { DarkModeService } from './dark-mode.service';
 //
-describe('ThemeService', () => {
-	let sut: ThemeService;
+describe('DarkModeService', () => {
+	let sut: DarkModeService;
 	let document: Document;
 	//
 	beforeEach( fakeAsync( ( ) => {
@@ -13,13 +13,13 @@ describe('ThemeService', () => {
 			imports: [
 			],
 			providers: [
-				ThemeService,
+				DarkModeService,
 				{ provide: Document, useValue: document }
 			]
 		} );
 		document = TestBed.inject(DOCUMENT);
 		// Setup sut
-		sut = TestBed.inject( ThemeService );
+		sut = TestBed.inject( DarkModeService );
 		TestBed.compileComponents();
 	} ) );
 	//
@@ -53,19 +53,6 @@ describe('ThemeService', () => {
 		// then
 		expect( ret ).toEqual( 0 );
 		expect( sut.isDarkTheme ).toEqual( !isDark );
-	});
-	//
-	it('switchTheme: should fail and not change light theme ...', () => {
-		// given
-		const isDark: boolean = false;
-		sut._isDarkTheme = isDark;
-		let _themeLink: HTMLLinkElement;
-		spyOn(document, 'getElementById').and.callFake( ( ) => _themeLink as HTMLLinkElement );
-		// when
-		const ret = sut.switchTheme( !isDark );
-		// then
-		expect( ret ).toEqual( 2 );
-		expect( sut.isDarkTheme ).toEqual( isDark );
 	});
 	/*
 	** get isDarkTheme(): boolean

@@ -306,8 +306,8 @@ describe( 'IncidentGridComponent', ( ) => {
 		// when
 		sut.onServerSelected( serverShortName );
 		// then
-		tickFakeWait(1000); // wait 1 second task to get done
-		tickFakeWait(1000); // wait 1 second task to get done
+		tickFakeWait(1); // wait 1 second task to get done
+		tickFakeWait(1); // wait 1 second task to get done
 		//
 		expect( sut.user.ServerShortName ).toEqual( serverShortName );
 		// reset values
@@ -329,7 +329,8 @@ describe( 'IncidentGridComponent', ( ) => {
 		//
 		expect( sut.displayServersWindow ).toEqual( true );
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
-			selectionWindowTitleSelector )).nativeElement;
+			'#selectionWindow > p-dialog > div > div > div.p-dialog-header' )).nativeElement;
+		// console.warn( title );
 		expect( title.innerText.trim( ) ).toEqual( `Select a server` );
 		tickFakeWait(10);
 	}));
@@ -350,12 +351,14 @@ describe( 'IncidentGridComponent', ( ) => {
 		// when
 		sut.addItemClicked( );
 		// then
-		tickFakeWait(1000); // wait 1 second task to get done
-		tickFakeWait(1000); // wait 1 second task to get done
+		tickFakeWait(1); // wait 1 second task to get done
+		tickFakeWait(1); // wait 1 second task to get done
 		//
 		expect( sut.windowDisplay ).toEqual( true );
+		// detailWindow
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
-			'#IncidentDetailWindowHeader' )).nativeElement;
+			'#detailWindow > p-dialog > div > div > div.p-dialog-header' )).nativeElement;
+		// console.warn( title );
 		expect( title.innerText.trim( ) ).toEqual( `Incident Detail: 0, IP Address:` );
 		windowCleanup( );
 	}));
@@ -387,11 +390,12 @@ describe( 'IncidentGridComponent', ( ) => {
 		sut.editItemClicked( incident );
 		// then
 		expect( sut.windowDisplay ).toEqual( true );
-		tickFakeWait(1000); // wait 1 second task to get done
-		tickFakeWait(1000); // wait 1 second task to get done
+		tickFakeWait(1); // wait 1 second task to get done
+		tickFakeWait(1); // wait 1 second task to get done
 		//
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
-			'#IncidentDetailWindowHeader' )).nativeElement;
+			'#detailWindow > p-dialog > div > div > div.p-dialog-header' )).nativeElement;
+		console.warn( title );
 		expect( title.innerText.trim( ) ).toEqual( `Incident Detail: ${id}, IP Address: ${ip}` );
 		windowCleanup( );
 	}));

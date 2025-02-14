@@ -7,7 +7,7 @@
 			<tr>
 				<th style='width: 40px;'></th>
 				<th style='width: 58px;'>
-					<button (click)='addItemClicked( )' pButton type='button' icon='pi pi-plus' class='p-button-primary'></button>
+					<button (click)='addItemClicked( )' pButton type='button' icon='pi pi-plus'></button>
 				</th>
 				<th style='width: 80px;'>
 					Type
@@ -29,7 +29,7 @@
 					</a>
 				</td>
 				<td>
-					<button (click)='editItemClicked( rowData )' pButton type='button' icon='pi pi-pencil' class='p-button-primary'></button>
+					<button (click)='editItemClicked( rowData )' pButton type='button' icon='pi pi-pencil'></button>
 				</td>
 				<td>{{rowData['NoteTypeShortDesc']}}</td>
 				<td>{{rowData['Note'] | truncate: 24: '...' }}</td>
@@ -37,11 +37,11 @@
 					{{rowData["CreatedDate"] | date: 'MM/dd'}}
 				</td>
 				<td>
-					<button (click)="deleteItemClicked( rowData )" pButton type="button" icon="pi pi-trash" class="p-button-danger"></button>
+					<button (click)="deleteItemClicked( rowData )" pButton type="button" icon="pi pi-trash" severity='danger'></button>
 				</td>
 			</tr>
 		</ng-template>
-		<ng-template let-incidentnote pTemplate='rowexpansion'>
+		<ng-template #expandedrow let-incidentnote>
 			<tr><td [attr.colspan]='6'>
 				<div>
 					<div class='row'>
@@ -65,7 +65,7 @@
 		</ng-template>
 	</p-table>
 	<!-- modal edit window -->
-	<app-incident-note-detail-window
+	<app-incident-note-detail-window id='incidentNoteDetailWindow'
 		[incidentnote]='windowIncidentNoteInput'
 		(emitCloseWin)='onCloseWin($event)'>
 	</app-incident-note-detail-window>

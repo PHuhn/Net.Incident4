@@ -2,11 +2,11 @@
 <p-dialog id='NoteDetailWindow' name='NoteDetailWindow'
     [(visible)]='displayWin' [modal]='true' width='720'
     [closeOnEscape]='false' [closable]='false'>
-  <p-header  id='NoteDetailWindowHeader' name='NoteDetailWindowHeader'>
+  <ng-template #header  id='NoteDetailWindowHeader' name='NoteDetailWindowHeader'>
     Incident Note Detail: {{id}}
 		<!-- ng-template [ngIf]='loading'> <p-progressSpinner /> -->
 		<app-loading-spinner id='loadingSpinner' [loading]='loading'></app-loading-spinner>
-  </p-header>
+  </ng-template>
   <form #form='ngForm' novalidate>
     <div *ngIf='model !== undefined' class='nsg-text-left'>
       <div class='row' [class.has-error]='NoteTypeId.invalid && NoteTypeId.touched'>
@@ -33,9 +33,9 @@
       </div>
     </div>
   </form>
-  <p-footer>
-    <button pButton type='button' (click)='windowClose(true)' class='p-button-primary' [disabled]='form.invalid' label='Save'></button> &nbsp;
-    <button pButton type='button' (click)='windowClose(false)' class='p-button-secondary' label='Cancel'></button>
-  </p-footer>
+	<ng-template #footer>
+    <button pButton type='button' (click)='windowClose(true)' [disabled]='form.invalid' label='Save'></button> &nbsp;
+    <button pButton type='button' (click)='windowClose(false)' severity='secondary' label='Cancel'></button>
+	</ng-template>
 </p-dialog>
 <!-- End of IncidentNote-detail-window.component.html -->

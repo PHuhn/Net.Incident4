@@ -18,21 +18,47 @@ custom html styling
 	--nsg-primary: var(--primary-color, #0073ea); /* #007bff; */
 	--nsg-primary-text: var(--text-color, #000); /* #007bff; */
 	--nsg-success: forestgreen;
-	--nsg-info:  var(--primary-color); /* #007bff; */
-	--nsg-warning: darkorange;
+	--nsg-info:  rgb(52, 89, 230);
+	--nsg-warning: #f97316; /* darkorange;*/
 	--nsg-danger: red;
-	--nsg-text-color: var(--text-color, #000f00);
-	--nsg-bg-color: var(--surface-ground, #fff0ff);
-	--nsg-jumbotron-bg-color: var(--gray-200);
+	--nsg-text-color: #090909;
+	--nsg-bg-color: #fafdff;
+	--nsg-jumbotron-bg-color: var(--p-primary-100);
+	--nsg-test: #000078;
+	--p-dialog-footer-padding: 1rem 1.25rem;
 }
-:root,
-[data-bs-theme="light"] {
+[data-color-scheme='light'] {
 	color-scheme: light;
-	--nsg-jumbotron-bg-color: var(--gray-200);
+	--nsg-jumbotron-bg-color: var(--p-primary-100);
+	--p-menubar-color: #000;
+	.p-dialog-header {
+		background: var(--p-primary-100, #fff );
+	}
+	.p-dialog-footer {
+		padding: 0.75rem 1.25rem;
+		background: var(--p-primary-100, #fff );
+	}
+	.p-paginator {
+		background: var(--p-primary-100, #fff );
+	}
 }
-[data-bs-theme="dark"] {
-	color-scheme: dark;
-	--nsg-jumbotron-bg-color: var(--gray-700);
+[data-color-scheme='dark'] {
+	--nsg-jumbotron-bg-color: var(--p-primary-900);
+	--nsg-text-color: #f9f9f9;
+	--nsg-bg-color: #000038; /* #172554; */
+	.p-dialog-header {
+		background: var(--p-primary-950, #11a );
+	}
+	.p-dialog-footer {
+		padding: 0.75rem 1.25rem;
+		background: var(--p-primary-950, #11a );
+	}
+	.p-datatable-thead {
+		background: var(--p-primary-900, #11a );
+	}
+	.p-paginator {
+		background: var(--p-primary-900, #11a );
+	}
 }
 /* */
 body {
@@ -100,22 +126,23 @@ NSG
 */
 /* Info */
 .nsg-msg-info {
-    color: rgb(52, 89, 230);
+	color: var(--nsg-info);
 }
 /* Success */
 .nsg-msg-success {
-    color: forestgreen;
+	color: var(--nsg-success);
 }
 /* Warning */
 .nsg-msg-warning {
-    color: darkorange;
+	color: var(--nsg-warning);
 }
 /* Error/Danger */
 .nsg-msg-error, .nsg-msg-danger {
-    color: red;
+	color: var(--nsg-danger);
 }
+
 .nsg-bs-menu-container {
-	background-color: var(--nsg-primary);
+	background-color: var(--p-menubar-background);
 }
 /* custom appearance and positioning styles */
 .nsg-header {
@@ -143,7 +170,7 @@ body {
 	white-space: nowrap;
 	line-height: 60px;
 	color: var(--nsg-primary-text);
-	background-color: var(--nsg-primary);
+	background-color: var(--p-menubar-background);
 }
 /* https://www.sessions.edu/color-calculator/ */
 .nsg-inputtext { padding: 1px 1px 1px 4px; font-size: 1.2rem; border: 0 none; }

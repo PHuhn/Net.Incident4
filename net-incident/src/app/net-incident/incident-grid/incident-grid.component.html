@@ -32,7 +32,7 @@
 				<tr>
 					<th style='width: 40px;'></th>
 					<th style='width: 58px;'>
-						<button (click)='addItemClicked( )' pButton type='button' icon='pi pi-plus' class='p-button-primary'></button>
+						<button (click)='addItemClicked( )' pButton type='button' icon='pi pi-plus'></button>
 					</th>
 					<th style='width: 70px;'>Id
 						<p-columnFilter type='numeric' field='IncidentId' matchMode='gt' display='menu'/>
@@ -63,7 +63,7 @@
 						</a>
 					</td>
 					<td>
-						<button (click)="editItemClicked( rowData )" pButton type="button" icon="pi pi-pencil" class="p-button-primary"></button>
+						<button (click)="editItemClicked( rowData )" pButton type="button" icon="pi pi-pencil"></button>
 					</td>
 					<td class='nsg-text-right'>{{rowData['IncidentId']}}</td>
 					<td>{{rowData['IPAddress']}}</td>
@@ -72,11 +72,11 @@
 					<td>{{rowData['AbuseEmailAddress']}}</td>
 					<td>{{rowData['ISPTicketNumber']}}</td>
 					<td>
-						<button (click)="deleteItemClicked( rowData )" pButton type="button" icon="pi pi-trash" class="p-button-danger"></button>
+						<button (click)="deleteItemClicked( rowData )" pButton type="button" icon="pi pi-trash" severity='danger'></button>
 					</td>
 				</tr>
 			</ng-template>
-			<ng-template let-incident pTemplate='rowexpansion'>
+			<ng-template #expandedrow let-incident>
 				<tr><td [attr.colspan]='11'>
 					<div>
 						<div class='row'>

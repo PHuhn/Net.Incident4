@@ -5,10 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 //
-import { Dialog } from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { FocusTrapModule } from 'primeng/focustrap';
-import { Header, Footer, SelectItem } from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 //
 import { ServerSelectionWindowComponent } from './server-selection-window.component';
 import { SelectItemClass } from '../../global/primeng/select-item-class';
@@ -18,7 +18,7 @@ describe('ServerSelectionWindowComponent', () => {
 	let fixture: ComponentFixture<ServerSelectionWindowComponent>;
 	//
 	const windowTitleSelector: string =
-		'#serverSelectionWindow > div > div > div > span.p-dialog-title > p-header';
+		'#serverSelectionWindow > div > div > div.p-dialog-header';
 	// document.querySelector('#serverSelectionWindow > div > div > div > span.p-dialog-title > p-header')
 	const expectedWindowTitle: string = 'Select a server';
 	const mockData: SelectItem[] = [
@@ -30,13 +30,14 @@ describe('ServerSelectionWindowComponent', () => {
 	//
 	beforeEach(fakeAsync(() => {
 		TestBed.configureTestingModule({
-			imports: [ FormsModule,
+			imports: [
+				FormsModule,
 				FocusTrapModule,
-				BrowserAnimationsModule
+				BrowserAnimationsModule,
+				DialogModule
 			],
 			declarations: [
 				ServerSelectionWindowComponent,
-				Dialog, Header, Footer
 			],
 			// Unhandled promise rejection: Error: NG0205: Injector has already been destroyed.
 			teardown: {destroyAfterEach: false}
@@ -85,10 +86,12 @@ describe('ServerSelectionWindowComponent', () => {
 	} ) );
 	//
 	it('should launch window when display window set ...', fakeAsync( () => {
-		const titleVar = fixture.debugElement.query(By.css(
-			'#serverSelectionWindow' )).nativeElement;
+		// const titleVar = fixture.debugElement.query(By.css(
+		// 	'#serverSelectionWindow' )).nativeElement;
+		// console.warn( titleVar );
 		const title: HTMLDivElement = fixture.debugElement.query(By.css(
 			windowTitleSelector )).nativeElement;
+		console.warn( title );
 		expect( title.innerText ).toEqual( expectedWindowTitle );
 		windowCleanup( );
 	} ) );

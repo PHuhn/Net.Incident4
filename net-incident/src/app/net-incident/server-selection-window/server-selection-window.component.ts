@@ -8,8 +8,9 @@ import { Dialog } from 'primeng/dialog';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //
 @Component({
-	selector: 'app-server-selection-window',
-	templateUrl: './server-selection-window.component.html'
+    selector: 'app-server-selection-window',
+    templateUrl: './server-selection-window.component.html',
+    standalone: false
 })
 export class ServerSelectionWindowComponent {
 	//

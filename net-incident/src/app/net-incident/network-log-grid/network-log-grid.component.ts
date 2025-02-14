@@ -28,8 +28,9 @@ import { IIncident, Incident } from '../incident';
 import { NetworkIncident } from '../network-incident';
 //
 @Component({
-	selector: 'app-networklog-grid',
-	templateUrl: './network-log-grid.component.html'
+    selector: 'app-networklog-grid',
+    templateUrl: './network-log-grid.component.html',
+    standalone: false
 })
 export class NetworkLogGridComponent extends BaseComponent implements AfterContentInit, OnChanges, OnDestroy {
 	//

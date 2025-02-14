@@ -2,7 +2,7 @@
 // File: APP.GLOBAL.ts
 import { AlertsComponent } from './alerts/alerts.component';
 import { TruncatePipe } from './truncate.pipe';
-import { ToggleThemeComponent } from './toggle-theme/toggle-theme.component';
+import { ToggleModeComponent } from './primeng/toggle-mode/toggle-mode.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 // PrimeNG custome component
 import { FilterSummaryComponent } from './primeng/filter-summary/filter-summary.component';
@@ -15,7 +15,7 @@ export const APP_GLOBAL_COMPONENTS = [
 	// global
 	AlertsComponent,
 	TruncatePipe,
-	ToggleThemeComponent,
+	ToggleModeComponent,
 	LoadingSpinnerComponent,
 	//
 	FilterSummaryComponent,

@@ -7,8 +7,9 @@ import { UserService } from '../../net-incident/services/user.service';
 import { IUser, User } from '../../net-incident/user';
 //
 @Component({
-	selector: 'app-register',
-	templateUrl: './register.component.html'
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    standalone: false
 })
 export class RegisterComponent {
 	//

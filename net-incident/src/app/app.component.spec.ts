@@ -11,7 +11,6 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 //
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { Menubar } from 'primeng/menubar';
 //
 import { APP_GLOBAL_COMPONENTS } from './global/APP.GLOBAL';
 import { APP_COMPONENTS } from './APP.COMPONENTS';
@@ -43,8 +42,6 @@ describe('AppComponent', () => {
 			],
 			declarations: [
 				AppComponent,
-				ConfirmDialog,
-				Menubar,
 				APP_GLOBAL_COMPONENTS,
 				APP_COMPONENTS
 			],

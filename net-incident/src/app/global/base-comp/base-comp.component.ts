@@ -20,7 +20,8 @@ import { BaseCompService } from './base-comp.service';
 type DeleteCallback<T> = (n: T) => boolean;
 //
 @Component({
-	template: ``
+    template: ``,
+    standalone: false
 })
 export class BaseComponent {
 	/*

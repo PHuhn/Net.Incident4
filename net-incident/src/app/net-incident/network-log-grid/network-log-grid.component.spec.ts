@@ -7,8 +7,7 @@ import { Observable, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 //
 import { TableModule } from 'primeng/table';
-import { Dialog } from 'primeng/dialog';
-import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmationService, Confirmation } from 'primeng/api';
 //
@@ -52,12 +51,11 @@ describe('NetworkLogGridComponent', () => {
 				FormsModule,
 				TableModule,
 				ButtonModule,
+				DialogModule,
 				BrowserAnimationsModule
 			],
 			declarations: [
 				NetworkLogGridComponent,
-				Dialog,
-				ConfirmDialog,
 				TruncatePipe
 			],
 			providers: [
@@ -228,8 +226,13 @@ describe('NetworkLogGridComponent', () => {
 		tickFakeWait( 1000 );
 		tickFakeWait( 1000 );
 		//
+		// const netLogTable: HTMLInputElement = fixture.debugElement.query(By.css(
+		// 	'#netLogTable > div > div > table > tbody > tr:nth-child(5) > td:nth-child(2)' )).nativeElement;
+		// console.warn( netLogTable );
 		const netLogCheckbox: HTMLInputElement = fixture.debugElement.query(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(6) > td:nth-child(2) > p-tablecheckbox > div > div.p-checkbox-box.p-component' )).nativeElement;
+			'#netLogTable > div > div > table > tbody > tr:nth-child(5) > td:nth-child(2) > p-tablecheckbox > p-checkbox > div > input' )).nativeElement;
+			// '#netLogTable > div > div > table > tbody > tr:nth-child(6) > td:nth-child(2) > p-tablecheckbox > div > div.p-checkbox-box.p-component' )).nativeElement;
+		console.warn( netLogCheckbox );
 		netLogCheckbox.click();
 		tickFakeWait( 5000 );
 		const numRows: number = 2;
@@ -245,7 +248,8 @@ describe('NetworkLogGridComponent', () => {
 		tickFakeWait( 100 );
 		//
 		let netLogCheckbox: HTMLInputElement = fixture.debugElement.query(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(4) > td:nth-child(2) > p-tablecheckbox > div > div.p-checkbox-box.p-component' )).nativeElement;
+			'#netLogTable > div > div > table > tbody > tr:nth-child(4) > td:nth-child(2) > p-tablecheckbox > p-checkbox > div > input' )).nativeElement;
+		// console.warn( netLogCheckbox );
 		netLogCheckbox.click();
 		tickFakeWait( 5000 );
 		let numRows: number = 1;
@@ -253,7 +257,7 @@ describe('NetworkLogGridComponent', () => {
 			numRowsSelector ));
 		expect( netLogBodyRows.length ).toBe( numRows );
 		netLogCheckbox = fixture.debugElement.query(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > p-tablecheckbox > div > div.p-checkbox-box.p-component' )).nativeElement;
+			'#netLogTable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > p-tablecheckbox > p-checkbox > div > input' )).nativeElement;
 		netLogCheckbox.click( );
 		tickFakeWait( 2000 );
 		numRows = 6;

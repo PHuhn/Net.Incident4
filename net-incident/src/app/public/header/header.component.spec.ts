@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 //
 import { Menubar, MenubarModule } from 'primeng/menubar';
 import { environment } from '../../../environments/environment';
-import { ToggleThemeComponent } from '../../global/toggle-theme/toggle-theme.component';
+import { ToggleModeComponent } from '../../global/primeng/toggle-mode/toggle-mode.component';
 import { HeaderComponent } from './header.component';
 //
 describe('HeaderComponent', () => {
@@ -16,7 +16,7 @@ describe('HeaderComponent', () => {
 				RouterTestingModule,
 				MenubarModule
 			],
-			declarations: [ ToggleThemeComponent, HeaderComponent ]
+			declarations: [ ToggleModeComponent, HeaderComponent ]
 		})
 		.compileComponents();
 	}));

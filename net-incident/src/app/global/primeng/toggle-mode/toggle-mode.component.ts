@@ -1,29 +1,30 @@
 // ===========================================================================
 // File: toggle-theme.component.ts
 import { Component } from '@angular/core';
-import { ThemeService } from './theme.service';
+import { DarkModeService } from './dark-mode.service';
 //
 @Component({
-	selector: 'app-toggle-theme',
-	template: `<button type='button'
+    selector: 'app-toggle-mode',
+    template: `<button type='button'
 	class='nsg-toggle-theme-button'
 	(click)='changeTheme(!isDarkMode)'>
 	<i class='pi ' [ngClass]="{'pi-moon': isDarkMode, 'pi-sun': !isDarkMode}"></i>
 </button>`,
-	styleUrl: './toggle-theme.component.css'
+	styleUrl: './toggle-mode.component.css',
+	standalone: false
 })
-export class ToggleThemeComponent {
+export class ToggleModeComponent {
 	//
 	constructor(
-		private themeService: ThemeService
+		private _darkModeService: DarkModeService
 	) { }
 	//
-	get isDarkMode() {
-		return this.themeService.isDarkTheme;
+	get isDarkMode( ) {
+		return this._darkModeService.isDarkTheme;
 	}
 	//
-	changeTheme(theme: boolean): number {
-		return this.themeService.switchTheme(theme);
+	changeTheme( mode: boolean ): number {
+		return this._darkModeService.switchTheme( mode );
 	}
 	//
 }

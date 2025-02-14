@@ -16,8 +16,9 @@ import { NetworkIncident } from '../network-incident';
 import { IIncidentNoteWindowInput } from '../incident-note-detail-window/incident-note-detail-window.component';
 //
 @Component({
-	selector: 'app-incident-note-grid',
-	templateUrl: './incident-note-grid.component.html'
+    selector: 'app-incident-note-grid',
+    templateUrl: './incident-note-grid.component.html',
+    standalone: false
 })
 export class IncidentNoteGridComponent extends BaseComponent implements AfterViewInit {
 	/*
