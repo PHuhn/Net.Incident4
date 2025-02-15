@@ -106,8 +106,6 @@ export class AppComponent implements OnInit {
 						light: {
 							root: {
 								background: '{primary.100}',
-								borderColor: '{primary.500}',
-								borderWidth: '1px',
 								borderRadius: '5px',
 								color: '{primary.950}',
 							},
@@ -115,8 +113,6 @@ export class AppComponent implements OnInit {
 						dark: {
 							root: {
 								background: '{primary.900}',
-								borderColor: '{primary.700}',
-								borderWidth: '1px',
 								borderRadius: '5px',
 								color: '{primary.50}',
 							}
@@ -137,6 +133,9 @@ export class AppComponent implements OnInit {
 								background: '{primary.800}',
 								color: '{primary.50}',
 								borderColor: '{primary.800}',
+							},
+							submenu: {
+								background: "{primary.950}",
 							}
 						}
 					}

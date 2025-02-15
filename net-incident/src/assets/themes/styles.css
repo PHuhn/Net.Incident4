@@ -41,6 +41,9 @@ custom html styling
 	.p-paginator {
 		background: var(--p-primary-100, #fff );
 	}
+	.p-card {
+		border: 1px solid var(--p-primary-500, #11a);
+	}
 }
 [data-color-scheme='dark'] {
 	--nsg-jumbotron-bg-color: var(--p-primary-900);
@@ -58,6 +61,9 @@ custom html styling
 	}
 	.p-paginator {
 		background: var(--p-primary-900, #11a );
+	}
+	.p-card {
+		border: 1px solid var(--p-primary-600, #11a);
 	}
 }
 /* */
