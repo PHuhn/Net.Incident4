@@ -3,7 +3,7 @@
 import { AlertsComponent } from './alerts/alerts.component';
 import { TruncatePipe } from './truncate.pipe';
 import { ToggleModeComponent } from './primeng/toggle-mode/toggle-mode.component';
-import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './primeng/loading-spinner/loading-spinner.component';
 // PrimeNG custome component
 import { FilterSummaryComponent } from './primeng/filter-summary/filter-summary.component';
 // global providers

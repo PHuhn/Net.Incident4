@@ -23,7 +23,7 @@ import { ServerData } from '../server-data';
 import { User } from '../user';
 import { IIncidentNote, IncidentNote } from '../incident-note';
 import { IncidentNoteDetailWindowComponent, IIncidentNoteWindowInput } from './incident-note-detail-window.component';
-import { LoadingSpinnerComponent } from '../../global/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '../../global/primeng/loading-spinner/loading-spinner.component';
 //
 describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 	let sut: IncidentNoteDetailWindowComponent;
