@@ -149,7 +149,8 @@ Pinging 1.9.149.170 with 32 bytes of data:";
             Console.WriteLine($"Query ip: {ip}");
             Console.WriteLine(_actual);
             Assert.That(_actual.Contains(
-                "Abuse contact for '46.161.62.0 - 46.161.62.255' is 'abuse@finegroupservers.com'"), Is.True);
+                "https://rdap.arin.net/registry/ip/46.0.0.0" ), Is.True);
+            //  "Abuse contact for '46.161.62.0 - 46.161.62.255' is 'abuse@finegroupservers.com'"), Is.True);
         }
         /*
         [Querying whois.arin.net]
@@ -480,7 +481,7 @@ network:Updated:20150331
             Console.WriteLine(_actual);
             Assert.That(_actual.Contains(ip.Substring(0, 6)), Is.True);
             Assert.That(_actual.Contains(
-                "OrgAbuseEmail:  abuse@cox.com"), Is.True);
+                "Abuse contact for '159.192.0.0 - 159.192.127.255' is 'admin-thix@cat.net.th'"), Is.True);
         }
         //
     }

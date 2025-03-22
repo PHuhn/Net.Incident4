@@ -696,6 +696,17 @@ SOLUTION:
 
 ========
 PROBLEM:
+	2025-03-22
+	Upgrade from .Net8 to .Net9, version 9.4.2.22
+
+SOLUTION:
+	Install-Package MediatR -Version 12.2.0
+	Install-Package FluentValidation.AspNetCore -Version 11.3.0
+	Install-Package Swashbuckle.AspNetCore -Version 6.5.0
+	Install-Package Microsoft.SyndicationFeed.ReaderWriter -Version 1.0.2
+
+========
+PROBLEM:
 
 
 SOLUTION:

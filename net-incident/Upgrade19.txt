@@ -1675,3 +1675,204 @@ C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
 
 ===================================
 
+C:\Dat\Nsg\L\Web\Ng\weekly> npm install --save-dev primeng @primeng/themes
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/architect@0.1902.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/core@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/build-angular@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/core@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/build-webpack@0.1902.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/core@18.1.3',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/schematics@18.1.3',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/animations@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/build@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/cli@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/core@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/schematics@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/common@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/compiler@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/compiler-cli@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/core@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/forms@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/platform-browser@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/platform-browser-dynamic@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular/router@19.2.0',
+npm warn EBADENGINE   required: { node: '^18.19.1 || ^20.11.1 || >=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@ngtools/webpack@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@schematics/angular@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/core@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@angular-devkit/schematics@19.2.0',
+npm warn EBADENGINE   required: {
+npm warn EBADENGINE     node: '^18.19.1 || ^20.11.1 || >=22.0.0',
+npm warn EBADENGINE     npm: '^6.11.0 || ^7.5.6 || >=8.0.0',
+npm warn EBADENGINE     yarn: '>= 1.13.0'
+npm warn EBADENGINE   },
+npm warn EBADENGINE   current: { node: 'v20.11.0', npm: '10.8.1' }
+npm warn EBADENGINE }
+
+added 1 package, and audited 1152 packages in 13s
+
+196 packages are looking for funding
+  run `npm fund` for details
+
+4 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+C:\Dat\Nsg\L\Web\Ng\weekly>
+
+===================================
+
+
+===================================
+
