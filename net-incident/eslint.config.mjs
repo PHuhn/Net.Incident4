@@ -52,6 +52,9 @@ export default [{
     
         "@typescript-eslint/no-inferrable-types": "off",
 
+        // Components, Directives and Pipes should not opt out of standalone  @angular-eslint/prefer-standalone
+        "@angular-eslint/prefer-standalone": "off"
+
         /*
         // Object.prototype method 'hasOwnProperty'
         "no-prototype-builtins": "off",
