@@ -1773,6 +1773,26 @@ SOLUTION:
 		...
 		version = `${pkg.version}`;
 
+PROBLEM:
+========
+	Migrated to new laptop
+SOLUTION:
+	Firewall settings
+	Net-Incident	TCP	587
+	Net-Incident	TCP	993
+	55109 TCP SQL Server
+	55109 UDP SQL Server
+	SQL Server Windows NT - 64 Bit	%ProgramFiles%\Microsoft SQL Server\MSSQL16.EXPRESS\MSSQL\Binn\sqlservr.exe	Private
+	SQL Browser Service EXE	%ProgramFiles% (x86)\Microsoft SQL Server\90\Shared\sqlbrowser.exe	Private
+
+PROBLEM: 2025-08-07
+========
+	GitHub doesn't connect to repository on the new laptop
+SOLUTION:
+	PS .\Net.Incident4\net-incident> git config --global user.name "phuhn"
+	PS .\Net.Incident4\net-incident> git config --global user.email email-address@provider.com
+
+
 ===================================================
 Done:
 	service logging 12/22
@@ -1831,6 +1851,7 @@ Done:
 	V15.4.1.2 - new circular message queue feature in console-log
 	V16.4.1.9 - More colorizing ConsoleLogServce, updated Angular version to 16.2.11
 	V17.4.1.10 - 2024-02-27, Updated packages
+	V20.4.1.21 - 2025-08-07, Upgraded Angular from 19 to 20
 	
 To Do's:
 	V

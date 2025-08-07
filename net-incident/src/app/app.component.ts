@@ -4,8 +4,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '../environments/environment';
 //
 import { PrimeNG } from 'primeng/config';
-import { definePreset } from "@primeng/themes";
-import Aura from '@primeng/themes/aura';
+import { definePreset } from "@primeuix/themes";
+import Aura from '@primeuix/themes/aura';
 //
 import { AlertsService } from './global/alerts/alerts.service';
 import { AuthService } from './net-incident/services/auth.service';
@@ -155,12 +155,12 @@ export class AppComponent implements OnInit {
 							footer: {
 								background: '{primary.100}',
 							},
-							paginatorTop: {
-								background: '{primary.100}',
-							},
-							paginatorBottom: {
-								background: '{primary.100}',
-							},
+							// paginatorTop: {
+							// 	background: '{primary.100}',
+							// },
+							// paginatorBottom: {
+							// 	background: '{primary.100}',
+							// },
 						},
 						dark: {
 							row: {
@@ -175,9 +175,9 @@ export class AppComponent implements OnInit {
 							footer: {
 								background: '{primary.900}',
 							},
-							paginatorBottom: {
-								background: '{primary.900}',
-							},
+							// paginatorBottom: {
+							// 	background: '{primary.900}',
+							// },
 						}
 					}
 				},

@@ -1,9 +1,7 @@
 // ===========================================================================
-import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 //
 import { TableModule } from 'primeng/table';
@@ -14,12 +12,11 @@ import { ConfirmationService, Confirmation } from 'primeng/api';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
-import { IIncident, Incident } from '../incident';
+import { Incident } from '../incident';
 import { INetworkIncident, NetworkIncident } from '../network-incident';
 import { INetworkLog, NetworkLog } from '../network-log';
 import { NetworkLogGridComponent } from './network-log-grid.component';
 import { TruncatePipe } from '../../global/truncate.pipe';
-import { ServerSelectionWindowComponent } from '../../net-incident/server-selection-window/server-selection-window.component';
 import { User } from '../user';
 //
 describe('NetworkLogGridComponent', () => {
@@ -27,10 +24,9 @@ describe('NetworkLogGridComponent', () => {
 	let fixture: ComponentFixture<NetworkLogGridComponent>;
 	let alertService: AlertsService;
 	let baseService: BaseCompService;
-	let consoleService: ConsoleLogService;
 	let confirmService: ConfirmationService;
 	//
-	const numRowsSelector = '#netLogTable > div > div > table > tbody > tr';
+	const numRowsSelector = '#netLogTable > div > table > tbody > tr';
 	const ipAddr: string = '192.169.1.1';
 	//
 	const inc: Incident = new Incident( 4,1,'','arin.net','PSG169',
@@ -130,9 +126,12 @@ describe('NetworkLogGridComponent', () => {
 		tickFakeWait( 200 );
 		//
 		const numCols: number = 7;
-		console.log( sut.networkIncident.incident);
+		console.log( sut.networkIncident.incident );
+		console.log( sut.networkIncident.networkLogs );
+		console.log( fixture.debugElement.queryAll(By.css( '#netLogTable > div > table' )) );
 		const netLogBodyCols = fixture.debugElement.queryAll(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(1) > td' ));
+			'#netLogTable > div > table > tbody > tr:nth-child(1) > td' ));
+			// '#netLogTable > div > div > table > tbody > tr:nth-child(1) > td' ));
 		expect( netLogBodyCols.length ).toBe( numCols );
 	} ) );
 	/*
@@ -146,7 +145,7 @@ describe('NetworkLogGridComponent', () => {
 		//
 		const numRows: number = mockDatum.length;
 		const netLogBodyRows = fixture.debugElement.queryAll(By.css(
-			'#netLogTable > div > div > table > tbody > tr' ));
+			'#netLogTable > div > table > tbody > tr' ));
 		expect( netLogBodyRows.length ).toBe( numRows );
 	} ) );
 	//
@@ -170,7 +169,7 @@ describe('NetworkLogGridComponent', () => {
 		tickFakeWait( 1 );
 		const numCols: number = 5;
 		const netLogBodyCols = fixture.debugElement.queryAll(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(1) > td' ));
+			'#netLogTable > div > table > tbody > tr:nth-child(1) > td' ));
 		expect( netLogBodyCols.length ).toBe( numCols );
 	}));
 	//
@@ -226,13 +225,10 @@ describe('NetworkLogGridComponent', () => {
 		tickFakeWait( 1000 );
 		tickFakeWait( 1000 );
 		//
-		// const netLogTable: HTMLInputElement = fixture.debugElement.query(By.css(
-		// 	'#netLogTable > div > div > table > tbody > tr:nth-child(5) > td:nth-child(2)' )).nativeElement;
-		// console.warn( netLogTable );
+		// console.warn( fixture.debugElement.query(By.css(
+		// 	'#netLogTable > div > table > tbody > tr:nth-child(5) > td:nth-child(2) > p-tablecheckbox > p-checkbox > input' )) );
 		const netLogCheckbox: HTMLInputElement = fixture.debugElement.query(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(5) > td:nth-child(2) > p-tablecheckbox > p-checkbox > div > input' )).nativeElement;
-			// '#netLogTable > div > div > table > tbody > tr:nth-child(6) > td:nth-child(2) > p-tablecheckbox > div > div.p-checkbox-box.p-component' )).nativeElement;
-		console.warn( netLogCheckbox );
+			'#netLogTable > div > table > tbody > tr:nth-child(5) > td:nth-child(2) > p-tablecheckbox > p-checkbox > input' )).nativeElement;
 		netLogCheckbox.click();
 		tickFakeWait( 5000 );
 		const numRows: number = 2;
@@ -248,8 +244,7 @@ describe('NetworkLogGridComponent', () => {
 		tickFakeWait( 100 );
 		//
 		let netLogCheckbox: HTMLInputElement = fixture.debugElement.query(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(4) > td:nth-child(2) > p-tablecheckbox > p-checkbox > div > input' )).nativeElement;
-		// console.warn( netLogCheckbox );
+			'#netLogTable > div > table > tbody > tr:nth-child(4) > td:nth-child(2) > p-tablecheckbox > p-checkbox > input' )).nativeElement;
 		netLogCheckbox.click();
 		tickFakeWait( 5000 );
 		let numRows: number = 1;
@@ -257,7 +252,7 @@ describe('NetworkLogGridComponent', () => {
 			numRowsSelector ));
 		expect( netLogBodyRows.length ).toBe( numRows );
 		netLogCheckbox = fixture.debugElement.query(By.css(
-			'#netLogTable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > p-tablecheckbox > p-checkbox > div > input' )).nativeElement;
+			'#netLogTable > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > p-tablecheckbox > p-checkbox > input' )).nativeElement;
 		netLogCheckbox.click( );
 		tickFakeWait( 2000 );
 		numRows = 6;
@@ -282,7 +277,6 @@ describe('NetworkLogGridComponent', () => {
 	*/
 	it('viewInitIPAddress: should emit change ...', fakeAsync(() => {
 		// given
-		console.warn( 'viewInitIPAddress: should emit change' );
 		const _ipAddr = mockDatum[1].IPAddress;
 		sut.networkIncident = createNetworkIncident( );
 		sut.networkIncident.networkLogs[2].Selected = true;

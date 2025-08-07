@@ -53,7 +53,11 @@ export default [{
         "@typescript-eslint/no-inferrable-types": "off",
 
         // Components, Directives and Pipes should not opt out of standalone  @angular-eslint/prefer-standalone
-        "@angular-eslint/prefer-standalone": "off"
+        "@angular-eslint/prefer-standalone": "off",
+
+        // Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor
+        // https://medium.com/ngconf/how-do-i-test-code-using-inject-e1278283f47c
+        "@angular-eslint/prefer-inject": "off"
 
         /*
         // Object.prototype method 'hasOwnProperty'

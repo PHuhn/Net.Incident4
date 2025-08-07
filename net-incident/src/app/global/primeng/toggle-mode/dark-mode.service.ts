@@ -2,8 +2,8 @@
 // file: theme.service.ts
 // After: https://github.com/yigitfindikli/primeng-dynamic-theming
 // and Showcase in 
-import { Inject, Injectable, Renderer2, RendererFactory2  } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, Renderer2, RendererFactory2, DOCUMENT } from '@angular/core';
+
 //
 import { ConsoleLogService } from '../../console-log/console-log.service';
 //

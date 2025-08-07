@@ -361,7 +361,7 @@ Run `npm audit` for details.
 C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
 =======================================
 
-C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng @primeng/themes
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng @primeuix/themes
 npm warn EBADENGINE Unsupported engine {
 npm warn EBADENGINE   package: '@angular-devkit/architect@0.1901.7',
 npm warn EBADENGINE   required: {
@@ -857,7 +857,7 @@ Run `npm audit` for details.
 
 C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
 ==========================================
-C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng @primeng/themes
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng @primeuix/themes
 npm warn EBADENGINE Unsupported engine {
 npm warn EBADENGINE   package: '@angular-devkit/architect@0.1901.7',
 npm warn EBADENGINE   required: {
@@ -1064,7 +1064,7 @@ C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
 
 =================================================
 
-C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng @primeng/themes
+C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng @primeuix/themes
 npm warn EBADENGINE Unsupported engine {
 npm warn EBADENGINE   package: '@angular-devkit/architect@0.1901.7',
 npm warn EBADENGINE   required: {
@@ -1675,7 +1675,7 @@ C:\Dat\Nsg\L\Web\22\Net.Incident4\net-incident>
 
 ===================================
 
-C:\Dat\Nsg\L\Web\Ng\weekly> npm install --save-dev primeng @primeng/themes
+C:\Dat\Nsg\L\Web\Ng\weekly> npm install --save-dev primeng @primeuix/themes
 npm warn EBADENGINE Unsupported engine {
 npm warn EBADENGINE   package: '@angular-devkit/architect@0.1902.0',
 npm warn EBADENGINE   required: {

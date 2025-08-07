@@ -1,41 +1,47 @@
 <!-- incident-note-detail-window.component.html -->
 <p-dialog id='NoteDetailWindow' name='NoteDetailWindow'
-    [(visible)]='displayWin' [modal]='true' width='720'
-    [closeOnEscape]='false' [closable]='false'>
+  [(visible)]='displayWin' [modal]='true' width='720'
+  [closeOnEscape]='false' [closable]='false'>
   <ng-template #header  id='NoteDetailWindowHeader' name='NoteDetailWindowHeader'>
     Incident Note Detail: {{id}}
-		<!-- ng-template [ngIf]='loading'> <p-progressSpinner /> -->
-		<app-loading-spinner id='loadingSpinner' [loading]='loading'></app-loading-spinner>
+    <!-- ng-template [ngIf]='loading'> <p-progressSpinner /> -->
+    <app-loading-spinner id='loadingSpinner' [loading]='loading'></app-loading-spinner>
   </ng-template>
   <form #form='ngForm' novalidate>
-    <div *ngIf='model !== undefined' class='nsg-text-left'>
-      <div class='row' [class.has-error]='NoteTypeId.invalid && NoteTypeId.touched'>
-        <div class='col-lg-1 col-md-1 col-sm-12 nsg-primary-color nsg-text-right'><label for='NoteTypeId'>Type:</label></div>
-        <div class='col-lg-8 col-md-8 col-sm-12'>
-          <p-dropdown id='NoteTypeId' name='NoteTypeId' [options]='networkIncident.noteTypes'
-            (onChange)='onTypeIdDropdownChanged( $event.value )' [style]="{'width':'180px'}" #NoteTypeId='ngModel'
-            [(ngModel)]='model.NoteTypeId' placeholder='Select a type'></p-dropdown>
+    @if (model !== undefined) {
+      <div class='nsg-text-left'>
+        <div class='row' [class.has-error]='NoteTypeId.invalid && NoteTypeId.touched'>
+          <div class='col-lg-1 col-md-1 col-sm-12 nsg-primary-color nsg-text-right'><label for='NoteTypeId'>Type:</label></div>
+          <div class='col-lg-8 col-md-8 col-sm-12'>
+            <p-select id='NoteTypeId' name='NoteTypeId' [options]='networkIncident.noteTypes'
+              (onChange)='onTypeIdDropdownChanged( $event.value )' [style]="{'width':'180px'}" #NoteTypeId='ngModel'
+            [(ngModel)]='model.NoteTypeId' placeholder='Select a type'></p-select>
+          </div>
+          @if (NoteTypeId.invalid && NoteTypeId.touched) {
+            <div class='col-lg-1 col-md-2 col-sm-12 nsg-alert-color'>Required</div>
+          }
         </div>
-        <div class='col-lg-1 col-md-2 col-sm-12 nsg-alert-color' *ngIf='NoteTypeId.invalid && NoteTypeId.touched'>Required</div>
-      </div>
-      <div class='row' [class.has-error]='Note.invalid && Note.touched'>
-        <div class='col-lg-1 col-md-1 col-sm-12 nsg-primary-color nsg-text-right'><label for='Note'>Note:</label></div>
-        <div class='col-lg-8 col-md-8 col-sm-12'>
-          <textarea id='Note' name='Note' rows='10' cols='52' #Note='ngModel' [(ngModel)]='model.Note' placeholder='Note...'></textarea>
+        <div class='row' [class.has-error]='Note.invalid && Note.touched'>
+          <div class='col-lg-1 col-md-1 col-sm-12 nsg-primary-color nsg-text-right'><label for='Note'>Note:</label></div>
+          <div class='col-lg-8 col-md-8 col-sm-12'>
+            <textarea id='Note' name='Note' rows='10' cols='52' #Note='ngModel' [(ngModel)]='model.Note' placeholder='Note...'></textarea>
+          </div>
+          @if (Note.invalid && Note.touched) {
+            <div class='col-lg-1 col-md-2 col-sm-12 nsg-alert-color'>Required</div>
+          }
         </div>
-        <div class='col-lg-1 col-md-2 col-sm-12 nsg-alert-color' *ngIf='Note.invalid && Note.touched'>Required</div>
-      </div>
-      <div class='row'>
-        <div class='col-lg-1 col-md-1 col-sm-12 nsg-primary-color nsg-text-right'><label for='CreatedDate'>Date:</label></div>
-        <div class='col-lg-8 col-md-8 col-sm-12' id='CreatedDate'>
-          {{model.CreatedDate | date: 'MM/dd/yyyy HH:mm'}}
+        <div class='row'>
+          <div class='col-lg-1 col-md-1 col-sm-12 nsg-primary-color nsg-text-right'><label for='CreatedDate'>Date:</label></div>
+          <div class='col-lg-8 col-md-8 col-sm-12' id='CreatedDate'>
+            {{model.CreatedDate | date: 'MM/dd/yyyy HH:mm'}}
+          </div>
         </div>
       </div>
-    </div>
+    }
   </form>
-	<ng-template #footer>
+  <ng-template #footer>
     <button pButton type='button' (click)='windowClose(true)' [disabled]='form.invalid' label='Save'></button> &nbsp;
     <button pButton type='button' (click)='windowClose(false)' severity='secondary' label='Cancel'></button>
-	</ng-template>
+  </ng-template>
 </p-dialog>
 <!-- End of IncidentNote-detail-window.component.html -->

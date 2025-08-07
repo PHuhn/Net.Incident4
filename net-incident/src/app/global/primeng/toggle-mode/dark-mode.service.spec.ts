@@ -1,7 +1,8 @@
+import { DOCUMENT } from '@angular/core';
 // ===========================================================================
 // file: theme.service.spec.ts
 import { TestBed, fakeAsync } from '@angular/core/testing';
-import { DOCUMENT } from '@angular/common';
+
 import { DarkModeService } from './dark-mode.service';
 //
 describe('DarkModeService', () => {

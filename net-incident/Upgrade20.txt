@@ -1,0 +1,580 @@
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@20 @angular/cli@20 --force
+The installed Angular CLI version is outdated.
+Installing a temporary Angular CLI versioned 20.1.3 to perform the update.
+Using package manager: npm
+Collecting installed dependencies...
+Found 43 dependencies.
+Fetching dependency metadata from registry...
+    Updating package.json with dependency @angular-devkit/build-angular @ "20.1.3" (was "19.2.4")...
+    Updating package.json with dependency @angular/animations @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/cli @ "20.1.3" (was "19.2.4")...
+    Updating package.json with dependency @angular/common @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/compiler @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/compiler-cli @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/core @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/forms @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/platform-browser @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/platform-browser-dynamic @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency @angular/router @ "20.1.3" (was "19.2.3")...
+    Updating package.json with dependency typescript @ "5.8.3" (was "5.7.3")...
+UPDATE package.json (1821 bytes)
+✔ Cleaning node modules directory
+✔ Installing packages
+** Executing migrations of package '@angular/cli' **
+
+❯ Update workspace generation defaults to maintain previous style guide behavior.
+UPDATE angular.json (4292 bytes)
+  Migration completed (1 file modified).
+
+❯ Migrate imports of 'provideServerRendering' from '@angular/platform-server' to '@angular/ssr'.
+  Migration completed (No changes made).
+
+❯ Migrate 'provideServerRendering' to use 'withRoutes', and remove 'provideServerRouting' and 'provideServerRoutesConfig' from '@angular/ssr'.
+  Migration completed (No changes made).
+
+❯ Update 'moduleResolution' to 'bundler' in TypeScript configurations.
+  You can read more about this, here: https://www.typescriptlang.org/tsconfig/#moduleResolution
+UPDATE tsconfig.json (858 bytes)
+  Migration completed (1 file modified).
+
+** Optional migrations of package '@angular/cli' **
+
+This package has 1 optional migration that can be executed.
+Optional migrations may be skipped and executed after the update process, if preferred.
+
+ Select the migrations that you'd like to run [use-application-builder] Migrate application projects to the new build
+system. (https://angular.dev/tools/cli/build-system-migration)
+
+❯ Migrate application projects to the new build system.
+  Application projects that are using the '@angular-devkit/build-angular' package's 'browser' and/or 'browser-esbuild' builders will be migrated to use the new 'application' builder.
+  You can read more about this, including known issues and limitations, here: https://angular.dev/tools/cli/build-system-migration
+UPDATE package.json (1805 bytes)
+UPDATE karma.conf.js (1375 bytes)
+UPDATE angular.json (4232 bytes)
+✔ Packages installed successfully.
+  Migration completed (3 files modified).
+
+** Executing migrations of package '@angular/core' **
+
+❯ Moves imports of `DOCUMENT` from `@angular/common` to `@angular/core`.
+UPDATE src/app/global/primeng/toggle-mode/dark-mode.service.ts (2132 bytes)
+UPDATE src/app/global/primeng/toggle-mode/dark-mode.service.spec.ts (2391 bytes)
+  Migration completed (2 files modified).
+
+❯ Replaces usages of the deprecated InjectFlags enum.
+  Migration completed (No changes made).
+
+❯ Replaces usages of the deprecated TestBed.get method with TestBed.inject.
+  Migration completed (No changes made).
+
+** Optional migrations of package '@angular/core' **
+
+This package has 1 optional migration that can be executed.
+Optional migrations may be skipped and executed after the update process, if preferred.
+
+ Select the migrations that you'd like to run [control-flow-migration] Converts the entire application to block control
+flow syntax.
+
+❯ Converts the entire application to block control flow syntax.
+UPDATE src/app/global/alerts/alerts.component.html (337 bytes)
+UPDATE src/app/net-incident/server-selection-window/server-selection-window.component.html (889 bytes)
+UPDATE src/app/net-incident/incident-note-grid/incident-note-grid.component.html (3459 bytes)
+UPDATE src/app/net-incident/incident-note-detail-window/incident-note-detail-window.component.html (2590 bytes)
+UPDATE src/app/net-incident/network-log-grid/network-log-grid.component.html (4098 bytes)
+UPDATE src/app/net-incident/incident-detail-window/incident-detail-window.component.html (6063 bytes)
+UPDATE src/app/app.component.html (787 bytes)
+UPDATE src/app/global/primeng/filter-summary/filter-summary.component.ts (2859 bytes)
+UPDATE src/app/global/primeng/loading-spinner/loading-spinner.component.ts (743 bytes)
+  Migration completed (9 files modified).
+
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident> GetPrimeVer
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng@latest  @primeuix/themes primeicons@latest --force
+npm warn using --force Recommended protections disabled.
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/cdk@19.2.6
+npm warn node_modules/@angular/cdk
+npm warn   dev @angular/cdk@"^19.2.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/cdk@20.1.3
+npm warn node_modules/@angular/cdk
+npm warn   peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"20.0.1" from the root project
+
+added 5 packages, changed 3 packages, and audited 834 packages in 5s
+
+144 packages are looking for funding
+  run `npm fund` for details
+
+3 low severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident> GetEsLintVer
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>REM npm install --save-dev @angular-eslint/builder@latest @angular-eslint/eslint-plugin@latest @angular-eslint/eslint-plugin-template@latest @angular-eslint/schematics@latest @angular-eslint/template-parser@latest --force
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular-eslint/builder@latest @angular-eslint/eslint-plugin@latest @angular-eslint/eslint-plugin-template@latest @angular-eslint/schematics@latest @angular-eslint/template-parser@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint@latest --force
+npm warn using --force Recommended protections disabled.
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/cdk@19.2.6
+npm warn node_modules/@angular/cdk
+npm warn   dev @angular/cdk@"^19.2.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/cdk@20.1.3
+npm warn node_modules/@angular/cdk
+npm warn   peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+
+added 9 packages, removed 68 packages, changed 48 packages, and audited 775 packages in 10s
+
+140 packages are looking for funding
+  run `npm fund` for details
+
+1 low severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+================================================
+Removed:
+    import { DropdownModule } from 'primeng/dropdown';
+================================================
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular/core@latest @angular/cli@latest @angular/common@latest @angular/compiler@latest @angular/compiler-cli@latest @angular/forms@latest @angular/platform-browser@latest @angular/animations@latest @angular/platform-browser-dynamic@latest @angular/router@latest @angular/cdk@latest @angular-devkit/build-angular@latest --force
+npm warn using --force Recommended protections disabled.
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/animations@20.1.3
+npm warn node_modules/@angular/animations
+npm warn   peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn   node_modules/@angular/platform-browser
+npm warn     peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn     node_modules/@angular/build
+npm warn     6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/animations@20.1.4
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/animations@20.1.3
+npm warn node_modules/@angular/animations
+npm warn   peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn   node_modules/@angular/platform-browser
+npm warn     peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn     node_modules/@angular/build
+npm warn     6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/animations@20.1.4
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/animations@20.1.3
+npm warn node_modules/@angular/animations
+npm warn   peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn   node_modules/@angular/platform-browser
+npm warn     peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn     node_modules/@angular/build
+npm warn     6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn   2 more (primeng, the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/animations@20.1.4
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn ERESOLVE overriding peer dependency
+npm warn ERESOLVE overriding peer dependency
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/common@20.1.3
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   7 more (@angular/cdk, @angular/forms, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"20.1.3" from @angular/forms@20.1.3
+npm warn node_modules/@angular/forms
+npm warn   peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn   1 more (the root project)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/common@20.1.4
+npm warn   node_modules/@angular/common
+npm warn     peer @angular/common@"20.1.3" from @angular/forms@20.1.3
+npm warn     node_modules/@angular/forms
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/common@20.1.3
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   7 more (@angular/cdk, @angular/forms, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/common@20.1.4
+npm warn   node_modules/@angular/common
+npm warn     peer @angular/common@"20.1.3" from @angular/forms@20.1.3
+npm warn     node_modules/@angular/forms
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/common@20.1.3
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   7 more (@angular/cdk, @angular/forms, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/common@20.1.4
+npm warn   node_modules/@angular/common
+npm warn     peer @angular/common@"20.1.3" from @angular/forms@20.1.3
+npm warn     node_modules/@angular/forms
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/common@20.1.3
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   7 more (@angular/cdk, @angular/forms, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/common@20.1.4
+npm warn   node_modules/@angular/common
+npm warn     peer @angular/common@"20.1.3" from @angular/forms@20.1.3
+npm warn     node_modules/@angular/forms
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/common@20.1.3
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   7 more (@angular/cdk, @angular/forms, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"20.1.3" from @angular/router@20.1.3
+npm warn node_modules/@angular/router
+npm warn   peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn   1 more (the root project)
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.1.4
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.4" from @angular/common@20.1.4
+npm warn   node_modules/@angular/common
+npm warn     peer @angular/common@"20.1.3" from @angular/forms@20.1.3
+npm warn     node_modules/@angular/forms
+npm warn ERESOLVE overriding peer dependency
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/compiler@20.1.3
+npm warn node_modules/@angular/compiler
+npm warn   peer @angular/compiler@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^20.1.3" from the root project
+npm warn   4 more (@angular/compiler-cli, @angular/core, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/compiler@"20.1.3" from @angular/compiler-cli@20.1.3
+npm warn node_modules/@angular/compiler-cli
+npm warn   peer @angular/compiler-cli@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   2 more (the root project, @angular-devkit/build-angular)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/compiler@20.1.3
+npm warn node_modules/@angular/compiler
+npm warn   peer @angular/compiler@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^20.1.3" from the root project
+npm warn   4 more (@angular/compiler-cli, @angular/core, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/compiler@"20.1.3" from @angular/compiler-cli@20.1.3
+npm warn node_modules/@angular/compiler-cli
+npm warn   peer @angular/compiler-cli@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   2 more (the root project, @angular-devkit/build-angular)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/compiler@20.1.3
+npm warn node_modules/@angular/compiler
+npm warn   peer @angular/compiler@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^20.1.3" from the root project
+npm warn   4 more (@angular/compiler-cli, @angular/core, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @angular/compiler@"20.1.3" from @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/compiler@20.1.3
+npm warn node_modules/@angular/compiler
+npm warn   peer @angular/compiler@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^20.1.3" from the root project
+npm warn   4 more (@angular/compiler-cli, @angular/core, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @angular/compiler@"20.1.3" from @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/compiler@20.1.3
+npm warn node_modules/@angular/compiler
+npm warn   peer @angular/compiler@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^20.1.3" from the root project
+npm warn   4 more (@angular/compiler-cli, @angular/core, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @angular/compiler@"20.1.3" from @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/compiler@20.1.3
+npm warn node_modules/@angular/compiler
+npm warn   peer @angular/compiler@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^20.1.3" from the root project
+npm warn   4 more (@angular/compiler-cli, @angular/core, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @angular/compiler@"20.1.3" from @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"20.1.3" from @angular/forms@20.1.3
+npm warn node_modules/@angular/forms
+npm warn   peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn   1 more (the root project)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/core@20.1.3
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"20.1.3" from @angular/animations@20.1.3
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"20.1.3" from @angular/platform-browser@20.1.3
+npm warn     node_modules/@angular/platform-browser
+npm warn     2 more (primeng, the root project)
+npm warn   10 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"20.1.3" from @angular/router@20.1.3
+npm warn node_modules/@angular/router
+npm warn   peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn   1 more (the root project)
+npm warn ERESOLVE overriding peer dependency
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@19.4.1.20
+npm warn Found: @angular/platform-browser@20.1.3
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^20.0.0" from @angular/build@20.1.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^20.1.3" from the root project
+npm warn   6 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/platform-browser@"20.1.3" from @angular/router@20.1.3
+npm warn node_modules/@angular/router
+npm warn   peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn   1 more (the root project)
+
+added 338 packages, changed 16 packages, and audited 1113 packages in 41s
+
+182 packages are looking for funding
+  run `npm fund` for details
+
+1 low severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+==============================================================
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm audit fix
+
+changed 1 package, and audited 1113 packages in 2s
+
+182 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>

@@ -11,7 +11,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 //
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { $dt } from '@primeng/themes';
+import { $dt } from '@primeuix/themes';
 //
 import { APP_GLOBAL_COMPONENTS } from './global/APP.GLOBAL';
 import { APP_COMPONENTS } from './APP.COMPONENTS';
@@ -143,62 +143,70 @@ describe('AppComponent', () => {
 	*/
 	it('should set primary color to gradiants of blue ...', () => {
 		// given / when / then
+		const blue50 = $dt('blue.50');
+		const blue500 = $dt('blue.500');
 		const primary50Color = $dt('primary.50');
-		expect( primary50Color.value ).toEqual( '#eff6ff' );
+		expect( primary50Color.value ).toEqual( blue50.value );
 		expect( primary50Color.variable ).toEqual( 'var(--p-primary-50)' );
 		expect( primary50Color.name ).toEqual( '--p-primary-50' );
 		//
 		const primary500Color = $dt('primary.500');
-		expect( primary500Color.value ).toEqual( '#3b82f6' );
+		expect( primary500Color.value ).toEqual( blue500.value );
 		expect( primary500Color.variable ).toEqual( 'var(--p-primary-500)' );
 		expect( primary500Color.name ).toEqual( '--p-primary-500' );
 	});
 	//
 	it('should set dialog background blue ...', () => {
 		// given / when / then
-		const dialogBg = $dt('dialog.background');
-		expect( dialogBg.value.light.value ).toEqual( '#eff6ff' );
-		expect( dialogBg.value.dark.value ).toEqual( '#1e3a8a' );
-		expect( dialogBg.variable ).toEqual( 'var(--p-dialog-background)' );
-		expect( dialogBg.name ).toEqual( '--p-dialog-background' );
+		const blue50 = $dt('blue.50');
+		const blue900 = $dt('blue.900');
+		const dialogDarkBg = $dt('components.dialog.colorScheme.dark.root.background');
+		// console.warn( $dt('components.dialog.colorScheme.dark.root.background') );
+		expect( $dt('components.dialog.colorScheme.light.root.background').value ).toEqual( blue50.value );
+		expect( $dt('components.dialog.colorScheme.dark.root.background').value ).toEqual( blue900.value );
+		expect( dialogDarkBg.variable ).toEqual( 'var(--p-dialog-background)' );
+		expect( dialogDarkBg.name ).toEqual( '--p-dialog-background' );
 	});
 	//
 	it('should set button primary background blue ...', () => {
 		// given / when / then
-		const buttonPrimaryBg = $dt('button.primary.background');
-		// console.warn( buttonPrimaryBg );
-		expect( buttonPrimaryBg.value.light.value ).toEqual( '#2563eb' );
-		expect( buttonPrimaryBg.value.dark.value ).toEqual( '#2563eb' );
+		const blue600 = $dt('blue.600');
+		const buttonPrimaryBg = $dt('components.button.colorScheme.light.root.primary.background');
+		expect( $dt('components.button.colorScheme.light.root.primary.background').value ).toEqual( blue600.value );
+		expect( $dt('components.button.colorScheme.dark.root.primary.background').value ).toEqual( blue600.value );
 		expect( buttonPrimaryBg.variable ).toEqual( 'var(--p-button-primary-background)' );
 		expect( buttonPrimaryBg.name ).toEqual( '--p-button-primary-background' );
 	});
 	//
 	it('should set datatable header background blue ...', () => {
 		// given / when / then
-		const datatableHeaderBg = $dt('datatable.header.background');
-		// console.warn( datatableHeaderBg );
-		expect( datatableHeaderBg.value.light.value ).toEqual( '#bfdbfe' );
-		expect( datatableHeaderBg.value.dark.value ).toEqual( '#172554' );
+		const blue200 = $dt('blue.200');
+		const blue950 = $dt('blue.950');
+		const datatableHeaderBg = $dt('components.datatable.colorScheme.light.header.background');
+		expect( $dt( 'components.datatable.colorScheme.light.header.background' ).value ).toEqual( blue200.value );
+		expect( $dt( 'components.datatable.colorScheme.dark.header.background' ).value ).toEqual( blue950.value );
 		expect( datatableHeaderBg.variable ).toEqual( 'var(--p-datatable-header-background)' );
 		expect( datatableHeaderBg.name ).toEqual( '--p-datatable-header-background' );
 	});
 	//
 	it('should set menubar background blue ...', () => {
 		// given / when / then
-		const menubarBg = $dt('menubar.background');
-		// console.warn( menubarBg );
-		expect( menubarBg.value.light.value ).toEqual( '#3b82f6' );
-		expect( menubarBg.value.dark.value ).toEqual( '#1e40af' );
+		const blue500 = $dt('blue.500');
+		const blue800 = $dt('blue.800');
+		const menubarBg = $dt('components.menubar.colorScheme.light.background');
+		expect( $dt('components.menubar.colorScheme.light.background').value ).toEqual( blue500.value );
+		expect( $dt('components.menubar.colorScheme.dark.background').value ).toEqual( blue800.value );
 		expect( menubarBg.variable ).toEqual( 'var(--p-menubar-background)' );
 		expect( menubarBg.name ).toEqual( '--p-menubar-background' );
 	});
 	//
 	it('should set card background blue ...', () => {
 		// given / when / then
-		const cardBg = $dt('card.background');
-		// console.warn( cardBg );
-		expect( cardBg.value.light.value ).toEqual( '#dbeafe' );
-		expect( cardBg.value.dark.value ).toEqual( '#1e3a8a' );
+		const blue100 = $dt('blue.100');
+		const blue900 = $dt('blue.900');
+		const cardBg = $dt('components.card.colorScheme.light.background');
+		expect( $dt('components.card.colorScheme.light.background').value ).toEqual( blue100.value );
+		expect( $dt('components.card.colorScheme.dark.background').value ).toEqual( blue900.value );
 		expect( cardBg.variable ).toEqual( 'var(--p-card-background)' );
 		expect( cardBg.name ).toEqual( '--p-card-background' );
 	});

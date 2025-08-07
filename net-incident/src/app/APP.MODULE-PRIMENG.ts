@@ -4,7 +4,8 @@ import { SharedModule } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DropdownModule } from 'primeng/dropdown';
+// import { DropdownModule } from 'primeng/dropdown'; remove in PrimeNG 20
+import { SelectModule } from 'primeng/select';
 import { MenubarModule } from 'primeng/menubar';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { ButtonModule } from 'primeng/button';
@@ -15,7 +16,8 @@ export const APP_MODULE_PRIMENG = [
 	TableModule,
 	DialogModule,
 	ConfirmDialogModule,
-	DropdownModule,
+	// DropdownModule,
+	SelectModule,
 	MenubarModule,
 	FocusTrapModule,
 	ButtonModule,

@@ -9,22 +9,18 @@
 // Incidents that are more or less locked, so the selection and delete columns
 // are hidden.  That result in more or less colspan for expansion display.
 //
-import { Component, OnInit, AfterContentInit, OnChanges, Input, Output, ViewChild, EventEmitter, ElementRef, SimpleChanges, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Observable, throwError, interval, Subscription } from 'rxjs';
+import { Component, AfterContentInit, OnChanges, Input, Output, ViewChild, EventEmitter, ElementRef, SimpleChanges, OnDestroy } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 //
-import { Table, TableModule } from 'primeng/table';
-import { ConfirmDialog } from 'primeng/confirmdialog';
+import { Table } from 'primeng/table';
 import { ConfirmationService } from 'primeng/api';
 //
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { BaseComponent } from '../../global/base-comp/base-comp.component';
-import { TruncatePipe } from '../../global/truncate.pipe';
-import { INetworkLog, NetworkLog } from '../network-log';
-import { IIncident, Incident } from '../incident';
+import { NetworkLog } from '../network-log';
 import { NetworkIncident } from '../network-incident';
 //
 @Component({

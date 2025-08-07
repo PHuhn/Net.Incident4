@@ -7,16 +7,20 @@
 <p-confirmDialog key='delete' header='Delete Confirmation' icon='pi pi-trash'></p-confirmDialog>
 <!-- content -->
 <app-header (logout)='onAuthLogout($event)'></app-header>
-<div *ngIf='authenticated === false'>
-  <app-login (emitClose)='onAuthenticated($event)'></app-login>
-</div>
-<div *ngIf='authenticated === true'>
-  <app-incident-grid [user]='user'></app-incident-grid>
-</div>
+@if (authenticated === false) {
+  <div>
+    <app-login (emitClose)='onAuthenticated($event)'></app-login>
+  </div>
+}
+@if (authenticated === true) {
+  <div>
+    <app-incident-grid [user]='user'></app-incident-grid>
+  </div>
+}
 <router-outlet></router-outlet>
 <footer class="nsg-footer">
-	<div class="container">
-		&copy; 2024 - NSG Network Incidents
-	</div>
+  <div class="container">
+    &copy; 2024 - NSG Network Incidents
+  </div>
 </footer>
 <!-- end -->

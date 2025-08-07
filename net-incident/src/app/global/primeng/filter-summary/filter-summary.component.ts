@@ -9,9 +9,11 @@ export type AssocArray = Record<string, string>;
 //
 @Component({
     selector: 'app-filter-summary',
-    template: `	<div *ngFor='let filter of filters' class='nsg-summary-line'>
-		&nbsp;{{ filter }}
-	</div>`,
+    template: `	@for (filter of filters; track filter) {
+  <div class='nsg-summary-line'>
+    &nbsp;{{ filter }}
+  </div>
+}`,
     styleUrl: './filter-summary.component.css',
     standalone: false
 })
