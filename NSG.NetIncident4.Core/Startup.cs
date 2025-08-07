@@ -4,17 +4,10 @@ using System.Text;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -141,7 +134,9 @@ namespace NSG.NetIncident4.Core
 		/// </param>
 		public virtual void ConfigureCorsServices(IServiceCollection services)
 		{
-			var _corsOrigins = authSettings.CorsAllowOrigins.Split(";");
+            // System.Diagnostics.Debug.WriteLine("ConfigureCorsServices ...");
+            // System.Diagnostics.Debug.WriteLine(authSettings.CorsAllowOrigins);
+            var _corsOrigins = authSettings.CorsAllowOrigins.Split(";");
 			if ( _corsOrigins.Count() == 0 )
 			{
 				throw (new ApplicationException("No CORS origins found (required for API)."));
@@ -497,7 +492,7 @@ namespace NSG.NetIncident4.Core
 			}
 			//
 			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+			// app.MapStaticAssets(); changed in .net 9
 			app.UseCookiePolicy();
 			app.UseRouting();
 			app.UseCors(corsNamedOriginPolicy);

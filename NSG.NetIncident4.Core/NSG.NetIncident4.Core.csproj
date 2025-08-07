@@ -5,11 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-NSG.NetIncident4.Core-7565303C-46F5-41FE-B2C2-5A0FF48FFEB3</UserSecretsId>
     <!-- Version <core>.<major>.<minor>.<build> -->
-    <Version>9.4.2.22</Version>
+    <Version>9.4.2.25</Version>
     <Copyright>Copyright © 2025</Copyright>
     <Company>Phillip N. Huhn, DBA Northern Software Group</Company>
     <Authors>Phil Huhn (NSG)</Authors>
-    <Description>Backend and administration to Network Incident</Description>
+    <Description>Backend and administration to Network Incident Application</Description>
     <Product>Network Incident Backend</Product>
     <InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>

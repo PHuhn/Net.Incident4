@@ -1,4 +1,5 @@
-﻿https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-5-with-jwt-and-swagger/
+﻿123456789012345678901234567890123456789012345678901234567890123456789012345678
+https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-5-with-jwt-and-swagger/
 ASP.NET Core Web API (project template)
 Clean Architecture:
 	https://github.com/jasontaylordev/NorthwindTraders
@@ -227,6 +228,21 @@ SOLUTION:
 			Now I get NET::ERR_CERT_AUTHORITY_INVALID (in IIS Manager it said,
 			the certificate was not trusted,
 			is said to install it into Trusted Root Certificates)
+
+			MMC (as admin account)
+			Add Certificates MMC module
+				Personal -> Certificates (copy localhost cert)
+				Trusted Root Certificates -> Certificates (paste localhost cert)
+			Restart IIS
+				iisreset /restart
+
+			https://localhost:9114
+			Chrome:
+				This page isn’t working
+				localhost is currently unable to handle this request.
+				HTTP ERROR 503
+			https://localhost:9114/home
+			Works
 
 PROBLEM:
  	 ApplicationDbContext_DuplicateCreateCompany_Test
@@ -707,8 +723,82 @@ SOLUTION:
 
 ========
 PROBLEM:
+	In IIS Manager, cannot open any of the settings like Authentication, Handler Mappings,
+	Authorization Rules etc.  It returns an error as follows:
+	There was an error while performing this operation. Details:
+	Filename: C:\inetpub\NI_ServicesCore\web.config
+
+SOLUTION:
+	https://stackoverflow.com/questions/22199424/there-was-an-error-while-performing-this-operation
+	For Visual Studio Installer modify Visual Studio Community 2022 expand
+	"ASP.NET and web development" and added "Development time IIS support"
+
+==============================================================================
+PROBLEM: 2025-08-01
+	Website would not load Home page with the following error in the
+	Event Viewer:
+		System.Collections.Generic.KeyNotFoundException: The given key
+		'Default' was not present in the dictionary.
+		at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+		at NSG.NetIncident4.Core.Infrastructure.Notification.NotificationService..ctor(
+		IOptions`1 emailSettings, ILogger`1 logger) in
+		.\Net.Incident4\NSG.NetIncident4.Core\Infrastructure\Notification\NotificationService.cs:line 33
+SOLUTION:
+	The appsettings.json was missing the secrets.json
+
+==============================================================================
+PROBLEM: 2025-08-01
+	Connection to database works for https://localhost:44357/api/ but not
+	for https://localhost:9114/api/ that is it runs under IISExpress, but 
+	doesn't work under IIS.
+	During the logon get the following:
+		localhost is currently unable to handle this request. HTTP ERROR 500
+	In Event Viewer:
+		An exception occurred while iterating over the results of a query for
+		context type 'NSG.NetIncident4.Core.Persistence.ApplicationDbContext'.
+		 ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot open
+		database "NetIncidentIdentity04" requested by the login. The login
+		failed.
+		Login failed for user 'IIS APPPOOL\NI_ServicesCore'.
+
+SOLUTION:
+	In Application Pool NI_ServcesCore in the Advanced Settings changed the
+	Identity from ApplicationPoolIdentity to LocalSystem.
+	(also checkout line 127)
+
+==============================================================================
+PROBLEM: 2025-08-04
+	https://learn.microsoft.com/en-us/aspnet/core/migration/80-90?view=aspnetcore-9.0&tabs=visual-studio
+	Migrate from ASP.NET Core in .NET 8 to ASP.NET Core in .NET 9
+
+SOLUTION:
+	In Program.cs:
+	- app.UseStaticFiles();
+	+ app.MapStaticAssets();
+    - _ = endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    + _ = endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
+
+    - _ = endpoints.MapRazorPages();
+    + _ = endpoints.MapRazorPages().WithStaticAssets();
+
+==============================================================================
+PROBLEM: 2025-08-07
+	GitHub doesn't connect to repository on the new laptop
+
+SOLUTION:
+	PS .\Net.Incident4\net-incident> git config --global user.name "phuhn"
+	PS .\Net.Incident4\net-incident> git config --global user.email email-address@provider.com
+
+==============================================================================
+PROBLEM:
 
 
 SOLUTION:
 
 
+
+123456789012345678901234567890123456789012345678901234567890123456789012345678

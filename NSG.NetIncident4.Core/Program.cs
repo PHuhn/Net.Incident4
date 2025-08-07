@@ -35,7 +35,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 startup.ConfigureSwaggerServices(builder.Services);
 // Build the configured application
-var app = builder.Build();
+WebApplication app = builder.Build();
 //
 if (app.Environment.IsDevelopment())
 {
@@ -49,7 +49,7 @@ else
 }
 //
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.MapStaticAssets();
 app.UseCookiePolicy();
 app.UseRouting();
 app.UseCors(startup.corsNamedOriginPolicy);
@@ -67,8 +67,8 @@ app.UseEndpoints(endpoints =>
 {
     _ = endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-    _ = endpoints.MapRazorPages();
+        pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
+    _ = endpoints.MapRazorPages().WithStaticAssets();
 });
 //
 app.Run();
