@@ -25,6 +25,7 @@ describe('NetworkLogGridComponent', () => {
 	let alertService: AlertsService;
 	let baseService: BaseCompService;
 	let confirmService: ConfirmationService;
+	let consoleService: ConsoleLogService;
 	//
 	const numRowsSelector = '#netLogTable > div > table > tbody > tr';
 	const ipAddr: string = '192.169.1.1';

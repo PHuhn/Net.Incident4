@@ -1,17 +1,13 @@
 // File: incidentnote-grid.component.ts
-import { Component, Input, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, Input, AfterViewInit } from '@angular/core';
 //
-import { SelectItem } from 'primeng/api';
-import { TableModule } from 'primeng/table';
 import { ConfirmationService } from 'primeng/api';
 //
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { BaseComponent } from '../../global/base-comp/base-comp.component';
-import { IIncident, Incident } from '../incident';
-import { IIncidentNote, IncidentNote } from '../incident-note';
+import { IncidentNote } from '../incident-note';
 import { NetworkIncident } from '../network-incident';
 import { IIncidentNoteWindowInput } from '../incident-note-detail-window/incident-note-detail-window.component';
 //

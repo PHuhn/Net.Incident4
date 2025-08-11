@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 //
-import { ConfirmationService, Confirmation, SelectItem } from 'primeng/api';
+import { ConfirmationService, Confirmation } from 'primeng/api';
 import { APP_MODULE_PRIMENG } from '../../APP.MODULE-PRIMENG';
 //
 import { APP_GLOBAL_COMPONENTS } from '../../global/APP.GLOBAL';
@@ -18,10 +18,10 @@ import { ServicesService } from '../services/services.service';
 import { BaseCompService } from '../../global/base-comp/base-comp.service';
 //
 import { SelectItemExtra } from '../../global/primeng/select-item-class';
-import { IUser, User } from '../user';
-import { IIncident, Incident } from '../incident';
+import { User } from '../user';
+import { Incident } from '../incident';
 import { INetworkIncident, NetworkIncident } from '../network-incident';
-import { IIncidentNote, IncidentNote } from '../incident-note';
+import { IncidentNote } from '../incident-note';
 import { IIncidentNoteWindowInput } from '../incident-note-detail-window/incident-note-detail-window.component';
 //
 import { IncidentNoteGridComponent } from './incident-note-grid.component';

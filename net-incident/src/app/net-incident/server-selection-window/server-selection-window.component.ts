@@ -1,9 +1,8 @@
 // ===========================================================================
 // File: server-selection-window.component.ts
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 //
 import { SelectItem } from 'primeng/api';
-import { Dialog } from 'primeng/dialog';
 //
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
 //

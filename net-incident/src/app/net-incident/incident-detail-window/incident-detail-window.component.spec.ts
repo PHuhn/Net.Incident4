@@ -30,7 +30,6 @@ import { NetworkIncidentSave } from '../network-incident-save';
 import { IncidentNote } from '../incident-note';
 //
 import { IncidentDetailWindowComponent } from './incident-detail-window.component';
-import { LogLevel } from 'src/app/global/console-log/log-level.enum';
 //
 describe( 'IncidentDetailWindowComponent', ( ) => {
 	let sut: IncidentDetailWindowComponent;

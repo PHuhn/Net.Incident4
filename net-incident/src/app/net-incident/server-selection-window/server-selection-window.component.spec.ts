@@ -1,12 +1,10 @@
 // ===========================================================================
-import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 //
 import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { SelectItem } from 'primeng/api';
 //
