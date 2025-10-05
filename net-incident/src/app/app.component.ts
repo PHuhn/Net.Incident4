@@ -51,6 +51,52 @@ export class AppComponent implements OnInit {
 	** @param config 
 	*/
 	setPrimeConfig( config: PrimeNG ): void {
+		/*
+			0: '#ffffff',
+			1: '#ffffc8',
+			50: '{blue.50}',
+			100: '{blue.100}',
+			200: '{blue.200}',
+			300: '{blue.300}',
+			400: '{blue.400}',
+			500: '{blue.500}',
+			600: '{blue.600}',
+			700: '{blue.700}',
+			800: '{blue.800}',
+			900: '{blue.900}',
+			950: '{blue.950}',
+			999: '#000038'
+			//
+			0: '#ffffff',
+			1: '#ffc8c8',
+			50: '{purple.50}',
+			100: '{purple.100}',
+			200: '{purple.200}',
+			300: '{purple.300}',
+			400: '{purple.400}',
+			500: '{purple.500}',
+			600: '{purple.600}',
+			700: '{purple.700}',
+			800: '{purple.800}',
+			900: '{purple.900}',
+			950: '{purple.950}',
+			999: '#200540'
+			//
+			0: '#ffffff',
+			1: '#e8e8e8',
+			50: '{slate.50}',
+			100: '{slate.100}',
+			200: '{slate.200}',
+			300: '{slate.300}',
+			400: '{slate.400}',
+			500: '{slate.500}',
+			600: '{slate.600}',
+			700: '{slate.700}',
+			800: '{slate.800}',
+			900: '{slate.900}',
+			950: '{slate.950}',
+			999: '#010415'
+		*/
 		const auraPreset = definePreset(Aura, {
 			semantic: {
 				primary: {
@@ -72,24 +118,24 @@ export class AppComponent implements OnInit {
 				colorScheme: {
 					light: {
 						primary: {
-							color: '{blue.600}',
+							color: '{primary.600}',
 							inverseColor: '#ffffff',
-							hoverColor: '{blue.700}',
-							activeColor: '{blue.800}'
+							hoverColor: '{primary.700}',
+							activeColor: '{primary.800}'
 						},
 						highlight: {
-							background: '{blue.500}',
-							focusBackground: '{blue.500}',
-							color: '{blue.50}',
+							background: '{primary.500}',
+							focusBackground: '{primary.500}',
+							color: '{primary.50}',
 							focusColor: '#ffffff'
 						},
 					},
 					dark: {
 						primary: {
-							color: '{blue.50}',
-							inverseColor: '{blue.950}',
-							hoverColor: '{blue.100}',
-							activeColor: '{blue.50}'
+							color: '{primary.50}',
+							inverseColor: '{primary.950}',
+							hoverColor: '{primary.100}',
+							activeColor: '{primary.50}'
 						},
 						highlight: {
 							background: 'rgba(250, 250, 250, .16)',
@@ -209,7 +255,7 @@ export class AppComponent implements OnInit {
 									}
 								},
 								secondary: {
-									borderColor: '{primary.100}',
+									borderColor: '{primary.400}',
 									hoverBorderColor: '{primary.50}',
 								},
 							},

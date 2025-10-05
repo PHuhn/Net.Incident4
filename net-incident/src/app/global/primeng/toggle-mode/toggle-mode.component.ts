@@ -5,8 +5,9 @@ import { DarkModeService } from './dark-mode.service';
 //
 @Component({
     selector: 'app-toggle-mode',
-    template: `<button type='button'
+    template: `<button pButton
 	class='nsg-toggle-theme-button'
+	severity='secondary'
 	(click)='changeTheme(!isDarkMode)'>
 	<i class='pi ' [ngClass]="{'pi-moon': isDarkMode, 'pi-sun': !isDarkMode}"></i>
 </button>`,

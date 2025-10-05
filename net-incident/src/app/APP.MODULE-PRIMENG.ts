@@ -10,6 +10,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CardModule } from 'primeng/card';
 //
 export const APP_MODULE_PRIMENG = [
 	SharedModule,
@@ -21,7 +22,8 @@ export const APP_MODULE_PRIMENG = [
 	MenubarModule,
 	FocusTrapModule,
 	ButtonModule,
-	ProgressSpinnerModule
+	ProgressSpinnerModule,
+	CardModule
 ];
 /**
 ** Array of PrimeNG components.

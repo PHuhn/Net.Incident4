@@ -1,5 +1,6 @@
-<!-- Alerts.Component -->
-<a [@visibilityChanged]='showMsgs' (click)='onClick()' (keydown)='onClick()' class='alertMessages'>
+<!-- Alerts.Component
+<a [@visibilityChanged]='showMsgs' (click)='onClick()' (keydown)='onClick()' class='alertMessages'> -->
+<a [ngClass]="{'fade-in-animation': showMsgs, 'fade-out-animation': !showMsgs}" class='alertMessages' (click)='onClick()'  (keydown)='onClick()' tabindex='99'>
   <ul name='alertMessages' role='alert'>
     @for (item of msgs; track item) {
       <li [id]='item.id' [class]='getClass(item.label)'>{{ item.message }}</li>
@@ -7,3 +8,4 @@
   </ul>
 </a>
 <!-- End of Alerts.Component -->
+  

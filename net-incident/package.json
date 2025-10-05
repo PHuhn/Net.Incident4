@@ -1,6 +1,6 @@
 {
   "name": "net-incident",
-  "version": "20.4.1.21",
+  "version": "20.4.1.22",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -1852,6 +1852,7 @@ Done:
 	V16.4.1.9 - More colorizing ConsoleLogServce, updated Angular version to 16.2.11
 	V17.4.1.10 - 2024-02-27, Updated packages
 	V20.4.1.21 - 2025-08-07, Upgraded Angular from 19 to 20
+	V20.4.1.22 - 2025-10-04, Native CSS in Alert component, improved themes, used p-card in login
 	
 To Do's:
 	V

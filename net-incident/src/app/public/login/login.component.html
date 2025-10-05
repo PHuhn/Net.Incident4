@@ -1,10 +1,10 @@
 <!-- -->
 <div class='container'>
 	<form #form='ngForm' novalidate>
-		<div class='nsg-jumbotron'>
-			<div class='nsg-primary-color nsg-block-center'>
-				<h3>Login</h3>
-			</div>
+		<p-card class='nsg-p-card-jumbotron'>
+			<ng-template #header>
+				<h3 class='nsg-block-center'>Login</h3>
+			</ng-template>
 			<div class='row'>
 				<div class='col-lg-3 col-md-4 col-sm-12 nsg-primary-color nsg-text-right'><label for='userName'>User Name:</label></div>
 				<div class='col-lg-8 col-md-8 col-sm-12'>
@@ -34,7 +34,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</p-card>
 		<app-server-selection-window [selectItems]='selectItemsWindow'
 			[displayWin]='displayServersWindow' (emitClose)='onServerSelected($event)'></app-server-selection-window>
 	</form>

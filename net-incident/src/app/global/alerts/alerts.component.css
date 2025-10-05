@@ -13,3 +13,19 @@
 	font-weight: bold;
 	background-color: var(--nsg-jumbotron-bg-color);
 }
+/* animation CSS */
+.fade-in-animation {
+	animation: fadeIn 300ms ease-in-out forwards;
+}
+.fade-out-animation {
+	animation: fadeOut 150ms ease-in-out forwards;
+}
+/* animation key frames */
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes fadeOut {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
