@@ -1,5 +1,8 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* Please see documentation at:
+**  https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+** for details on configuring this project to bundle and minify static web assets.
+** Uses Bootswatch v5.3.2 (https://bootswatch.com)
+*/
 :root {
     --nsg-label-color: navy;
     --nsg-a-color: #0366d6;
@@ -22,6 +25,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .card {
     border-radius: 10px;
+    border-color: var(--bs-primary);
 }
 
 .btn {
@@ -68,9 +72,9 @@ dt, label {
     z-index: 20000;
     background-position: -312px 0;
     border: 1px solid red;
-	border-radius: 5px;
+    border-radius: 5px;
     font-weight: bold;
-    background-color: #ffffff;
+    background-color: var(--nsg-jumbotron-bg-color);
 }
 /* background: #ffffff top left no-repeat 14px 14px; */
 /* Info */

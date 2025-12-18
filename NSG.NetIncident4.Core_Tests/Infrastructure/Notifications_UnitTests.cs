@@ -45,6 +45,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
                 .Build();
             emailSettings =
                 Options.Create<Dictionary<string, EmailSettings>>(Configuration.GetSection("EmailSettings").Get<Dictionary<string, EmailSettings>>());
+            Console.WriteLine( Configuration.GetSection("EmailSettings").Get<Dictionary<string, EmailSettings>>() );
             //
             mockLogger = new Mock<ILogger<NotificationService>>();
             //
@@ -53,6 +54,58 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         [SetUp]
         public void MySetup()
         {
+        }
+        //
+        [Test()]
+        public void SetCompanyNameEmailSettings_Default_Test()
+        {
+            // given
+            Console.WriteLine("SetCompanyNameEmailSettings_Default_Test ...");
+            mockLogger.Reset();
+            // when
+            INotificationService _notificationService = new NotificationService(emailSettings, mockLogger.Object);
+            // then
+            EmailSettings current = _notificationService.CurrentEmailSettings;
+            Assert.That<EmailSettings>(current, Is.Not.Null);
+            Console.WriteLine(current.ToString());
+            Assert.That<int>(current.SmtpPort, Is.Not.EqualTo(0));
+        }
+        //
+        [Test()]
+        public void SetCompanyNameEmailSettings_NSG_Test()
+        {
+            // given
+            Console.WriteLine("SetCompanyNameEmailSettings_NSG_Test ...");
+            mockLogger.Reset();
+            // when
+            INotificationService _notificationService = new NotificationService(emailSettings, mockLogger.Object, "NSG");
+            // then
+            EmailSettings current = _notificationService.CurrentEmailSettings;
+            Assert.That<EmailSettings>(current, Is.Not.Null);
+            Console.WriteLine(current.ToString());
+            Assert.That<int>(current.SmtpPort, Is.Not.EqualTo(0));
+        }
+        //
+        [Test()]
+        public void SetCompanyNameEmailSettings_Bad_Test()
+        {
+            // given
+            Console.WriteLine("SetCompanyNameEmailSettings_Bad_Test ...");
+            mockLogger.Reset();
+            try
+            {
+                INotificationService _notificationService = new NotificationService(emailSettings, mockLogger.Object, "Bad");
+            }
+            catch (KeyNotFoundException _ex)
+            {
+                Console.WriteLine(_ex.Message);
+                mockLogger.VerifyLogLevel(LogLevel.Error);
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine(_ex.Message);
+                Assert.Fail(_ex.Message);
+            }
         }
         //
         [Test()]
@@ -77,9 +130,22 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             Console.WriteLine("SendEmailAsyncFromTo_Test ...");
             mockLogger.Reset();
             INotificationService _notificationService = new NotificationService(emailSettings, mockLogger.Object);
-            await _notificationService.SendEmailAsync("FromTo@site.net", "FromTo@anybody.net", "FromTo Testing", "FromTo testing message.");
-            // for VerifyLogging see Helpers/MockHelpers.cs
-            mockLogger.VerifyLogging(LogLevel.Information, "From: ");
+            try
+            {
+                Console.WriteLine(_notificationService.CurrentEmailSettings.SmtpHost);
+                Console.WriteLine(_notificationService.CurrentEmailSettings.SmtpPort);
+                await _notificationService.SendEmailAsync("FromTo@site.net", "FromTo@anybody.net", "FromTo Testing", "FromTo testing message.");
+                Console.WriteLine("Finished SendEmailAsync");
+                // for VerifyLogging see Helpers/MockHelpers.cs
+                mockLogger.VerifyLogging(LogLevel.Information, "From: ");
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine(_ex.Message);
+                mockLogger.VerifyLogLevel(LogLevel.Error);
+                Console.WriteLine(_ex.InnerException != null ? _ex.InnerException.Message: "No inner");
+                Assert.Fail(_ex.Message);
+            }
         }
         //
         [Test()]

@@ -52,12 +52,12 @@ namespace NSG.NetIncident4.Core_Tests.UI.Api
         }
         //
         [Test]
-        public void ApiServicesController_PingAddress46_161_Test()
+        public void ApiServicesController_PingAddress194_88_104_Test()
         {
-            // RIPE: Pinging pinspb.ru [46.161.62.245] with 32 bytes of data:
+            // RIPE: Pinging 194-88-104-81.hosted-by-worldstream.net [194.88.104.81] with 32 bytes of data:
             string _expected = @"
-Pinging pinspb.ru [46.161.62.245] with 32 bytes of data:";
-            string _actual = ApiServicesController_PingCommand("46.161.62.245");
+Pinging 194-88-104-81.hosted-by-worldstream.net [194.88.104.81] with 32 bytes of data:";
+            string _actual = ApiServicesController_PingCommand("194.88.104.81");
             Assert.That(_actual.Substring(0, _expected.Length), Is.EqualTo(_expected));
         }
         //
@@ -481,7 +481,7 @@ network:Updated:20150331
             Console.WriteLine(_actual);
             Assert.That(_actual.Contains(ip.Substring(0, 6)), Is.True);
             Assert.That(_actual.Contains(
-                "Abuse contact for '159.192.0.0 - 159.192.127.255' is 'admin-thix@cat.net.th'"), Is.True);
+                "Abuse contact for '159.192.0.0 - 159.192.127.255' is 'pitoon.p@ntplc.co.th'"), Is.True);
         }
         //
     }

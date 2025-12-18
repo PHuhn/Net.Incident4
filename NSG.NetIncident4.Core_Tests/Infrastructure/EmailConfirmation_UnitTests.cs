@@ -37,6 +37,7 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
     {
         //
         public IConfiguration Configuration { get; set;  }
+        private WebApplicationFactory<Program> _factory;
         private Mock<IEmailSender> _emailSender;
         private Mock<UserManager<ApplicationUser>> _userManager;
         private Mock<HttpRequest> _request;
@@ -49,8 +50,6 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         public EmailConfirmation_UnitTests()
         {
             Console.WriteLine("EmailConfirmation_UnitTests c-tor ...");
-            var webAppFactory = new WebApplicationFactory<Program>();
-            _httpClient = webAppFactory.CreateDefaultClient();
             //
         }
         //
@@ -58,6 +57,8 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
         public void MySetup()
         {
             Console.WriteLine("Setup");
+            _factory = new WebApplicationFactory<Program>();
+            _httpClient = _factory.CreateDefaultClient();
             _emailSender = new Mock<IEmailSender>();
             // user manager
             _userManager = MockHelpers.GetMockUserManager<ApplicationUser>();
@@ -82,30 +83,27 @@ namespace NSG.NetIncident4.Core_Tests.Infrastructure
             _ = _urlHelperMock.Setup(x => x.Action(It.IsAny<UrlActionContext>()))
                 .Returns(_callBackUrl);
         }
-        //
-        [Test()]
-        public async Task Home_Page_Test()
+        [TearDown]
+        public void TearDown()
         {
-            Console.WriteLine("Home_Page_Test ...");
-            // given / when
-            var response = await _httpClient.GetAsync("/");
-            // then
-            response.EnsureSuccessStatusCode();
-            var responseString = await response.Content.ReadAsStringAsync();
-            Assert.That(responseString.Contains("Net-Incident"), Is.True);
-            Assert.That(responseString.Contains("Administration and Web API Services"), Is.True);
+            _factory.Dispose();
         }
         //
-        [Test()]
-        public async Task About_Page_Test()
+        [TestCase( "/home", "Net-Incident" )]
+        [TestCase( "/Home/About", "Network Incident Backend" )]
+        [TestCase( "/Home/Contact", "Company Name:")]
+        [TestCase( "/Home/Privacy", "Privacy Policy" )]
+        [TestCase( "/Home/Help", "Basic Role Management" )]
+        public async Task Home_Page_Views_Test(string page, string contains)
         {
-            Console.WriteLine("About_Page_Test ...");
+            Console.WriteLine($"{page} Test ...");
             // given / when
-            var response = await _httpClient.GetAsync("/Home/About");
+            var response = await _httpClient.GetAsync(page);
             // then
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            Assert.That(responseString.Contains("Network Incident Backend"), Is.True);
+            Assert.That(responseString.Contains("Web API for Network Incidents"), Is.True);
+            Assert.That(responseString.Contains(contains), Is.True);
         }
         //
         [Test]

@@ -57,26 +57,89 @@ namespace NSG.NetIncident4.Core.UI.Controllers
         }
         //
         /// <summary>
+        /// Get the GovWeather weather forecast for the current
+        /// user's company's zipcode
+        /// </summary>
+        /// <returns>
+        ///  * The GovWeatherCurrentWeather class,
+        ///  * Location string,
+        ///  * List of GovWeather7DayForecast class.
+        /// </returns>
+        public async Task<ActionResult<GovWeatherCurrentAnd7DayForecast>> GovWeather()
+        {
+            GovWeatherCurrentAnd7DayForecast _feed = new GovWeatherCurrentAnd7DayForecast();
+            try
+            {
+                // get zip code from the user's company address
+                string _user = Base_GetUserAccount();
+                ApplicationUser? _entity = await _userManager.Users
+                    .Include(u => u.Company)
+                    .FirstOrDefaultAsync(r => r.UserName == _user);
+                if (_entity == null || _entity.Company == null)
+                {
+                    Error($"User id: {_user} not found.");
+                    return View(_feed);
+                }
+                string _zipCode = _entity.Company.PostalCode;
+                int _zip = 0;
+                if (!string.IsNullOrEmpty(_zipCode) && _zipCode.Length > 4 && !int.TryParse(_zipCode, out _zip))
+                {
+                    Error($"Postal code: {_zipCode} not correct format.");
+                    return View(_feed);
+                }
+                var _weather = new GovWeather();
+                string urlString = String.Format("https://graphical.weather.gov/xml/sample_products/browser_interface/ndfdXMLclient.php?listZipCodeList={0}", _zipCode.Substring(0, 5));
+                string[] latlonArrayData = await _weather.ReadDataWithUrlToArrayAsync(urlString);
+                var latlon = _weather.GovLatLonData(String.Join("", latlonArrayData));
+                // Current weather
+                string govWeatherUrlString = String.Format("https://forecast.weather.gov/MapClick.php?lat={0}&lon={1}&unit=0&lg=english&FcstType=dwml", latlon.lat, latlon.lon);
+                string[] forecastArrayData = await _weather.ReadDataWithUrlToArrayAsync(govWeatherUrlString);
+                _feed.Current = _weather.GovWeatherCurrentWeatherData(String.Join("", forecastArrayData));
+                // 7 day forecast
+                govWeatherUrlString = String.Format("https://forecast.weather.gov/MapClick.php?lat={0}&lon={1}&unit=0&lg=english&FcstType=dwml", latlon.lat, latlon.lon);
+                forecastArrayData = await _weather.ReadDataWithUrlToArrayAsync(govWeatherUrlString);
+                var _forecast = _weather.GovWeatherForecastData(String.Join("", forecastArrayData));
+                _feed.Location = _forecast.Location;
+                _feed.Forecast = _forecast.Forecast;
+                //
+                return View(_feed);
+            }
+            catch (Exception _ex)
+            {
+                Error(_ex.Message);
+            }
+            return View(_feed);
+        }
+        //
+        /// <summary>
         /// Get the AccuWeather weather forecast for the current
         /// user's company's zipcode
         /// </summary>
         /// <returns>list of forecasts</returns>
         public async Task<ActionResult<List<Forecast>>> AccuWeather()
         {
-            // get zip code from the user's company address
-            string _user = Base_GetUserAccount();
-            ApplicationUser? _entity = await _userManager.Users
-                .Include(u => u.Company)
-                .FirstOrDefaultAsync(r => r.UserName == _user);
-            if(_entity == null)
+            List<Forecast> _feed = new List<Forecast>();
+            try
             {
-                Error($"User id: {_user} not found.");
-                return View(new List<Forecast>());
+                // get zip code from the user's company address
+                string _user = Base_GetUserAccount();
+                ApplicationUser? _entity = await _userManager.Users
+                    .Include(u => u.Company)
+                    .FirstOrDefaultAsync(r => r.UserName == _user);
+                if (_entity == null)
+                {
+                    Error($"User id: {_user} not found.");
+                    return View(new List<Forecast>());
+                }
+                string _zipCode = _entity.Company.PostalCode;
+                //
+                _feed = Forecast.ToAccuForecast(_zipCode);
             }
-            string _zipCode = _entity.Company.PostalCode;
-            //
-            List<Forecast> feed = Forecast.ToAccuForecast(_zipCode);
-            return View(feed);
+            catch (Exception _ex)
+            {
+                Error(_ex.Message);
+            }
+            return View(_feed);
         }
         //
         /// <summary>

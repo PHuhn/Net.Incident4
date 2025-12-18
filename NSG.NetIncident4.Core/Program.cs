@@ -1,8 +1,12 @@
 // ===========================================================================
-using Microsoft.Extensions.Options;
-//
+// Code: Program.cs
+using Microsoft.OpenApi;
 using NSG.NetIncident4.Core;
-using NSG.NetIncident4.Core.Domain.Entities;
+//
+string _swaggerVersion = "v1";
+string _swaggerNameVersion = "v1";
+string _swaggerNameTitle = "NSG Net-Incident4.Core";
+string _swaggerName = $"{_swaggerNameTitle} {_swaggerNameVersion}";
 //
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -33,7 +37,34 @@ startup.ConfigureAuthorizationPolicyServices(builder.Services);
 //
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
-startup.ConfigureSwaggerServices(builder.Services);
+// startup.ConfigureSwaggerServices(builder.Services);
+builder.Services.AddSwaggerGen(swagger =>
+{
+    // Generate the Default UI of Swagger Documentation
+    swagger.SwaggerDoc(_swaggerVersion, new OpenApiInfo
+    {
+        Version = _swaggerNameVersion,
+        Title = _swaggerNameTitle,
+        Description = "Authentication and Authorization in ASP.NET 10 with JWT and Swagger"
+    });
+    // To Enable authorization using Swagger (JWT)
+    // 1) Need to define a bearer scheme with a name (Bearer),
+    // 2) Add requirements that specify that scheme via Id (Bearer)
+    // had to downgrade Microsoft.OpenApi to 2.3.12 to not have compile err
+    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "Enter 'Bearer' [space] and then your valid token in the text input below. Example: \"Authorization: Bearer {token}\"",
+    });
+    swagger.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+    });
+});
+
+
 // Build the configured application
 WebApplication app = builder.Build();
 //
@@ -62,6 +93,8 @@ app.UseSwagger();
 //	options.SwaggerEndpoint("/swagger/v1/swagger.json", startup.swaggerName);
 //	options.RoutePrefix = string.Empty;
 //});
+app.UseSwaggerUI(c =>
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSG Net-Incident4.Core v1"));
 //
 app.UseEndpoints(endpoints =>
 {
@@ -77,4 +110,6 @@ app.Run();
 //	context, roleManager, false).Wait();
 //NSG.NetIncident4.Core.Domain.Entities.SeedData.SeedFakeIncidents(context, 1).Wait();
 //
-public partial class Program { }
+public partial class Program
+{
+}

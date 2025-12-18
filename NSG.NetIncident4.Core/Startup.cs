@@ -1,30 +1,28 @@
 // ===========================================================================
-using System;
-using System.Text;
-using System.Reflection;
-using System.Threading.Tasks;
+//
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-//
-using FluentValidation.AspNetCore;
-using MediatR;
+// using Microsoft.AspNetCore.OpenApi;
+using Microsoft.OpenApi;
+// using Microsoft.OpenApi.Models;
+// using Swashbuckle.AspNetCore;
 //
 using NSG.NetIncident4.Core.Domain.Entities;
-using NSG.NetIncident4.Core.Persistence;
 using NSG.NetIncident4.Core.Infrastructure.Authentication;
 using NSG.NetIncident4.Core.Infrastructure.Common;
 using NSG.NetIncident4.Core.Infrastructure.Notification;
 using NSG.NetIncident4.Core.Infrastructure.Services;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using NSG.NetIncident4.Core.Persistence;
+using System.Reflection;
+using System.Text;
 //
 namespace NSG.NetIncident4.Core
 {
@@ -34,24 +32,15 @@ namespace NSG.NetIncident4.Core
 		{
 			Configuration = configuration;
 			authSettings = new AuthSettings();
-		}
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 		public AuthSettings? authSettings;
 		private string _corsName = "CorsOrigins";
 		public string corsNamedOriginPolicy
 		{
 			private set { }
 			get { return this._corsName; }
-		}
-		private static string _swaggerVersion = "v1";
-		private static string _swaggerNameVersion = "v1";
-		private static string _swaggerNameTitle = "NSG Net-Incident4.Core";
-		private string _swaggerName = $"{_swaggerNameTitle} {_swaggerNameVersion}";
-		public string swaggerName
-		{
-			private set { }
-			get { return this._swaggerName; }
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
@@ -292,40 +281,31 @@ namespace NSG.NetIncident4.Core
 		/// </param>
 		public virtual void ConfigureSwaggerServices(IServiceCollection services)
 		{
-			services.AddSwaggerGen(swagger =>
-			{
-				// Generate the Default UI of Swagger Documentation
-				swagger.SwaggerDoc(_swaggerVersion, new OpenApiInfo
-				{
-					Version = _swaggerNameVersion,
-					Title = _swaggerNameTitle,
-					Description = "Authentication and Authorization in ASP.NET 6 with JWT and Swagger"
-				});
-				// To Enable authorization using Swagger (JWT)
-				swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-				{
-					Description = "Enter 'Bearer' [space] and then your valid token in the text input below. Example: \"Authorization: Bearer {token}\"",
-					Name = "Authorization",
-					In = ParameterLocation.Header,
-					Type = SecuritySchemeType.ApiKey,
-					//Scheme = "Bearer",
-					//BearerFormat = "JWT",
-				});
-				swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
-				{
-					{
-						new OpenApiSecurityScheme
-						{
-							Reference = new OpenApiReference
-							{
-								Type = ReferenceType.SecurityScheme,
-								Id = "Bearer"
-							}
-						},
-						new string[] {}
-					}
-				});
-			});
+		    //services.AddSwaggerGen(swagger =>
+			//{
+			//	// Generate the Default UI of Swagger Documentation
+			//	swagger.SwaggerDoc(_swaggerVersion, new OpenApiInfo
+			//	{
+			//		Version = _swaggerNameVersion,
+			//		Title = _swaggerNameTitle,
+			//		Description = "Authentication and Authorization in ASP.NET 10 with JWT and Swagger"
+			//	});
+		    // // To Enable authorization using Swagger (JWT)
+		    // // 1) Need to define a bearer scheme with a name (Bearer),
+		    // // 2) Add requirements that specify that scheme via Id (Bearer)
+		    // // had to downgrade Microsoft.OpenApi to 2.3.12 to not have compile err
+		   // swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+		   // {
+		   //                 Type = SecuritySchemeType.Http,
+		   //                 Scheme = "bearer",
+		   //                 BearerFormat = "JWT",
+		   //                 Description = "Enter 'Bearer' [space] and then your valid token in the text input below. Example: \"Authorization: Bearer {token}\"",
+		   // });
+		   // swagger.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+		   // {
+		   //	[new OpenApiSecuritySchemeReference("Bearer", document)] = []
+		   // });
+		   // );
 		}
 		//
 		/// <summary>
@@ -461,57 +441,6 @@ namespace NSG.NetIncident4.Core
 			})
 				.AddRoles<ApplicationRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
-			//
-		}
-		//
-		/// <summary>
-		/// This method gets called by the runtime.
-		/// Use this method to configure the HTTP request pipeline.
-		/// </summary>
-		public virtual void Configure(
-			IApplicationBuilder app,
-			IWebHostEnvironment env,
-			ApplicationDbContext context,
-			UserManager<ApplicationUser> userManager,
-			RoleManager<ApplicationRole> roleManager)
-		{
-			// Use order:
-			// ExceptionHandler/ Hsts / HttpsRedirection / StaticFiles /
-			// CookiePolicy / Routing / RequestLocalization / Cors / Authentication /
-			// Authorization / Session / ResponseCompression / ResponseCaching /
-			// ...custom... / Endpoint
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
-			}
-			//
-			app.UseHttpsRedirection();
-			// app.MapStaticAssets(); changed in .net 9
-			app.UseCookiePolicy();
-			app.UseRouting();
-			app.UseCors(corsNamedOriginPolicy);
-			app.UseAuthentication();
-			app.UseAuthorization();
-			app.UseSession();
-			app.UseSwagger();
-			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSG Net-Incident4.Core v1"));
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapControllerRoute(
-					name: "default",
-					pattern: "{controller=Home}/{action=Index}/{id?}");
-				endpoints.MapRazorPages();
-			});
-			//
-			//NSG.NetIncident4.Core.Domain.Entities.SeedData.Initialize(
-			//	context, roleManager, false).Wait();
-			//NSG.NetIncident4.Core.Domain.Entities.SeedData.SeedFakeIncidents(context, 1).Wait();
 			//
 		}
 	}

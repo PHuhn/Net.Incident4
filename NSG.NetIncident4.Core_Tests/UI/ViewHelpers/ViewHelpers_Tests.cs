@@ -1,15 +1,6 @@
 using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Text.RegularExpressions;
 //
 using System.ServiceModel.Syndication;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.SyndicationFeed;
-using Microsoft.SyndicationFeed.Rss;
 using Microsoft.AspNetCore.Mvc.Rendering;
 //
 using Moq;

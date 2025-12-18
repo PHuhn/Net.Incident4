@@ -151,6 +151,7 @@ namespace NSG.NetIncident4.Core_Tests
             ServiceCollection services = new ServiceCollection();
             _startUp.ConfigureLoggingServices(services);
             services.AddMvc();
+            Console.WriteLine(services);
             // when
             _startUp.ConfigureSwaggerServices(services);
             // then

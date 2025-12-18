@@ -85,7 +85,41 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             Assert.That(attribute, Is.Not.Null);
         }
         //
+        /// <summary>
+        /// Get the GovWeather weather forecast for the current
+        /// user's company's zipcode
+        /// Returns the following:
+        ///  * The GovWeatherCurrentWeather class,
+        ///  * Location string,
+        ///  * List of GovWeather7DayForecast class.
+        /// </summary>
+        /// <returns></returns>
         [Test]
+        public async Task UserController_GovWeather_Test()
+        {
+            // given
+            Mock<IMediator> mockMediator = new Mock<IMediator>();
+            Mock<UserManager<ApplicationUser>> _userManager = MockHelpers.GetMockUserManager<ApplicationUser>();
+            var _mockDbSetUsers = NSG_Helpers.usersFakeData.BuildMock().BuildMockDbSet();
+            _userManager.Setup(m => m.Users).Returns(_mockDbSetUsers.Object);
+            UserController sut = new UserController(_userManager.Object, mockMediator.Object);
+            sut.ControllerContext = Fixture_ControllerContext("Phil", "admin", "/Log/", controllerHeaders);
+            // when
+            ActionResult<GovWeatherCurrentAnd7DayForecast> result = await sut.GovWeather();
+            // then
+            Assert.That(result, Is.Not.Null);
+            var viewResult = result.Result as ViewResult;
+            Assert.That(viewResult, Is.Not.Null);
+            var model = viewResult.Model as GovWeatherCurrentAnd7DayForecast;
+            Assert.That(model.Current.Location, Is.EqualTo("Ann Arbor, Ann Arbor Municipal Airport, MI"));
+            Assert.That(model.Location, Is.EqualTo("Ann Arbor, MI"));
+            Assert.That(model.Forecast.Count, Is.EqualTo(14));
+        }
+        //
+        /// <summary>
+        /// AccuWeather is no longer free service
+        /// </summary>
+        /// <returns></returns>
         public async Task UserController_AccuWeather_Test()
         {
             // given

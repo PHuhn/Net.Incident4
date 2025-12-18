@@ -1,0 +1,332 @@
+﻿@using NSG.NetIncident4.Core.UI.ViewModels
+<style>
+
+    /* container around the forecast */
+    .nsg-weather-container {
+        display: flex;
+        flex-flow: row wrap;
+    }
+    /* Allow for 9 blocks */
+    .nsg-md-1 {
+        width: 11.1%;
+    }
+
+    @@media (max-width: 1000px) {
+        .nsg-md-1 {
+            width: 110px;
+        }
+
+        .nsg-tooltip .nsg-tooltiptext {
+            width: 200px;
+        }
+    }
+
+    /* Tooltip container */
+    .nsg-tooltip {
+        position: relative; /* Essential for positioning the tooltip text */
+        display: inline-block; /* Allows the tooltip to wrap around its content */
+        text-decoration: underline; /* Optional: adds a visual cue for hoverable text */
+        cursor: pointer; /* Optional: changes cursor to a pointer on hover */
+    }
+
+    /* Tooltip text */
+    .nsg-tooltip .nsg-tooltiptext {
+        visibility: hidden; /* Hidden by default */
+        width: 240px; /* Adjust as needed */
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Positioning the tooltip */
+        position: absolute;
+        z-index: 1; /* Ensures the tooltip is on top of other content */
+        top: 100%; /* Positions the tooltip above the hover element */
+        left: 50%;
+        margin-left: -60px; /* Centers the tooltip horizontally (half of its width) */
+    }
+
+    /* Show the tooltip text on hover */
+    .nsg-tooltip:hover .nsg-tooltiptext {
+        visibility: visible;
+    }
+
+</style>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model GovWeatherCurrentAnd7DayForecast
+@{
+    ViewData["Title"] = "US Weather";
+    DateTime _dt = DateTime.Now;
+    int _cnt = 0;
+    //
+    GovWeatherCurrentWeather _currentWeather = Model.Current;
+    Console.WriteLine("In GovWeather ...");
+    Console.WriteLine(Model);
+    Console.WriteLine(_currentWeather);
+    var _windSpeed = ConvertWindSpeed(_currentWeather.WindSpeed);
+    double _windSpeedMph = _windSpeed.windSpeed;
+    double _currentTemp = 0;
+    try
+    {
+        _currentTemp = double.Parse(_currentWeather.CurrentTemp);
+    }
+    catch { }
+    string _temperatureCDisplay = ConvertTemperatureFromF2C(_currentWeather.CurrentTemp);
+    string _visibilityDisplay = ConvertVisibility(_currentWeather.Visibility);
+    string _lastUpdatedDisplay = ConvertLastUpdated(_currentWeather.LastUpdated);
+    string _windChillDisplay = CalculateWindChill(_currentTemp, _windSpeedMph);
+    //
+}
+@functions {
+    // $"{_windSpeed},{_windGusts},{_unitsWind},{_windDirection}"
+    public (string display, double windSpeed) ConvertWindSpeed(string windSpeed)
+    {
+        string _windSpeedDisplay = "";
+        double _windSpeedDbl = 0.0;
+        if (windSpeed == "0,NA,knots,0")
+        {
+            _windSpeedDisplay = "calm";
+        }
+        else
+        {
+            string[] _windSpeed = windSpeed.Split(",");
+            string _windUnits = "";
+            int _windSpeedInt = 0;
+            string _direction = "-";
+            if (_windSpeed.Length == 4)
+            {
+                _windUnits = _windSpeed[2];
+                _windSpeedInt = int.Parse(_windSpeed[0]);
+                int _windGustsInt = _windSpeed[1] != "NA" ? int.Parse(_windSpeed[1]) : 0;
+
+                if (_windSpeed[2] == "knots")
+                {
+                    string _windGustsString = "";
+                    _windUnits = _windSpeed[2];
+                    _windSpeedDbl = (int)ConvertWindSpeedFromKnots2Mph(_windSpeed[0]);
+                    _windSpeedInt = (int)_windSpeedDbl;
+                    int _dir360 = int.Parse(_windSpeed[3]);
+                    if (_windSpeed[1] != "NA")
+                    {
+                        _windGustsInt = (int)ConvertWindSpeedFromKnots2Mph(_windSpeed[1]);
+                        _windGustsString = $"gusts {_windGustsInt} ";
+                    }
+                    // N NE E SE S SW W NW
+                    _direction = ConvertDirection(_windSpeed[3]);
+                    _windSpeedDisplay = $"{_direction} {_windSpeedInt} {_windGustsString}mph";
+                }
+                else
+                {
+                    _windSpeedDisplay = $"{_windSpeed[0]} {_windSpeed[2]}";
+                }
+            }
+        }
+        return (_windSpeedDisplay, _windSpeedDbl);
+    }
+    //
+    public string ConvertDirection(string dir360)
+    {
+        // N NE E SE S SW W NW
+        string _direction = "-";
+        try
+        {
+            int _dir360 = int.Parse(dir360);
+            if (_dir360 > -1 && _dir360 < 361)
+            {
+                if (_dir360 > 22.5 && _dir360 < 67.5)
+                {
+                    _direction = "NE";
+                }
+                else if (_dir360 > 67.5 && _dir360 < 112.5)
+                {
+                    _direction = "E";
+                }
+                else if (_dir360 > 112.5 && _dir360 < 157.5)
+                {
+                    _direction = "SE";
+                }
+                else if (_dir360 > 157.5 && _dir360 < 202.5)
+                {
+                    _direction = "S";
+                }
+                else if (_dir360 > 202.5 && _dir360 < 247.5)
+                {
+                    _direction = "SW";
+                }
+                else if (_dir360 > 247.5 && _dir360 < 292.5)
+                {
+                    _direction = "W";
+                }
+                else if (_dir360 > 292.5 && _dir360 < 337.5)
+                {
+                    _direction = "NW";
+                }
+                else if (_dir360 > 337.5 || _dir360 < 22.5)
+                {
+                    _direction = "N";
+                }
+            }
+            else
+            {
+                _direction = $"-{dir360}-";
+            }
+        }
+        catch
+        {
+            _direction = $"-{dir360}-";
+        }
+        return _direction;
+    }
+    // Convert Visibility from "8.00,statute miles"
+    public string ConvertVisibility(string visibility)
+    {
+        string[] _visibility = visibility.Split(",");
+        string _visibilityDisplay = "";
+        if (visibility.Length > 1)
+        {
+            if (_visibility[1].ToLower().Contains("miles"))
+            {
+                _visibilityDisplay = $"{_visibility[0]} mi";
+            }
+            else
+            {
+                _visibilityDisplay = $"{_visibility[0]} {_visibility[1]}";
+            }
+        }
+        return _visibilityDisplay;
+    }
+    // Convert Visibility from "8.00,statute miles"
+    public string ConvertLastUpdated(string lastUpdatedDisplay)
+    {
+        string _lastUpdatedDisplay = lastUpdatedDisplay;
+        try
+        {
+            DateTime _tempLastUpdated = DateTime.Parse(lastUpdatedDisplay);
+            _lastUpdatedDisplay = _tempLastUpdated.ToString("MMM d, yyyy hh:mm tt (K)");
+        }
+        catch { }
+        return _lastUpdatedDisplay;
+    }
+    // Convert Visibility from "8.00,statute miles"
+    public string ConvertTemperatureFromF2C(string temperature)
+    {
+        string _temeratureC = "-";
+        try
+        {
+            double _temperature = double.Parse(temperature); // − (double)32.0 ) *((double)5 / 9);
+            _temeratureC = double.Round((_temperature - 32.0) * (5.0 / 9.0)).ToString();
+        }
+        catch { }
+        return _temeratureC;
+    }
+    // Calculate the wind chill based on temperature in F and wind speed in MPH
+    public string CalculateWindChill(double temperatureF, double windSpeedMph)
+    {
+        string _windChillStr = "-";
+        try
+        {
+            double _windPow16 = Math.Pow(windSpeedMph, 0.16);
+            double _windChillDbl = 35.74 + 0.6215 * temperatureF - 35.75 * _windPow16 + 0.4275 * temperatureF * _windPow16;
+            _windChillStr = double.Round(_windChillDbl).ToString();
+        }
+        catch { }
+        return _windChillStr;
+    }
+    //
+    public double ConvertWindSpeedFromKnots2Mph(string windSpeed)
+    {
+        double _windSpeed = 0.0;
+        try
+        {
+            double _windSpeedKnots = double.Parse(windSpeed);
+            _windSpeed = Double.Round((_windSpeedKnots) * 1.15078);
+        }
+        catch { }
+        return _windSpeed;
+    }
+}
+
+<div class="card" style="border-radius: 3px; background-color: var(--nsg-jumbotron-bg-color);">
+    <div class="row" style="margin: 3px 10px;">
+        <div>
+            Current weather conditions at: &nbsp;
+            <span style="font-size: 18px;"><strong>@_currentWeather.Location</strong></span>
+        </div>
+        <div><strong>Lat: </strong>@(_currentWeather.Lat)°N <strong>Lon: </strong>@(_currentWeather.Lon)°W <strong>Elev: </strong>@(_currentWeather.Elevation)ft.</div>
+    </div>
+</div>
+
+<div class="card" style="border-radius: 3px; margin-top: 10px;">
+    <div class="row" style="margin: 10px;">
+
+        <div class="col-md-4">
+            <div style="float: left; padding-right: 1rem;">
+                <img src="@_currentWeather.WeatherIcon" alt="icon" style="height: 100px; width: 100px;">
+            </div>
+            <div>
+                <div>@(_currentWeather.WeatherSummary)</div>
+                <h2>@(_currentWeather.CurrentTemp)°F</h2>
+                <div>@(_temperatureCDisplay)°C</div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <label class="col-md-3 nsg-td-label">Humidity:</label><div class="col-md-9">@(_currentWeather.Humidity)%</div>
+                <label class="col-md-3 nsg-td-label">Wind Speed:</label><div class="col-md-9">@(_windSpeed.display)</div>
+                <label class="col-md-3 nsg-td-label">Barometer:</label><div class="col-md-9">@_currentWeather.Barometer in</div>
+                <label class="col-md-3 nsg-td-label">Dewpoint:</label><div class="col-md-9">@(_currentWeather.Dewpoint)°F (@(ConvertTemperatureFromF2C(_currentWeather.Dewpoint))°C)</div>
+                <label class="col-md-3 nsg-td-label">Visibility:</label><div class="col-md-9">@(_visibilityDisplay)</div>
+                @if (_currentTemp < 50.0 && _windSpeedMph > 3.0)
+                {
+                    <label class="col-md-3 nsg-td-label">Wind Chill:</label>
+                    <div class="col-md-9">@(_windChillDisplay)°F (@(ConvertTemperatureFromF2C(_windChillDisplay))°C)</div>
+                }
+                <label class="col-md-3 nsg-td-label">Last update:</label><div class="col-md-9">@(_lastUpdatedDisplay)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="border-radius: 3px; margin-top: 10px; background-color: var(--nsg-jumbotron-bg-color);">
+    <div class="row" style="margin: 3px 10px;">
+        <div>
+            Extended Forecast for: &nbsp;
+            <span style="font-size: 18px;"><strong>@Model.Location</strong></span>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="border-radius: 3px; margin-top: 10px;">
+    <div class="row" style="margin: 10px;">
+
+        <!-- d-flex justify-content-end  -->
+        <div class="nsg-weather-container">
+            @foreach (var _item in Model.Forecast)
+            {
+                ++_cnt;
+                @if (_cnt < 10)
+                {
+                    _dt = DateTime.Parse(_item.Date);
+                    <div class="nsg-md-1">
+                        <div style="height: 54px;">@_item.TimeOfDay</div>
+                        <img src="@_item.WeatherIcon" alt="Weather Icon">
+                        @if (_dt.Hour < 18)
+                        {
+                            <div>High: @(_item.HighTemp)°F</div>
+                        }
+                        else
+                        {
+                            <div>Low: @(_item.LowTemp)°F</div>
+                        }
+                        <div class="nsg-tooltip">
+                            @(_item.WeatherSummary)
+                            <div class="nsg-tooltiptext">@(_item.WeatherDetails)</div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

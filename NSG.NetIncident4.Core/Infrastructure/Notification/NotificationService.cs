@@ -22,26 +22,86 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
 		//_env = env;
 		private EmailSettings _emailSettings;
         private readonly Dictionary<string, MimeKit.NSG.EmailSettings> _emailSettingsDict;
-		private readonly IApplication _application;
         ILogger _logger;
 		//
 		public NotificationService(
 			IOptions<Dictionary<string, EmailSettings>> emailSettings,
-			ILogger<NotificationService> logger)
+			ILogger<NotificationService> logger,
+            string companyShortName = "Default")
 		{
-            _emailSettingsDict = emailSettings.Value;
-			_emailSettings = _emailSettingsDict["Default"];
             _logger = logger;
+            _emailSettingsDict = emailSettings.Value;
+			// _emailSettings = _emailSettingsDict["Default"];
+            SetCompanyNameEmailSettings(companyShortName);
         }
-		//
+		// just a getter ... can't set a value
 		/// <summary>
-		/// For account controller communications, such as:
+		/// Return the current email settings fot this instance
 		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="subject"></param>
-		/// <param name="message"></param>
-		/// <returns>void/complete</returns>
-		public Task SendEmailAsync(string email, string subject, string message)
+        public EmailSettings CurrentEmailSettings
+        {
+            get { return _emailSettings; }
+        }
+        //
+        /// <summary>
+        /// The JSON config file for EmailSettings is as follows:
+        /// <code>
+        /// {
+        ///  "group-n": {
+        ///    ...
+        ///  },
+        ///  "EmailSettings": {
+        ///    "Default": {
+        ///      "SmtpHost": "smtp.gmail.com",
+        ///    ...
+        ///    },
+        ///    "NSG": {
+        ///      "SmtpHost": "smtp.mail.yahoo.com",
+        ///    ...
+        ///    },
+        ///    "Company-1": {
+        ///      "SmtpHost": "smtp.gmail.com",
+        ///    ...
+        ///    },
+        ///    "Company-n": {
+        ///      "SmtpHost": "smtp.gmail.com",
+        ///    ...
+        ///    }
+        ///  }
+        /// }
+        /// </code>
+        /// The index in EmailSettings is the company short name.  So, set the
+        /// current EmailSettings appropriately.
+        /// </summary>
+        /// <param name="companyShortName"></param>
+        /// <exception cref="Exception"></exception>
+        private void SetCompanyNameEmailSettings(string companyShortName)
+        {
+            _logger.LogDebug($"CompanyNameSettings: Entered with: {companyShortName}");
+            try
+            {
+                EmailSettings? _newSettings = _emailSettingsDict[companyShortName];
+                _emailSettings = _newSettings;
+                _logger.LogDebug($"CompanyNameSettings: {companyShortName}\n{_newSettings}");
+            }
+            catch (System.Exception _ex)
+            {
+                string _msg = $"CompanyNameSettings: EmailSetting configuration does not contain company {companyShortName}, count: {_emailSettingsDict.Count}";
+                _logger.LogError(_msg);
+                _emailSettings = new EmailSettings();
+                throw new KeyNotFoundException(_msg);
+            }
+            return;
+        }
+        //
+        /// <summary>
+        /// For account controller communications, such as:
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <returns>void/complete</returns>
+        public Task SendEmailAsync(string email, string subject, string message)
 		{
 			return SendEmailAsync(MimeKit.Extensions.NewMimeMessage()
 				.From(_emailSettings.UserEmail, _emailSettings.UserName).To(email)
@@ -90,21 +150,9 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
         public Task SendEmailAsync( MimeKit.MimeMessage mimeMessage, string companyShortName )
         {
             _logger.LogDebug($"SendEmailByCompanyAsync: Entered with: {companyShortName}");
-            EmailSettings _tempSettings = _emailSettings;
-            EmailSettings? _newSettings = _emailSettingsDict[companyShortName];
-			if (_newSettings != null)
-			{
-				_emailSettings = _newSettings;
-                _logger.LogDebug($"SendEmailByCompanyAsync: {companyShortName}\n{_newSettings}");
-            }
-            else
-			{
-				string _msg = $"EmailSetting configuration does not contain company {companyShortName}, count: {_emailSettingsDict.Count}";
-                _logger.LogError(_msg);
-                throw new Exception(_msg);
-            }
             try
             {
+                SetCompanyNameEmailSettings(companyShortName);
                 Task<MimeKit.MimeMessage> _email = mimeMessage.SendAsync(_emailSettings);
                 _logger.LogInformation(_email.Result.EmailToString());
             }
@@ -114,7 +162,6 @@ namespace NSG.NetIncident4.Core.Infrastructure.Notification
                 _logger.LogError(_ex.ToString());
                 throw new System.InvalidOperationException(_ex.Message);
             }
-            _emailSettings = _tempSettings;
             return Task.CompletedTask;
         }
         //

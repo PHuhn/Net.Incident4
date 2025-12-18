@@ -1,13 +1,8 @@
 ﻿//
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Security.Claims;
 //
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MediatR;
 using FluentValidation.Results;
@@ -18,7 +13,7 @@ namespace NSG.NetIncident4.Core.UI.Controllers
 {
     //
     /// <summary>
-    /// Base view controler.
+    /// Base view controller.
     /// This requires adding the following:
     ///   partial name="_Alerts"
     /// </summary>

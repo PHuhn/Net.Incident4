@@ -397,6 +397,7 @@ namespace NSG.Integration.Helpers
         /// <returns></returns>
         public static Mock<DbSet<TEntity>> DbSetAddAsync<TEntity>(this Mock<DbSet<TEntity>> dbSetMock) where TEntity : class
         {
+            RuntimeEntityType a;
             // https://stackoverflow.com/questions/68801418/how-to-mock-dbset-addasyncobj-entity
             dbSetMock.Setup(_ => _.AddAsync(It.IsAny<TEntity>(),
                 It.IsAny<CancellationToken>()))
@@ -407,9 +408,9 @@ namespace NSG.Integration.Helpers
                     entityTypeMock
                         .SetupGet(_ => _.EmptyShadowValuesFactory)
                         .Returns(() => new Mock<ISnapshot>().Object);
-                    entityTypeMock
-                        .SetupGet(_ => _.Counts)
-                        .Returns(new PropertyCounts(1, 1, 1, 1, 1, 1, 1));
+                    //entityTypeMock
+                    //    .SetupGet(_ => _.Counts)  V10.0 it is private
+                    //    .Returns(new PropertyCounts(1, 1, 1, 1, 1, 1, 1, 1));
                     entityTypeMock
                         .Setup(_ => _.GetProperties())
                         .Returns(Enumerable.Empty<IProperty>());
@@ -490,6 +491,11 @@ namespace NSG.Integration.Helpers
             _emailSettingsDict = emailSettings;
             _emailSettings = emailSettings["Default"];
             _logger = logger;
+        }
+        //
+        public EmailSettings CurrentEmailSettings
+        {
+            get { return _emailSettings; }
         }
         //
         public Task SendEmailAsync(string email, string subject, string message)

@@ -14,12 +14,21 @@ located: C:\Users\Phil\AppData\Roaming\Microsoft\UserSecrets\aspnet-NSG.NetIncid
 Note: this does not allow login to the Angular app.
 
 Packages:
-	Install-Package Microsoft.EntityFrameworkCore.SqlServer -version 5.0.12
-	Install-Package Microsoft.EntityFrameworkCore.Tools -version 5.0.12
-	Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -version 5.0.12
-	Install-Package Microsoft.AspNetCore.Identity -version 2.2.0
-	Install-Package Microsoft.AspNetCore.Authentication.JwtBearer -version 5.0.12
-	- Swashbuckle.AspNetCore (5.6.3) came with the project -
+	Install-Package Microsoft.AspNetCore.Authentication.Google -Version 10.0.1
+	Install-Package Microsoft.AspNetCore.Authentication.JwtBearer -Version 10.0.1
+	Install-Package Microsoft.AspNetCore.Authentication.MicrosoftAccount -Version 10.0.1
+	Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -Version 10.0.1
+	Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore -Version 10.0.1
+	Install-Package Microsoft.AspNetCore.Identity.UI -Version 10.0.1
+	Install-Package Microsoft.AspNetCore.OpenApi -Version 10.0.1
+	Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 10.0.1
+	Install-Package Microsoft.EntityFrameworkCore.Tools -Version 10.0.1
+	Install-Package Microsoft.Extensions.Logging -Version 10.0.1
+	Install-Package System.ServiceModel.Syndication -Version 10.0.1
+	Install-Package Swashbuckle.AspNetCore -Version 10.0.1
+	Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design -Version 10.0.0
+
+
 	Install-Package MediatR
 	Install-Package MediatR.Extensions.Microsoft.DependencyInjection -Version 9.0.0
 	9.0.0
@@ -28,16 +37,9 @@ Packages:
 	Install-Package OdeToCode.AddFeatureFolders
 	Install-Package MimeKit
 	2.15.1
-	Install-Package Microsoft.AspNetCore.Identity.UI -version 5.0.12
 	Install-Package bootstrap
-	Install-Package Microsoft.Identity.Web.UI
-	(1.21.0)
 	Install-Package Microsoft.EntityFrameworkCore.Relational -version 5.0.12
 
-	Install-package Microsoft.AspNetCore.Authentication.Google -version 6.0.8
-	Install-package Microsoft.AspNetCore.Authentication.MicrosoftAccount -version 6.0.8
-
-	Install-Package System.ServiceModel.Syndication -Version 6.0.0
 	Install-Package Microsoft.SyndicationFeed.ReaderWriter -Version 1.0.2
 
 	install-package jquery
@@ -792,6 +794,58 @@ PROBLEM: 2025-08-07
 SOLUTION:
 	PS .\Net.Incident4\net-incident> git config --global user.name "phuhn"
 	PS .\Net.Incident4\net-incident> git config --global user.email email-address@provider.com
+
+==============================================================================
+PROBLEM:
+	Upgrade from .Net 9.0 to 10.0
+
+SOLUTION:
+	2025-11-16
+	Updated Visual Studio which update SDK to 10.0.1.  Converted vesions from
+	9.0.3 to 10.0.1
+Error (active)	CS0234	The type or namespace name 'EntityFrameworkCore' does not exist in the namespace 'Microsoft' (are you missing an assembly reference?)	NSG.NetIncident4.Core	C:\Dat\NSG\L\Web\22\Net.Incident4\NSG.NetIncident4.Core\Application\Commands\ApplicationRoles\ApplicationRoleDeleteCommand.cs	9	
+    <LangVersion>11.0</LangVersion>
+
+	Compiled => installed packages that were missing, also in tests
+	Had to fix NSG.MockHelpers.cs in tests project.  I had to change call to
+	'new PropertyCounts' in DbSetAddAsync method.
+	All tests passed and the website ran and Angular updated a record..
+
+	Had to change the Bearer security for swagger in startup.cs
+	New version: 10.4.2.26
+
+==============================================================================
+PROBLEM:
+	Would not publish with the following errors:
+	'WebApplication' does not contain a definition for 'UseSwagger' and no 
+	accessible extension method 'UseSwagger' accepting a first argument of 
+	type 'WebApplication' could be found (are you missing a using directive 
+	or an assembly reference?)
+	'IServiceCollection' does not contain a definition for 'AddSwaggerGen' 
+	and no accessible extension method 'AddSwaggerGen' accepting a first 
+	argument of type 'IServiceCollection' could be found (are you missing a 
+	using directive or an assembly reference?)
+
+SOLUTION:
+	Deleted nd reinstalled Swashbuckle
+	Install-Package Swashbuckle.AspNetCore -Version 10.0.1
+
+==============================================================================
+PROBLEM:
+	AccuWeather is no longer free
+
+SOLUTION:
+	Using USA's government weather forecast:
+	https://forecast.weather.gov/MapClick.php?lat={0}&lon={1}&unit=0&lg=english&FcstType=dwml
+	It requires lookup of usa zip-code to longitude/latitude to call current
+	weather and weather forecast.
+
+==============================================================================
+PROBLEM:
+
+
+SOLUTION:
+
 
 ==============================================================================
 PROBLEM:
