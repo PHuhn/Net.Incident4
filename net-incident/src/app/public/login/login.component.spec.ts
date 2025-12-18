@@ -1,19 +1,19 @@
 // ===========================================================================
 // File: register.component.spec.ts
 import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 //
-import { ConfirmationService, SelectItem } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { Alerts } from '../../global/alerts/alerts';
 import { AlertLevel } from '../../global/alerts/alert-level.enum';
-import { IAuthResponse, AuthResponse } from './iauth-response';
+import { AuthResponse } from './iauth-response';
 import { User } from '../../net-incident/user';
 import { UserService } from '../../net-incident/services/user.service';
 import { AuthService } from '../../net-incident/services/auth.service';
@@ -40,7 +40,7 @@ describe('LoginComponent', () => {
 				FormsModule,
 				ButtonModule,
 				DialogModule,
-				BrowserAnimationsModule
+				CardModule,
 			],
 			declarations: [
 				LoginComponent,

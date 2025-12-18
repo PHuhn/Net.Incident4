@@ -1,5 +1,7 @@
 @REM fake-smtp-server is a nodejs application
 @REM ReachFive/fake-smtp-server
+@REM Install by:
+@REM   npm install -g fake-smtp-server
 @REM
 @REM Usage:
 @REM   fake-smtp-server [OPTIONS] [ARGS]
