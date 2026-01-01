@@ -25,9 +25,9 @@ Packages:
 	Install-Package Microsoft.EntityFrameworkCore.Tools -Version 10.0.1
 	Install-Package Microsoft.Extensions.Logging -Version 10.0.1
 	Install-Package System.ServiceModel.Syndication -Version 10.0.1
-	Install-Package Swashbuckle.AspNetCore -Version 10.0.1
+	// Install-Package Swashbuckle.AspNetCore -Version 10.0.1
 	Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design -Version 10.0.0
-
+	Install-Package Scalar.AspNetCore -Version 2.11.8
 
 	Install-Package MediatR
 	Install-Package MediatR.Extensions.Microsoft.DependencyInjection -Version 9.0.0

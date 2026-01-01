@@ -22,38 +22,39 @@
     //   <partial name="PagerPartial" model="Model" />
     var start = this.Model.GetStartWindow();
     var stop = this.Model.GetEndWindow();
-    string form_url = Url.Action(Model.action, null, null, null, null, null);
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string form_url = Url.Action(Model.action, controllerName, null);
 }
 @if (this.Model.pageCount > 1) {
     <ul class="pagination pagination justify-content-center nsg-hd-row">
         <li class='page-item @(this.Model.IsFirstPage() ? "disabled" : "")'>
-            <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(1), null, null, null)" aria-label="First" class='page-link'>
+            <a href="@Url.Action(Model.action, controllerName, Model.GetRouteForPage(1))" aria-label="First" class='page-link'>
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
         @if (this.Model.previousNext) {
             <li class='page-item @(this.Model.IsFirstPage() ? "disabled" : "")'>
-                <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageIndex - 1), null, null, null)" aria-label="Previous" class='page-link'>
+                <a href="@Url.Action(Model.action, controllerName, Model.GetRouteForPage(this.Model.pageIndex - 1))" aria-label="Previous" class='page-link'>
                     <span aria-hidden="true">&lt;</span>
                 </a>
             </li>
         }
         @for (long pg = start; pg <= stop; pg++) {
             <li class="page-item @((Model.pageIndex == pg) ? "active" : null)">
-                <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(pg), null, null, null)" aria-label="Page @pg" class="page-link">
+                <a href="@Url.Action(Model.action, controllerName, Model.GetRouteForPage(pg))" aria-label="Page @pg" class="page-link">
                     <span aria-hidden="true">@pg.ToString()</span>
                 </a>
             </li>
         }
         @if (this.Model.previousNext) {
             <li class='page-item @(this.Model.IsLastPage() ? "disabled" : "")'>
-                <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageIndex + 1))" aria-label="Next" class='page-link'>
+                <a href="@Url.Action(Model.action, controllerName, Model.GetRouteForPage(this.Model.pageIndex + 1))" aria-label="Next" class='page-link'>
                     <span aria-hidden="true">&gt;</span>
                 </a>
             </li>
         }
         <li class='page-item @(this.Model.IsLastPage() ? "disabled" : "")'>
-            <a href="@Url.Action(Model.action, null, Model.GetRouteForPage(this.Model.pageCount))" aria-label="Last" class='page-link'>
+            <a href="@Url.Action(Model.action, controllerName, Model.GetRouteForPage(this.Model.pageCount))" aria-label="Last" class='page-link'>
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
@@ -92,6 +93,7 @@
       const form = document.createElement('form');
       form.method = method;
       form.action = path;
+      console.log( `Path:{path}, Params: {params, method: {method}` );
       for (const key in params) {
         if (params.hasOwnProperty(key)) {
           const hiddenField = document.createElement('input');

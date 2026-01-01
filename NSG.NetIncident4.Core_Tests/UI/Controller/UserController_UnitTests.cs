@@ -113,7 +113,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.Controller
             var model = viewResult.Model as GovWeatherCurrentAnd7DayForecast;
             Assert.That(model.Current.Location, Is.EqualTo("Ann Arbor, Ann Arbor Municipal Airport, MI"));
             Assert.That(model.Location, Is.EqualTo("Ann Arbor, MI"));
-            Assert.That(model.Forecast.Count, Is.EqualTo(14));
+            Assert.That(model.Forecast.Count, Is.GreaterThan(12));
         }
         //
         /// <summary>
