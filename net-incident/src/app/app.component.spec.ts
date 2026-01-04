@@ -2,7 +2,6 @@
 // File: app.component.spec.ts
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 //
@@ -38,7 +37,6 @@ describe('AppComponent', () => {
 			imports: [
 				FormsModule,
 				RouterTestingModule,
-				BrowserAnimationsModule,
 				APP_MODULE_PRIMENG
 			],
 			declarations: [

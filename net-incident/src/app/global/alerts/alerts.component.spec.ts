@@ -1,6 +1,5 @@
 // ===========================================================================
 import { ComponentFixture, TestBed, inject, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //
 import { AlertsComponent } from './alerts.component';
 import { AlertsService } from './alerts.service';
@@ -16,7 +15,6 @@ describe('AlertsComponent', () => {
 	//
 	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
-			imports: [ BrowserAnimationsModule ],
 			declarations: [ AlertsComponent ],
 			providers: [ AlertsService ]
 		})

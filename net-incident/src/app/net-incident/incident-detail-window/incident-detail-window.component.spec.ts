@@ -1,7 +1,6 @@
 // ===========================================================================
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 //
 import { of, throwError } from 'rxjs';
@@ -15,7 +14,6 @@ import { BaseCompService } from '../../global/base-comp/base-comp.service';
 import { Message } from '../../global/alerts/message';
 import { AlertLevel } from '../../global/alerts/alert-level.enum';
 import { AlertsService } from '../../global/alerts/alerts.service';
-import { ConsoleLogService } from '../../global/console-log/console-log.service';
 import { ServicesService } from '../services/services.service';
 import { NetworkIncidentService } from '../services/network-incident.service';
 //
@@ -36,7 +34,6 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 	let fixture: ComponentFixture<IncidentDetailWindowComponent>;
 	let alertService: AlertsService;
 	let baseService: BaseCompService;
-	let consoleService: ConsoleLogService;
 	let detailWindow: DetailWindowInput;
 	//
 	const networkIncidentServiceSpy = jasmine.createSpyObj(
@@ -86,7 +83,6 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 			imports: [
 				FormsModule,
 				APP_MODULE_PRIMENG,
-				BrowserAnimationsModule
 			],
 			declarations: [
 				APP_GLOBAL_COMPONENTS,
@@ -95,7 +91,6 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 			providers: [
 				BaseCompService,
 				AlertsService,
-				ConsoleLogService,
 				ConfirmationService,
 				{ provide: ServicesService, useValue: servicesServiceSpy },
 				{ provide: NetworkIncidentService, useValue: networkIncidentServiceSpy },
@@ -104,7 +99,6 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		// Setup injected pre service for each test
 		baseService = TestBed.inject( BaseCompService );
 		alertService = baseService._alerts;
-		consoleService = baseService._console;
 		// netIncidentService  = TestBed.get( NetworkIncidentService );
 		TestBed.compileComponents( );
 	}));
@@ -284,10 +278,11 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		const testData: Incident = mockData.Clone();
 		sut.networkIncident = newNetworkIncident( testData );
 		servicesServiceSpy.getWhoIs.and.returnValue( of( whoisMockData_17_142_171_7 ) );
+		tickFakeWait( 1 );
 		// when
 		sut.ipChanged( '17.142.171.7' );
 		// then
-		tickFakeWait( 1 );
+		tickFakeWait( 10 );
 		expect( sut.networkIncident.incident.NIC ).toEqual( 'arin.net' );
 		expect( sut.networkIncident.incident.AbuseEmailAddress ).toEqual( 'abuse@apple.com' );
 		expect( sut.networkIncident.incident.NetworkName ).toEqual( 'APPLE-WWNET' );
@@ -304,10 +299,11 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		const noteCount: number = sut.networkIncident.incidentNotes.length
 		sut.networkIncident = newNetworkIncident( testData );
 		servicesServiceSpy.getWhoIs.and.returnValue( of( whoisResponse ) );
+		tickFakeWait( 1 );
 		// when
 		sut.ipChanged( '17.142.171.7' );
 		// then
-		tickFakeWait( 1 );
+		tickFakeWait( 10 );
 		expect( sut.networkIncident.incident.NIC ).toEqual( 'other' );
 		expect( sut.networkIncident.incidentNotes.length ).toEqual( noteCount + 1 );
 		windowCleanup( );	// window launched in beforeEach
@@ -319,9 +315,11 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 		// given
 		sut.networkIncident = undefined;
 		spyOn( alertService, 'warningSet' );
+		tickFakeWait( 1 );
 		// when
 		sut.ipChanged( '17.142.171.7' );
 		// then
+		tickFakeWait( 10 );
 		expect( alertService.warningSet ).toHaveBeenCalled( );
 		windowCleanup( );	// window launched in beforeEach
 		//
@@ -335,6 +333,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
 		servicesServiceSpy.getWhoIs.and.returnValue( throwError( ( ) => resp ) );
 		spyOn( alertService, 'setWhereWhatError' );
+		tickFakeWait( 1 );
 		// when
 		sut.ipChanged( '17.142.171.7' );
 		// then
@@ -353,6 +352,7 @@ describe( 'IncidentDetailWindowComponent', ( ) => {
 			error: {}, status: 500, url: 'http://localhost', statusText: 'Bad Request' });
 		servicesServiceSpy.getWhoIs.and.returnValue( of( '' ) );
 		spyOn( alertService, 'setWhereWhatError' );
+		tickFakeWait( 1 );
 		// when
 		sut.ipChanged( '17.142.171.7' );
 		// then

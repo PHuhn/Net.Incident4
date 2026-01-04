@@ -1,7 +1,6 @@
 // ===========================================================================
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 //
 import { provideHttpClient } from '@angular/common/http';
@@ -70,7 +69,6 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 			imports: [
 				FormsModule,
 				APP_MODULE_PRIMENG,
-				BrowserAnimationsModule,
 			],
 			declarations: [
 				APP_GLOBAL_COMPONENTS,

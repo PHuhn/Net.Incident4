@@ -1,7 +1,6 @@
 // ===========================================================================
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 //
 import { TableModule } from 'primeng/table';
@@ -49,7 +48,6 @@ describe('NetworkLogGridComponent', () => {
 				TableModule,
 				ButtonModule,
 				DialogModule,
-				BrowserAnimationsModule
 			],
 			declarations: [
 				NetworkLogGridComponent,

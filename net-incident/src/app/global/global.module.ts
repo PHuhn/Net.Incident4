@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { withJsonpSupport } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //
 @NgModule({
 	imports: [
@@ -16,7 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		CommonModule,
 		FormsModule,
 		BrowserModule,
-		BrowserAnimationsModule,
 		ReactiveFormsModule
 	],
 	providers: [

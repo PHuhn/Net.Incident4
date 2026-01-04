@@ -2,9 +2,6 @@
 // File: register.component.spec.ts
 import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable, throwError } from 'rxjs';
-import { By } from '@angular/platform-browser';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
 import { UserService } from '../../net-incident/services/user.service';
@@ -23,7 +20,6 @@ describe('RegisterComponent', () => {
 		TestBed.configureTestingModule({
 			imports: [
 				FormsModule,
-				BrowserAnimationsModule
 			],
 			declarations: [ RegisterComponent ],
 			providers: [

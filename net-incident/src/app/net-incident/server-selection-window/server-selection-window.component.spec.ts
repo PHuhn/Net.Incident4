@@ -1,7 +1,6 @@
 // ===========================================================================
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 //
 import { DialogModule } from 'primeng/dialog';
@@ -31,7 +30,6 @@ describe('ServerSelectionWindowComponent', () => {
 			imports: [
 				FormsModule,
 				FocusTrapModule,
-				BrowserAnimationsModule,
 				DialogModule
 			],
 			declarations: [

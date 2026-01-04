@@ -1,0 +1,1166 @@
+
+Update to the new version
+Review these changes and perform the actions to update your application.
+
+* In the application's project directory, run ng update @angular/core@21 @angular/cli@21 to update your application to Angular v21.
+* Zone-based applications should add provideZoneChangeDetection() to your application's root providers. For standalone apps, add it to the bootstrapApplication call. For NgModule-based apps, add it to your root AppModule's providers array. An automated migration should handle this.
+* Host binding type checking is now enabled by default and may surface new build errors. Resolve any new type errors or set typeCheckHostBindings: false in your tsconfig.json's angularCompilerOptions.
+* Update your project's TypeScript version to 5.9 or later. The ng update command will typically handle this automatically.
+
+=====================================
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@21 @angular/cli@21
+Error: Repository is not clean. Please commit or stash any changes before updating.
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@21 @angular/cli@21
+The installed Angular CLI version is outdated.
+Installing a temporary Angular CLI versioned 21.0.3 to perform the update.
+Using package manager: npm
+Collecting installed dependencies...
+Found 44 dependencies.
+Fetching dependency metadata from registry...
+                  Package "@typescript-eslint/eslint-plugin" has an incompatible peer dependency to "typescript" (requires ">=4.8.4 <5.9.0", would install "5.9.3").
+✖ Migration failed: Incompatible peer dependencies found.
+Peer dependency warnings when installing dependencies means that those dependencies might not work correctly together.
+You can use the '--force' option to ignore incompatible peer dependencies and instead address these warnings later.
+  See "C:\Users\Phil\AppData\Local\Temp\ng-5ikDfT\angular-errors.log" for further details.
+
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>notepad C:\Users\Phil\AppData\Local\Temp\ng-5ikDfT\angular-errors.lo
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>notepad C:\Users\Phil\AppData\Local\Temp\ng-5ikDfT\angular-errors.log
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>ng update @angular/core@21 @angular/cli@21 --force
+The installed Angular CLI version is outdated.
+Installing a temporary Angular CLI versioned 21.0.3 to perform the update.
+Using package manager: npm
+Collecting installed dependencies...
+Found 44 dependencies.
+Fetching dependency metadata from registry...
+                  Package "@typescript-eslint/eslint-plugin" has an incompatible peer dependency to "typescript" (requires ">=4.8.4 <5.9.0", would install "5.9.3").
+    Updating package.json with dependency @angular-devkit/build-angular @ "21.0.3" (was "20.3.12")...
+    Updating package.json with dependency @angular/animations @ "21.0.6" (was "20.3.13")...
+    Updating package.json with dependency @angular/build @ "21.0.3" (was "20.3.12")...
+    Updating package.json with dependency @angular/cli @ "21.0.3" (was "20.3.12")...
+    Updating package.json with dependency @angular/common @ "21.0.6" (was "20.3.15")...
+    Updating package.json with dependency @angular/compiler @ "21.0.6" (was "20.3.15")...
+    Updating package.json with dependency @angular/compiler-cli @ "21.0.6" (was "20.3.13")...
+    Updating package.json with dependency @angular/core @ "21.0.6" (was "20.3.15")...
+    Updating package.json with dependency @angular/forms @ "21.0.6" (was "20.3.13")...
+    Updating package.json with dependency @angular/platform-browser @ "21.0.6" (was "20.3.13")...
+    Updating package.json with dependency @angular/platform-browser-dynamic @ "21.0.6" (was "20.3.13")...
+    Updating package.json with dependency @angular/router @ "21.0.6" (was "20.3.13")...
+    Updating package.json with dependency typescript @ "5.9.3" (was "5.8.3")...
+UPDATE package.json (1854 bytes)
+✔ Cleaning node modules directory
+✔ Installing packages
+** Executing migrations of package '@angular/cli' **
+
+❯ Remove any karma configuration files that only contain the default content.
+  The default configuration is automatically available without a specific project file.
+  Migration completed (No changes made).
+
+❯ Update 'moduleResolution' to 'bundler' in TypeScript configurations.
+  You can read more about this, here: https://www.typescriptlang.org/tsconfig/#moduleResolution
+  Migration completed (No changes made).
+
+❯ Updates the 'lib' property in tsconfig files to use 'es2022' or a more modern version.
+UPDATE tsconfig.json (810 bytes)
+  Migration completed (1 file modified).
+
+** Optional migrations of package '@angular/cli' **
+
+This package has 1 optional migration that can be executed.
+Optional migrations may be skipped and executed after the update process, if preferred.
+
+Select the migrations that you'd like to run [use-application-builder] Migrate application projects to the new build
+system. (https://angular.dev/tools/cli/build-system-migration)
+
+❯ Migrate application projects to the new build system.
+  Application projects that are using the '@angular-devkit/build-angular' package's 'browser' and/or 'browser-esbuild' builders will be migrated to use the new 'application' builder.
+  You can read more about this, including known issues and limitations, here: https://angular.dev/tools/cli/build-system-migration
+UPDATE package.json (1804 bytes)
+✔ Packages installed successfully.
+  Migration completed (1 file modified).
+
+** Executing migrations of package '@angular/core' **
+
+❯ Adds `BootstrapContext` to `bootstrapApplication` calls in `main.server.ts` to support server rendering.
+  Migration completed (No changes made).
+
+❯ Moves imports of `ApplicationConfig` from `@angular/platform-browser` to `@angular/core`.
+  Migration completed (No changes made).
+
+❯ Migrates deprecated bootstrap options to providers.
+UPDATE src/main.ts (423 bytes)
+  Migration completed (1 file modified).
+
+❯ Converts the entire application to block control flow syntax.
+  Migration completed (No changes made).
+
+❯ Ensures that the Router.lastSuccessfulNavigation signal is now invoked.
+  Migration completed (No changes made).
+
+** Optional migrations of package '@angular/core' **
+
+This package has 1 optional migration that can be executed.
+Optional migrations may be skipped and executed after the update process, if preferred.
+
+Select the migrations that you'd like to run
+
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular/cdk@latest
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@20.4.1.22
+npm warn Found: @angular/cdk@20.2.14
+npm warn node_modules/@angular/cdk
+npm warn   peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn   1 more (the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: @typescript-eslint/eslint-plugin@8.38.0
+npm error Found: typescript@5.9.3
+npm error node_modules/typescript
+npm error   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm error   node_modules/@angular-eslint/builder
+npm error     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm error   peer typescript@"*" from @angular-eslint/eslint-plugin@20.7.0
+npm error   node_modules/@angular-eslint/eslint-plugin
+npm error     dev @angular-eslint/eslint-plugin@"^20.1.1" from the root project
+npm error   15 more (@angular-eslint/eslint-plugin-template, ...)
+npm error
+npm error Could not resolve dependency:
+npm error peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm error node_modules/@typescript-eslint/eslint-plugin
+npm error   dev @typescript-eslint/eslint-plugin@"^8.38.0" from the root project
+npm error
+npm error Conflicting peer dependency: typescript@5.8.3
+npm error node_modules/typescript
+npm error   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm error   node_modules/@typescript-eslint/eslint-plugin
+npm error     dev @typescript-eslint/eslint-plugin@"^8.38.0" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error C:\Users\Phil\AppData\Local\npm-cache\_logs\2025-12-18T17_01_17_056Z-eresolve-report.txt
+npm error A complete log of this run can be found in: C:\Users\Phil\AppData\Local\npm-cache\_logs\2025-12-18T17_01_17_056Z-debug-0.log
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular/cdk@latest  --force
+npm warn using --force Recommended protections disabled.
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@20.4.1.22
+npm warn Found: @angular/cdk@20.2.14
+npm warn node_modules/@angular/cdk
+npm warn   peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn   1 more (the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/eslint-plugin@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   dev @typescript-eslint/eslint-plugin@"^8.38.0" from the root project
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn     dev @typescript-eslint/eslint-plugin@"^8.38.0" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/parser@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/parser@8.38.0
+npm warn node_modules/@typescript-eslint/parser
+npm warn   peer @typescript-eslint/parser@"^8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn   1 more (the root project)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/parser@8.38.0
+npm warn   node_modules/@typescript-eslint/parser
+npm warn     peer @typescript-eslint/parser@"^8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin
+npm warn     1 more (the root project)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/animations@21.0.6
+npm warn node_modules/@angular/animations
+npm warn   peerOptional @angular/animations@"21.0.6" from @angular/platform-browser@21.0.6
+npm warn   node_modules/@angular/platform-browser
+npm warn     peerOptional @angular/platform-browser@"^21.0.0" from @angular/build@21.0.3
+npm warn     node_modules/@angular/build
+npm warn     4 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn   1 more (the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/animations@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/animations@20.3.15
+npm warn node_modules/@angular/animations
+npm warn   peer @angular/animations@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/common@21.0.6
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"21.0.6" from @angular/forms@21.0.6
+npm warn   node_modules/@angular/forms
+npm warn     dev @angular/forms@"^21.0.6" from the root project
+npm warn   5 more (@angular/platform-browser, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/common@20.3.15
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/core@21.0.6
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"21.0.6" from @angular/animations@21.0.6
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"21.0.6" from @angular/platform-browser@21.0.6
+npm warn     node_modules/@angular/platform-browser
+npm warn     1 more (the root project)
+npm warn   8 more (@angular/build, @angular/common, @angular/forms, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.3.15
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/forms@21.0.6
+npm warn node_modules/@angular/forms
+npm warn   dev @angular/forms@"^21.0.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/forms@20.3.15
+npm warn node_modules/@angular/forms
+npm warn   peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/platform-browser@21.0.6
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^21.0.0" from @angular/build@21.0.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^21.0.3" from the root project
+npm warn   4 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/platform-browser@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/platform-browser@20.3.15
+npm warn node_modules/@angular/platform-browser
+npm warn   peer @angular/platform-browser@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/router@21.0.6
+npm warn node_modules/@angular/router
+npm warn   dev @angular/router@"^21.0.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/router@20.3.15
+npm warn node_modules/@angular/router
+npm warn   peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/type-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/type-utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn   @typescript-eslint/type-utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/type-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn     @typescript-eslint/type-utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn   1 more (@typescript-eslint/type-utils)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin
+npm warn     1 more (@typescript-eslint/type-utils)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/typescript-estree@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn   @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/parser@8.38.0
+npm warn   node_modules/@typescript-eslint/parser
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn     @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/parser@8.38.0
+npm warn     node_modules/@typescript-eslint/parser
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/typescript-estree@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/type-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/type-utils@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/typescript-estree@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/utils@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/project-service@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn   @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn     @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/tsconfig-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn   @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn   1 more (@typescript-eslint/project-service)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn     @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn     1 more (@typescript-eslint/project-service)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/project-service@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn   @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn     @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/tsconfig-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn   @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   1 more (@typescript-eslint/project-service)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn     @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     1 more (@typescript-eslint/project-service)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/project-service@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn   @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn     @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/tsconfig-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn   @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   1 more (@typescript-eslint/project-service)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn     @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     1 more (@typescript-eslint/project-service)
+
+changed 2 packages, and audited 812 packages in 3s
+
+156 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+==============================
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save @angular/core@21.0.6 @angular/cli@21.0.3 --force
+npm warn using --force Recommended protections disabled.
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: net-incident@20.4.1.22
+npm warn Found: @angular/core@21.0.6
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"21.0.6" from @angular/animations@21.0.6
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"21.0.6" from @angular/platform-browser@21.0.6
+npm warn     node_modules/@angular/platform-browser
+npm warn     1 more (the root project)
+npm warn   8 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/eslint-plugin@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   dev @typescript-eslint/eslint-plugin@"^8.38.0" from the root project
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn     dev @typescript-eslint/eslint-plugin@"^8.38.0" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/parser@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/parser@8.38.0
+npm warn node_modules/@typescript-eslint/parser
+npm warn   peer @typescript-eslint/parser@"^8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn   1 more (the root project)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/parser@8.38.0
+npm warn   node_modules/@typescript-eslint/parser
+npm warn     peer @typescript-eslint/parser@"^8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin
+npm warn     1 more (the root project)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/animations@21.0.6
+npm warn node_modules/@angular/animations
+npm warn   peerOptional @angular/animations@"21.0.6" from @angular/platform-browser@21.0.6
+npm warn   node_modules/@angular/platform-browser
+npm warn     peerOptional @angular/platform-browser@"^21.0.0" from @angular/build@21.0.3
+npm warn     node_modules/@angular/build
+npm warn     4 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn   1 more (the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/animations@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/animations@20.3.15
+npm warn node_modules/@angular/animations
+npm warn   peer @angular/animations@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/cdk@21.0.3
+npm warn node_modules/@angular/cdk
+npm warn   dev @angular/cdk@"^21.0.3" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/cdk@20.2.14
+npm warn node_modules/@angular/cdk
+npm warn   peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/common@21.0.6
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"^21.0.0 || ^22.0.0" from @angular/cdk@21.0.3
+npm warn   node_modules/@angular/cdk
+npm warn     dev @angular/cdk@"^21.0.3" from the root project
+npm warn   5 more (@angular/forms, @angular/platform-browser, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/common@20.3.15
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/forms@21.0.6
+npm warn node_modules/@angular/forms
+npm warn   dev @angular/forms@"^21.0.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/forms@20.3.15
+npm warn node_modules/@angular/forms
+npm warn   peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/platform-browser@21.0.6
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^21.0.0" from @angular/build@21.0.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^21.0.3" from the root project
+npm warn   4 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/platform-browser@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/platform-browser@20.3.15
+npm warn node_modules/@angular/platform-browser
+npm warn   peer @angular/platform-browser@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/router@21.0.6
+npm warn node_modules/@angular/router
+npm warn   dev @angular/router@"^21.0.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/router@20.3.15
+npm warn node_modules/@angular/router
+npm warn   peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/type-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/type-utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn   @typescript-eslint/type-utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/type-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn     @typescript-eslint/type-utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin
+npm warn   1 more (@typescript-eslint/type-utils)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"8.38.0" from @typescript-eslint/eslint-plugin@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin
+npm warn     1 more (@typescript-eslint/type-utils)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/typescript-estree@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn   @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/parser@8.38.0
+npm warn   node_modules/@typescript-eslint/parser
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn     @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/parser@8.38.0
+npm warn     node_modules/@typescript-eslint/parser
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/typescript-estree@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/type-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/type-utils@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/typescript-estree@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     @typescript-eslint/typescript-estree@"8.38.0" from @typescript-eslint/utils@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/project-service@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn   @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn     @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/tsconfig-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn   @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn   1 more (@typescript-eslint/project-service)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn     @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/parser/node_modules/@typescript-eslint/typescript-estree
+npm warn     1 more (@typescript-eslint/project-service)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/project-service@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn   @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn     @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/tsconfig-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn   @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   1 more (@typescript-eslint/project-service)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn     @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     1 more (@typescript-eslint/project-service)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/project-service@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn   @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/project-service@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/project-service
+npm warn     @typescript-eslint/project-service@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/tsconfig-utils@8.38.0
+npm warn Found: typescript@5.9.3
+npm warn node_modules/typescript
+npm warn   peer typescript@"*" from @angular-eslint/builder@20.1.1
+npm warn   node_modules/@angular-eslint/builder
+npm warn     dev @angular-eslint/builder@"^20.1.1" from the root project
+npm warn   16 more (@angular-eslint/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn   @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn   1 more (@typescript-eslint/project-service)
+npm warn
+npm warn Conflicting peer dependency: typescript@5.8.3
+npm warn node_modules/typescript
+npm warn   peer typescript@">=4.8.4 <5.9.0" from @typescript-eslint/tsconfig-utils@8.38.0
+npm warn   node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/tsconfig-utils
+npm warn     @typescript-eslint/tsconfig-utils@"8.38.0" from @typescript-eslint/typescript-estree@8.38.0
+npm warn     node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils/node_modules/@typescript-eslint/typescript-estree
+npm warn     1 more (@typescript-eslint/project-service)
+
+up to date, audited 812 packages in 2s
+
+156 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
+===================================
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>ng update
+Using package manager: npm
+Collecting installed dependencies...
+Found 43 dependencies.
+    We analyzed your package.json, there are some packages to update:
+
+      Name                                    Version                  Command to update
+     -------------------------------------------------------------------------------------
+      @angular-eslint/schematics              20.1.1 -> 21.1.0         ng update @angular-eslint/schematics
+
+    There might be additional packages which don't provide 'ng update' capabilities that are outdated.
+    You can update the additional packages by running the update command of your package manager.
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>ng update @angular-eslint/schematics --force
+Error: Repository is not clean. Please commit or stash any changes before updating.
+
+====================================
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>GetEsLintVer
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>REM npm install --save-dev @angular-eslint/builder@latest @angular-eslint/eslint-plugin@latest @angular-eslint/eslint-plugin-template@latest @angular-eslint/schematics@latest @angular-eslint/template-parser@latest --force
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save-dev @angular-eslint/builder@latest @angular-eslint/eslint-plugin@latest @angular-eslint/eslint-plugin-template@latest @angular-eslint/schematics@latest @angular-eslint/template-parser@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint@latest --force
+npm warn using --force Recommended protections disabled.
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/animations@21.0.6
+npm warn node_modules/@angular/animations
+npm warn   peerOptional @angular/animations@"21.0.6" from @angular/platform-browser@21.0.6
+npm warn   node_modules/@angular/platform-browser
+npm warn     peerOptional @angular/platform-browser@"^21.0.0" from @angular/build@21.0.3
+npm warn     node_modules/@angular/build
+npm warn     4 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn   1 more (the root project)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/animations@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/animations@20.3.15
+npm warn node_modules/@angular/animations
+npm warn   peer @angular/animations@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/cdk@21.0.3
+npm warn node_modules/@angular/cdk
+npm warn   dev @angular/cdk@"^21.0.3" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/cdk@20.2.14
+npm warn node_modules/@angular/cdk
+npm warn   peer @angular/cdk@"^20.0.3" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/common@21.0.6
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"^21.0.0 || ^22.0.0" from @angular/cdk@21.0.3
+npm warn   node_modules/@angular/cdk
+npm warn     dev @angular/cdk@"^21.0.3" from the root project
+npm warn   5 more (@angular/forms, @angular/platform-browser, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/common@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/common@20.3.15
+npm warn node_modules/@angular/common
+npm warn   peer @angular/common@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/core@21.0.6
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"21.0.6" from @angular/animations@21.0.6
+npm warn   node_modules/@angular/animations
+npm warn     peerOptional @angular/animations@"21.0.6" from @angular/platform-browser@21.0.6
+npm warn     node_modules/@angular/platform-browser
+npm warn     1 more (the root project)
+npm warn   8 more (@angular/build, @angular/cdk, @angular/common, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/core@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/core@20.3.15
+npm warn node_modules/@angular/core
+npm warn   peer @angular/core@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/forms@21.0.6
+npm warn node_modules/@angular/forms
+npm warn   dev @angular/forms@"^21.0.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/forms@20.3.15
+npm warn node_modules/@angular/forms
+npm warn   peer @angular/forms@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/platform-browser@21.0.6
+npm warn node_modules/@angular/platform-browser
+npm warn   peerOptional @angular/platform-browser@"^21.0.0" from @angular/build@21.0.3
+npm warn   node_modules/@angular/build
+npm warn     dev @angular/build@"^21.0.3" from the root project
+npm warn   4 more (@angular/forms, @angular/platform-browser-dynamic, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/platform-browser@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/platform-browser@20.3.15
+npm warn node_modules/@angular/platform-browser
+npm warn   peer @angular/platform-browser@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: primeng@20.0.1
+npm warn Found: @angular/router@21.0.6
+npm warn node_modules/@angular/router
+npm warn   dev @angular/router@"^21.0.6" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn node_modules/primeng
+npm warn   dev primeng@"^20.0.1" from the root project
+npm warn
+npm warn Conflicting peer dependency: @angular/router@20.3.15
+npm warn node_modules/@angular/router
+npm warn   peer @angular/router@"^20.0.4" from primeng@20.0.1
+npm warn   node_modules/primeng
+npm warn     dev primeng@"^20.0.1" from the root project
+
+added 1 package, removed 69 packages, changed 37 packages, and audited 744 packages in 14s
+
+142 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+=====================================
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>GetPrimeVer
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>npm install --save-dev primeng@latest  @primeuix/themes primeicons@latest --force
+npm warn using --force Recommended protections disabled.
+
+added 1 package, changed 5 packages, and audited 745 packages in 5s
+
+142 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Dat\NSG\L\Web\22\Net.Incident4\net-incident>
