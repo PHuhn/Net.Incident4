@@ -1854,10 +1854,11 @@ Done:
 	V20.4.1.21 - 2025-08-07, Upgraded Angular from 19 to 20
 	V20.4.1.22 - 2025-10-04, Native CSS in Alert component, improved themes, used p-card in login
 	V20.4.1.22 - 2025-12-02, updated to Angular 20.3.13
+	V21.4.1.23 - 2026-01-04, updated Angular from 20 to 21.0.6
 
 
 To Do's:
 	V
-		https://kimsereyblog.blogspot.com/2018/11/create-navigation-loading-bar-for.html
+		more email integration
 
 ===================================================

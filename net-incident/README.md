@@ -1,6 +1,6 @@
 # Net-Incident
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was first built as an Angular 4 application and is currently built with Angular 15.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was first built as an Angular 4 application and is currently built with Angular 21.
 
 ## About Net-Incident
 
@@ -24,7 +24,9 @@ Net-Inchdent is an Angular CLI application that uses the following PrimeFaces Pr
 * p-dialog (window/popup),
 * pButton (directive),
 * p-menubar (menu),
-* p-dropdown.
+*	p-progressSpinner,
+*	p-card,
+* p-select.
 
 ### Application components structure
 
@@ -73,10 +75,18 @@ I have three different base classes as follows:
   *	deleteModel<T>( id: any )
   *	baseSrvcErrorHandler( error: any )
 
-In addition the application has two custom services:
+In addition the application has three custom services:
 
-* alert.service
-* console-log.service
+* alerts.service,
+* console-log.service,
+* dark-mode.service.
+
+In addition the application has four custom components:
+
+* alerts.component (uses alerts.service),
+* filter-summary.component,
+* loading-spinner.component,
+* toggle-mode.component (uses dark-mode.service).
 
 # Angular CLI Applications
 
