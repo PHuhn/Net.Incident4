@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
     template: `		@if (_loading) {
 		  <span>
 		    &nbsp; &nbsp;
-		    <p-progressSpinner id='loadingSpinner' [style]="{width: '30px', height: '30px'}"
+		    <p-progress-spinner id='loadingSpinner' [style]="{width: '30px', height: '30px'}"
 		      animationDuration='1.0s' aria-label='Loading' strokeWidth='6'>
-		    </p-progressSpinner>
+		    </p-progress-spinner>
 		  </span>
 		}`,
     standalone: false

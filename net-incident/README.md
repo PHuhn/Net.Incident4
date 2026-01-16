@@ -1,6 +1,6 @@
 # Net-Incident
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was first built as an Angular 4 application and is currently built with Angular 21.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).  Net-Incident was started with Angular 2 and completed with Angular 4.  The application and is currently built with Angular 21.
 
 ## About Net-Incident
 
@@ -20,13 +20,13 @@ Given classified incident logs (like SQL injection, XSS or PHP vulnerabilities),
 
 Net-Inchdent is an Angular CLI application that uses the following PrimeFaces PrimeNG library components:
 * p-table,
-* p-ComfirmDialog,
+* p-comfirmdialog (confirmation popup),
 * p-dialog (window/popup),
 * pButton (directive),
 * p-menubar (menu),
-*	p-progressSpinner,
+*	p-progress-spinner,
 *	p-card,
-* p-select.
+* p-select (dropdowm).
 
 ### Application components structure
 
@@ -46,9 +46,9 @@ The app-component is the conventional root component. The component structure is
   * app-incident-grid (p-table)
     * app-server-selection-window (p-dialog)
     * app-incident-detail-window (p-dialog)
-    * app-incident-note-grid (p-table)
-      * app-incident-note-detail-window (p-dialog)
-    * app-networklog-grid (p-table)
+      * app-incident-note-grid (p-table)
+        * app-incident-note-detail-window (p-dialog)
+      * app-networklog-grid (p-table)
 
 ### Base Classes
 
