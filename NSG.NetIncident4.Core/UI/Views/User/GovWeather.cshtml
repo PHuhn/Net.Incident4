@@ -62,6 +62,7 @@
     int _cnt = 0;
     //
     GovWeatherCurrentWeather _currentWeather = Model.Current;
+    string govWeatherLink = String.Format("https://forecast.weather.gov/MapClick.php?lat={0}&lon={1}&unit=0&lg=english", _currentWeather.Lat, _currentWeather.Lon);
     Console.WriteLine("In GovWeather ...");
     Console.WriteLine(Model);
     Console.WriteLine(_currentWeather);
@@ -252,7 +253,7 @@
     <div class="row" style="margin: 3px 10px;">
         <div>
             Current weather conditions at: &nbsp;
-            <span style="font-size: 18px;"><strong>@_currentWeather.Location</strong></span>
+            <a href='@govWeatherLink' target='_blank'><strong>@_currentWeather.Location</strong></a>
         </div>
         <div><strong>Lat: </strong>@(_currentWeather.Lat)°N <strong>Lon: </strong>@(_currentWeather.Lon)°W <strong>Elev: </strong>@(_currentWeather.Elevation)ft.</div>
     </div>

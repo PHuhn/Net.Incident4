@@ -23,11 +23,12 @@ Packages:
 	Install-Package Microsoft.AspNetCore.OpenApi -Version 10.0.1
 	Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 10.0.1
 	Install-Package Microsoft.EntityFrameworkCore.Tools -Version 10.0.1
-	Install-Package Microsoft.Extensions.Logging -Version 10.0.1
+	// Install-Package Microsoft.Extensions.Logging -Version 10.0.1
 	Install-Package System.ServiceModel.Syndication -Version 10.0.1
 	// Install-Package Swashbuckle.AspNetCore -Version 10.0.1
 	Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design -Version 10.0.0
 	Install-Package Scalar.AspNetCore -Version 2.11.8
+	Install-package Newtonsoft.Json -version 13.0.4
 
 	Install-Package MediatR
 	Install-Package MediatR.Extensions.Microsoft.DependencyInjection -Version 9.0.0
@@ -839,6 +840,27 @@ SOLUTION:
 	https://forecast.weather.gov/MapClick.php?lat={0}&lon={1}&unit=0&lg=english&FcstType=dwml
 	It requires lookup of usa zip-code to longitude/latitude to call current
 	weather and weather forecast.
+
+==============================================================================
+PROBLEM:
+	Certificate
+
+SOLUTION:
+	dotnet dev-certs https --trust
+
+==============================================================================
+PROBLEM:
+	Package vulnerabilities
+
+SOLUTION:
+	dotnet list package --vulnerable --include-transitive
+
+==============================================================================
+PROBLEM:
+	Add link to actual usa government weather forecast
+
+SOLUTION:
+	V10.4.2.28 Gov weather link and packages
 
 ==============================================================================
 PROBLEM:
