@@ -1,4 +1,7 @@
-﻿namespace NSG.NetIncident4.Core.UI.ViewModels
+﻿using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace NSG.NetIncident4.Core.UI.ViewModels
 {
     //
     /// <summary>
@@ -44,5 +47,23 @@
             this.Location = location;
             this.Forecast = forecast;
         }
+        public override string ToString()
+        {
+            //
+            StringBuilder _return = new StringBuilder("record:[");
+            _return.AppendFormat("Location: {0}, ", Location);
+            _return.AppendFormat("{0} ,", Current != null ? Current.ToString(): "-");
+            if (Forecast != null)
+            {
+                foreach (var _item in Forecast)
+                {
+                    _return.AppendLine(_item.ToString());
+                }
+            }
+            return _return.ToString();
+            //
+        }
+
+
     }
 }

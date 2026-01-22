@@ -1,6 +1,11 @@
 ﻿//
 using NSG.NetIncident4.Core.UI.ViewModels;
 using NUnit.Framework;
+using System.Security.Policy;
+using System.ServiceModel.Syndication;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 //
 namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
 {
@@ -37,6 +42,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
 			<height datum=""mean sea level"">856</height>
 		</location>
 		<moreWeatherInformation applicable-location=""point1"">https://forecast.weather.gov/MapClick.php?lat=42.27&amp;lon=-83.73</moreWeatherInformation>
+		<time-layout time-coordinate=""local"" summarization=""12hourly"">
+		  <layout-key>k-p6h-n1-1</layout-key>
+		  <start-valid-time>2025-11-22T18:00:00-05:00</start-valid-time>
+		  <end-valid-time>2025-11-29T06:00:00-05:00</end-valid-time>
+		</time-layout>
 		<time-layout time-coordinate=""local"" summarization=""12hourly"">
 			<layout-key>k-p12h-n14-1</layout-key>
 			<start-valid-time period-name=""Tonight"">2025-11-22T18:00:00-05:00</start-valid-time>
@@ -146,6 +156,22 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
 				<icon-link>https://forecast.weather.gov/newimages/medium/nbkn.png</icon-link>
 				<icon-link>https://forecast.weather.gov/newimages/medium/bkn.png</icon-link>
 			</conditions-icon>
+			<hazards time-layout="""">
+			  <name>Watches, Warnings, and Advisories</name>
+			  <hazard-conditions>
+				<hazard headline=""Hazardous Weather Outlook"">
+				  <hazardTextURL>https://forecast.weather.gov/showsigwx.php?warnzone=Hazardous...</hazardTextURL>
+				</hazard>
+			  </hazard-conditions>
+			</hazards>
+			<hazards time-layout="""">
+			  <name>Watches, Warnings, and Advisories</name>
+			  <hazard-conditions>
+				<hazard headline=""Winter Weather Advisory"">
+				  <hazardTextURL>https://forecast.weather.gov/showsigwx.php?warnzone=Winter...</hazardTextURL>
+				</hazard>
+			  </hazard-conditions>
+			</hazards>
 			<wordedForecast time-layout=""k-p12h-n14-1"" dataSource=""dtxNetcdf"" wordGenerator=""markMitchell"">
 				<name>Text Forecast</name>
 				<text>Mostly cloudy, with a low around 34. South southwest wind 3 to 8 mph. Winds could gust as high as 18 mph. </text>
@@ -309,6 +335,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
         [TestCase("48750", "Oscoda, MI")]
         [TestCase("48104", "Ann Arbor, MI")]
         [TestCase("49090", "South Haven, MI")]
+		[TestCase("14612", "Rochester, NY")]
         public async Task GovWeather7DayForecast_Tests(string usaZipCode, string assert)
         {
             if (!string.IsNullOrEmpty(usaZipCode))
@@ -322,12 +349,16 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
                     Console.WriteLine(govWeatherUrlString);
                     string[] forecastArrayData = await _govWeather.ReadDataWithUrlToArrayAsync(govWeatherUrlString);
                     Console.WriteLine("GovWeather7DayForecastData started ...");
+					// Console.WriteLine(String.Join("\r", forecastArrayData));
                     var locationForecast = _govWeather.GovWeatherForecastData(String.Join("", forecastArrayData));
+					locationForecast.Current = _govWeather.GovWeatherCurrentWeatherData(String.Join("", forecastArrayData));
+                    // Console.WriteLine(locationForecast.ToString());
                     Assert.That(locationForecast.Location, Is.EqualTo(assert));
 					if(locationForecast.Forecast != null)
 						Assert.That(locationForecast.Forecast.Count(), Is.GreaterThan(12));
 					else
 						Assert.Fail("locationForecast.Forecast is null");
+                    Assert.That(locationForecast.Current, Is.Not.Null);
                 }
                 catch (Exception _ex)
                 {
@@ -392,6 +423,25 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
             Assert.That(current.WindSpeed, Is.EqualTo("5,NA,knots,250"));
             Assert.That(current.Visibility, Is.EqualTo("10.00,statute miles"));
             // 
+        }
+		//
+		public async Task ReadXmlFeed_TestAsync()
+		{
+			string _rssUrlFeed = $"{GovZip2LatLonUrl}48104";
+			string _feed = "";
+            try
+            {
+                Console.WriteLine(_feed);
+            }
+            catch (Exception _ex)
+            {
+                var text = $"GetSyndicationFeed: Sorry, no data is available at this time for {_rssUrlFeed}.<br />{_ex.Message}<br />";
+                throw new Exception(text);
+            }
+
+
+            Console.WriteLine(_feed.ToString());
+			Assert.That(_feed, Is.Not.Null);
         }
     }
 }

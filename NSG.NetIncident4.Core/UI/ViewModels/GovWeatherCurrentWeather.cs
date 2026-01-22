@@ -1,5 +1,9 @@
 //
+using AspNetCoreGeneratedDocument;
+using Humanizer;
+using Microsoft.Build.Tasks;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 //
 namespace NSG.NetIncident4.Core.UI.ViewModels
 {
@@ -75,6 +79,15 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// WindDirection is 0 through 360
         /// </summary>
         public string? Visibility { get; set; } = null;
+        /// <summary>
+        /// Watches, Warnings, and Advisories aka hazard-conditions
+        /// </summary>
+        public bool Warning { get; set; } = false;
+        /// <summary>
+        /// hazard headline
+        /// hazard Text URL
+        /// </summary>
+        public List<Warnings> WarningList { get; set; } = new List<Warnings>();
         //
         /// <summary>
         /// Zero parameter constructor
@@ -141,7 +154,43 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
             _return.AppendFormat("Wind speed: {0}, ", WindSpeed == null ? "-" : WindSpeed);
             _return.AppendFormat("Barometer: {0}, ", Barometer == null ? "-" : Barometer);
             _return.AppendFormat("Dewpoint: {0}, ", Dewpoint == null ? "-" : Dewpoint);
-            _return.AppendFormat("Visibility: {0}]", Visibility == null ? "-" : Visibility);
+            _return.AppendFormat("Visibility: {0}, ", Visibility == null ? "-" : Visibility);
+            _return.AppendFormat("Warning: {0}, ", Warning);
+            foreach( Warnings _item in WarningList)
+            {
+                _return.AppendFormat(_item.ToString() );
+            }
+            _return.AppendFormat("]");
+            return _return.ToString();
+            //
+        }
+    }
+    public class Warnings
+    {
+        /// <summary>
+        /// hazard headline
+        /// </summary>
+        public string? WarningTitle { get; set; } = null;
+        /// <summary>
+        /// hazard Text URL
+        /// </summary>
+        public string? WarningUrl { get; set; } = null;
+        //
+        public Warnings(string? title, string? url)
+        {
+            this.WarningTitle = title;
+            this.WarningUrl = url;
+        }
+        //
+        /// <summary>
+        /// Create a 'to string'.
+        /// </summary>
+        public override string ToString()
+        {
+            //
+            StringBuilder _return = new StringBuilder("record:[");
+            _return.AppendFormat("WarningTitle: {0}, ", WarningTitle == null ? "-" : WarningTitle);
+            _return.AppendFormat("WarningUrl: {0}]", WarningUrl == null ? "-" : WarningUrl);
             return _return.ToString();
             //
         }

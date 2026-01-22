@@ -50,8 +50,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
             if (string.IsNullOrEmpty(str))
                 return "";
             // Remove carriage returns and linefeeds.
-            string _ret = str.Replace("\n", "").Replace("\r", "");
-            return _ret;
+            return str.Replace("\n", "").Replace("\r", ""); ;
         }
         //
         /// <summary>
@@ -70,7 +69,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         /// <param name="desc">string full description</param>
         /// <param name="id">integer key/id</param>
         /// <param name="shortDesc">string short description</param>
-        /// <returns>Formated string</returns>
+        /// <returns>Formatted string</returns>
         public static string DescIdShortDesc(string desc, int id, string shortDesc)
         {
             return string.Format("{0} ({1} - {2})", desc, id, shortDesc);
@@ -100,7 +99,7 @@ namespace NSG.NetIncident4.Core.UI.ViewHelpers
         /// https://khalidabuhakmeh.com/reading-rss-feeds-with-dotnet-core
         /// https://talkdotnet.wordpress.com/2018/02/12/reading-rss-feed-with-microsoft-syndicationfeed-readerwriter/
         /// </remarks>
-        /// <returns>Mircosoft's SyndicationFeed</returns>
+        /// <returns>Microsoft's SyndicationFeed</returns>
         /// <exception cref="Exception">possibly causing an exception</exception>
         public static SyndicationFeed GetSyndicationFeed(string rssUrlFeed)
         {

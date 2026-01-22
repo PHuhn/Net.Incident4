@@ -251,9 +251,18 @@
 
 <div class="card" style="border-radius: 3px; background-color: var(--nsg-jumbotron-bg-color);">
     <div class="row" style="margin: 3px 10px;">
-        <div>
+        <div style="width: 50%;">
             Current weather conditions at: &nbsp;
             <a href='@govWeatherLink' target='_blank'><strong>@_currentWeather.Location</strong></a>
+        </div>
+        <div style="width: 50%;">
+            @if (_currentWeather.Warning)
+            {
+                @foreach (var _item in _currentWeather.WarningList)
+                {
+                    <a href='@_item.WarningUrl' target='_blank'><strong>@_item.WarningTitle</strong></a> 
+                }
+            }
         </div>
         <div><strong>Lat: </strong>@(_currentWeather.Lat)°N <strong>Lon: </strong>@(_currentWeather.Lon)°W <strong>Elev: </strong>@(_currentWeather.Elevation)ft.</div>
     </div>

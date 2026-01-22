@@ -1,15 +1,18 @@
 ﻿//
-using System.Xml.XPath;
+using Microsoft.Build.Tasks;
+using Microsoft.Extensions.FileSystemGlobbing;
+using System.Threading;
 using System.Xml.Linq;
+using System.Xml.XPath;
+using static Azure.Core.HttpHeader;
 //
 namespace NSG.NetIncident4.Core.UI.ViewModels
 {
     public class GovWeather
     {
         //
-        //
         /// <summary>
-        /// 
+        /// Read data from the internet via an url.
         /// </summary>
         /// <param name="urlString"></param>
         /// <returns>string array</returns>
@@ -98,6 +101,38 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
                 try
                 {
                     XElement root = XElement.Parse(xmlString);
+                    // <hazards time-layout="">
+                    //   <name>Watches, Warnings, and Advisories</name>
+                    //   <hazard-conditions>
+                    //     <hazard headline="Hazardous Weather Outlook">
+                    //       <hazardTextURL>https://forecast.weather.gov/showsigwx.php?warnzone= ...</hazardTextURL>
+                    //     </hazard>
+                    //   </hazard-conditions>
+                    // </hazards>
+                    // <hazards time-layout="">
+                    //   <name>Watches, Warnings, and Advisories</name>
+                    //   <hazard-conditions>
+                    //     <hazard headline="Winter Weather Advisory">
+                    //       <hazardTextURL>https://forecast.weather.gov/showsigwx.php?warnzone=MIZ075...</hazardTextURL>
+                    //     </hazard>
+                    //   </hazard-conditions>
+                    // </hazards>
+                    Console.WriteLine("Before _warning ...");
+                    IEnumerable<XElement>? _warning = (IEnumerable<XElement>)root.XPathSelectElements("//hazards[@time-layout]");
+                    if (_warning != null)
+                    {
+                        Console.WriteLine(_warning.Count());
+                        foreach ( XElement _warn in _warning )
+                        {
+                            string _warningTitle = _warn.XPathSelectElement("./hazard-conditions//hazard").Attribute("headline").Value;
+                            string _warningUrl = _warn.XPathSelectElement("./hazard-conditions//hazard").Element("hazardTextURL").Value;
+                            _ret.WarningList.Add(new Warnings(_warningTitle, _warningUrl));
+                            if (_warningTitle != null && _warningUrl != null)
+                            {
+                                _ret.Warning = true;
+                            }
+                        }
+                    }
                     XElement? _current = root.XPathSelectElement("/data[@type='current observations']");
                     if (_current == null)
                         throw new Exception("GovWeatherCurrentWeatherData: ");
@@ -218,9 +253,10 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
                             forecastLocation = location.Element("description").Value;
                         }
                         // <start-valid-time period-name="Tonight">2025-11-22T18:00:00-05:00</start-valid-time>
-                        IEnumerable<XElement> _period14 = forecast.XPathSelectElements("//time-layout//start-valid-time");
+                        IEnumerable<XElement> _period14 = forecast.XPathSelectElements("//time-layout[@summarization='12hourly']//start-valid-time");
                         if (_period14 == null)
                             throw new Exception("GovWeatherForecastData: //time-layout//start-valid-time not found");
+                        IEnumerable<XElement> _timeLayout = forecast.XPathSelectElements("//time-layout[@summarization='12hourly']");
                         IEnumerator<XElement> _periodEnumerator14 = _period14.GetEnumerator();
                         if (_periodEnumerator14 == null)
                             throw new Exception("GovWeatherForecastData: periodEnumerator is null");
@@ -266,9 +302,18 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
                         {
                             if (_periodEnumerator14.MoveNext())
                             {
+                                string _periodName = "";
+                                if (_cnt == 0)
+                                {
+                                    // Skip the <time-layout ...> with <start-valid-time> & <end-valid-time>
+                                    if ( _timeLayout.Count() == 4 )
+                                    {
+                                        Console.WriteLine($"_timeLayout.Count: {_timeLayout.Count()}");
+                                        _periodEnumerator14.MoveNext();
+                                    }
+                                }
                                 string _govForeDate = _periodEnumerator14.Current.Value;
                                 DateTime _dt = DateTime.Parse(_govForeDate);
-                                string _periodName = "";
                                 try
                                 {
                                     _periodName = _periodEnumerator14.Current.Attribute("period-name").Value;
