@@ -260,57 +260,14 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
         [TestCase("315", "NW")]
         public void Directions_Tests(string dir360, string assert)
         {
-            // N NE E SE S SW W NW
-            string _direction = "-";
-            try
-            {
-                int _dir360 = int.Parse(dir360);
-                if (_dir360 > -1 && _dir360 < 361)
-                {
-                    if (_dir360 > 22.5 && _dir360 < 67.5)
-                    {
-                        _direction = "NE";
-                    }
-                    else if (_dir360 > 67.5 && _dir360 < 112.5)
-                    {
-                        _direction = "E";
-                    }
-                    else if (_dir360 > 112.5 && _dir360 < 157.5)
-                    {
-                        _direction = "SE";
-                    }
-                    else if (_dir360 > 157.5 && _dir360 < 202.5)
-                    {
-                        _direction = "S";
-                    }
-                    else if (_dir360 > 202.5 && _dir360 < 247.5)
-                    {
-                        _direction = "SW";
-                    }
-                    else if (_dir360 > 247.5 && _dir360 < 292.5)
-                    {
-                        _direction = "W";
-                    }
-                    else if (_dir360 > 292.5 && _dir360 < 337.5)
-                    {
-                        _direction = "NW";
-                    }
-                    else if (_dir360 > 337.5 || _dir360 < 22.5)
-                    {
-                        _direction = "N";
-                    }
-                    Assert.That(_direction, Is.EqualTo(assert));
-                    return;
-                }
-                else
-                {
-                    Assert.Fail($"Directions_Tests parameter: {dir360}");
-                }
-            }
-            catch
-            {
-                Assert.Fail($"Directions_Tests parameter: {dir360}");
-            }
+			// N NE E SE S SW W NW
+			// given
+			var _current = new GovWeatherCurrentWeather_V2();
+			// when
+            string _direction = _current.ConvertDirection(dir360);
+			// then
+            Assert.That(_direction, Is.EqualTo(assert));
+            return;
         }
 
         [Test]
@@ -422,10 +379,14 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
             Assert.That(current.Humidity, Is.EqualTo("55"));
             Assert.That(current.WindSpeed, Is.EqualTo("5,NA,knots,250"));
             Assert.That(current.Visibility, Is.EqualTo("10.00,statute miles"));
+            Assert.That(current.WindSustainedSpeed, Is.EqualTo("5"));
+            Assert.That(current.WindGustSpeed, Is.EqualTo("NA"));
+            Assert.That(current.WindUnits, Is.EqualTo("knots"));
+            Assert.That(current.WindDirection, Is.EqualTo("250"));
             // 
         }
-		//
-		public async Task ReadXmlFeed_TestAsync()
+        //
+        public async Task ReadXmlFeed_TestAsync()
 		{
 			string _rssUrlFeed = $"{GovZip2LatLonUrl}48104";
 			string _feed = "";

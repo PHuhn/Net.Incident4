@@ -1,0 +1,13 @@
+ dotnet package update  Microsoft.AspNetCore.Authentication.Google
+ dotnet package update  Microsoft.AspNetCore.Authentication.JwtBearer 
+ dotnet package update  Microsoft.AspNetCore.Authentication.MicrosoftAccount 
+ dotnet package update  Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 
+ dotnet package update  Microsoft.AspNetCore.Identity.EntityFrameworkCore 
+ dotnet package update  Microsoft.AspNetCore.Identity.UI 
+ dotnet package update  Microsoft.AspNetCore.OpenApi 
+ dotnet package update  Microsoft.EntityFrameworkCore.SqlServer 
+ dotnet package update  Microsoft.EntityFrameworkCore.Tools 
+ dotnet package update  Microsoft.SyndicationFeed.ReaderWriter
+ dotnet package update  Microsoft.VisualStudio.Web.CodeGeneration.Design 
+ dotnet package update  System.ServiceModel.Syndication 
+ dotnet package update  Swashbuckle.AspNetCore 

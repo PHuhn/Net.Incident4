@@ -1,5 +1,4 @@
 ﻿//
-using Microsoft.Build.Tasks;
 using Microsoft.Extensions.FileSystemGlobbing;
 using System.Threading;
 using System.Xml.Linq;
@@ -93,9 +92,9 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <param name="xmlString"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public GovWeatherCurrentWeather GovWeatherCurrentWeatherData(string xmlString)
+        public GovWeatherCurrentWeather_V2 GovWeatherCurrentWeatherData(string xmlString)
         {
-            var _ret = new GovWeatherCurrentWeather("", "", "", "", "", "", "", "", "", "", "", "", "");
+            var _ret = new GovWeatherCurrentWeather_V2("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             if (!String.IsNullOrEmpty(xmlString))
             {
                 try
@@ -188,6 +187,10 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
                     //	    </direction>
                     string _windDirection = _current.XPathSelectElement("/data[@type='current observations']//parameters[@applicable-location='point1']//direction[@type='wind']").Value;
                     _ret.WindSpeed = $"{_windSpeed},{_windGusts},{_unitsWind},{_windDirection}";
+                    _ret.WindSustainedSpeed = _windSpeed;
+                    _ret.WindGustSpeed = _windGusts;
+                    _ret.WindUnits = _unitsWind;
+                    _ret.WindDirection = _windDirection;
                     //	<parameters applicable-location="point1">
                     //	    <pressure type="barometer" units="inches of mercury" time-layout="k-p1h-n1-1">
                     //		    <value>30.03</value>

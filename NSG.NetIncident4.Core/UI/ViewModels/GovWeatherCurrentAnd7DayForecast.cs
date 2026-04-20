@@ -13,7 +13,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <summary>
         /// The details of the current weather at a specific zip code
         /// </summary>
-        public GovWeatherCurrentWeather? Current { get; set; } = null;
+        public GovWeatherCurrentWeather_V2? Current { get; set; } = null;
         // Weather forecast
         /// <summary>
         /// Location of the weather forecast
@@ -29,7 +29,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// </summary>
         public GovWeatherCurrentAnd7DayForecast()
         {
-            this.Current = new GovWeatherCurrentWeather();
+            this.Current = new GovWeatherCurrentWeather_V2();
             this.Location = "";
             this.Forecast = new List<GovWeather7DayForecast>();
         }
@@ -41,7 +41,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <param name="current"></param>
         /// <param name="location"></param>
         /// <param name="forecast"></param>
-        public GovWeatherCurrentAnd7DayForecast(GovWeatherCurrentWeather? current, string? location, List<GovWeather7DayForecast>? forecast)
+        public GovWeatherCurrentAnd7DayForecast(GovWeatherCurrentWeather_V2? current, string? location, List<GovWeather7DayForecast>? forecast)
         {
             this.Current = current;
             this.Location = location;
