@@ -10,6 +10,7 @@
 ** * Navigation
 */
 import { Component } from '@angular/core';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 // PrimeNG
 import { ConfirmationService } from 'primeng/api';
 //
@@ -115,7 +116,7 @@ export class BaseComponent {
 	** 1) Log a red log to the console,
 	** 2) throw up a red alert message in the upper right corner.
 	*/
-	baseErrorHandler( where: string, what: string, error: string | undefined ) {
+	baseErrorHandler( where: string, what: string, error: HttpResponse<unknown> | HttpErrorResponse | string | undefined ) {
 		this._console.Error(
 			`${this.codeName}.baseErrorHandler: ${where}, ${what}, ${error}` );
 		this._alerts.setWhereWhatError(

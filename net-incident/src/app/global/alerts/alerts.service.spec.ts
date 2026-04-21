@@ -1,6 +1,7 @@
 // ===========================================================================
 // file: alerts.service.spects
 import { TestBed, inject, fakeAsync  } from '@angular/core/testing';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 //
 import { AlertsService } from './alerts.service';
 import { AlertLevel } from './alert-level.enum';
@@ -129,6 +130,47 @@ describe('AlertsService', () => {
 		});
 		// when
 		service.setWhereWhatError('', '', '');
+	});
+	//
+	it('WhereWhatError should take HttpResponse ...', () => {
+		const errResponse = new HttpResponse( { status: 500 } );
+		service.getAlerts().subscribe({
+			next: (alertMsg: Alerts) => {
+				// then
+				expect(alertMsg.level).toBe(AlertLevel.Error);
+				expect(alertMsg.messages.length).toEqual(3);
+				expect(alertMsg.messages[0].message).toBe('where');
+				expect(alertMsg.messages[1].message).toBe('what');
+				expect(alertMsg.messages[2].message).toBe('Status: 500');
+			},
+			error: (error) => {
+				fail( 'get by id error, failed: ' + error );
+			}
+		});
+		// when
+		service.setWhereWhatError('where', 'what', errResponse);
+	});
+	//
+	it('WhereWhatError should take HttpErrorResponse ...', () => {
+		const errResponse: HttpErrorResponse = new HttpErrorResponse({
+			error: {}, status: 599, url: 'https://'
+		});
+		service.getAlerts().subscribe({
+			next: (alertMsg: Alerts) => {
+				// then
+				expect(alertMsg.level).toBe(AlertLevel.Error);
+				expect(alertMsg.messages.length).toEqual(3);
+				expect(alertMsg.messages[0].message).toBe('where');
+				expect(alertMsg.messages[1].message).toBe('what');
+				expect(alertMsg.messages[2].message).toBe(
+					'Status: 599, message: Http failure response for https://: 599 undefined');
+			},
+			error: (error) => {
+				fail( 'get by id error, failed: ' + error );
+			}
+		});
+		// when
+		service.setWhereWhatError('where', 'what', errResponse);
 	});
 	//
 	it('should take warningSet message ...', () => {

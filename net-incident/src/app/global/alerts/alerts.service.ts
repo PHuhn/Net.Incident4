@@ -1,6 +1,7 @@
 // ===========================================================================
 // file: alerts.service.ts
 import { Injectable } from '@angular/core';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 //
 import { Observable, Subject } from 'rxjs';
 //
@@ -120,12 +121,15 @@ export class AlertsService {
 	** @param what what is happening message
 	** @param err an error message
 	*/
-	public setWhereWhatError( where: string, what: string, err: string ): void {
+	public setWhereWhatError( where: string, what: string, err: HttpResponse<unknown> | HttpErrorResponse | string ): void {
 		const msgs: Message[] = [];
 		this.whereWhatMessages( msgs, AlertLevel.Error, where, what );
 		const count: number = msgs.length;
 		err = ( err === '' ? '-' : err );
-		msgs.push( new Message( `${count + 1}-ERR`, AlertLevel.Error, err ) );
+		const errMsg = (err instanceof HttpErrorResponse ? `Status: ${err.status}, message: ${err.message}` :
+			(typeof err === 'string' ? err : (err instanceof HttpResponse ? `Status: ${err.status}` : '-unknown-') )
+		)
+		msgs.push( new Message( `${count + 1}-ERR`, AlertLevel.Error, errMsg ) );
 		this.setAlerts( AlertLevel.Error, msgs );
 	}
 	/**
