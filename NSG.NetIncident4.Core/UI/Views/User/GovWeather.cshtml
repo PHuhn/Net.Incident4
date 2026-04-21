@@ -81,12 +81,13 @@
 }
 
 <div class="card" style="border-radius: 3px;">
-    <div class="card-header">
+    <div class="card-header row">
         <div style="width: 50%;">
-            Current weather conditions at: &nbsp;
+            Current weather at: &nbsp;
             <a href='@govWeatherLink' target='_blank'><strong>@_currentWeather.Location</strong></a>
+            <div><strong>Lat: </strong>@(_currentWeather.Lat)°N <strong>Lon: </strong>@(_currentWeather.Lon)°W <strong>Elev: </strong>@(_currentWeather.Elevation)ft.</div>
         </div>
-        <div style="width: 50%;">
+        <div style="width: 49%;">
             @if (_currentWeather.Warning)
             {
                 @foreach (var _item in _currentWeather.WarningList)
@@ -95,7 +96,6 @@
                 }
             }
         </div>
-        <div><strong>Lat: </strong>@(_currentWeather.Lat)°N <strong>Lon: </strong>@(_currentWeather.Lon)°W <strong>Elev: </strong>@(_currentWeather.Elevation)ft.</div>
     </div>
 
     <div class="card-body">
