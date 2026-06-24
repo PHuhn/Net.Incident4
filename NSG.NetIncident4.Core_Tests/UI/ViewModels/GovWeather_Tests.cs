@@ -289,6 +289,11 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
             }
         }
         //
+        // https://forecast.weather.gov/MapClick.php?lat=43.1687&lon=-77.6158&unit=0&lg=english&FcstType=dwml
+        // https://forecast.weather.gov/MapClick.php?lat=42.2754&lon=-83.7308&unit=0&lg=english&FcstType=dwml
+        // https://forecast.weather.gov/MapClick.php?lat=44.4222&lon=-83.3348&unit=0&lg=english&FcstType=dwml
+        // https://forecast.weather.gov/MapClick.php?lat=42.4004&lon=-86.2725&unit=0&lg=english&FcstType=dwml
+		//
         [TestCase("48750", "Oscoda, MI")]
         [TestCase("48104", "Ann Arbor, MI")]
         [TestCase("49090", "South Haven, MI")]
