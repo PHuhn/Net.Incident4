@@ -1,5 +1,5 @@
 // File: incident-grid.component.ts
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 //
 import { Table } from 'primeng/table';
 import { ConfirmationService } from 'primeng/api';
@@ -23,6 +23,7 @@ import { AssocArray } from '../../global/primeng/filter-summary/filter-summary.c
     selector: 'app-incident-grid',
     templateUrl: './incident-grid.component.html',
     styleUrls: ['./incident-grid.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class IncidentGridComponent extends BaseComponent implements OnInit {

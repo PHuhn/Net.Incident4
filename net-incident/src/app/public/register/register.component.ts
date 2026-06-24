@@ -1,5 +1,5 @@
 // ===========================================================================
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
@@ -9,6 +9,7 @@ import { IUser, User } from '../../net-incident/user';
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RegisterComponent {

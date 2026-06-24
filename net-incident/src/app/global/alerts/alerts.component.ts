@@ -1,5 +1,5 @@
 // ===========================================================================
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 //
 import { AlertLevel } from './alert-level.enum';
 import { Message } from './message';
@@ -10,6 +10,7 @@ import { AlertsService } from './alerts.service';
     selector: 'app-alerts',
     templateUrl: './alerts.component.html',
     styleUrls: ['./alerts.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AlertsComponent implements OnInit {

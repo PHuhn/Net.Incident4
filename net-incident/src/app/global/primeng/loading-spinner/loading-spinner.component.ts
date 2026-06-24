@@ -1,6 +1,6 @@
 // ===========================================================================
 // File: loading-spinner.component.ts
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 //
 @Component({
 	selector: 'app-loading-spinner',
@@ -12,6 +12,7 @@ import { Component, input } from '@angular/core';
 		    </p-progressSpinner>
 		  </span>
 		}`,
+	changeDetection: ChangeDetectionStrategy.Eager,
 	standalone: false
 })
 export class LoadingSpinnerComponent {

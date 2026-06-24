@@ -1,7 +1,7 @@
 // ===========================================================================
 // File: global.module.ts
 import { NgModule } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { withJsonpSupport } from '@angular/common/http';
@@ -18,7 +18,7 @@ import { BrowserModule } from '@angular/platform-browser';
 		ReactiveFormsModule
 	],
 	providers: [
-		provideHttpClient(withJsonpSupport())
+		provideHttpClient(withXhr(), withJsonpSupport())
 	]
 })
 export class GlobalModule { }

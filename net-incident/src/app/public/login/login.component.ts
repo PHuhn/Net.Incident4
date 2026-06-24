@@ -1,5 +1,5 @@
 // ===========================================================================
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 //
 import { SelectItem } from 'primeng/api';
@@ -19,6 +19,7 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LoginComponent extends BaseComponent implements OnInit {

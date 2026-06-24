@@ -1,5 +1,5 @@
 // File: incidentnote-grid.component.ts
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 //
 import { ConfirmationService } from 'primeng/api';
 //
@@ -14,6 +14,7 @@ import { IIncidentNoteWindowInput } from '../incident-note-detail-window/inciden
 @Component({
     selector: 'app-incident-note-grid',
     templateUrl: './incident-note-grid.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class IncidentNoteGridComponent extends BaseComponent implements AfterViewInit {

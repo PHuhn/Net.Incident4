@@ -1,10 +1,11 @@
 // ===========================================================================
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import pkg from 'package.json'
 
 @Component({
     selector: 'app-about',
     templateUrl: './about.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AboutComponent {

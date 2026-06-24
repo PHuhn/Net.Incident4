@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 //
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { ConfirmationService } from 'primeng/api';
@@ -48,7 +48,7 @@ describe('AppComponent', () => {
 				BaseCompService,
 				AlertsService,
 				ConfirmationService,
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				{ provide: AuthService, useValue: authServiceSpy }
 			]

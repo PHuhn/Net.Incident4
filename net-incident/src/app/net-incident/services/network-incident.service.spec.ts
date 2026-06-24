@@ -4,7 +4,7 @@
 //
 import { TestBed, getTestBed, inject, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { Observable, throwError } from 'rxjs';
@@ -68,7 +68,7 @@ describe('NetworkIncidentService', () => {
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
 			providers: [
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				NetworkIncidentService
 			]

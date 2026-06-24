@@ -9,7 +9,7 @@
 ** * Config file helpers
 ** * Navigation
 */
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 // PrimeNG
 import { ConfirmationService } from 'primeng/api';
@@ -22,6 +22,7 @@ type DeleteCallback<T> = (n: T) => boolean;
 //
 @Component({
     template: ``,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BaseComponent {

@@ -1,6 +1,6 @@
 // ===========================================================================
 // File: app.component.ts
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from '../environments/environment';
 //
 import { PrimeNG } from 'primeng/config';
@@ -18,6 +18,7 @@ import { SelectItemClass } from './global/primeng/select-item-class';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppComponent implements OnInit {

@@ -1,6 +1,6 @@
 // ===========================================================================
 // File: server-selection-window.component.ts
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 //
 import { SelectItem } from 'primeng/api';
 //
@@ -9,6 +9,7 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 @Component({
     selector: 'app-server-selection-window',
     templateUrl: './server-selection-window.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ServerSelectionWindowComponent {

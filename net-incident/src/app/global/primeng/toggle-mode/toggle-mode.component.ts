@@ -1,6 +1,6 @@
 // ===========================================================================
 // File: toggle-theme.component.ts
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { DarkModeService } from './dark-mode.service';
 //
 @Component({
@@ -12,6 +12,7 @@ import { DarkModeService } from './dark-mode.service';
 	<i class='pi ' [ngClass]="{'pi-moon': isDarkMode, 'pi-sun': !isDarkMode}"></i>
 </button>`,
 	styleUrl: './toggle-mode.component.css',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	standalone: false
 })
 export class ToggleModeComponent {

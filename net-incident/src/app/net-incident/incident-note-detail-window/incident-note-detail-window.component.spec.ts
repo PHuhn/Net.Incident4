@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, inject, fakeAsync, tick, waitForAsync } from
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 //
-import { HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse, provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { ConfirmationService } from 'primeng/api';
@@ -92,7 +92,7 @@ describe( 'IncidentNoteDetailWindowComponent', ( ) => {
 				AlertsService,
 				ConsoleLogService,
 				ConfirmationService,
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				{ provide: ServicesService, useValue: servicesServiceSpy },
 			]

@@ -2,7 +2,7 @@
 // File: base-srvc.service.spec.ts
 import { TestBed, waitForAsync } from '@angular/core/testing';
 //
-import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpErrorResponse, provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { LazyLoadMeta } from 'primeng/api';
@@ -46,7 +46,7 @@ describe('BaseSrvcService', () => {
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
 			providers: [
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				BaseSrvcService,
 				ConsoleLogService

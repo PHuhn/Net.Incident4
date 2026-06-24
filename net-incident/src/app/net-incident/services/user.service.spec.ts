@@ -4,7 +4,7 @@
 //
 import { TestBed, getTestBed, inject, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse, provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { environment } from '../../../environments/environment';
@@ -45,7 +45,7 @@ describe('UserService', () => {
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
 			providers: [
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				{ provide: UserService, useClass: UserService },
 				{ provide: AlertsService, useClass: AlertsService }

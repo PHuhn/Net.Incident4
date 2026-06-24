@@ -1,7 +1,7 @@
 // ===========================================================================
 // HttpClient use HttpClientModule https://github.com/angular/angular/issues/11694
 //
-import { withInterceptors, provideHttpClient } from '@angular/common/http';
+import { withInterceptors, provideHttpClient, withXhr } from '@angular/common/http';
 //
 // infrastructure services
 import { ConfirmationService } from 'primeng/api';
@@ -20,7 +20,7 @@ import { NetworkIncidentService } from './net-incident/services/network-incident
 export const APP_PROVIDERS = [
 	UserService,
 	AuthService,
-	provideHttpClient(withInterceptors([AuthInterceptorService])),
+	provideHttpClient(withXhr(), withInterceptors([AuthInterceptorService])),
 	//
 	ServicesService,
 	IncidentService,

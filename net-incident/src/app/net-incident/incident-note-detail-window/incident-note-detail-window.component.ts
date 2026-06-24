@@ -1,6 +1,6 @@
 // ===========================================================================
 // File: incident-note-detail-window.component.ts
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 //
 import { ConsoleLogService } from '../../global/console-log/console-log.service';
@@ -24,6 +24,7 @@ export interface IIncidentNoteWindowInput {
 @Component({
     selector: 'app-incident-note-detail-window',
     templateUrl: './incident-note-detail-window.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class IncidentNoteDetailWindowComponent extends BaseComponent implements OnInit, OnDestroy {

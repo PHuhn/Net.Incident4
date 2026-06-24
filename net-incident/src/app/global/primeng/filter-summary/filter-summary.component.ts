@@ -1,6 +1,6 @@
 // ===========================================================================
 // File: filter-summary.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 //
 import { LazyLoadMeta } from 'primeng/api';
 //
@@ -15,6 +15,7 @@ export type AssocArray = Record<string, string>;
   </div>
 }`,
     styleUrl: './filter-summary.component.css',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FilterSummaryComponent {

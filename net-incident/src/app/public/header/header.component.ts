@@ -1,5 +1,5 @@
 // ===========================================================================
-import { Component, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Output, OnInit, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 //
 import { MenuItem } from 'primeng/api';
 import { Menubar, MenubarModule } from 'primeng/menubar';
@@ -9,6 +9,7 @@ import { ConsoleLogService } from '../../global/console-log/console-log.service'
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HeaderComponent implements OnInit {

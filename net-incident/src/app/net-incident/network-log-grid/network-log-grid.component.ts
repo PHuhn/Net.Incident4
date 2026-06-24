@@ -9,7 +9,7 @@
 // Incidents that are more or less locked, so the selection and delete columns
 // are hidden.  That result in more or less colspan for expansion display.
 //
-import { Component, AfterContentInit, OnChanges, Input, Output, ViewChild, EventEmitter, ElementRef, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, AfterContentInit, OnChanges, Input, Output, ViewChild, EventEmitter, ElementRef, SimpleChanges, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 //
@@ -26,6 +26,7 @@ import { NetworkIncident } from '../network-incident';
 @Component({
     selector: 'app-networklog-grid',
     templateUrl: './network-log-grid.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NetworkLogGridComponent extends BaseComponent implements AfterContentInit, OnChanges, OnDestroy {

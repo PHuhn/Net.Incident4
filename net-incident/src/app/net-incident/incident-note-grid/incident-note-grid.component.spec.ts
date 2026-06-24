@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 //
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { ConfirmationService, Confirmation } from 'primeng/api';
@@ -78,7 +78,7 @@ describe( 'IncidentNoteGridComponent', ( ) => {
 				BaseCompService,
 				AlertsService,
 				ConfirmationService,
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				{ provide: ServicesService, useValue: servicesServiceSpy },
 			]

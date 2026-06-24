@@ -2,7 +2,7 @@
 // File: auth.service.spec.ts
 import { TestBed, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { AuthResponse } from '../../public/login/iauth-response';
@@ -17,7 +17,7 @@ describe('AuthService', () => {
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
 			providers: [
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				AuthService
 			]

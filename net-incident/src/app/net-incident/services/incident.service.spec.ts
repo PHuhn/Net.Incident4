@@ -4,7 +4,7 @@
 //
 import { TestBed, waitForAsync } from '@angular/core/testing';
 //
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 //
 import { IncidentService } from './incident.service';
@@ -18,7 +18,7 @@ describe('IncidentService', () => {
 	beforeEach( waitForAsync( ( ) => {
 		TestBed.configureTestingModule( {
 			providers: [
-				provideHttpClient(),
+				provideHttpClient(withXhr()),
 				provideHttpClientTesting(),
 				IncidentService
 			]

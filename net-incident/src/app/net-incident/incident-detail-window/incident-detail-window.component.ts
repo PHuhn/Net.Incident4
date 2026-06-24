@@ -1,6 +1,6 @@
 // ===========================================================================
 // File: Incident-detail-window.component.ts
-import { Component, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 //
 import { AlertsService } from '../../global/alerts/alerts.service';
@@ -24,6 +24,7 @@ import { IncidentNote } from '../incident-note';
 @Component({
     selector: 'app-incident-detail-window',
     templateUrl: './incident-detail-window.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class IncidentDetailWindowComponent extends BaseComponent implements OnDestroy {
