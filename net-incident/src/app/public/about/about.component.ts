@@ -1,6 +1,6 @@
 // ===========================================================================
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import pkg from 'package.json'
+import pkg from '../../../../package.json'
 
 @Component({
     selector: 'app-about',
@@ -12,7 +12,7 @@ export class AboutComponent {
 	//
 	applicationName = 'Network Incident';
 	companyName = 'Phillip N. Huhn, DBA Northern Software Group';
-	copyright ='Copyright © 2024';
+	copyright ='Copyright © 2026';
 	// (angular version).major.minor.build
 	// major is application version
 	version = `${pkg.version}`;

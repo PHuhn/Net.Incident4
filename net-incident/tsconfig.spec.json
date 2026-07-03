@@ -4,9 +4,9 @@
   "compilerOptions": {
     "paths": {
       "core-js/es7/reflect": [
-        "node_modules/core-js/proposals/reflect-metadata",
+        "./node_modules/core-js/proposals/reflect-metadata",
       ],
-      "core-js/es6/*": ["node_modules/core-js/es"]
+      "core-js/es6/*": ["./node_modules/core-js/es"]
     },
     "outDir": "./out-tsc/spec",
     "types": [
@@ -24,8 +24,8 @@
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {
-        "nullishCoalescingNotNullable": "suppress",
-        "optionalChainNotNullable": "suppress"
+        "nullishCoalescingNotNullable": "warning",
+        "optionalChainNotNullable": "warning"
       }
     }
   }

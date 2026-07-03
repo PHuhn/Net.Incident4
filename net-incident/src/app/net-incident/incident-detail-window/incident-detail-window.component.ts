@@ -33,7 +33,7 @@ export class IncidentDetailWindowComponent extends BaseComponent implements OnDe
 	// Data declaration.
 	//
 	private add: boolean = false;
-	private disableEdit: boolean = false;
+	disableEdit: boolean = false;
 	id: number = -1;
 	ip: string = '';
 	private serverId: number = -1;
