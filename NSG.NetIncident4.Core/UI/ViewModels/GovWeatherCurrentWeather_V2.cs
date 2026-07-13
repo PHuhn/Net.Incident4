@@ -200,10 +200,11 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <returns></returns>
         public (string display, double windSpeed) ConvertWindSpeed()
         {
-            string _windSpeedDisplay = "-unknown-";
+            string _windSpeedDisplay = "NA";
             double _windSpeedDbl = 0.0;
-            if (this.WindSpeed != null)
+            if (this.WindSpeed != null && this.WindSpeed != "NA,NA,knots,NA")
             {
+                // Console.WriteLine($"WS: {this.WindSpeed}");
                 // $"{_windSpeed},{_windGusts},{_unitsWind},{_windDirection}"
                 if (this.WindSpeed == "0,NA,knots,0")
                 {
@@ -255,7 +256,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         public string ConvertDirection(string dir360)
         {
             // N NE E SE S SW W NW
-            string _direction = "-";
+            string _direction = "NA";
             try
             {
                 int _dir360 = int.Parse(dir360);
@@ -312,8 +313,8 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <returns></returns>
         public string ConvertVisibility()
         {
-            string _visibilityDisplay = "";
-            if (!string.IsNullOrEmpty(this.Visibility))
+            string _visibilityDisplay = "NA";
+            if (!string.IsNullOrEmpty(this.Visibility) && this.CurrentTemp != "NA")
             {
                 string[] _visibility = this.Visibility.Split(",");
                 if (_visibility.Length > 1)
@@ -327,6 +328,10 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
                         _visibilityDisplay = $"{_visibility[0]} {_visibility[1]}";
                     }
                 }
+                if (_visibility.Length == 1)
+                {
+                    _visibilityDisplay = _visibility[0];
+                }
             }
             return _visibilityDisplay;
         }
@@ -337,8 +342,8 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <returns>Month day year hour minutes string</returns>
         public string ConvertLastUpdated()
         {
-            string _lastUpdatedDisplay = "-unknown-";
-            if (!string.IsNullOrEmpty(this.LastUpdated))
+            string _lastUpdatedDisplay = "*** Not a current observation ***";
+            if (!string.IsNullOrEmpty(this.LastUpdated) && this.CurrentTemp != "NA")
             {
                 try
                 {
@@ -357,7 +362,7 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <returns></returns>
         public string ConvertTemperatureFromF2C(string temperature)
         {
-            string _temperatureC = "-";
+            string _temperatureC = "NA";
             try
             {
                 double _temperature = double.Parse(temperature);
@@ -376,12 +381,15 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         /// <returns></returns>
         public string CalculateWindChill(double temperatureF, double windSpeedMph)
         {
-            string _windChillStr = "-";
+            string _windChillStr = "";
             try
             {
-                double _windPow16 = Math.Pow(windSpeedMph, 0.16);
-                double _windChillDbl = 35.74 + 0.6215 * temperatureF - 35.75 * _windPow16 + 0.4275 * temperatureF * _windPow16;
-                _windChillStr = double.Round(_windChillDbl).ToString();
+                if(temperatureF < 50.0 && windSpeedMph > 3.0)
+                {
+                    double _windPow16 = Math.Pow(windSpeedMph, 0.16);
+                    double _windChillDbl = 35.74 + 0.6215 * temperatureF - 35.75 * _windPow16 + 0.4275 * temperatureF * _windPow16;
+                    _windChillStr = double.Round(_windChillDbl).ToString();
+                }
             }
             catch { }
             return _windChillStr;

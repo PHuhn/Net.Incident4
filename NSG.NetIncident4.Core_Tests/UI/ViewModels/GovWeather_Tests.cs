@@ -296,6 +296,7 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
 		//
         [TestCase("48750", "Oscoda, MI")]
         [TestCase("48104", "Ann Arbor, MI")]
+        [TestCase("48197", "Ypsilanti, MI")]
         [TestCase("49090", "South Haven, MI")]
 		[TestCase("14612", "Rochester, NY")]
         public async Task GovWeather7DayForecast_Tests(string usaZipCode, string assert)

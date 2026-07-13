@@ -101,14 +101,20 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <div style="float: left; padding-right: 1rem;">
-                    <img src="@_currentWeather.WeatherIcon" alt="icon" style="height: 100px; width: 100px;">
-                </div>
-                <div>
-                    <div>@(_currentWeather.WeatherSummary)</div>
-                    <h2>@(_currentWeather.CurrentTemp)°F</h2>
-                    <div>@(_temperatureCDisplay)°C</div>
-                </div>
+                @if (_currentWeather.CurrentTemp != "NA")
+                {
+                    <div style="float: left; padding-right: 1rem;">
+                        <img src="@_currentWeather.WeatherIcon" alt="icon" style="height: 100px; width: 100px;">
+                    </div>
+                    <div>
+                        <div>@(_currentWeather.WeatherSummary)</div>
+                        <h2>@(_currentWeather.CurrentTemp)°F</h2>
+                        <div>@(_temperatureCDisplay)°C</div>
+                    </div>
+                } else
+                {
+                    <h2>@(_currentWeather.CurrentTemp)</h2>
+                }
             </div>
             <div class="col-md-9">
                 <div class="row">
