@@ -73,6 +73,12 @@
         _currentTemp = double.Parse(_currentWeather.CurrentTemp);
     }
     catch { }
+    double _humidity = 0;
+    try
+    {
+        _humidity = double.Parse(_currentWeather.Humidity);
+    }
+    catch { }
     string _temperatureCDisplay = _currentWeather.ConvertTemperatureFromF2C(_currentWeather.CurrentTemp);
     string _visibilityDisplay = _currentWeather.ConvertVisibility();
     string _lastUpdatedDisplay = _currentWeather.ConvertLastUpdated();
@@ -127,6 +133,11 @@
                     {
                         <label class="col-md-3 nsg-td-label">Wind Chill:</label>
                         <div class="col-md-9">@(_windChillDisplay)°F (@(_currentWeather.ConvertTemperatureFromF2C(_windChillDisplay))°C)</div>
+                    }
+                    @if (_currentTemp >= 80.0 && _humidity >= 40.0)
+                    {
+                        <label class="col-md-3 nsg-td-label">Heat Index:</label>
+                        <div class="col-md-9">(@(_currentWeather.CalculateHeatIndex(_currentTemp, _humidity))°F)</div>
                     }
                     <label class="col-md-3 nsg-td-label">Last update:</label><div class="col-md-9">@(_lastUpdatedDisplay)</div>
                 </div>

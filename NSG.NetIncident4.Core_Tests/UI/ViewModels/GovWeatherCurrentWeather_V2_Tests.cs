@@ -160,6 +160,19 @@ namespace NSG.NetIncident4.Core_Tests.UI.ViewModels
         }
         //
         [Test]
+        [TestCase(79.00, 41.00, "")]
+        [TestCase(81.00, 39.00, "")]
+        [TestCase(80.00, 40.00, "80")]
+        [TestCase(90.00, 66.00, "103")]
+        public void CalculateHeatIndex_Tests(double temperatureF, double relativeHumidityPer, string assert)
+        {
+            // given / when
+            var heatIndexF = _goodCurrentWeather.CalculateHeatIndex(temperatureF, relativeHumidityPer);
+            // then
+            Assert.That(heatIndexF, Is.EqualTo(assert));
+        }
+        //
+        [Test]
         public void ConvertKnots2Mph_Bad_Test()
         {
             // given / when

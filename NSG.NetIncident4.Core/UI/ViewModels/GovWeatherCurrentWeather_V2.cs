@@ -396,6 +396,35 @@ namespace NSG.NetIncident4.Core.UI.ViewModels
         }
         //
         /// <summary>
+        /// HI = -42.379 + 2.04901523T + 10.14333127R - 0.22475541TR - 0.00683783T^2 - 0.05481717R^2 + 0.00122874T^2R + 0.00085282TR^2 - 0.00000199T^2R^2
+        /// Where:
+        ///  * T = Air temperature in F
+        ///  * R = Relative humidity as a percentage(e.g., (65)
+        /// HI is valid when temperature reaches or exceeds 80F
+        ///  and the relative humidity is 40% or higher
+        /// </summary>
+        /// <param name="temperatureF"></param>
+        /// <param name="relativeHumidityPer"></param>
+        /// <returns>empty string or heat index in F</returns>
+        public string CalculateHeatIndex(double temperatureF, double relativeHumidityPer)
+        {
+            string _heatIndexStr = "";
+            try
+            {
+                if (temperatureF >= 80.0 && relativeHumidityPer >= 40.0)
+                {
+                    double _tempPow2 = Math.Pow(temperatureF, 2);
+                    double _humidityPow2 = Math.Pow(relativeHumidityPer, 2);
+                    //                HI = -42.379 + 2.04901523 * T            + 10.14333127 * R                   - 0.22475541 * T            * R                   - 0.00683783 * T^2       - 0.05481717 * R^2           + 0.00122874 * T^2       * R                   + 0.00085282 * T            * R^2           - 0.00000199 * T^2       * R^2
+                    double _heatIndexDbl = -42.379 + 2.04901523 * temperatureF + 10.14333127 * relativeHumidityPer - 0.22475541 * temperatureF * relativeHumidityPer - 0.00683783 * _tempPow2 - 0.05481717 * _humidityPow2 + 0.00122874 * _tempPow2 * relativeHumidityPer + 0.00085282 * temperatureF * _humidityPow2 - 0.00000199 * _tempPow2 * _humidityPow2;
+                    _heatIndexStr = double.Round(_heatIndexDbl).ToString();
+                }
+            }
+            catch { }
+            return _heatIndexStr;
+        }
+        //
+        /// <summary>
         /// Knots are slightly more than MPH, convert the string to double and
         /// multiply it by 1.15078
         /// </summary>
